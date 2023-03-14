@@ -1,10 +1,14 @@
 package com.a604.cake4u.sheettaste.entity;
 
-import lombok.Builder;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class SheetTaste {
 
     @Id
@@ -14,6 +18,7 @@ public class SheetTaste {
 //    @OneToOne
 //    @Column(nullable = false)
 //    @JoinColumn(name = "id")
+//    @Column(name = "seller_id")
 //    private Seller seller;
 
     @Builder.Default

@@ -18,6 +18,7 @@ public class CreamTaste {
 //    @OneToOne
 //    @Column(nullable = false)
 //    @JoinColumn(name = "id")
+//    @Column(name = "seller_id")
 //    private Seller seller;
 
     @Builder.Default

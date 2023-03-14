@@ -1,13 +1,16 @@
 package com.a604.cake4u.sheetsize.entity;
 
-import lombok.Builder;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class SheetSize {
 
-    @OneToOne
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //100시작 vs 오토생성
     private Long id;
@@ -15,6 +18,7 @@ public class SheetSize {
 //    @OneToOne
 //    @Column(nullable = false)
 //    @JoinColumn(name = "id")
+//    @Column(name = "seller_id")
 //    private Seller seller;
 
     @Builder.Default
