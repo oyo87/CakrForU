@@ -1,5 +1,6 @@
 package com.a604.cake4u.inquiry.entity;
 
+import com.a604.cake4u.buyer.entity.Buyer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class Inquiry {
     private String title;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDate createdAt;
     // 문의를 작성한 회원(구매자)
     @Column(nullable = false)

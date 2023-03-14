@@ -8,5 +8,4 @@ import javax.transaction.Transactional;
 @Transactional
 public class InquiryService {
 
-    
 }
