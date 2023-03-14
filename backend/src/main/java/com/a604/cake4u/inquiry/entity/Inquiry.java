@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import java.time.LocalDate;
 
 @Entity
@@ -27,9 +28,9 @@ public class Inquiry {
     @Column(nullable = false, name = "created_at")
     private LocalDate createdAt;
     // 문의를 작성한 회원(구매자)
-    @Column(nullable = false)
+    @JoinColumn(nullable = false, name = "buyer_id", referencedColumnName = "id")
     private Buyer buyer;
     // 문의를 받는 판매자
-    @Column(nullable = false)
+    @JoinColumn(nullable = false, name = "seller_id", referencedColumnName = "id")
     private Seller seller;
 }
