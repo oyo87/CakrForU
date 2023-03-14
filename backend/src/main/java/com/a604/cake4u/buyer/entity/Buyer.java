@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -17,7 +15,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Buyer {
+    @SequenceGenerator(
+            name="BUYER_SEQ_GEN",
+            sequenceName = "BUYER_SEQ",
+            initialValue = 100,
+            allocationSize = 1
+    )
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BUYER_SEQ_GEN")
     private Long id;
 
     //  기본이 최대 255자
