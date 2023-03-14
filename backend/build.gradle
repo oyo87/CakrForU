@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.a604.cake4u'
+group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -19,22 +19,45 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	//  다국어 제공을 위한 i18n을 yml 파일로 적용하기 위한 의존성
+//	implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
+
+	//  API 문서 자동화 Swagger 2
+	implementation 'io.springfox:springfox-swagger2:2.6.1'
+	implementation 'io.springfox:springfox-swagger-ui:2.6.1'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
+	//  database
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	//  file upload dependency 추가
+	implementation 'commons-io:commons-io:2.6'
+
+//	//  spring security 의존성
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//
+//	//  jwt 의존성
+//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	//  lombok
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//  spring test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-}
 
-tasks.named('test') {
-	useJUnitPlatform()
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// https://mvnrepository.com/artifact/org.json/json
+	implementation group: 'org.json', name: 'json', version: '20220924'
+
+	//  JUnit4
+	testImplementation('org.junit.vintage:junit-vintage-engine') {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
+	}
 }
