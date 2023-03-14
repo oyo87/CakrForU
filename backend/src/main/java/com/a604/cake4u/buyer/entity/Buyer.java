@@ -1,6 +1,6 @@
 package com.a604.cake4u.buyer.entity;
 
-import com.a604.cake4u.enums.Gender;
+import com.a604.cake4u.enums.EGender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class Buyer {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender gender;
+    private EGender gender;
 
     @Column(nullable = false)
     private LocalDate birthDate;

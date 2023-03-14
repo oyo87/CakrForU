@@ -1,20 +1,21 @@
 package com.a604.cake4u.files.dto;
 
+import com.a604.cake4u.orders.entity.Orders;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@SuperBuilder
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@ToString
+//@SuperBuilder
 public class FilesRequestDto {
 
-    private Orders orderSheet;
-    private Cake cake;
-    private Seller seller;
-    private String fileUri;
-    private String fileName;
-    public String fileType;
+//    private Orders orderSheet;
+//    private Cake cake;
+//    private Seller seller;
+//    private String fileUri;
+//    private String fileName;
+//    public String fileType;
 }

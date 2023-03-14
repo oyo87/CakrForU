@@ -25,9 +25,9 @@ public class Wishlist {
     @Column(nullable = false)
     private Long id;
     @ManyToOne
-    @Column(name = "buyer_id",nullable = false)
+    @JoinColumn(name = "buyer_id", referencedColumnName = "id", nullable = false)
     private Buyer buyer;
     @ManyToOne
-    @Column(name = "portfolio_id",nullable = false)
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "id", nullable = false)
     private Portfolio portfolio;
 }

@@ -1,6 +1,6 @@
 package com.a604.cake4u.portfolio.entity;
 
-import com.a604.cake4u.enums.Situation;
+import com.a604.cake4u.enums.*;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,32 +28,34 @@ public class Portfolio {
     private Long id;
 
     @ManyToOne
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
     @Column(nullable = false)
     private int hit;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Situation situation;
+    private ESituation situation;
     @Column(name="age_group", nullable = false)
     private int ageGroup;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Size size;
-    @Enumerated(EnumType.ORDINAL)
+    private ESheetSize size;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Color color;
-    @Enumerated(EnumType.ORDINAL)
+    private EColor color;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Shape shape;
-    @Enumerated(EnumType.ORDINAL)
+    private ESheetShape shape;
+    @Enumerated(EnumType.STRING)
     @Column(name="sheet_taset", nullable = false)
-    private SheetTaste sheetTaste;
-    @Enumerated(EnumType.ORDINAL)
+    private ESheetTaste sheetTaste;
+    @Enumerated(EnumType.STRING)
     @Column(name="cream_taste", nullable = false)
-    private CreamTaste creamTaste;
+    private ECreamTaste creamTaste;
     @Column(nullable = false)
     private String detail;
 }

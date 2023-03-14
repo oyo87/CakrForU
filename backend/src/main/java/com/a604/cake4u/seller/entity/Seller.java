@@ -1,6 +1,6 @@
 package com.a604.cake4u.seller.entity;
 
-import com.a604.cake4u.enums.Gender;
+import com.a604.cake4u.enums.EGender;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ public class Seller {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender gender;
+    private EGender gender;
 
     @Column(nullable = false)
     private LocalDate birthDate;

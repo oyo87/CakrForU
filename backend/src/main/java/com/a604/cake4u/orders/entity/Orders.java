@@ -41,7 +41,7 @@ public class Orders {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private EStatus status;
 
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
@@ -61,25 +61,25 @@ public class Orders {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SheetSize sheetSize;
+    private ESheetSize sheetSize;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SheetShape sheetShape;
+    private ESheetShape sheetShape;
 
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SheetTaste sheetTaste;
+    private ESheetTaste sheetTaste;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CreamTaste creamTaste;
+    private ECreamTaste creamTaste;
 
-    @Column(name = "buyer_message")
+    @Column(name = "buyer_message", length = 4096)
     private String buyerMessage;
 
-    @Column(name = "review_content")
+    @Column(name = "review_content", columnDefinition = "LONGTEXT")
     private String reviewContent;
 
     @Column(name = "review_created_at")
