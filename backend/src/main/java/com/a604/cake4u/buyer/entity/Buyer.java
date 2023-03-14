@@ -29,22 +29,23 @@ public class Buyer {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String password;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 20)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 12)
     private String phoneNumber;
 
     //  최초 가입 시에는 RefreshToken 없는 상태
-    @Column
+    @Column(nullable = true, length = 300)
     private String refreshToken;
 }
