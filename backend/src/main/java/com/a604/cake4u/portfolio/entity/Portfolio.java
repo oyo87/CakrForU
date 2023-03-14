@@ -1,6 +1,7 @@
 package com.a604.cake4u.portfolio.entity;
 
 import com.a604.cake4u.enums.Situation;
+import com.a604.cake4u.seller.entity.Seller;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class Portfolio {
 
     @ManyToOne
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "seller_id", nullable = false)
+    @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
     @Column(nullable = false)
     private int hit;

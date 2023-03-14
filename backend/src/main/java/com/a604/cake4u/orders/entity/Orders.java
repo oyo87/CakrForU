@@ -31,13 +31,12 @@ public class Orders {
 
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "buyer_id", referencedColumnName = "id", nullable = false)
     private Buyer buyer;
 
-    // ToDO; 여기 주석 풀어야 합니다
+
     @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
 
     @Enumerated(EnumType.STRING)
@@ -59,7 +58,7 @@ public class Orders {
     @Column(name = "pickup_date", nullable = false)
     private LocalDate pickUpDate;
 
-    //Todo; enum. 주석 풀기
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SheetSize sheetSize;
