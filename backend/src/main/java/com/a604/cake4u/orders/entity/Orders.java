@@ -1,7 +1,8 @@
 package com.a604.cake4u.orders.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
-import com.a604.cake4u.enums.Status;
+import com.a604.cake4u.enums.*;
+import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -30,15 +31,14 @@ public class Orders {
 
 
     @ManyToOne
-    // @Column(nullable = false) Todo; Q. 이것도 하는 게 맞는지
     @JoinColumn(name = "buyer_id")
     @Column(nullable = false)
     private Buyer buyer;
 
     // ToDO; 여기 주석 풀어야 합니다
-//    @ManyToOne
-//    @JoinColumn(name = "seller_id")
-//    private Seller seller;
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -60,22 +60,22 @@ public class Orders {
     private LocalDate pickUpDate;
 
     //Todo; enum. 주석 풀기
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Size size;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SheetSize sheetSize;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Shape shape
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SheetShape sheetShape;
 
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private SheetTaste sheetTaste;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SheetTaste sheetTaste;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private creamTaste creamTaste;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CreamTaste creamTaste;
 
     @Column(name = "buyer_message")
     private String buyerMessage;
