@@ -22,7 +22,7 @@ import java.util.Map;
 public class BuyerController {
 
     private final BuyerService buyerService;
-    @ApiOperation(value = "회원가입", notes = "req_data : [email, password]")
+    @ApiOperation(value = "회원가입", notes = "req_data : [email, password, nickname, gender, birthDate, phoneNumber]")
     @PostMapping("/signup")
     public ResponseEntity<?> signUpBuyer(BuyerSaveRequestDto buyerSaveRequestDto){
 

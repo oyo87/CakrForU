@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface BuyerRepository extends JpaRepository<Buyer, Long> {
 
-    Optional<Buyer> findByEmail(@Param("email") String email); //로그인
+    Optional<Buyer> findByEmail(String email); //로그인
 
 
 }

@@ -38,7 +38,7 @@ public class BuyerService {
                 .password(buyer.getPassword())
                 .build();
 
-        if(loginDto.getPassword().equals(buyerLoginDto.getPassword())) { //Todo; Security 적용 이후 PasswordEncoder.matches로 변경해야 함
+        if(!loginDto.getPassword().equals(buyerLoginDto.getPassword())) { //Todo; Security 적용 이후 PasswordEncoder.matches로 변경해야 함
             throw new BaseException(ErrorMessage.NOT_PASSWORD);
         }
 
