@@ -2,6 +2,7 @@ package com.a604.cake4u.buyer.service;
 
 import com.a604.cake4u.buyer.dto.BuyerLoginDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
+import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.exception.BaseException;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,5 +48,18 @@ public class BuyerService {
             //Todo; 토큰, buyerReponseDto 추가
         }
         };
+    }
+
+    public void updatePassword(BuyerUpdatePasswordDto buyerUpdatePasswordDto){
+
+        Optional<Buyer> buyer = buyerRepository.findByEmail(buyerUpdatePasswordDto.getEmail());
+
+        //기존 멤버의 비밀번호 Todo; 나중에 passwerdencoder machers 이용해 비교하는 걸로 변경
+        if(!buyer.get().getPassword().equals(buyerUpdatePasswordDto.getPrePassword())){
+            throw new BaseException(ErrorMessage.NOT_PASSWORD); //기존 비밀번호와 일치하지 않을 때
+        }
+
+        buyer.get().setPassword(buyerUpdatePasswordDto.getNewPassword());
+
     }
 }
