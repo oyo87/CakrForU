@@ -1,6 +1,7 @@
 package com.a604.cake4u.buyer.controller;
 
 import com.a604.cake4u.buyer.dto.BuyerLoginDto;
+import com.a604.cake4u.buyer.dto.BuyerResponseDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.service.BuyerService;
@@ -9,24 +10,22 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Api("Account Controller")
+@Api("Buyer Controller")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/buyer")
 public class BuyerController {
 
     private final BuyerService buyerService;
+
     @ApiOperation(value = "회원가입", notes = "req_data : [email, password, nickname, gender, birthDate, phoneNumber]")
     @PostMapping("/signup")
-    public ResponseEntity<?> signUpBuyer(BuyerSaveRequestDto buyerSaveRequestDto){
+    public ResponseEntity<?> signUpBuyer(@RequestBody BuyerSaveRequestDto buyerSaveRequestDto){
 
         int result = buyerService.saveBuyer(buyerSaveRequestDto);
 
@@ -47,7 +46,7 @@ public class BuyerController {
 
     @ApiOperation(value = "로그인", notes = "req_data : [email, password]")
     @PostMapping("/login")
-    public ResponseEntity<?> loginBuyer(BuyerLoginDto tryLoginDto) throws Exception {
+    public ResponseEntity<?> loginBuyer(@RequestBody BuyerLoginDto tryLoginDto) throws Exception {
         //Todo; 토큰 받아올 것
         Map<String, Object> info = buyerService.login(tryLoginDto);
         Map<String, Object> responseResult = new HashMap<>();
@@ -68,7 +67,7 @@ public class BuyerController {
 
     @ApiOperation(value = "비밀번호 변경", notes = "req_data : [email, prePassword, newPassword]")
     @PutMapping("/update")
-    public ResponseEntity<?> changePassword(BuyerUpdatePasswordDto buyerUpdatePasswordDto){
+    public ResponseEntity<?> changePassword(@RequestBody BuyerUpdatePasswordDto buyerUpdatePasswordDto){
         buyerService.updatePassword(buyerUpdatePasswordDto);
 
         Map<String, Object> responseResult = new HashMap<>();
@@ -79,5 +78,19 @@ public class BuyerController {
         return ResponseEntity.status(HttpStatus.OK).body(responseResult);
     }
 
+    @ApiOperation(value = "회원 정보 조회", notes = "req_data : [id]")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> showBuyerInfo(@PathVariable @RequestBody Long id){
+
+        BuyerResponseDto buyerResponseDto = buyerService.showBuyerInfo(id);
+
+        Map<String, Object> responseResult = new HashMap<>();
+
+        responseResult.put("result", true);
+        responseResult.put("msg", "회원정보 조회 성공");
+        responseResult.put("buyerInfo", buyerResponseDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseResult);
+    }
 
 }

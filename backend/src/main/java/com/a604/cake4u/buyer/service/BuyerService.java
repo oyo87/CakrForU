@@ -1,22 +1,23 @@
 package com.a604.cake4u.buyer.service;
 
 import com.a604.cake4u.buyer.dto.BuyerLoginDto;
+import com.a604.cake4u.buyer.dto.BuyerResponseDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class BuyerService {
+    @Autowired
     private BuyerRepository buyerRepository;
 
     public int saveBuyer(BuyerSaveRequestDto buyerSaveRequestDto){
@@ -61,5 +62,20 @@ public class BuyerService {
 
         buyer.get().setPassword(buyerUpdatePasswordDto.getNewPassword());
 
+        buyerRepository.save(buyer.get());
+
+    }
+
+    public BuyerResponseDto showBuyerInfo(Long id){
+
+        Optional<Buyer> buyer = buyerRepository.findById(id);
+
+        BuyerResponseDto buyerResponseDto = BuyerResponseDto.builder()
+                .nickname(buyer.get().getNickname())
+                .phoneNumber(buyer.get().getPhoneNumber())
+                .birthDate(buyer.get().getBirthDate())
+                .build();
+
+        return buyerResponseDto;
     }
 }
