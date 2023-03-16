@@ -6,11 +6,14 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class SheetTaste {
+
+    //@NoArgsConstructor 사용X
+    public SheetTaste() {
+    }
 
     @SequenceGenerator(
             name="SHEET_TASTE_SEQ_GEN",
