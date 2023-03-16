@@ -288,7 +288,7 @@ function DragSize() {
               ref={transformerRef}
               boundBoxFunc={(oldBox, newBox) => {
                 // Limit the minimum width and height of the image
-                if (newBox.width < 50 || newBox.height < 50) {
+                if (newBox.width < 10 || newBox.height < 10) {
                   return oldBox;
                 }
                 return newBox;
