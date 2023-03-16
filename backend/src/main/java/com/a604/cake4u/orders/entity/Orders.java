@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -44,7 +45,8 @@ public class Orders {
     private EStatus status;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime createdAt;
 
 
     @Column(nullable = false)
@@ -83,7 +85,8 @@ public class Orders {
     private String reviewContent;
 
     @Column(name = "review_created_at")
-    private LocalDate reviewCreatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime reviewCreatedAt;
 
     @Column(name = "review_rating")
     private int reviewRating;
