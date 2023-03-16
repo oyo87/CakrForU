@@ -14,6 +14,7 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
   z-index: 10;
 `;
 

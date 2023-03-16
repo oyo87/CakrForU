@@ -237,7 +237,7 @@ function DragSize() {
       </button>
       <Stage
         width={window.innerWidth}
-        height={window.innerHeight}
+        height={window.innerHeight - 23}
         onClick={(e) => {
           // Deselect the image when clicking outside of it
           if (e.target === e.target.getStage()) {
