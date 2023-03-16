@@ -8,7 +8,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -43,8 +45,8 @@ public class Orders {
     @Column(nullable = false)
     private EStatus status;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp createdAt;
 
 
     @Column(nullable = false)
@@ -82,8 +84,8 @@ public class Orders {
     @Column(name = "review_content", columnDefinition = "LONGTEXT")
     private String reviewContent;
 
-    @Column(name = "review_created_at")
-    private LocalDate reviewCreatedAt;
+    @Column(name = "review_created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp reviewCreatedAt;
 
     @Column(name = "review_rating")
     private int reviewRating;

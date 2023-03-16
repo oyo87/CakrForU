@@ -1,4 +1,4 @@
-package com.a604.cake4u.sheetsize.dto;
+package com.a604.cake4u.wishlist.dto;
 
 import lombok.*;
 
@@ -8,5 +8,5 @@ import lombok.*;
 //@NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SheetSizeRequestDto {
+public class WishListResponseDto {
 }
