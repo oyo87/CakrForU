@@ -38,6 +38,10 @@ public class Portfolio {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private EGender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ESituation situation;
     @Column(name="age_group", nullable = false)
     private int ageGroup;

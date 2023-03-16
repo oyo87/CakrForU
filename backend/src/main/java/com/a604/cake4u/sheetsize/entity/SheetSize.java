@@ -6,7 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter

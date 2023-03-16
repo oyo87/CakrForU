@@ -1,5 +1,6 @@
 package com.a604.cake4u.files.entity;
 
+import com.a604.cake4u.enums.EFileType;
 import com.a604.cake4u.orders.entity.Orders;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.seller.entity.Seller;
@@ -33,6 +34,8 @@ public class Files {
     private String fileUri;
     @Column(nullable = false)
     private String fileName;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String fileType;
+    private EFileType fileType;
 }
