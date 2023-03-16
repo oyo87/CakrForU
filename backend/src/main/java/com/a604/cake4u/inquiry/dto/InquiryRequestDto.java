@@ -20,6 +20,4 @@ public class InquiryRequestDto {
     private LocalDate createdAt;
     private Buyer buyer;
     private Seller seller;
-
-
 }
