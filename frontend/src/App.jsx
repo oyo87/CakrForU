@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
+import Drag from "./Drag";
 
 function App() {
   const AppContainer = styled.div`
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/drag" element={<Drag />} />
       </Routes>
     </AppContainer>
   );
