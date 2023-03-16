@@ -94,8 +94,8 @@ function DragSize() {
       id,
       type: "image",
       image: null,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: 80,
+      y: 500,
       width,
       height,
     };
@@ -126,9 +126,7 @@ function DragSize() {
     const newY = e.target.y();
 
     if (
-      newX >= trashZone.x &&
       newX <= trashZone.x + trashZone.width &&
-      newY >= trashZone.y &&
       newY <= trashZone.y + trashZone.height
     ) {
       dItems.splice(index, 1);
