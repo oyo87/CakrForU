@@ -1,16 +1,20 @@
 package com.a604.cake4u.portfolio.service;
 
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.repository.PortfolioRepository;
+import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,38 +38,37 @@ public class PortfolioService {
         
     }
 
-    //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
-    private Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto){
-        return Portfolio.builder().
-                seller(sellerRepository.findById(portfolioSaveDto.getSeller()).get()).
-                hit(0).
-                createdAt(LocalDateTime.now()).
-                gender(portfolioSaveDto.getGender()).
-                situation(portfolioSaveDto.getSituation()).
-                ageGroup(portfolioSaveDto.getAgeGroup()).
-                size(portfolioSaveDto.getSize()).
-                color(portfolioSaveDto.getColor()).
-                shape(portfolioSaveDto.getShape()).
-                sheetTaste(portfolioSaveDto.getSheetTaste()).
-                creamTaste(portfolioSaveDto.getCreamTaste()).
-                detail(portfolioSaveDto.getDetail()).
-                build();
-    }
-
     //포트폴리오 하나 얻어오기
-    public Portfolio getPortfolio(Long id) {
-        return portfolioRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
+    public PortfolioResponseDto getPortfolio(Long id) {
+        Portfolio portfolio = portfolioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
+
+    return portfolioEntityToPortfolioResponseDTO(portfolio);
     }
 
     //전체 포트폴리오 가져오기
-    public List<Portfolio> getAllPortfolios() {
-        return portfolioRepository.findAll();
+    public List<PortfolioResponseDto> getAllPortfolios() {
+
+        List<Portfolio> portfolioList = portfolioRepository.findAll();
+        List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
+
+        for(Portfolio p : portfolioList){
+            portfolioDtos.add(portfolioEntityToPortfolioResponseDTO(p));
+        }
+        return portfolioDtos;
     }
 
     //특정 가게 전체 포트폴리오 가져오기
-    public List<Portfolio> getPortfoliosBySellerId(Long sellerId) {
-        return portfolioRepository.findBySellerId(sellerId);
+    public List<PortfolioResponseDto> getPortfoliosBySellerId(Long sellerId) {
+
+        List<Portfolio> portfolioList = portfolioRepository.findBySellerId(sellerId);
+
+        List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
+
+        for(Portfolio p : portfolioList){
+            portfolioDtos.add(portfolioEntityToPortfolioResponseDTO(p));
+        }
+
+        return portfolioDtos;
     }
 
     //포트폴리오 삭제
@@ -73,6 +76,52 @@ public class PortfolioService {
         Portfolio portfolio = portfolioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
         portfolioRepository.delete(portfolio);
+    }
+
+    //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
+    private Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto) throws NoSuchElementException {
+        Optional<Seller> sellerOptional = sellerRepository.findById(portfolioSaveDto.getSeller());
+        if (sellerOptional.isPresent()) {
+            Seller seller = sellerOptional.get();
+            return Portfolio.builder()
+                    .seller(seller)
+                    .hit(0)
+                    .createdAt(LocalDateTime.now())
+                    .gender(portfolioSaveDto.getGender())
+                    .situation(portfolioSaveDto.getSituation())
+                    .ageGroup(portfolioSaveDto.getAgeGroup())
+                    .size(portfolioSaveDto.getSize())
+                    .color(portfolioSaveDto.getColor())
+                    .shape(portfolioSaveDto.getShape())
+                    .sheetTaste(portfolioSaveDto.getSheetTaste())
+                    .creamTaste(portfolioSaveDto.getCreamTaste())
+                    .detail(portfolioSaveDto.getDetail())
+                    .build();
+        } else {
+            throw new NoSuchElementException("Seller not found with id: " + portfolioSaveDto.getSeller());
+        }
+
+    }
+
+
+    //포트폴리오 엔티티를 포트폴리오DTO로 변환
+    private PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio){
+        return PortfolioResponseDto.builder().
+                id(portfolio.getId()).
+                seller(portfolio.getSeller()).
+                hit(portfolio.getHit()).
+                createdAt(portfolio.getCreatedAt()).
+                gender(portfolio.getGender()).
+                situation(portfolio.getSituation()).
+                ageGroup(portfolio.getAgeGroup()).
+                size(portfolio.getSize()).
+                color(portfolio.getColor()).
+                shape(portfolio.getShape()).
+                sheetTaste(portfolio.getSheetTaste()).
+                creamTaste(portfolio.getCreamTaste()).
+                detail(portfolio.getDetail()).
+                build();
+
     }
 }
 

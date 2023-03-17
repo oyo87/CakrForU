@@ -1,5 +1,6 @@
 package com.a604.cake4u.portfolio.controller;
 
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.service.PortfolioService;
@@ -41,7 +42,7 @@ public class PortfolioController {
             log.info("In getPortfolio");
             log.info("id = " + id);
 
-            Portfolio portfolio = portfolioService.getPortfolio(id);
+            PortfolioResponseDto portfolio = portfolioService.getPortfolio(id);
 
             return new ResponseEntity<>(portfolio, HttpStatus.OK);
         } catch (Exception e) {
@@ -56,7 +57,7 @@ public class PortfolioController {
         try {
             log.info("In getAllPortfolios");
 
-            List<Portfolio> portfolios = portfolioService.getAllPortfolios();
+            List<PortfolioResponseDto> portfolios = portfolioService.getAllPortfolios();
 
             return new ResponseEntity<>(portfolios, HttpStatus.OK);
         } catch (Exception e) {
@@ -70,7 +71,7 @@ public class PortfolioController {
     public ResponseEntity<?> getPortfoliosBySellerId(@PathVariable Long sellerId) {
         try {
             log.info("In getPortfoliosBySellerId");
-            List<Portfolio> portfolios = portfolioService.getPortfoliosBySellerId(sellerId);
+            List<PortfolioResponseDto> portfolios = portfolioService.getPortfoliosBySellerId(sellerId);
             return new ResponseEntity<>(portfolios, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Error getting portfolios by seller id: " + e.getMessage());
