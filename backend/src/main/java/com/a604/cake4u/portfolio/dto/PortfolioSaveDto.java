@@ -1,10 +1,6 @@
 package com.a604.cake4u.portfolio.dto;
 
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.portfolio.entity.Portfolio;
-import com.a604.cake4u.portfolio.repository.PortfolioRepository;
-import com.a604.cake4u.seller.entity.Seller;
-import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -47,13 +43,4 @@ public class PortfolioSaveDto {
 
     private LocalDateTime createdAt;
 
-    public Portfolio toEntity(PortfolioSaveDto portfolioSaveDto){
-        SellerRepository sellerRepository
-
-//                작업중
-        return Portfolio.builder().
-                seller(sellerRepository.findById(seller).get()).
-                hit(0).build();
-
-    }
 }
