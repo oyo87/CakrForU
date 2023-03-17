@@ -8,9 +8,16 @@ group = 'com'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
+	}
+}
+
+jar{
+	manifest{
+		attributes 'Main-Class': 'com.a604.cake4u.BackendApplication'
 	}
 }
 
