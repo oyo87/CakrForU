@@ -1,7 +1,7 @@
 package com.a604.cake4u.buyer.controller;
 
+import com.a604.cake4u.buyer.dto.BuyerInfoDto;
 import com.a604.cake4u.buyer.dto.BuyerLoginDto;
-import com.a604.cake4u.buyer.dto.BuyerResponseDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.service.BuyerService;
@@ -66,7 +66,7 @@ public class BuyerController {
     }
 
     @ApiOperation(value = "비밀번호 변경", notes = "req_data : [email, prePassword, newPassword]")
-    @PutMapping("/update")
+    @PutMapping("/pw")
     public ResponseEntity<?> changePassword(@RequestBody BuyerUpdatePasswordDto buyerUpdatePasswordDto){
         buyerService.updatePassword(buyerUpdatePasswordDto);
 
@@ -82,7 +82,7 @@ public class BuyerController {
     @GetMapping("/{id}")
     public ResponseEntity<?> showBuyerInfo(@PathVariable @RequestBody Long id){
 
-        BuyerResponseDto buyerResponseDto = buyerService.showBuyerInfo(id);
+        BuyerInfoDto buyerResponseDto = buyerService.showBuyerInfo(id);
 
         Map<String, Object> responseResult = new HashMap<>();
 
@@ -93,4 +93,16 @@ public class BuyerController {
         return ResponseEntity.status(HttpStatus.OK).body(responseResult);
     }
 
+    @ApiOperation(value = "회원 정보 수정", notes = "req_data : [nickname, phonenumber, birthday]")
+    @PutMapping("/info")
+    public ResponseEntity<?> changeInfo(@RequestBody BuyerInfoDto buyerInfoDto){
+        buyerService.updateBuyerInfo(buyerInfoDto);
+
+        Map<String, Object> responseResult = new HashMap<>();
+
+        responseResult.put("result", true);
+        responseResult.put("msg", "회원정보 수정 성공");
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseResult);
+    }
 }

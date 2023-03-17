@@ -1,7 +1,8 @@
 package com.a604.cake4u.buyer.service;
 
+import com.a604.cake4u.buyer.dto.BuyerInfoDto;
+
 import com.a604.cake4u.buyer.dto.BuyerLoginDto;
-import com.a604.cake4u.buyer.dto.BuyerResponseDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.entity.Buyer;
@@ -66,11 +67,11 @@ public class BuyerService {
 
     }
 
-    public BuyerResponseDto showBuyerInfo(Long id){
+    public BuyerInfoDto showBuyerInfo(Long id){
 
         Optional<Buyer> buyer = buyerRepository.findById(id);
 
-        BuyerResponseDto buyerResponseDto = BuyerResponseDto.builder()
+        BuyerInfoDto buyerResponseDto = BuyerInfoDto.builder()
                 .nickname(buyer.get().getNickname())
                 .phoneNumber(buyer.get().getPhoneNumber())
                 .birthDate(buyer.get().getBirthDate())
@@ -78,4 +79,17 @@ public class BuyerService {
 
         return buyerResponseDto;
     }
+
+    public void updateBuyerInfo(BuyerInfoDto buyerInfoDto) {
+
+        Optional<Buyer> buyer = buyerRepository.findByEmail(buyerInfoDto.getEmail());
+
+        buyer.get().setNickname(buyerInfoDto.getNickname());
+        buyer.get().setBirthDate(buyerInfoDto.getBirthDate());
+        buyer.get().setPhoneNumber(buyerInfoDto.getPhoneNumber());
+
+        buyerRepository.save(buyer.get());
+
+    }
+
 }
