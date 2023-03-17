@@ -2,9 +2,7 @@ package com.a604.cake4u.portfolio.entity;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.seller.entity.Seller;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -15,6 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Portfolio {
     @SequenceGenerator(
             name="PORTFOLIO_SEQ_GEN",

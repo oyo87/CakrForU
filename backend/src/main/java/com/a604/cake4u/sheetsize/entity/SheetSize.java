@@ -6,11 +6,14 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class SheetSize {
+
+    //@NoArgsConstructor 사용X
+    public SheetSize() {
+    }
 
     @SequenceGenerator(
             name="SHEET_SIZE_SEQ_GEN",
@@ -18,6 +21,8 @@ public class SheetSize {
             initialValue = 100,
             allocationSize = 1
     )
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SHEET_SIZE_SEQ_GEN")

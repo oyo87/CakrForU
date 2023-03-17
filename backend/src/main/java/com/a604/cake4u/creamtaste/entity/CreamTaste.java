@@ -7,11 +7,14 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class CreamTaste {
+
+    //@NoArgsConstructor 사용X
+    public CreamTaste() {
+    }
     @SequenceGenerator(
             name="CREAM_TASTE_SEQ_GEN",
             sequenceName = "CREAM_TASTE_SEQ",
