@@ -1,8 +1,6 @@
 package com.a604.cake4u.portfolio.dto;
 
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.portfolio.entity.Portfolio;
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
 import java.time.LocalDateTime;
