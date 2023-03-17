@@ -95,9 +95,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         // DB에 refresh 토큰 업데이트
         String userRefreshToken = refreshToken.getToken();
-        Buyer refreshUser = buyerRepository.findByEmail(userInfo.getEmail());
-        refreshUser.setRefreshToken(userRefreshToken);
-        buyerRepository.saveAndFlush(refreshUser);
+        Optional<Buyer> refreshUser = buyerRepository.findByEmail(userInfo.getEmail());
+        refreshUser.get().setRefreshToken(userRefreshToken);
+        buyerRepository.saveAndFlush(refreshUser.get());
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
 

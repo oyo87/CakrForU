@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        Buyer savedUser = buyerRepository.findByEmail(userInfo.getEmail());
+        Buyer savedUser = buyerRepository.findByEmail(userInfo.getEmail()).get();
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
