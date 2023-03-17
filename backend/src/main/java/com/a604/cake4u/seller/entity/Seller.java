@@ -1,13 +1,29 @@
 package com.a604.cake4u.seller.entity;
 
 import com.a604.cake4u.enums.EGender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Getter
 @Entity
+@Table(name = "seller")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Seller {
+    @SequenceGenerator(
+            name="SELLER_SEQ_GEN",
+            sequenceName = "SELLER_SEQ",
+            initialValue = 100,
+            allocationSize = 1
+    )
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SELLER_SEQ_GEN")
     private Long id;
     //  기본이 최대 255자
     @Column(unique = false, nullable = false)
@@ -50,16 +66,23 @@ public class Seller {
     @Column(nullable = false, length = 60)
     private String businessName;
 
-    @Column(nullable = false, length = 1000)
-    private String businessDescription;
-
-    //  문의 계정
     @Column(nullable = false, length = 1024)
-    private String contact;
+    private String contact; //  문의 계정
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int totalScore = 0 ;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int review_cnt = 0;
 
     @Column(nullable = false, length = 100)
     private String account;
 
     @Column(nullable = true, length = 300)
     private String refreshToken;
+
+    @Column(nullable = false, length = 1000)
+    private String businessDescription;
 }
