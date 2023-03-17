@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(swaggerInfo()) //  API Docu 및 작성자 정보 매핑
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.a604.cake4u.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.a604.cake4u"))
                 .paths(PathSelectors.any()) //  controller package 전부
 //                  .paths(PathSelectors.ant("/controller")) //  controller package만 택해서 할 수도 있다.
                 .build()
