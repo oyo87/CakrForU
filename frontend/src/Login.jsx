@@ -14,8 +14,9 @@ function Login() {
   const LoginContainer = styled.div`
     display: flex;
     flex-direction: row;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: calc(100vh - 4px);
+    background-color: #f5f5f5;
   `;
   const LeftSide = styled.div`
     width: 40%;
