@@ -145,7 +145,7 @@ public class PortfolioService {
     private PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio){
         return PortfolioResponseDto.builder().
                 id(portfolio.getId()).
-                seller(portfolio.getSeller()).
+                sellerId(portfolio.getId()).
                 hit(portfolio.getHit()).
                 createdAt(portfolio.getCreatedAt()).
                 gender(portfolio.getGender()).

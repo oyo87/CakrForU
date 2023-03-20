@@ -1,7 +1,6 @@
 package com.a604.cake4u.portfolio.dto;
 
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 public class PortfolioResponseDto {
     private Long id;
-    private Seller seller;
+    private Long sellerId;
     private int hit;
     private LocalDateTime createdAt;
     private EGender gender;
