@@ -80,7 +80,7 @@ public class PortfolioService {
 
     //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
     private Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto) throws NoSuchElementException {
-        Optional<Seller> sellerOptional = sellerRepository.findById(portfolioSaveDto.getSeller());
+        Optional<Seller> sellerOptional = sellerRepository.findById(portfolioSaveDto.getSellerId());
         if (sellerOptional.isPresent()) {
             Seller seller = sellerOptional.get();
             return Portfolio.builder()
@@ -98,7 +98,7 @@ public class PortfolioService {
                     .detail(portfolioSaveDto.getDetail())
                     .build();
         } else {
-            throw new NoSuchElementException("Seller not found with id: " + portfolioSaveDto.getSeller());
+            throw new NoSuchElementException("Seller not found with id: " + portfolioSaveDto.getSellerId());
         }
 
     }

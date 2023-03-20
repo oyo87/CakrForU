@@ -12,9 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class PortfolioSaveDto {
-
-    //sellerId
-    private long seller;
+    private long sellerId;
 
     private EGender gender;
 
