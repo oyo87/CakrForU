@@ -2,8 +2,11 @@ package com.a604.cake4u.portfolio.controller;
 
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
+import com.a604.cake4u.portfolio.dto.PortfolioUpdateDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.service.PortfolioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
+@Api("Portfolio Controller")
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/portfolio")
@@ -20,8 +25,40 @@ public class PortfolioController {
     private final PortfolioService portfolioService;
 
     //포트폴리오 생성
+    @ApiOperation(value = "포트폴리오 생성", notes = "req_data : " +
+            "[" +
+            "\n" +
+            "    long sellerId;\n" +
+            "\n" +
+            "    EGender gender;\n" +
+            "\n" +
+            "    ESituation situation;\n" +
+            "\n" +
+            "    int ageGroup;\n" +
+            "\n" +
+            "    ESheetSize size;\n" +
+            "\n" +
+            "    ESheetShape shape;\n" +
+            "\n" +
+            "    EColor color;\n" +
+            "\n" +
+            "    ESheetTaste sheetTaste;\n" +
+            "\n" +
+            "    ECreamTaste creamTaste;\n" +
+            "\n" +
+            "//    파일은 따로 관리했다고함 프론트에서 따로 전송\n" +
+            "//    private String fileUri;\n" +
+            "//\n" +
+            "//    private String fileName;\n" +
+            "//\n" +
+            "//    private String type;\n" +
+            "\n" +
+            "    private String detail;\n" +
+            "\n" +
+            "    private LocalDateTime createdAt;\n" +
+            "]")
     @PostMapping
-    public ResponseEntity<?> createPortfolio(@RequestBody PortfolioSaveDto portfolioSaveDto){
+    public ResponseEntity<?> createPortfolio(@RequestBody PortfolioSaveDto portfolioSaveDto) {
         try {
             log.info("In createPortfolio");
             log.info("portfolioSaveDto = " + portfolioSaveDto);
@@ -37,7 +74,8 @@ public class PortfolioController {
 
     // 포트폴리오 하나 얻기
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPortfolio(@PathVariable Long id){
+    @ApiOperation(value = "포트폴리오 조회", notes = "req_data : [long portfolioId]")
+    public ResponseEntity<?> getPortfolio(@PathVariable Long id) {
         try {
             log.info("In getPortfolio");
             log.info("id = " + id);
@@ -53,7 +91,8 @@ public class PortfolioController {
 
     // 모든 포트폴리오 얻기
     @GetMapping
-    public ResponseEntity<?> getAllPortfolios(){
+    @ApiOperation(value = "전체 포트폴리오 조회")
+    public ResponseEntity<?> getAllPortfolios() {
         try {
             log.info("In getAllPortfolios");
 
@@ -68,6 +107,7 @@ public class PortfolioController {
 
     //특정 판매자의 모든 포트폴리오 가져오기
     @GetMapping("/seller/{sellerId}")
+    @ApiOperation(value = "특정 판매자의 모든 포트폴리오 조회", notes = "req_data : [long sellerId]")
     public ResponseEntity<?> getPortfoliosBySellerId(@PathVariable Long sellerId) {
         try {
             log.info("In getPortfoliosBySellerId");
@@ -79,9 +119,23 @@ public class PortfolioController {
         }
     }
 
+    @PatchMapping
+    @ApiOperation(value = "포트폴리오 수정", notes = "req_data : [long portfolioId]")
+    public ResponseEntity<?> updatePortfolio(@RequestBody PortfolioUpdateDto portfolioUpdateDto) {
+        Objects.requireNonNull(portfolioUpdateDto, "PortfolioUpdateDto must not be null");
+
+        // 클라이언트로부터 받은 id 값으로 해당 포트폴리오를 수정합니다.
+        Portfolio updatedPortfolio = portfolioService.modifyPortfolio(portfolioUpdateDto);
+
+        // 수정된 포트폴리오를 클라이언트에게 반환합니다.
+        return ResponseEntity.ok().body(updatedPortfolio);
+    }
+
+
     // 포트폴리오 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePortfolio(@PathVariable Long id){
+    @ApiOperation(value = "포트폴리오 삭제", notes = "req_data : [long portfolioId]")
+    public ResponseEntity<?> deletePortfolio(@PathVariable Long id) {
         try {
             log.info("In deletePortfolio");
             log.info("id = " + id);

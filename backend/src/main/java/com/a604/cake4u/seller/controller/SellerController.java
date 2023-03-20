@@ -1,7 +1,5 @@
 package com.a604.cake4u.seller.controller;
 
-import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.seller.dto.SellerLoginDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
@@ -28,6 +26,7 @@ public class SellerController {
     @ApiOperation(value = "판매자 회원가입")
     @PostMapping("/seller/new")
     public ResponseEntity<?> newSeller(@RequestBody SellerSaveRequestDto seller) {
+        System.out.println("seller = " + seller);
         boolean rslt = sellerService.saveSeller(seller);
         Map<String, Object> msg = new HashMap<>();
         msg.put("result", false);
