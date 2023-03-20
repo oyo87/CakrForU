@@ -4,8 +4,10 @@ import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
+import com.a604.cake4u.files.dto.FilesDto;
 import com.a604.cake4u.files.entity.Files;
 import com.a604.cake4u.files.handler.FileHandler;
+import com.a604.cake4u.files.repository.FilesRepository;
 import com.a604.cake4u.orders.dto.request.OrdersRegistVO;
 import com.a604.cake4u.orders.dto.response.OrdersResponseDto;
 import com.a604.cake4u.orders.entity.Orders;
@@ -19,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ import java.util.List;
 public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final FileHandler fileHandler;
+    private final FilesRepository filesRepository;
     private final BuyerRepository buyerRepository;      //  주문 등록 때 PK로 구매자 찾아야 함
     private final SellerRepository sellerRepository;    //  주문 등록 때 PK로 판매자 찾아야 함
 
@@ -79,10 +84,47 @@ public class OrdersService {
 
     public OrdersResponseDto getOrderByOrdersId(Long ordersId) throws BaseException {
         Orders orders = ordersRepository.findById(ordersId).orElseThrow(() -> new BaseException(ErrorMessage.ORDERS_GET_BY_ID_ERROR));
-        return null;
+        return entityToResponse(orders);
     }
 
+    private List<FilesDto> getFilesDtosByOrdersId(Long ordersId) {
+        Optional<List<Files>> filesList = filesRepository.findAllByOrders_Orders(ordersId);
+        List<FilesDto> filesDtoLists = new ArrayList<>();
+
+        if(filesList.isPresent()) {
+            for(Files file : filesList.get()) {
+                filesDtoLists.add(entityToFilesDto(file));
+            }
+        }
+
+        return filesDtoLists;
+    }
     private OrdersResponseDto entityToResponse(Orders orders) {
-        return OrdersResponseDto.builder().build();
+        return OrdersResponseDto.builder()
+                .id(orders.getId())
+                .buyerId(orders.getBuyer().getId())
+                .sellerId(orders.getSeller().getId())
+                .files(getFilesDtosByOrdersId(orders.getId()))
+                .status(orders.getStatus())
+                .createdAt(orders.getCreatedAt())
+                .price(orders.getPrice())
+                .dueDate(orders.getDueDate())
+                .pickUpDate(orders.getPickUpDate())
+                .sheetSize(orders.getSheetSize())
+                .sheetShape(orders.getSheetShape())
+                .sheetTaste(orders.getSheetTaste())
+                .creamTaste(orders.getCreamTaste())
+                .buyerMessage(orders.getBuyerMessage())
+                .reviewContent(orders.getReviewContent())
+                .reviewCreatedAt(orders.getReviewCreatedAt())
+                .reviewRating(orders.getReviewRating())
+                .build();
+    }
+
+    private FilesDto entityToFilesDto(Files files) {
+        return FilesDto.builder()
+                .origFileName(files.getOrigFileName())
+                .fileUri(files.getFileUri())
+                .build();
     }
 }

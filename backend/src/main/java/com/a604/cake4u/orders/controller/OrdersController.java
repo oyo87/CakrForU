@@ -3,6 +3,7 @@ package com.a604.cake4u.orders.controller;
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.orders.dto.request.OrdersRegistVO;
+import com.a604.cake4u.orders.dto.response.OrdersResponseDto;
 import com.a604.cake4u.orders.service.OrdersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,8 @@ public class OrdersController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<?> getOrder(@PathVariable Long orderId) {
-        return null;
+        OrdersResponseDto ordersResponseDto = ordersService.getOrderByOrdersId(orderId);
+        return new ResponseEntity<>(ordersResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{buyerId}")
