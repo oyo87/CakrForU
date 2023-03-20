@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
@@ -16,7 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-
 public class SwaggerConfig {
     @Bean
     public Docket api() {
@@ -25,14 +26,14 @@ public class SwaggerConfig {
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.a604.cake4u"))
-                .paths(PathSelectors.any())
-                .build()
-                ;
+                .paths(PathSelectors.any()) //  controller package 전부
+                .build();
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
+    private ApiInfo swaggerInfo() {
+        return new ApiInfoBuilder().title("C4U API Documentation")
+                .description("앱 서버 API를 설명하기 위한 문서입니다.")
+                .version("1")
                 .build();
     }
 
