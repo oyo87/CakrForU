@@ -1,0 +1,39 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t your-dockerhub-username/cakeforu .'
+      }
+    }
+    stage('Test') {
+      steps {
+        // Add any test commands you'd like to run
+      }
+    }
+    stage('Deploy') {
+      steps {
+        script {
+          // Replace 'your-ec2-instance-user' and 'your-ec2-instance-ip' with the correct values
+          def remote = [:]
+          remote.name = 'ubuntu'
+          remote.host = '3.34.141.245'
+          remote.allowAnyHosts = true
+          sshPublisher(
+            remote: remote,
+            transfers: [
+              sshTransfer(
+                sourceFiles: 'Dockerfile,nginx.conf',
+                removePrefix: '',
+                remoteDirectory: '/path/to/deploy/directory'
+              )
+            ],
+            cleanRemote: false
+          )
+          sh "ssh ubuntu@3.34.141.245 'docker pull a604/cakeforu:latest && docker stop your-react-app-container || true && docker rm your-react-app-container || true && docker run -d --name your-react-app-container -p 80:80 your-dockerhub-username/your-react-app:latest'"
+        }
+      }
+    }
+  }
+}
