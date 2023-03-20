@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
-//Todo; swagger test 필요
-
-@Api("Buyer Controller")
+@Api("WishList Controller")
 @RequiredArgsConstructor
 @RestController("/wish")
 public class WishListController {
@@ -78,6 +76,21 @@ public class WishListController {
             put("wishlistCnt", getWishPortfolioCnt);
         }});
     }
+
+    @ApiOperation(value = "포트폴리오 찜 상위 5개", notes = "포트폴리오 중 찜을 많이 받은 상위 5개의 포트폴리오 정보를 반환합니다")
+    @GetMapping("/top5")
+    public ResponseEntity<?> showTop5PortFolioList(){
+
+        List<Long> portfolioList = wishListService.getWishPortfolioIdTop5();
+
+        List<PortfolioResponseDto> portfoliotop5 = portfolioService.getPortfolioResponseListByBuyerId(portfolioList);
+        return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
+            put("result", true);
+            put("msg", "상위 5개 조회 성공");
+            put("wishlistCnt", portfoliotop5);
+        }});
+    }
+
 
 
 }

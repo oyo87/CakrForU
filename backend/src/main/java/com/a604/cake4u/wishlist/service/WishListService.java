@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sound.sampled.Port;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,6 +68,12 @@ public class WishListService {
     }
 
 
+    public List<Long> getWishPortfolioIdTop5(){
+
+        List<Long> wishPortfolioIdTop5 = wishListRepository.findAllTop5();
+
+        return wishPortfolioIdTop5;
+    }
 
 
 }

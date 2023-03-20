@@ -2,11 +2,9 @@ package com.a604.cake4u.wishlist.repository;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.portfolio.entity.Portfolio;
-import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +19,14 @@ public interface WishListRepository extends JpaRepository<Wishlist, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM WISHLIST WHERE PORTFOLIO_ID = :portfolio", nativeQuery = true)
     int getWishPortfolioCnt(Portfolio portfolio);
+
+    @Query(value = "SELECT ntb.PORTFOLIO_ID FROM(" +
+            "SELECT PORTFOLIO_ID, COUNT(PORTFOLIO_ID) as cnt " +
+            "FROM WISHLIST " +
+            "GROUP BY PORTFOLIO_ID " +
+            "ORDER BY cnt DESC " +
+            "LIMIT 5" +
+            ") ntb", nativeQuery = true)
+    List<Long> findAllTop5();
 
 }
