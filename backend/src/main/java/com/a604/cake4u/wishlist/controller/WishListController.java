@@ -1,12 +1,12 @@
 package com.a604.cake4u.wishlist.controller;
 
-import com.a604.cake4u.portfolio.entity.Portfolio;
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.service.PortfolioService;
 import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.service.WishListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //Todo; swagger test 필요
 
@@ -25,6 +24,9 @@ public class WishListController {
 
     @Autowired
     private WishListService wishListService;
+
+    @Autowired
+    private PortfolioService portfolioService;
 
     @ApiOperation(value = "찜목록 추가", notes = "req_data=[Long Buyer_id, Long Portfolio_id]")
     @PostMapping("/")
@@ -54,7 +56,9 @@ public class WishListController {
     @GetMapping("/b/{buyer_id}")
     public ResponseEntity<?> showWishListEachBuyer(@PathVariable Long buyer_id){
 
-        List<Long> portfolios = wishListService.getWishPortfolio(buyer_id);
+        List<Long> portfolioIds = wishListService.getWishPortfolio(buyer_id);
+
+        List<PortfolioResponseDto> portfolios = portfolioService.getPortfolioResponseListByBuyerId(portfolioIds);
         return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
             put("result", true);
             put("msg", "찜 목록 조회 성공");
