@@ -2,6 +2,7 @@ package com.a604.cake4u.portfolio.service;
 
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
+import com.a604.cake4u.portfolio.dto.PortfolioUpdateDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.repository.PortfolioRepository;
 import com.a604.cake4u.seller.entity.Seller;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -71,11 +69,50 @@ public class PortfolioService {
         return portfolioDtos;
     }
 
+    //포트폴리오 수정
+    @Transactional
+    public Portfolio modifyPortfolio(PortfolioUpdateDto portfolioUpdateDto){
+        Objects.requireNonNull(portfolioUpdateDto, "PortfolioUpdateDto must not be null");
+
+        Portfolio portfolio = portfolioRepository.findById(portfolioUpdateDto.getId())
+                .orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
+
+        portfolio.setGender(portfolioUpdateDto.getGender());
+        portfolio.setSituation(portfolioUpdateDto.getSituation());
+        portfolio.setAgeGroup(portfolioUpdateDto.getAgeGroup());
+        portfolio.setSize(portfolioUpdateDto.getSize());
+        portfolio.setColor(portfolioUpdateDto.getColor());
+        portfolio.setShape(portfolioUpdateDto.getShape());
+        portfolio.setSheetTaste(portfolioUpdateDto.getSheetTaste());
+        portfolio.setCreamTaste(portfolioUpdateDto.getCreamTaste());
+        portfolio.setDetail(portfolioUpdateDto.getDetail());
+
+        //save없이 자동 저장?
+        return portfolio;
+    }
+
     //포트폴리오 삭제
     public void deletePortfolio(Long id) {
         Portfolio portfolio = portfolioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
         portfolioRepository.delete(portfolio);
+    }
+
+    // 포트폴리오 id리스트를 받아 해당하는 포트폴리오responsedto리스트 반환
+    // wishList에서 사용될예정
+    public List<PortfolioResponseDto> getPortfolioResponseListByBuyerId(List<Long> portfolioIdList){
+
+        List<PortfolioResponseDto> returnList = new ArrayList<>();
+        List<Portfolio> portfolioList = new ArrayList<>();
+
+        for(long id : portfolioIdList)
+            portfolioList.add(portfolioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Portfolio not found")));
+
+        for(Portfolio portfolio : portfolioList){
+            returnList.add(portfolioEntityToPortfolioResponseDTO(portfolio));
+        }
+
+        return returnList;
     }
 
     //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
