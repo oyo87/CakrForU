@@ -9,6 +9,7 @@ import B4 from "./components/B4";
 import B5 from "./components/B5";
 import B7 from "./components/B7";
 import Input from "./components/Input";
+import axios from "./util/axiosInstance";
 
 function Login() {
   const LoginContainer = styled.div`
@@ -83,13 +84,30 @@ function Login() {
           </form>
           <Button style={{ marginBottom: 100 }}>
             <H7>
-              <FlexBox style={{ justifyContent: "center" }}>
+              <FlexBox
+                style={{ justifyContent: "center" }}
+                onClick={() => {
+                  axios
+                    .get(
+                      `${process.env.REACT_APP_BACKEND_URL}/oauth2/authorization/naver`
+                    )
+                    .then((response) => {
+                      console.log(response);
+                    })
+                    .catch((e) => {
+                      console.log(e);
+                    });
+                }}
+              >
+                asdf
                 <img
                   src={googleLogo}
                   alt="google_logo"
                   style={{ marginRight: 5 }}
                 />
-                Google로 시작하기
+                <a href="http://localhost:8080/oauth2/authorization/naver">
+                  Naver Login
+                </a>
               </FlexBox>
             </H7>
           </Button>

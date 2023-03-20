@@ -7,6 +7,7 @@ import com.a604.cake4u.auth.info.OAuth2UserInfo;
 import com.a604.cake4u.auth.info.OAuth2UserInfoFactory;
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.exception.OAuthProviderMissMatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +52,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        Buyer savedUser = buyerRepository.findByEmail(userInfo.getEmail()).get();
+        Buyer savedUser = buyerRepository.findByEmail(userInfo.getEmail()).orElse(null);
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
@@ -73,10 +74,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         LOGGER.debug("createUser 메서드가 CustomOAuth2UserService에서 실행됨");
         LocalDateTime now = LocalDateTime.now();
 
+        EGender gender = EGender.valueOf(userInfo.getGender());
+
         Buyer buyer = Buyer.builder()
                 .email(userInfo.getEmail())
                 .password(password)
                 .nickname(userInfo.getName())
+                .gender(gender)
                 .providerType(providerType)
                 .build();
         return buyerRepository.saveAndFlush(buyer);

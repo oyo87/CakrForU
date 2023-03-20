@@ -27,6 +27,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain)  throws ServletException, IOException {
 
+        System.out.println(request.getRequestURI());
+        System.out.println(request.get);
+        if(request.getRequestURI().equals("/login/ouath2/code/naver")){
+            return;
+        }
         String tokenStr = HeaderUtil.getAccessToken(request);
         System.out.println("TokenStr: " + tokenStr);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);

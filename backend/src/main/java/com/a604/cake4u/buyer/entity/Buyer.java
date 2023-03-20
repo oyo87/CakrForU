@@ -1,5 +1,6 @@
 package com.a604.cake4u.buyer.entity;
 
+import com.a604.cake4u.auth.entity.ProviderType;
 import com.a604.cake4u.enums.EGender;
 import lombok.*;
 
@@ -42,6 +43,10 @@ public class Buyer {
 
     @Column(length = 12)
     private String phoneNumber;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
 
     //  최초 가입 시에는 RefreshToken 없는 상태
     @Column(nullable = true, length = 300)
