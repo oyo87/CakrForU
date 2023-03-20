@@ -46,8 +46,9 @@ dependencies {
 //	//  spring security 의존성
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 //
-//	//  jwt 의존성
-//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	//  jwt 의존성
+	//	List<MultipartFile>이 빈 리스트인지 확인하기 위해 Collections.isEmpty() 메서드 사용하기 위해 추가
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 	//  lombok
 	compileOnly 'org.projectlombok:lombok'

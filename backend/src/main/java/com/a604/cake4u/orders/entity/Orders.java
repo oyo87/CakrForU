@@ -2,6 +2,7 @@ package com.a604.cake4u.orders.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.enums.*;
+import com.a604.cake4u.files.entity.Files;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,6 +12,10 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @NoArgsConstructor
@@ -31,15 +36,18 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SEQ_GEN")
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "buyer_id", referencedColumnName = "id", nullable = false)
     private Buyer buyer;
 
-
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
+
+    //  주문서에서 파일로 접근 가능하도록 참조자
+    @OneToMany(mappedBy = "orders", fetch = EAGER)
+    @Builder.Default
+    private List<Files> files = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -89,4 +97,8 @@ public class Orders {
 
     @Column(name = "review_rating")
     private int reviewRating;
+
+    public void addOrdersFile(Files file) {
+        this.files.add(file);
+    }
 }

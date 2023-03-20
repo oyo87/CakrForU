@@ -17,7 +17,6 @@ public enum ErrorMessage {
     NOT_MATCH_ACCOUNT_INFO(103, "입력하신 계정과 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     SIGNUP_LISTEN(110, "가입 대기중인 아이디입니다.", HttpStatus.BAD_REQUEST),
 
-    NOT_STORE_FILE(103, "파일을 저장 불가능 합니다", HttpStatus.BAD_REQUEST),
     NOT_READ_FILE(111, "파일을 읽을수 없습니다", HttpStatus.BAD_REQUEST),
 
     NOT_FOUND_FILE(112, "파일을 찾을 수 없습니다", HttpStatus.BAD_REQUEST),
@@ -28,6 +27,9 @@ public enum ErrorMessage {
 
     NOT_MATCH_FAMILY(115, "로그인한 사용자와 같은 가족에 속하지 않습니다", HttpStatus.BAD_REQUEST),
 
+    NOT_STORE_FILE(116, "파일을 저장 불가능 합니다", HttpStatus.BAD_REQUEST),
+
+    NOT_CREATE_DIRECTORY(117, "디렉토리를 생성할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     EXIST_NICKNAME(200, "이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST),
     EXIST_EMAIL(201, "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
@@ -42,6 +44,9 @@ public enum ErrorMessage {
     NOT_TIMESTAMP(205, "탈퇴 후 재 가입은 24시간이 넘어서 가능합니다.", HttpStatus.BAD_REQUEST),
     NOT_USER_INFO(300, "유저정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
 
+    NO_BUYER_INFO(301, "구매자 정보가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    NO_SELLER_INFO(302, "판매자 정보가 존재하지 않습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
 
     NOT_MAKE_FILE(304, "새로운 폴더를생성할수 없습니 다.", HttpStatus.BAD_REQUEST),
 
@@ -55,8 +60,10 @@ public enum ErrorMessage {
     ACCESS_TOKEN_INVALID_HEADER(1011, "토큰 해더가 손상되었습니다.", HttpStatus.UNAUTHORIZED),
     ACCESS_TOKEN_INVALID_PAYLOADS(1012, "토큰 정보가 손상되었습니다.", HttpStatus.UNAUTHORIZED),
     ACCESS_TOKEN_INVALID_SIGNATURE(1013, "토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
-    ACCESS_TOKEN_EMPTY(1014, "토큰이 입력되지 않았습니다.", HttpStatus.BAD_REQUEST);
-
+    ACCESS_TOKEN_EMPTY(1014, "토큰이 입력되지 않았습니다.", HttpStatus.BAD_REQUEST),
+    ORDERS_REGIST_CLIENT_ERROR(1101, "주문 등록 형식 오류", HttpStatus.BAD_REQUEST),
+    ORDERS_REGIST_SERVER_ERROR(1102, "주문 등록 서버 오류", HttpStatus.INTERNAL_SERVER_ERROR),
+    ORDERS_GET_BY_ID_ERROR(1103, "해당 id의 주문이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
 
     private final Integer code;
     private final String errMsg;

@@ -4,10 +4,7 @@ import com.a604.cake4u.enums.EFileType;
 import com.a604.cake4u.orders.entity.Orders;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.seller.entity.Seller;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -16,6 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Files {
 
     @Id
@@ -23,17 +21,21 @@ public class Files {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "orders_id", referencedColumnName = "id")
-    private Orders orderSheet;
+    private Orders orders;
     @ManyToOne
     @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
     private Portfolio portfolio;
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
     private Seller seller;
+    
+    //  스토리지에 저장될 이름
     @Column(nullable = false)
     private String fileUri;
+    
+    //  원본 파일 이름
     @Column(nullable = false)
-    private String fileName;
+    private String origFileName;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
