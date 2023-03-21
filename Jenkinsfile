@@ -27,20 +27,10 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Pull Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build(DOCKER_HUB_REPO)
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry(CONTAINER_REGISTRY, 'ssafy') {
-                        dockerImage.push('latest')
-                    }
+                    sh 'docker pull fleur75/cakeforu'
                 }
             }
         }
