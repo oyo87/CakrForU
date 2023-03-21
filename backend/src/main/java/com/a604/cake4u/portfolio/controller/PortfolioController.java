@@ -1,5 +1,6 @@
 package com.a604.cake4u.portfolio.controller;
 
+import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
 import com.a604.cake4u.portfolio.dto.PortfolioUpdateDto;
@@ -28,34 +29,27 @@ public class PortfolioController {
     @ApiOperation(value = "포트폴리오 생성", notes = "req_data : " +
             "[" +
             "\n" +
-            "    long sellerId;\n" +
+            "    long sellerId\n" +
             "\n" +
-            "    EGender gender;\n" +
+            "    EGender gender\n" +
             "\n" +
-            "    ESituation situation;\n" +
+            "    ESituation situation\n" +
             "\n" +
-            "    int ageGroup;\n" +
+            "    int ageGroup\n" +
             "\n" +
-            "    ESheetSize size;\n" +
+            "    ESheetSize size\n" +
             "\n" +
-            "    ESheetShape shape;\n" +
+            "    ESheetShape shape\n" +
             "\n" +
-            "    EColor color;\n" +
+            "    EColor color\n" +
             "\n" +
-            "    ESheetTaste sheetTaste;\n" +
+            "    ESheetTaste sheetTaste\n" +
             "\n" +
-            "    ECreamTaste creamTaste;\n" +
+            "    ECreamTaste creamTaste\n" +
             "\n" +
-            "//    파일은 따로 관리했다고함 프론트에서 따로 전송\n" +
-            "//    private String fileUri;\n" +
-            "//\n" +
-            "//    private String fileName;\n" +
-            "//\n" +
-            "//    private String type;\n" +
+            "    private String detail\n" +
             "\n" +
-            "    private String detail;\n" +
-            "\n" +
-            "    private LocalDateTime createdAt;\n" +
+            "    private LocalDateTime createdAt\n" +
             "]")
     @PostMapping
     public ResponseEntity<?> createPortfolio(@RequestBody PortfolioSaveDto portfolioSaveDto) {
@@ -147,5 +141,27 @@ public class PortfolioController {
             log.error("Error deleting portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error deleting portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //포트폴리오 케이크 쿼리dsl 필터
+    @GetMapping("/filter")
+    @ApiOperation(value = "포트폴리오 필터 검색(케이크)", notes = "req_data : " +
+            "[" +
+            "\n" +
+            "    ESheetSize size\n" +
+            "\n" +
+            "    EColor color\n" +
+            "\n" +
+            "    ESheetShape shape\n" +
+            "\n" +
+            "    ESheetTaste sheetTaste\n" +
+            "\n" +
+            "    ESituation situation\n" +
+            "\n" +
+            "    EGender gender\n" +
+            "]")
+    public ResponseEntity<List<PortfolioResponseDto>> getPortfolioFiltered(CakeFilter cakeFilter) {
+        List<PortfolioResponseDto> portfolioList = portfolioService.findPortfolioCakeFilter(cakeFilter);
+        return ResponseEntity.ok(portfolioList);
     }
 }
