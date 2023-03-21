@@ -5,7 +5,6 @@ import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +27,6 @@ public class Portfolio {
     private Long id;
 
     @ManyToOne
-    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
     @Column(nullable = false)
