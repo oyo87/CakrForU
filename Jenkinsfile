@@ -14,7 +14,16 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your React app's source code from the Git repository
-                git branch: 'develop', url: 'https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22A604.git'
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/develop']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[
+                        credentialsId: 'ssafy',
+                        url: 'https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22A604.git'
+                    ]]
+                ])
             }
         }
 
