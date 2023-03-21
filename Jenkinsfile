@@ -61,7 +61,6 @@ pipeline {
 
                         # Run the new container using the pulled image
                         docker run -d --name cakeforu -p 80:80 ${DOCKER_HUB_REPO}:latest
-
                         EOF
                     """
                 }
