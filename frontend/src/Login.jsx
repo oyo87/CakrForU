@@ -119,7 +119,7 @@ function Login() {
             color="#E79CB3"
             style={{ position: "absolute", left: 314, bottom: 129 }}
           >
-            3단 케이크
+            2단 케이크
           </B5>
           <B7
             color="white"
