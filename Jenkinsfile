@@ -46,7 +46,7 @@ pipeline {
 
                     // SSH into the target server and deploy the new container
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/J8A604T.pem ubuntu@3.34.141.245 <<-EOF
+                        ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem ubuntu@3.34.141.245 <<-EOF
 
                         # Pull the Docker image from Docker Hub
                         docker pull ${DOCKER_HUB_REPO}:latest
