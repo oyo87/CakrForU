@@ -6,6 +6,7 @@ import Login from "./Login";
 import Drag from "./Drag";
 import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
+import Wtest from "./Wtest";
 
 function App() {
   const AppContainer = styled.div`
@@ -22,6 +23,7 @@ function App() {
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/drag" element={<Drag />} />
         <Route path="/dragsize" element={<DragSize />} />
+        <Route path="/wtest" element={<Wtest />} />
       </Routes>
     </AppContainer>
   );

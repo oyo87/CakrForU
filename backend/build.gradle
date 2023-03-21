@@ -1,7 +1,15 @@
+buildscript { // 이놈
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	// querydsl 플러그인 추가
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com'
@@ -29,6 +37,10 @@ dependencies {
 //	//  다국어 제공을 위한 i18n을 yml 파일로 적용하기 위한 의존성
 //	implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
 
+	// querydsl 디펜던시 추가
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
 	// Swagger
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
@@ -52,8 +64,11 @@ dependencies {
 //	//  spring security 의존성
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 //
-//	//  jwt 의존성
-//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	//  jwt 의존성
+	//	List<MultipartFile>이 빈 리스트인지 확인하기 위해 Collections.isEmpty() 메서드 사용하기 위해 추가
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+
 
 	//  lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -73,4 +88,32 @@ dependencies {
 	testImplementation('org.junit.vintage:junit-vintage-engine') {
 		exclude group: "org.hamcrest", module: "hamcrest-core"
 	}
+}
+
+// querydsl 사용할 경로 지정합니다. 현재 지정한 부분은 .gitignore에 포함되므로 git에 올라가지 않습니다.
+def querydslDir = "$buildDir/generated/'querydsl'"
+
+// JPA 사용여부 및 사용 경로 설정
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+// build시 사용할 sourceSet 추가 설정
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+
+// querydsl 컴파일 시 사용할 옵션 설정
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl이 compileClassPath를 상속하도록 설정
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
 }

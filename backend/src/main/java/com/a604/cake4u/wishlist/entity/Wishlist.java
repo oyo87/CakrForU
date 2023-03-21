@@ -2,9 +2,7 @@ package com.a604.cake4u.wishlist.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.portfolio.entity.Portfolio;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,8 @@ import javax.persistence.*;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Wishlist {
     @SequenceGenerator(
             name="WISHLIST_SEQ_GEN",

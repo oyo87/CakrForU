@@ -1,7 +1,9 @@
 package com.a604.cake4u.portfolio.controller;
 
+import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
+import com.a604.cake4u.portfolio.dto.PortfolioUpdateDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.service.PortfolioService;
 import io.swagger.annotations.Api;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @Api("Portfolio Controller")
@@ -26,34 +29,27 @@ public class PortfolioController {
     @ApiOperation(value = "포트폴리오 생성", notes = "req_data : " +
             "[" +
             "\n" +
-            "    long sellerId;\n" +
+            "    long sellerId\n" +
             "\n" +
-            "    EGender gender;\n" +
+            "    EGender gender\n" +
             "\n" +
-            "    ESituation situation;\n" +
+            "    ESituation situation\n" +
             "\n" +
-            "    int ageGroup;\n" +
+            "    int ageGroup\n" +
             "\n" +
-            "    ESheetSize size;\n" +
+            "    ESheetSize size\n" +
             "\n" +
-            "    ESheetShape shape;\n" +
+            "    ESheetShape shape\n" +
             "\n" +
-            "    EColor color;\n" +
+            "    EColor color\n" +
             "\n" +
-            "    ESheetTaste sheetTaste;\n" +
+            "    ESheetTaste sheetTaste\n" +
             "\n" +
-            "    ECreamTaste creamTaste;\n" +
+            "    ECreamTaste creamTaste\n" +
             "\n" +
-            "//    파일은 따로 관리했다고함 프론트에서 따로 전송\n" +
-            "//    private String fileUri;\n" +
-            "//\n" +
-            "//    private String fileName;\n" +
-            "//\n" +
-            "//    private String type;\n" +
+            "    private String detail\n" +
             "\n" +
-            "    private String detail;\n" +
-            "\n" +
-            "    private LocalDateTime createdAt;\n" +
+            "    private LocalDateTime createdAt\n" +
             "]")
     @PostMapping
     public ResponseEntity<?> createPortfolio(@RequestBody PortfolioSaveDto portfolioSaveDto) {
@@ -117,6 +113,19 @@ public class PortfolioController {
         }
     }
 
+    @PatchMapping
+    @ApiOperation(value = "포트폴리오 수정", notes = "req_data : [long portfolioId]")
+    public ResponseEntity<?> updatePortfolio(@RequestBody PortfolioUpdateDto portfolioUpdateDto) {
+        Objects.requireNonNull(portfolioUpdateDto, "PortfolioUpdateDto must not be null");
+
+        // 클라이언트로부터 받은 id 값으로 해당 포트폴리오를 수정합니다.
+        Portfolio updatedPortfolio = portfolioService.modifyPortfolio(portfolioUpdateDto);
+
+        // 수정된 포트폴리오를 클라이언트에게 반환합니다.
+        return ResponseEntity.ok().body(updatedPortfolio);
+    }
+
+
     // 포트폴리오 삭제
     @DeleteMapping("/{id}")
     @ApiOperation(value = "포트폴리오 삭제", notes = "req_data : [long portfolioId]")
@@ -132,5 +141,27 @@ public class PortfolioController {
             log.error("Error deleting portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error deleting portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //포트폴리오 케이크 쿼리dsl 필터
+    @GetMapping("/filter")
+    @ApiOperation(value = "포트폴리오 필터 검색(케이크)", notes = "req_data : " +
+            "[" +
+            "\n" +
+            "    ESheetSize size\n" +
+            "\n" +
+            "    EColor color\n" +
+            "\n" +
+            "    ESheetShape shape\n" +
+            "\n" +
+            "    ESheetTaste sheetTaste\n" +
+            "\n" +
+            "    ESituation situation\n" +
+            "\n" +
+            "    EGender gender\n" +
+            "]")
+    public ResponseEntity<List<PortfolioResponseDto>> getPortfolioFiltered(CakeFilter cakeFilter) {
+        List<PortfolioResponseDto> portfolioList = portfolioService.findPortfolioCakeFilter(cakeFilter);
+        return ResponseEntity.ok(portfolioList);
     }
 }
