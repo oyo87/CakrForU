@@ -2,7 +2,7 @@ package com.a604.cake4u.orders.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.files.entity.Files;
+import com.a604.cake4u.files.entity.ImageFile;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +23,16 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Builder
 @DynamicInsert
-public class Orders {
+public class OrderSheet {
 
     @SequenceGenerator(
-            name = "ORDER_SEQ_GEN",
-            sequenceName = "ORDER_SEQ",
+            name = "ORDER_SHEET_SEQ_GEN",
+            sequenceName = "ORDER_SHEET_SEQ",
             initialValue = 100,
             allocationSize = 1
     )
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SEQ_GEN")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SHEET_SEQ_GEN")
     private Long id;
 
     @ManyToOne
@@ -45,9 +44,9 @@ public class Orders {
     private Seller seller;
 
     //  주문서에서 파일로 접근 가능하도록 참조자
-    @OneToMany(mappedBy = "orders", fetch = EAGER)
+    @OneToMany(mappedBy = "orderSheet", fetch = EAGER)
     @Builder.Default
-    private List<Files> files = new ArrayList<>();
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -98,7 +97,7 @@ public class Orders {
     @Column(name = "review_rating")
     private int reviewRating;
 
-    public void addOrdersFile(Files file) {
-        this.files.add(file);
+    public void addOrderSheetImageFile(ImageFile imageFile) {
+        this.imageFileList.add(imageFile);
     }
 }

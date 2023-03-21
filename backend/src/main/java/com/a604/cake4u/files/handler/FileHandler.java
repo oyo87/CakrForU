@@ -1,7 +1,8 @@
 package com.a604.cake4u.files.handler;
 
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.entity.Files;
+import com.a604.cake4u.files.entity.ImageFile;
+import com.a604.cake4u.files.repository.ImageFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.a604.cake4u.exception.ErrorMessage.IMAGE_FILE_CANT_DELETE;
 import static com.a604.cake4u.exception.ErrorMessage.NOT_CREATE_DIRECTORY;
 
 @Component
@@ -25,15 +27,17 @@ public class FileHandler {
     private String publicPath = "";
     private String webPath;
 
+    private ImageFileRepository imageFileRepository;
+
     /**
      *
      * @param multipartFileList : 입력받은 다중 파일 리스트
      * @return                  : 입력받은 다중 파일 리스트에서 파일 각각을 Files Entity로 변환하여 Entity 리스트에 저장 후 그 리스트를 반환한다.
      * @throws BaseException
      */
-    public List<Files> parseFileInfo(List<MultipartFile> multipartFileList) throws BaseException, IOException {
+    public List<ImageFile> parseFileInfo(List<MultipartFile> multipartFileList) throws BaseException, IOException {
         //  반환할 파일 리스트
-        List<Files> retFilesList = new ArrayList<>();
+        List<ImageFile> retImageFileList = new ArrayList<>();
 
         //  전달된 파일 리스트가 존재할 경우
         if(Collections.isEmpty(multipartFileList)) {
@@ -99,15 +103,15 @@ public class FileHandler {
 //                log.info("fileDto uri = ", filesDto.getFileUri());
 
                 //  파일 DTO를 이용하여 Files 엔티티를 생성
-                Files files = Files.builder()
-                        .origFileName(multipartFile.getOriginalFilename())
-                        .fileUri(webPath + "/" + newFileName)
+                ImageFile imageFile = ImageFile.builder()
+                        .origImageFileName(multipartFile.getOriginalFilename())
+                        .imageFileUri(webPath + "/" + newFileName)
                         .build();
 
-                log.info("files entity uri = ", files.getFileUri());
+                log.info("files entity uri = ", imageFile.getImageFileUri());
 
                 //  생성 후 리스트에 추가
-                retFilesList.add(files);
+                retImageFileList.add(imageFile);
 
                 //  업로드한 파일 데이터를 지정한 파일에 저장
                 file = new File(directoryPath + File.separator + newFileName);
@@ -121,6 +125,29 @@ public class FileHandler {
 
         }   //  if-not-empty-end
 
-        return retFilesList;
+        return retImageFileList;
+    }
+
+    public int deleteImageFiles(List<ImageFile> imageFileList) {
+        int ret = 0;
+
+        try {
+            ret = imageFileList.size();
+
+            for(ImageFile imageFile : imageFileList) {
+                //  파일이 저장된 경로 알아내기
+                String filePath = new File("").getAbsolutePath() + File.separator + "images" + File.separator + imageFile.getImageFileUri();
+                File file = new File(filePath);
+
+                imageFileRepository.delete(imageFile);  //  DB에서 파일 정보 삭제
+                if(!file.delete()) {    //  실제 파일 삭제가 실패했을 시
+                    throw new BaseException(IMAGE_FILE_CANT_DELETE);
+                }
+            }
+        } catch (BaseException e) {
+            e.printStackTrace();
+        } finally {
+            return ret;
+        }
     }
 }

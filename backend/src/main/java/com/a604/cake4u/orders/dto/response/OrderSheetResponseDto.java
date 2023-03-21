@@ -1,20 +1,12 @@
 package com.a604.cake4u.orders.dto.response;
 
-import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.files.dto.FilesDto;
-import com.a604.cake4u.files.entity.Files;
-import com.a604.cake4u.seller.entity.Seller;
+import com.a604.cake4u.files.dto.ImageFileDto;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Getter
 @Setter
@@ -22,11 +14,11 @@ import static javax.persistence.FetchType.EAGER;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrdersResponseDto {
+public class OrderSheetResponseDto {
     private Long id;
     private Long buyerId;
     private Long sellerId;
-    private List<FilesDto> files;
+    private List<ImageFileDto> imageFileDtoList;
     private EStatus status;
     private Timestamp createdAt;
     private int price = 0;

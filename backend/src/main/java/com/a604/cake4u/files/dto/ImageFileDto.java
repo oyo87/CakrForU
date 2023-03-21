@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FilesDto {
-    private String origFileName;
-    private String fileUri;
+public class ImageFileDto {
+    private String origImageFileName;
+    private String imageFileUri;
 }

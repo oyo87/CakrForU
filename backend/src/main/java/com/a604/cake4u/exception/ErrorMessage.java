@@ -31,6 +31,8 @@ public enum ErrorMessage {
 
     NOT_CREATE_DIRECTORY(117, "디렉토리를 생성할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
+    IMAGE_FILE_CANT_DELETE(118, "해당 이미지 파일을 제거할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     EXIST_NICKNAME(200, "이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST),
     EXIST_EMAIL(201, "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
     EXIST_ID(202, "이미 가입된 아이디입니다.", HttpStatus.BAD_REQUEST),
@@ -61,10 +63,12 @@ public enum ErrorMessage {
     ACCESS_TOKEN_INVALID_PAYLOADS(1012, "토큰 정보가 손상되었습니다.", HttpStatus.UNAUTHORIZED),
     ACCESS_TOKEN_INVALID_SIGNATURE(1013, "토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
     ACCESS_TOKEN_EMPTY(1014, "토큰이 입력되지 않았습니다.", HttpStatus.BAD_REQUEST),
-    ORDERS_REGIST_CLIENT_ERROR(1101, "주문 등록 형식 오류", HttpStatus.BAD_REQUEST),
-    ORDERS_REGIST_SERVER_ERROR(1102, "주문 등록 서버 오류", HttpStatus.INTERNAL_SERVER_ERROR),
-    ORDERS_GET_BY_ID_ERROR(1103, "해당 id의 주문이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-
+    ORDER_SHEET_REGIST_CLIENT_ERROR(1101, "주문 등록 형식 오류", HttpStatus.BAD_REQUEST),
+    ORDER_SHEET_REGIST_SERVER_ERROR(1102, "주문 등록 서버 오류", HttpStatus.INTERNAL_SERVER_ERROR),
+    ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR(1103, "해당 id의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    ORDER_SHEET_GET_BY_BUYER_ID_ERROR(1104, "해당 구매자의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    ORDER_SHEET_GET_BY_SELLER_ID_ERROR(1105, "해당 판매자의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+    
     private final Integer code;
     private final String errMsg;
     private final HttpStatus httpStatus;

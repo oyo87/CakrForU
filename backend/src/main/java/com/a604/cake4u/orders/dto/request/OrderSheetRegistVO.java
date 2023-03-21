@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @ToString
-public class OrdersRegistVO {
+public class OrderSheetRegistVO {
     private Long buyerId;   //  구매자 아이디(Buyer PK)
     private Long sellerId;  //  판매자 아이디(Seller PK)
     private EStatus status; //  주문 상태

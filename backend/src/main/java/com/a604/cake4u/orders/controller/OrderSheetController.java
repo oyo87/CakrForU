@@ -2,9 +2,9 @@ package com.a604.cake4u.orders.controller;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.orders.dto.request.OrdersRegistVO;
-import com.a604.cake4u.orders.dto.response.OrdersResponseDto;
-import com.a604.cake4u.orders.service.OrdersService;
+import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
+import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
+import com.a604.cake4u.orders.service.OrderSheetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,69 +21,74 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.a604.cake4u.exception.ErrorMessage.ORDERS_REGIST_CLIENT_ERROR;
-import static com.a604.cake4u.exception.ErrorMessage.ORDERS_REGIST_SERVER_ERROR;
+import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_REGIST_CLIENT_ERROR;
+import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_REGIST_SERVER_ERROR;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order-sheet")
 @RequiredArgsConstructor
 @Slf4j
-public class OrdersController {
-    private final OrdersService ordersService;
+public class OrderSheetController {
+    private final OrderSheetService orderSheetService;
     @PostMapping
-    public ResponseEntity<?> registOrder(
+    public ResponseEntity<?> registOrderSheet(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
-            @RequestParam(value = "ordersVO")String ordersVOString) {
+            @RequestParam(value = "orderSheetRegistVOString")String orderSheetRegistVOString) {
         ResponseEntity<?> ret = null;
         
         try {
-            JSONParser jsonParser = new JSONParser(ordersVOString);
+            JSONParser jsonParser = new JSONParser(orderSheetRegistVOString);
             Object obj = jsonParser.parse();
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> map = mapper.convertValue(obj, Map.class);
 
             log.info("map = " + map);
 
-            OrdersRegistVO ordersRegistVO = createVO(map);
+            OrderSheetRegistVO orderSheetRegistVO = createVO(map);
 
-            log.info("OrdersRegistVO = " + ordersRegistVO);
+            log.info("OrderSheetRegistVO = " + orderSheetRegistVO);
 
-            Long orderId = ordersService.registOrders(files, ordersRegistVO);
+            Long orderId = orderSheetService.registOrderSheet(files, orderSheetRegistVO);
             ret = new ResponseEntity<>("주문 등록 성공\n주문 번호 : " + orderId, HttpStatus.OK);
         } catch(ParseException e) { //  client가 요청을 잘못한 경우
             ret = new ResponseEntity<>("주문 등록 실패, 주문 양식 에러", HttpStatus.BAD_REQUEST);
-            throw new BaseException(ORDERS_REGIST_CLIENT_ERROR);
+            throw new BaseException(ORDER_SHEET_REGIST_CLIENT_ERROR);
         } catch(Exception e) {  //  server 문제인 경우
             ret = new ResponseEntity<>("주문 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
-            throw new BaseException(ORDERS_REGIST_SERVER_ERROR);  
+            throw new BaseException(ORDER_SHEET_REGIST_SERVER_ERROR);
         } finally {
             return ret;
         }
     }
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<?> getOrder(@PathVariable Long orderId) {
-        OrdersResponseDto ordersResponseDto = ordersService.getOrderByOrdersId(orderId);
-        return new ResponseEntity<>(ordersResponseDto, HttpStatus.OK);
+    @GetMapping("/{orderSheetId}")
+    public ResponseEntity<?> getOrderSheet(@PathVariable Long orderSheetId) {
+        OrderSheetResponseDto orderSheetResponseDto = orderSheetService.getOrderSheetByOrderSheetId(orderSheetId);
+        return new ResponseEntity<>(orderSheetResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{buyerId}")
-    public ResponseEntity<?> getBuyerOrders(@PathVariable Long buyerId) {
-        return null;
+    public ResponseEntity<?> getBuyerOrderSheet(@PathVariable Long buyerId) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{sellerId}")
-    public ResponseEntity<?> getSellerOrders(@PathVariable Long sellerId) {
-        return null;
+    public ResponseEntity<?> getSellerOrderSheet(@PathVariable Long sellerId) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<?> cancleOrder(@PathVariable Long orderId) {
-        return null;
+    @DeleteMapping("/{orderSheetId}")
+    public ResponseEntity<?> cancleOrderSheet(@PathVariable Long orderSheetId) {
+
+        Long ret = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
+
+        return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    private OrdersRegistVO createVO(Map<String, Object> map) {
-        return OrdersRegistVO.builder()
+    private OrderSheetRegistVO createVO(Map<String, Object> map) {
+        return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
                 .status(EStatus.valueOf(String.valueOf(map.get("status"))))     //  String to Enum
