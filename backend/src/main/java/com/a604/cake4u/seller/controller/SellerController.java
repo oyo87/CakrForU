@@ -1,10 +1,18 @@
 package com.a604.cake4u.seller.controller;
 
+import com.a604.cake4u.creamtaste.dto.CreamTasteSaveRequestDto;
+import com.a604.cake4u.creamtaste.service.CreamTasteService;
 import com.a604.cake4u.seller.dto.SellerLoginDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
 import com.a604.cake4u.seller.dto.SellerUpdateDto;
 import com.a604.cake4u.seller.service.SellerService;
+import com.a604.cake4u.sheetshape.dto.SheetShapeSaveRequestDto;
+import com.a604.cake4u.sheetshape.service.SheetShapeService;
+import com.a604.cake4u.sheetsize.dto.SheetSizeSaveRequestDto;
+import com.a604.cake4u.sheetsize.service.SheetSizeService;
+import com.a604.cake4u.sheettaste.dto.SheetTasteSaveRequestDto;
+import com.a604.cake4u.sheettaste.service.SheetTasteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +30,47 @@ import java.util.Map;
 public class SellerController {
     @Autowired
     private final SellerService sellerService;
+    @Autowired
+    private final SheetShapeService sheetShapeService;
+    @Autowired
+    private final SheetSizeService sheetSizeService;
+    @Autowired
+    private final SheetTasteService sheetTasteService;
+    @Autowired
+    private final CreamTasteService creamTasteService;
+
 
     @ApiOperation(value = "판매자 회원가입")
     @PostMapping("/seller/new")
     public ResponseEntity<?> newSeller(@RequestBody SellerSaveRequestDto seller) {
-        System.out.println("seller = " + seller);
-        boolean rslt = sellerService.saveSeller(seller);
+        Long id = sellerService.saveSeller(seller);
         Map<String, Object> msg = new HashMap<>();
         msg.put("result", false);
         msg.put("msg", "회원가입 실패");
         HttpStatus sts = HttpStatus.UNAUTHORIZED;
 
-        if (rslt) {
+        if (id != null) {
             msg.put("result", true);
             msg.put("msg", "회원가입 성공");
             sts = HttpStatus.OK;
+
+            //가입과 동시에 폼 초기화
+            //시트모양 초기화
+            SheetShapeSaveRequestDto shape = new SheetShapeSaveRequestDto(id, false, false, false, false);
+            sheetShapeService.saveSheetShape(shape);
+
+            //시트사이즈 초기화
+            SheetSizeSaveRequestDto size = new SheetSizeSaveRequestDto(id, false, false, false, false);
+            sheetSizeService.saveSheetSize(size);
+
+            //시트맛 초기화
+            SheetTasteSaveRequestDto taste = new SheetTasteSaveRequestDto(id, false, false, false, false, false, false, false, false, false);
+            sheetTasteService.saveSheetTaste(taste);
+
+            //크림맛 초기화
+            CreamTasteSaveRequestDto cream = new CreamTasteSaveRequestDto(id, false, false, false, false, false, false,false,false);
+            creamTasteService.saveCreamTaste(cream);
+
         }
 
         return ResponseEntity.status(sts).body(msg);
