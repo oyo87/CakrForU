@@ -3,16 +3,14 @@ package com.a604.cake4u.portfolio.dto;
 import com.a604.cake4u.enums.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PortfolioSaveDto {
-    private long sellerId;
+public class PortfolioUpdateDto {
+    private long Id;
 
     private EGender gender;
 
@@ -30,15 +28,12 @@ public class PortfolioSaveDto {
 
     private ECreamTaste creamTaste;
 
-//    파일은 따로 관리했다고함 프론트에서 따로 전송
+    private String detail;
+
+    //    파일은 따로 관리했다고함 프론트에서 따로 전송
 //    private String fileUri;
 //
 //    private String fileName;
 //
 //    private String type;
-
-    private String detail;
-
-    private LocalDateTime createdAt;
-
 }

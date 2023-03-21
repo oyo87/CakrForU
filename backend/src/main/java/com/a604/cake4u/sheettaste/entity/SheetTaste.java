@@ -9,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class SheetTaste {
 
     //@NoArgsConstructor 사용X
