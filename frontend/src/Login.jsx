@@ -14,10 +14,14 @@ function Login() {
   const LoginContainer = styled.div`
     display: flex;
     flex-direction: row;
+    width: 100vw;
+    height: 100vh;
   `;
   const LeftSide = styled.div`
-    width: 890px;
-    height: 857px;
+    width: 40%;
+    height: 100%;
+    min-width: 562px;
+    min-height: 765px;
   `;
   const LoginContents = styled.div`
     display: flex;
@@ -25,21 +29,25 @@ function Login() {
     justify-content: center;
     align-items: center;
     height: 100%;
-    margin-top: 100px;
   `;
   const RightSide = styled.div`
+    @media (max-width: 950px) {
+      display: none;
+    }
     position: relative;
+    width: 60%;
+    height: 100%;
   `;
   const RightField = styled.div`
     position: absolute;
-    width: 1030px;
-    height: 957px;
+    width: 100%;
+    height: 100%;
     z-index: 1;
   `;
   const LoginImage = styled.div`
     position: absolute;
-    width: 1030px;
-    height: 957px;
+    width: 100%;
+    height: 100%;
     img {
       width: 100%;
       height: 100%;
@@ -119,7 +127,7 @@ function Login() {
             color="#E79CB3"
             style={{ position: "absolute", left: 314, bottom: 129 }}
           >
-            3단 케이크
+            123단 케이크
           </B5>
           <B7
             color="white"
