@@ -78,7 +78,7 @@ public class BuyerController {
         try{
             customUserDetailsService.loadUserByUsername(authReqModel.getId());
         } catch(BaseException e){
-            return ResponseEntity.status(400).body(e.getErrorMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
         }
 
         Authentication authentication;
