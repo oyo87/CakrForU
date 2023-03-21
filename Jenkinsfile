@@ -39,14 +39,14 @@ pipeline {
             steps {
                 script {
                     // Log in to Docker Hub using --password-stdin
-                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin ${CONTAINER_REGISTRY}"
+                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin https://index.docker.io/v1/"
 
                     // Push the Docker image to Docker Hub
                     sh "docker push ${DOCKER_HUB_REPO}:latest"
 
                     // SSH into the target server and deploy the new container
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/J8A604T.pem ubuntu@3.34.141.245 <<-EOF
+                        ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem ubuntu@3.34.141.245 <<-EOF
 
                         # Pull the Docker image from Docker Hub
                         docker pull ${DOCKER_HUB_REPO}:latest
@@ -56,8 +56,8 @@ pipeline {
 
                         # Run the new container using the pulled image
                         docker run -d --name cakeforu -p 80:80 ${DOCKER_HUB_REPO}:latest
-                        
-                        EOF
+
+                        <<EOF
                     """
                 }
             }
