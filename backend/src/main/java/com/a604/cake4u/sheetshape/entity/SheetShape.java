@@ -6,9 +6,10 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-@AllArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class SheetShape {
 
     //@NoArgsConstructor 사용X

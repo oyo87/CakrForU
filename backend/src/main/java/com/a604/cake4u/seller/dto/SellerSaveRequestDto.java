@@ -2,7 +2,6 @@ package com.a604.cake4u.seller.dto;
 
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.seller.entity.Seller;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@Builder
 public class SellerSaveRequestDto {
     private String email;
     private String password;
