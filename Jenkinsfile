@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // Log in to Docker Hub using --password-stdin
-                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin ${CONTAINER_REGISTRY}"
+                    sh 'echo $DOCKER_HUB_CREDS_PSW | docker login -u $DOCKER_HUB_CREDS_USR --password-stdin $CONTAINER_REGISTRY'
 
                     // Push the Docker image to Docker Hub
                     sh "docker push ${DOCKER_HUB_REPO}:latest"
