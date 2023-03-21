@@ -48,7 +48,7 @@ public class ImageFileService {
         int ret = 0;
 
         try {
-            List<ImageFile> imageFileList = imageFileRepository.findAllByOrderSheet_OrderSheetId(portfolioId)
+            List<ImageFile> imageFileList = imageFileRepository.findAllByPortfolio_PortfolioId(portfolioId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
             ret = fileHandler.deleteImageFiles(imageFileList);
         } catch(Exception e) {

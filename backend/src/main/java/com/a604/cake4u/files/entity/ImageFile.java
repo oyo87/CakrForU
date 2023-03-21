@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Setter
 @Builder
 public class ImageFile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
