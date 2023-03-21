@@ -88,9 +88,7 @@ function Login() {
                 style={{ justifyContent: "center" }}
                 onClick={() => {
                   axios
-                    .get(
-                      `${process.env.REACT_APP_BACKEND_URL}/oauth2/authorization/naver`
-                    )
+                    .get(`/api/oauth2/authorization/naver`)
                     .then((response) => {
                       console.log(response);
                     })
