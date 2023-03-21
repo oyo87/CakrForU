@@ -25,6 +25,17 @@ public class ImageFileService {
 
     /**
      *
+     * @param imageFileId : 삭제할 파일 PK
+     * @return : 삭제된 파일의 PK
+     */
+    @Transactional
+    public Long deleteImageFileByImageFileId(Long imageFileId) {
+        imageFileRepository.deleteById(imageFileId);
+        return imageFileId;
+    }
+
+    /**
+     *
      * @param orderSheetId : 삭제할 주문서의 PK
      * @return : 삭제될 주문서에 저장된 이미지 개수
      */

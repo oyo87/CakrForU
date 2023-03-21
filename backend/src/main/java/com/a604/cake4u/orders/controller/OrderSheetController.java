@@ -4,6 +4,7 @@ import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.files.service.ImageFileService;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
+import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
 import com.a604.cake4u.orders.service.OrderSheetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,8 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_REGIST_CLIENT_ERROR;
-import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_REGIST_SERVER_ERROR;
+import static com.a604.cake4u.exception.ErrorMessage.*;
+import static com.a604.cake4u.exception.ErrorMessage.ORDER_REVIEW_SERVER_ERROR;
 
 @RestController
 @RequestMapping("/order-sheet")
@@ -47,7 +48,7 @@ public class OrderSheetController {
 
             log.info("map = " + map);
 
-            OrderSheetRegistVO orderSheetRegistVO = createVO(map);
+            OrderSheetRegistVO orderSheetRegistVO = createRegistVO(map);
 
             log.info("OrderSheetRegistVO = " + orderSheetRegistVO);
 
@@ -94,6 +95,38 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
+    @PutMapping("/{orderSheetId}")
+    public ResponseEntity<?> registReview(
+            @PathVariable Long orderSheetId,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
+        ResponseEntity<?> ret = null;
+
+        try {
+            JSONParser jsonParser = new JSONParser(orderSheetReviewVOString);
+            Object obj = jsonParser.parse();
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> map = mapper.convertValue(obj, Map.class);
+
+            log.info("map : " + map);
+            
+            OrderSheetReviewVO orderSheetReviewVO = createReviewVO(map);
+
+            log.info("OrderSheetReviewVO = " + orderSheetReviewVO);
+
+            Long retId = orderSheetService.registReview(orderSheetId, files, orderSheetReviewVO);
+            ret = new ResponseEntity<>("리뷰 등록 성공", HttpStatus.OK);
+        } catch(ParseException e) {
+            ret = new ResponseEntity<>("리뷰 등록 실패, 리뷰 양식 에러", HttpStatus.BAD_REQUEST);
+            throw new BaseException(ORDER_REVIEW_CLIENT_ERROR);
+        } catch(Exception e) {
+            ret = new ResponseEntity<>("리뷰 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BaseException(ORDER_REVIEW_SERVER_ERROR);
+        } finally {
+            return ret;
+        }
+    }
+
     @DeleteMapping("/{orderSheetId}")
     public ResponseEntity<?> cancelOrderSheet(@PathVariable Long orderSheetId) {
         //  주문서에 저장된 이미지 파일 전부 제거
@@ -107,7 +140,7 @@ public class OrderSheetController {
         return new ResponseEntity<>(sb, HttpStatus.OK);
     }
 
-    private OrderSheetRegistVO createVO(Map<String, Object> map) {
+    private OrderSheetRegistVO createRegistVO(Map<String, Object> map) {
         return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
@@ -121,6 +154,14 @@ public class OrderSheetController {
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
                 .creamTaste(ECreamTaste.valueOf(String.valueOf(map.get("creamTaste"))))
                 .buyerMessage(String.valueOf(map.get("buyerMessage")))
+                .build();
+    }
+
+    private OrderSheetReviewVO createReviewVO(Map<String, Object> map) {
+        return OrderSheetReviewVO.builder()
+                .reviewContent(String.valueOf(map.get("reviewContent")))
+                .reviewCreatedAt(Timestamp.valueOf(String.valueOf(map.get("reviewCreatedAt"))))
+                .reviewRating(Integer.parseInt(String.valueOf(map.get("reviewRating"))))
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package com.a604.cake4u.orders.service;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
@@ -10,6 +11,7 @@ import com.a604.cake4u.files.entity.ImageFile;
 import com.a604.cake4u.files.handler.FileHandler;
 import com.a604.cake4u.files.repository.ImageFileRepository;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
+import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
 import com.a604.cake4u.orders.entity.OrderSheet;
 import com.a604.cake4u.orders.repository.OrderSheetRepository;
@@ -72,6 +74,7 @@ public class OrderSheetService {
                 for(ImageFile file : fileList) {
                     //  파일을 DB에 저장
                     file.setOrderSheet(orderSheet); //  사진에 주문서 등록
+                    file.setImageFileType(EImageFileType.ORDERS_PICTURE);   //  사진 유형 등록
                     orderSheet.addOrderSheetImageFile(file); //  주문서에 사진 등록
                 }
             }
@@ -127,6 +130,41 @@ public class OrderSheetService {
         return ret;
     }
 
+    @Transactional
+    public Long registReview(Long orderSheetId, List<MultipartFile> files, OrderSheetReviewVO orderSheetReviewVO) {
+        Long ret = -1L;
+
+        //  PK로 리뷰 작성할 주문서 찾기
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+
+        //  리뷰 관련 내용 등록
+        orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());
+        orderSheet.setReviewRating(orderSheetReviewVO.getReviewRating());
+        orderSheet.setCreatedAt(orderSheetReviewVO.getReviewCreatedAt());
+
+        try {
+            List<ImageFile> fileList = fileHandler.parseFileInfo(files);
+
+            //  파일이 존재하면 처리
+            if(!fileList.isEmpty()) {
+                for(ImageFile file : fileList) {
+                    //  파일을 DB에 저장
+                    file.setOrderSheet(orderSheet); //  사진에 주문서 등록
+                    file.setImageFileType(EImageFileType.REVIEW_PICTURE);   //  사진 유형 등록
+                    orderSheet.addOrderSheetImageFile(file); //  주문서에 사진 등록
+                }
+            }
+
+            ret = orderSheetId;
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+        } finally {
+            return ret;
+        }
+    }
+
+    @Transactional
     public Long deleteOrderSheetByOrderSheetId(Long orderSheetId) {
         orderSheetRepository.deleteById(orderSheetId);
         return orderSheetId;
