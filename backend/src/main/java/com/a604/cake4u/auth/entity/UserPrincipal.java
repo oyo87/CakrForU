@@ -85,14 +85,21 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    public static UserPrincipal create(Buyer buyer) {
+    public static UserPrincipal createBuyerPrincipal(Buyer buyer) {
         return new UserPrincipal(
                 buyer.getEmail(),
                 buyer.getPassword(),
                 buyer.getProviderType(),
-                RoleType.USER,
-                Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
+                RoleType.BUYER,
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.BUYER.getCode()))
         );
+    }
+
+    public static UserPrincipal createBuyerPrincipal(Buyer buyer, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = createBuyerPrincipal(buyer);
+        userPrincipal.setAttributes(attributes);
+
+        return userPrincipal;
     }
 
     public static UserPrincipal createAdmin(Buyer buyer) {
@@ -103,12 +110,6 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
                 RoleType.ADMIN,
                 Collections.singletonList(new SimpleGrantedAuthority(RoleType.ADMIN.getCode()))
         );
-    }
-    public static UserPrincipal create(Buyer buyer, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = create(buyer);
-        userPrincipal.setAttributes(attributes);
-
-        return userPrincipal;
     }
 
 }
