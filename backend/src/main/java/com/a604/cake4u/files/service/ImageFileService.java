@@ -43,12 +43,37 @@ public class ImageFileService {
         }
     }
 
+    /**
+     *
+     * @param portfolioId : 삭제할 포트폴리오의 PK
+     * @return : 삭제될 포트폴리오에 저장된 이미지 개수
+     */
     @Transactional
     public int deleteImageFilesByPortfolioId(Long portfolioId) {
         int ret = 0;
 
         try {
             List<ImageFile> imageFileList = imageFileRepository.findAllByPortfolio_PortfolioId(portfolioId)
+                    .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+            ret = fileHandler.deleteImageFiles(imageFileList);
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            return ret;
+        }
+    }
+
+    /**
+     * 
+     * @param sellerId : 탈퇴할 판매자의 PK
+     * @return : 탈퇴한 판매자에 등록된 이미지 개수
+     */
+    @Transactional
+    public int deleteImageFilesBySellerId(Long sellerId) {
+        int ret = 0;
+
+        try {
+            List<ImageFile> imageFileList = imageFileRepository.findAllBySeller_SellerId(sellerId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
             ret = fileHandler.deleteImageFiles(imageFileList);
         } catch(Exception e) {

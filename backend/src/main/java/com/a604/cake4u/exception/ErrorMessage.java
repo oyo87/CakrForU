@@ -67,8 +67,9 @@ public enum ErrorMessage {
     ORDER_SHEET_REGIST_SERVER_ERROR(1102, "주문 등록 서버 오류", HttpStatus.INTERNAL_SERVER_ERROR),
     ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR(1103, "해당 id의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     ORDER_SHEET_GET_BY_BUYER_ID_ERROR(1104, "해당 구매자의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
-    ORDER_SHEET_GET_BY_SELLER_ID_ERROR(1105, "해당 판매자의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-    
+    ORDER_SHEET_GET_BY_SELLER_ID_ERROR(1105, "해당 판매자의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    ORDER_SHEET_GET_BY_STATUS_ERROR(1106, "해당 상태의 주문서가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+
     private final Integer code;
     private final String errMsg;
     private final HttpStatus httpStatus;

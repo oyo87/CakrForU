@@ -2,6 +2,7 @@ package com.a604.cake4u.orders.controller;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
+import com.a604.cake4u.files.service.ImageFileService;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
 import com.a604.cake4u.orders.service.OrderSheetService;
@@ -30,6 +31,8 @@ import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_REGIST_SERVER_E
 @Slf4j
 public class OrderSheetController {
     private final OrderSheetService orderSheetService;
+    private final ImageFileService imageFileService;
+
     @PostMapping
     public ResponseEntity<?> registOrderSheet(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
@@ -79,12 +82,29 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
+    @GetMapping("/{buyerId}/{status}")
+    public ResponseEntity<?> getBuyerOrderSheetWithStatus(@PathVariable Long buyerId, @PathVariable String status) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(buyerId, EStatus.valueOf(status));
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{sellerId}/{status}")
+    public ResponseEntity<?> getSellerOrderSheetWithStatus(@PathVariable Long sellerId, @PathVariable String status) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(sellerId, EStatus.valueOf(status));
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{orderSheetId}")
-    public ResponseEntity<?> cancleOrderSheet(@PathVariable Long orderSheetId) {
+    public ResponseEntity<?> cancelOrderSheet(@PathVariable Long orderSheetId) {
+        //  주문서에 저장된 이미지 파일 전부 제거
+        int deletedImages = imageFileService.deleteImageFilesByOrderSheetId(orderSheetId);
+        //  DB에서 주문서 정보 삭제
+        Long deletedOrderSheetId = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
 
-        Long ret = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
+        StringBuilder sb = new StringBuilder("삭제된 이미지 개수 : ").append(deletedImages).append("\n")
+                .append("삭제된 주문서 id = ").append(deletedOrderSheetId).append("\n");
 
-        return new ResponseEntity<>(ret, HttpStatus.OK);
+        return new ResponseEntity<>(sb, HttpStatus.OK);
     }
 
     private OrderSheetRegistVO createVO(Map<String, Object> map) {

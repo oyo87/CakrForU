@@ -2,6 +2,7 @@ package com.a604.cake4u.orders.service;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.files.dto.ImageFileDto;
@@ -98,7 +99,26 @@ public class OrderSheetService {
     }
 
     public List<OrderSheetResponseDto> getOrderSheetsBySellerId(Long sellerId) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetByBuyerId(sellerId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_SELLER_ID_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetBySellerId(sellerId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_SELLER_ID_ERROR));
+        List<OrderSheetResponseDto> ret = new ArrayList<>();
+
+        for(OrderSheet orderSheet : orderSheetList)
+            ret.add(entityToResponse(orderSheet));
+
+        return ret;
+    }
+    public List<OrderSheetResponseDto> getBuyerOrderSheetsByStatus(Long buyerId, EStatus status) throws BaseException {
+        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsByBuyer_IdAndStatus(buyerId, status).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_STATUS_ERROR));
+        List<OrderSheetResponseDto> ret = new ArrayList<>();
+
+        for(OrderSheet orderSheet : orderSheetList)
+            ret.add(entityToResponse(orderSheet));
+
+        return ret;
+    }
+
+    public List<OrderSheetResponseDto> getSellerOrderSheetsByStatus(Long sellerId, EStatus status) throws BaseException {
+        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsBySeller_IdAndStatus(sellerId, status).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_STATUS_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
