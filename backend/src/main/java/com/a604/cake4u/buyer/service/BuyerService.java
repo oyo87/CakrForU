@@ -9,6 +9,7 @@ import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,15 +18,21 @@ import java.util.Optional;
 
 @Service
 public class BuyerService {
-    @Autowired
+
     private BuyerRepository buyerRepository;
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    public BuyerService(BuyerRepository buyerRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+        this.buyerRepository = buyerRepository;
+        this.passwordEncoder = bCryptPasswordEncoder;
+    }
 
     public int saveBuyer(BuyerSaveRequestDto buyerSaveRequestDto){
 
         if (buyerRepository.findByEmail(buyerSaveRequestDto.getEmail()).isPresent()) {
             throw new BaseException(ErrorMessage.EXIST_EMAIL);
         }
-
+        buyerSaveRequestDto.setPassword(passwordEncoder.encode(buyerSaveRequestDto.getPassword()));
         buyerRepository.save(buyerSaveRequestDto.toEntity());
 
         return 1;

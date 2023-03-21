@@ -9,7 +9,7 @@ import B4 from "./components/B4";
 import B5 from "./components/B5";
 import B7 from "./components/B7";
 import Input from "./components/Input";
-// import axios from "./util/axiosInstance";
+import axios from "./util/axiosInstance";
 
 function Login() {
   const LoginContainer = styled.div`
@@ -53,6 +53,20 @@ function Login() {
     align-items: center;
   `;
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const data = { id: e.target[0].value, password: e.target[1].value };
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/buyer/login`, data)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("access-token", response.data.body.token);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <LoginContainer>
       <LeftSide>
@@ -61,7 +75,7 @@ function Login() {
           <H7 style={{ marginBottom: 35 }}>
             커스텀 케이크를 주문하는 가장 빠른 방법
           </H7>
-          <form>
+          <form onSubmit={handleLogin}>
             <H7 style={{ marginBottom: 18 }}>이메일</H7>
             <Input
               placeholder="이메일을 입력하세요"
