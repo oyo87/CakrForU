@@ -9,7 +9,7 @@ import B4 from "./components/B4";
 import B5 from "./components/B5";
 import B7 from "./components/B7";
 import Input from "./components/Input";
-import axios from "./util/axiosInstance";
+// import axios from "./util/axiosInstance";
 
 function Login() {
   const LoginContainer = styled.div`
@@ -61,19 +61,19 @@ function Login() {
     align-items: center;
   `;
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const data = { id: e.target[0].value, password: e.target[1].value };
-    await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/buyer/login`, data)
-      .then((response) => {
-        console.log(response);
-        localStorage.setItem("access-token", response.data.body.token);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   const data = { id: e.target[0].value, password: e.target[1].value };
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BACKEND_URL}/buyer/login`, data)
+  //     .then((response) => {
+  //       console.log(response);
+  //       localStorage.setItem("access-token", response.data.body.token);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <LoginContainer>
@@ -83,27 +83,23 @@ function Login() {
           <H7 style={{ marginBottom: 35 }}>
             커스텀 케이크를 주문하는 가장 빠른 방법
           </H7>
-          <form onSubmit={handleLogin}>
-            <H7 style={{ marginBottom: 18 }}>이메일</H7>
-            <Input
-              placeholder="이메일을 입력하세요"
-              style={{ marginBottom: 30 }}
-            />
-            <H7 style={{ marginBottom: 18 }}>패스워드</H7>
-            <Input placeholder="**********" style={{ marginBottom: 26 }} />
-            <FlexBox style={{ marginBottom: 31 }}>
-              <input type="checkbox" style={{ marginRight: 10 }} />
-              <H7 style={{ flexGrow: 1 }}>아이디 저장</H7>
-              <H7>비밀번호 찾기</H7>
-            </FlexBox>
-            <Button
-              background="black"
-              color="white"
-              style={{ marginBottom: 29 }}
-            >
-              <H7 color="white">로그인</H7>
-            </Button>
-          </form>
+          {/* <form onSubmit={handleLogin}> */}
+          <H7 style={{ marginBottom: 18 }}>이메일</H7>
+          <Input
+            placeholder="이메일을 입력하세요"
+            style={{ marginBottom: 30 }}
+          />
+          <H7 style={{ marginBottom: 18 }}>패스워드</H7>
+          <Input placeholder="**********" style={{ marginBottom: 26 }} />
+          <FlexBox style={{ marginBottom: 31 }}>
+            <input type="checkbox" style={{ marginRight: 10 }} />
+            <H7 style={{ flexGrow: 1 }}>아이디 저장</H7>
+            <H7>비밀번호 찾기</H7>
+          </FlexBox>
+          <Button background="black" color="white" style={{ marginBottom: 29 }}>
+            <H7 color="white">로그인</H7>
+          </Button>
+          {/* </form> */}
           <Button style={{ marginBottom: 100 }}>
             <H7>
               <a href="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect">
