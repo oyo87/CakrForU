@@ -66,16 +66,17 @@ public class OrderSheetService {
                 .build();
 
         try {
-            List<ImageFile> fileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
             ret = orderSheetRepository.save(orderSheet).getId();
 
             //  파일이 존재하면 처리
-            if(!fileList.isEmpty()) {
-                for(ImageFile file : fileList) {
+            if(!imageFileList.isEmpty()) {
+                for(ImageFile imageFile : imageFileList) {
                     //  파일을 DB에 저장
-                    file.setOrderSheet(orderSheet); //  사진에 주문서 등록
-                    file.setImageFileType(EImageFileType.ORDERS_PICTURE);   //  사진 유형 등록
-                    orderSheet.addOrderSheetImageFile(file); //  주문서에 사진 등록
+                    imageFile.setOrderSheet(orderSheet); //  사진에 주문서 등록
+                    imageFile.setImageFileType(EImageFileType.ORDERS_PICTURE);   //  사진 유형 등록
+                    orderSheet.addOrderSheetImageFile(imageFile); //  주문서에 사진 등록
+                    imageFileRepository.save(imageFile); //  파일을 DB에 등록
                 }
             }
         } catch(IOException e) {
@@ -143,15 +144,16 @@ public class OrderSheetService {
         orderSheet.setCreatedAt(orderSheetReviewVO.getReviewCreatedAt());
 
         try {
-            List<ImageFile> fileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
 
             //  파일이 존재하면 처리
-            if(!fileList.isEmpty()) {
-                for(ImageFile file : fileList) {
+            if(!imageFileList.isEmpty()) {
+                for(ImageFile imageFile : imageFileList) {
                     //  파일을 DB에 저장
-                    file.setOrderSheet(orderSheet); //  사진에 주문서 등록
-                    file.setImageFileType(EImageFileType.REVIEW_PICTURE);   //  사진 유형 등록
-                    orderSheet.addOrderSheetImageFile(file); //  주문서에 사진 등록
+                    imageFile.setOrderSheet(orderSheet); //  사진에 주문서 등록
+                    imageFile.setImageFileType(EImageFileType.REVIEW_PICTURE);   //  사진 유형 등록
+                    orderSheet.addOrderSheetImageFile(imageFile); //  주문서에 사진 등록
+                    imageFileRepository.save(imageFile);    //  DB에 이미지 파일 등록
                 }
             }
 

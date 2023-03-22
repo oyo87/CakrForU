@@ -5,6 +5,7 @@ import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
@@ -33,6 +34,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
 
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
+    private final ImageFileRepository imageFileRepository;
     private final FileHandler fileHandler;
     private final JPAQueryFactory queryFactory;
 
@@ -82,6 +84,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     //PortfolioFileDto 생성 필요 uri, name, type만 프론트에서 받으면 될듯
     //public void uploadPortfolio(PortfolioSaveDto portfolioSaveDto, PortfolioFileDto portfolioFileDto
 
+    @Transactional
     public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
 //         dto를 portfolio table에 entity화 하여 저장
         Portfolio portfolio = portfolioSaveDtoToEntity(portfolioSaveDto);
@@ -89,14 +92,16 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         portfolio.setSeller(seller);
 
         try {
-            List<ImageFile> fileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
 
             //  파일이 존재하면 처리
-            if(!fileList.isEmpty()) {
-                for(ImageFile file : fileList) {
+            if(!imageFileList.isEmpty()) {
+                for(ImageFile imageFile : imageFileList) {
                     //  파일을 DB에 저장
-                    file.setPortfolio(portfolio);
-                    portfolio.addPortfolioImageFile(file);
+                    imageFile.setPortfolio(portfolio);  //  사진에 포트폴리오 등록
+                    imageFile.setImageFileType(EImageFileType.PORTFOLIO_CAKE);  //  사진 유형 등록
+                    portfolio.addPortfolioImageFile(imageFile); //  포트폴리오에 사진 등록
+                    imageFileRepository.save(imageFile);    //  파일을 DB에 저장
                 }
             }
         } catch(IOException e) {

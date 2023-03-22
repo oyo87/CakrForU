@@ -38,6 +38,7 @@ import java.util.Map;
 @Api(value = "SellerController")
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/seller")
 public class SellerController {
     @Autowired
     private final SellerService sellerService;
@@ -52,7 +53,7 @@ public class SellerController {
 
 
     @ApiOperation(value = "판매자 회원가입")
-    @PostMapping("/seller/new")
+    @PostMapping("/new")
     public ResponseEntity<?> newSeller(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "sellerSaveRequestDtoString") String sellerSaveRequestDtoString) {
@@ -72,6 +73,7 @@ public class SellerController {
 
             log.info("sellerSaveRequestDto = " + sellerSaveRequestDto);
             retId = sellerService.saveSeller(sellerSaveRequestDto, files);
+            log.info("retId = " + retId);
 
             //가입과 동시에 폼 초기화
             //시트모양 초기화
@@ -105,7 +107,7 @@ public class SellerController {
     }
 
     @ApiOperation(value = "판매자 로그인")
-    @PostMapping("/seller/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody SellerLoginDto seller) throws Exception{
             Map<String, Object> info = sellerService.sellerLogin(seller);
             Map<String, Object> msg = new HashMap<>();
@@ -119,14 +121,14 @@ public class SellerController {
     }
 
     @ApiOperation(value = "판매자 정보 조회")
-    @GetMapping("/seller/info/{sellerId}")
+    @GetMapping("/info/{sellerId}")
     public ResponseEntity<?> showSellerInfo(@PathVariable Long sellerId) {
         SellerResponseDto seller = sellerService.showSellerInfo(sellerId);
         return new ResponseEntity<SellerResponseDto>(seller, HttpStatus.OK);
     }
 
     @ApiOperation(value = "판매자 정보 수정")
-    @PostMapping("/seller/change")
+    @PostMapping("/change")
     public ResponseEntity<?> changeSellerInfo(@RequestBody SellerUpdateDto seller) {
         sellerService.changeSellerInfo(seller);
         return new ResponseEntity(HttpStatus.OK);
@@ -149,7 +151,7 @@ public class SellerController {
                 .businessName(String.valueOf(map.get("businessName")))
                 .contact(String.valueOf(map.get("contact")))
                 .account(String.valueOf(map.get("account")))
-                .businessDescription(String.valueOf("businessDescription"))
+                .businessDescription(String.valueOf(map.get("businessDescription")))
                 .build();
     }
 }

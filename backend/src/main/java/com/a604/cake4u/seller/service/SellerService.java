@@ -1,9 +1,11 @@
 package com.a604.cake4u.seller.service;
 
+import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.seller.dto.SellerLoginDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
@@ -25,7 +27,7 @@ import java.util.Map;
 @Transactional
 public class SellerService {
     private final SellerRepository sellerRepository;
-
+    private final ImageFileRepository imageFileRepository;
     private final FileHandler fileHandler;
 
     @Transactional
@@ -33,7 +35,7 @@ public class SellerService {
         Long ret = -1L;
 
         if (sellerRepository.findByEmail(sellerSaveRequestDto.getEmail()).isPresent())
-            throw new BaseException(ErrorMessage.NOT_EXIST_EMAIL);
+            throw new BaseException(ErrorMessage.ALEADY_EXIST_EMAIL);
 
         Seller seller = sellerSaveRequestDto.toEntity();
 
@@ -45,11 +47,12 @@ public class SellerService {
             if(!imageFileList.isEmpty()) {
                 for (ImageFile imageFile : imageFileList) {
                     //  파일을 DB에 저장
-                    imageFile.setSeller(seller);
-                    seller.addSellerImageFile(imageFile);
+                    imageFile.setSeller(seller);    //  사진에 판매자 등록
+                    imageFile.setImageFileType(EImageFileType.SELLER_THUMBNAIL);    //  사진 유형 등록
+                    seller.addSellerImageFile(imageFile);   //  판매자에 사진 파일 등록
+                    imageFileRepository.save(imageFile); //  파일을 DB에 등록
                 }
             }
-
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
