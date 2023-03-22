@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="sido_code")
+@Table(name = "sido_code")
 @Setter
 @Getter
 public class SidoCode {

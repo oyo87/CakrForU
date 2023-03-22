@@ -18,6 +18,21 @@ public class SellerResponseDto {
     private String account;
     private String businessDescription;
 
+    public SellerResponseDto(String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription) {
+        this.email = email;
+        this.roadAddress = roadAddress;
+        this.detailedAddress = detailedAddress;
+        this.buildingName = buildingName;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.businessNumber = businessNumber;
+        this.businessLocation = businessLocation;
+        this.businessName = businessName;
+        this.contact = contact;
+        this.account = account;
+        this.businessDescription = businessDescription;
+    }
+
     public SellerResponseDto(Seller seller) {
         this.email = seller.getEmail();
         this.roadAddress = seller.getRoadAddress();
