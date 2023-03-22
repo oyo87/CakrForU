@@ -30,6 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         else if("관리자".equals(buyer.get().getNickname())) {
         	return UserPrincipal.createAdmin(buyer.get());
         }
-        return UserPrincipal.create(buyer.get());
+        return UserPrincipal.createBuyerPrincipal(buyer.get());
     }
 }
