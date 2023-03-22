@@ -53,7 +53,7 @@ public class Portfolio {
     @Column(nullable = false)
     private ESheetShape shape;
     @Enumerated(EnumType.STRING)
-    @Column(name="sheet_taset", nullable = false)
+    @Column(name="sheet_taste", nullable = false)
     private ESheetTaste sheetTaste;
     @Enumerated(EnumType.STRING)
     @Column(name="cream_taste", nullable = false)
