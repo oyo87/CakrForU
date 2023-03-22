@@ -21,11 +21,10 @@ public class SellerService {
     @Autowired
     SellerRepository sellerRepository;
 
-    public boolean saveSeller(SellerSaveRequestDto seller) {
+    public Long saveSeller(SellerSaveRequestDto seller) {
         if (sellerRepository.findByEmail(seller.getEmail()).isPresent())
             throw new BaseException(ErrorMessage.NOT_EXIST_EMAIL);
-        sellerRepository.save(seller.toEntity());
-        return true;
+        return sellerRepository.save(seller.toEntity()).getId();
     }
 
     public Map<String, Object> sellerLogin(SellerLoginDto login) throws Exception {

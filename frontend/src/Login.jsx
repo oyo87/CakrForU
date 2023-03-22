@@ -55,6 +55,20 @@ function Login() {
     height: 100%;
   `;
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const data = { id: e.target[0].value, password: e.target[1].value };
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/buyer/login`, data)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("access-token", response.data.body.token);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <LoginContainer>
       <ImageContainer>

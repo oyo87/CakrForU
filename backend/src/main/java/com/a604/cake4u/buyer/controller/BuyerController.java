@@ -1,19 +1,39 @@
 package com.a604.cake4u.buyer.controller;
 
+import com.a604.cake4u.auth.config.AppProperties;
+import com.a604.cake4u.auth.entity.AuthReqModel;
+import com.a604.cake4u.auth.entity.UserPrincipal;
+import com.a604.cake4u.auth.service.AuthToken;
+import com.a604.cake4u.auth.service.AuthTokenProvider;
+import com.a604.cake4u.auth.service.CustomUserDetailsService;
+import com.a604.cake4u.auth.util.CookieUtil;
 import com.a604.cake4u.buyer.dto.BuyerInfoDto;
-import com.a604.cake4u.buyer.dto.BuyerLoginDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
+import com.a604.cake4u.buyer.entity.Buyer;
+import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.buyer.service.BuyerService;
+import com.a604.cake4u.exception.BaseException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REFRESH_TOKEN;
 
 @Api("Buyer Controller")
 @RequiredArgsConstructor
@@ -22,6 +42,11 @@ import java.util.Map;
 public class BuyerController {
 
     private final BuyerService buyerService;
+    private final AppProperties appProperties;
+    private final AuthTokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final BuyerRepository buyerRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @ApiOperation(value = "회원가입", notes = "req_data : [email, password, nickname, gender, birthDate, phoneNumber]")
     @PostMapping("/signup")
@@ -46,23 +71,70 @@ public class BuyerController {
 
     @ApiOperation(value = "로그인", notes = "req_data : [email, password]")
     @PostMapping("/login")
-    public ResponseEntity<?> loginBuyer(@RequestBody BuyerLoginDto tryLoginDto) throws Exception {
-        //Todo; 토큰 받아올 것
-        Map<String, Object> info = buyerService.login(tryLoginDto);
-        Map<String, Object> responseResult = new HashMap<>();
+    public ResponseEntity<?> loginBuyer
+            (HttpServletRequest request,
+             HttpServletResponse response,
+             @RequestBody AuthReqModel authReqModel) {
+        try{
+            customUserDetailsService.loadUserByUsername(authReqModel.getId());
+        } catch(BaseException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
+        }
 
-        HttpStatus sts = HttpStatus.BAD_REQUEST;
+        Authentication authentication;
+        try{
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authReqModel.getId(),
+                            authReqModel.getPassword()
+                    )
+            );
+        } catch(BadCredentialsException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch(InternalAuthenticationServiceException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
 
-//        if (token != null) {
-            sts = HttpStatus.OK;
-            responseResult.put("result", true);
-            responseResult.put("msg", "로그인을 성공하였습니다.");
-//           responseResult.put("access-token", info.get("access-token"));
-//           responseResult.put("refresh-token", info.get("refresh-token"));
-//            responseResult.put("responseDto", info.get("buyer-response-dto"))
-//        }
+        String userId = authReqModel.getId();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return ResponseEntity.status(sts).body(responseResult);
+        Date now = new Date();
+        AuthToken accessToken = tokenProvider.createAuthToken(
+                userId,
+                ((UserPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
+                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())    // 만료 시점
+        );
+
+        // New refresh token
+        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+        AuthToken refreshToken = tokenProvider.createAuthToken(
+                appProperties.getAuth().getTokenSecret(),
+                new Date(now.getTime() + refreshTokenExpiry)
+        );
+
+        // userId refresh token 으로 DB 확인
+        Buyer buyer = buyerRepository.findByEmail(userId).orElse(null);
+        if (buyer == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        String userRefreshToken = buyer.getRefreshToken();
+        if (userRefreshToken == null) {
+            // 없는 경우 새로 등록
+            userRefreshToken = refreshToken.getToken();
+            buyer.setRefreshToken(userRefreshToken);
+            buyerRepository.saveAndFlush(buyer);
+        } else {
+            // DB에 refresh 토큰 업데이트
+            buyer.setRefreshToken(refreshToken.getToken());
+            buyerRepository.saveAndFlush(buyer);
+        }
+
+        int cookieMaxAge = (int) refreshTokenExpiry / 60;
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+
+        return ResponseEntity.status(HttpStatus.OK).body(accessToken.getToken());
+
     }
 
     @ApiOperation(value = "비밀번호 변경", notes = "req_data : [email, prePassword, newPassword]")
