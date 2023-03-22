@@ -1,6 +1,7 @@
 package com.a604.cake4u.seller.entity;
 
 import com.a604.cake4u.enums.EGender;
+import com.a604.cake4u.imagefile.entity.ImageFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Getter
 @Entity
@@ -85,4 +90,13 @@ public class Seller {
 
     @Column(nullable = false, length = 1000)
     private String businessDescription;
+
+    //  판매자에서 파일로 접근 가능하도록 참조자
+    @OneToMany(mappedBy = "seller", fetch = EAGER)
+    @Builder.Default
+    private List<ImageFile> imageFileList = new ArrayList<>();
+
+    public void addSellerImageFile(ImageFile imageFile) {
+        this.imageFileList.add(imageFile);
+    }
 }

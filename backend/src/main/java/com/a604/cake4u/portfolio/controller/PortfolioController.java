@@ -1,20 +1,27 @@
 package com.a604.cake4u.portfolio.controller;
 
+import com.a604.cake4u.enums.*;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
 import com.a604.cake4u.portfolio.dto.PortfolioUpdateDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.service.PortfolioService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -52,12 +59,26 @@ public class PortfolioController {
             "    private LocalDateTime createdAt\n" +
             "]")
     @PostMapping
-    public ResponseEntity<?> createPortfolio(@RequestBody PortfolioSaveDto portfolioSaveDto) {
+    public ResponseEntity<?> createPortfolio(
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestParam String portfolioSaveDtoString) {
+        ResponseEntity<?> ret = null;
+
         try {
             log.info("In createPortfolio");
-            log.info("portfolioSaveDto = " + portfolioSaveDto);
+            log.info("portfolioSaveDto = " + portfolioSaveDtoString);
 
-            Portfolio portfolio = portfolioService.uploadPortfolio(portfolioSaveDto);
+            JSONParser jsonParser = new JSONParser(portfolioSaveDtoString);
+            Object obj = jsonParser.parse();
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> map = mapper.convertValue(obj, Map.class);
+
+            log.info("map = " + map);
+
+            PortfolioSaveDto portfolioSaveDto = createSaveDto(map);
+            Portfolio portfolio = portfolioService.uploadPortfolio(portfolioSaveDto, files);
+
+            log.info("portfolioSaveDto : " + portfolioSaveDto);
 
             return new ResponseEntity<>(portfolio, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -163,5 +184,21 @@ public class PortfolioController {
     public ResponseEntity<List<PortfolioResponseDto>> getPortfolioFiltered(CakeFilter cakeFilter) {
         List<PortfolioResponseDto> portfolioList = portfolioService.findPortfolioCakeFilter(cakeFilter);
         return ResponseEntity.ok(portfolioList);
+    }
+
+    private PortfolioSaveDto createSaveDto(Map<String, Object> map) {
+        return PortfolioSaveDto.builder()
+                .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
+                .gender(EGender.valueOf(String.valueOf(map.get("gender"))))
+                .situation(ESituation.valueOf(String.valueOf(map.get("situation"))))
+                .ageGroup(Integer.parseInt(String.valueOf(map.get("ageGroup"))))
+                .size(ESheetSize.valueOf(String.valueOf(map.get("size"))))
+                .shape(ESheetShape.valueOf(String.valueOf(map.get("shape"))))
+                .color(EColor.valueOf(String.valueOf(map.get("color"))))
+                .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
+                .creamTaste(ECreamTaste.valueOf(String.valueOf(map.get("creamTaste"))))
+                .detail(String.valueOf(map.get("detail")))
+                .createdAt(LocalDateTime.parse(String.valueOf(map.get("createdAt")), DateTimeFormatter.ISO_DATE_TIME))
+                .build();
     }
 }

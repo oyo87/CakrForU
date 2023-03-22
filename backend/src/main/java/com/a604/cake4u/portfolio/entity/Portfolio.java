@@ -1,11 +1,16 @@
 package com.a604.cake4u.portfolio.entity;
 
 import com.a604.cake4u.enums.*;
+import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name="portfolio")
@@ -29,6 +34,11 @@ public class Portfolio {
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
+
+    //  주문서에서 포트폴리오로 접근 가능하도록 참조자
+    @OneToMany(mappedBy = "portfolio", fetch = EAGER)
+    @Builder.Default
+    private List<ImageFile> imageFileList = new ArrayList<>();
     @Column(nullable = false)
     private int hit;
     @Column(name = "created_at", nullable = false)
@@ -60,4 +70,7 @@ public class Portfolio {
     private ECreamTaste creamTaste;
     @Column(nullable = false)
     private String detail;
+    public void addPortfolioImageFile(ImageFile imageFile) {
+        this.imageFileList.add(imageFile);
+    }
 }

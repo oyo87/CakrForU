@@ -1,18 +1,16 @@
-package com.a604.cake4u.files.service;
+package com.a604.cake4u.imagefile.service;
 
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.entity.ImageFile;
-import com.a604.cake4u.files.handler.FileHandler;
-import com.a604.cake4u.files.repository.ImageFileRepository;
+import com.a604.cake4u.imagefile.entity.ImageFile;
+import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.util.List;
 
-import static com.a604.cake4u.exception.ErrorMessage.IMAGE_FILE_CANT_DELETE;
 import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR;
 
 @Service

@@ -1,7 +1,7 @@
 package com.a604.cake4u.orders.dto.response;
 
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.files.dto.ImageFileDto;
+import com.a604.cake4u.imagefile.dto.ImageFileDto;
 import lombok.*;
 
 import java.sql.Timestamp;

@@ -1,4 +1,4 @@
-package com.a604.cake4u.files.dto;
+package com.a604.cake4u.imagefile.dto;
 
 //@Getter
 //@Setter

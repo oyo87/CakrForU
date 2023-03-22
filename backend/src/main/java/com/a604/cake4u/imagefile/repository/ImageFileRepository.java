@@ -1,6 +1,6 @@
-package com.a604.cake4u.files.repository;
+package com.a604.cake4u.imagefile.repository;
 
-import com.a604.cake4u.files.entity.ImageFile;
+import com.a604.cake4u.imagefile.entity.ImageFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

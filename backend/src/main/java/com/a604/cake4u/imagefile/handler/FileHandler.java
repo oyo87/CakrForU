@@ -1,8 +1,8 @@
-package com.a604.cake4u.files.handler;
+package com.a604.cake4u.imagefile.handler;
 
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.entity.ImageFile;
-import com.a604.cake4u.files.repository.ImageFileRepository;
+import com.a604.cake4u.imagefile.entity.ImageFile;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.a604.cake4u.exception.ErrorMessage.IMAGE_FILE_CANT_DELETE;
 import static com.a604.cake4u.exception.ErrorMessage.NOT_CREATE_DIRECTORY;

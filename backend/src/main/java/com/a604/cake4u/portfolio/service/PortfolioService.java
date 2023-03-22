@@ -1,5 +1,10 @@
 package com.a604.cake4u.portfolio.service;
 
+import com.a604.cake4u.enums.EImageFileType;
+import com.a604.cake4u.exception.BaseException;
+import com.a604.cake4u.exception.ErrorMessage;
+import com.a604.cake4u.imagefile.entity.ImageFile;
+import com.a604.cake4u.imagefile.handler.FileHandler;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
@@ -14,8 +19,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -26,6 +33,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
 
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
+    private final FileHandler fileHandler;
     private final JPAQueryFactory queryFactory;
 
 //  querydsl=========================================================================
@@ -74,11 +82,29 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     //PortfolioFileDto 생성 필요 uri, name, type만 프론트에서 받으면 될듯
     //public void uploadPortfolio(PortfolioSaveDto portfolioSaveDto, PortfolioFileDto portfolioFileDto
 
-    public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto) {
+    public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
 //         dto를 portfolio table에 entity화 하여 저장
         Portfolio portfolio = portfolioSaveDtoToEntity(portfolioSaveDto);
-        return portfolioRepository.save(portfolio);
+        Seller seller = sellerRepository.findById(portfolio.getSeller().getId()).orElseThrow(() -> (new NoSuchElementException()));
+        portfolio.setSeller(seller);
 
+        try {
+            List<ImageFile> fileList = fileHandler.parseFileInfo(files);
+
+            //  파일이 존재하면 처리
+            if(!fileList.isEmpty()) {
+                for(ImageFile file : fileList) {
+                    //  파일을 DB에 저장
+                    file.setPortfolio(portfolio);
+                    portfolio.addPortfolioImageFile(file);
+                }
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+        } finally {
+            return portfolioRepository.save(portfolio);
+        }
 //         파일을 여기서 처리할지 파일처리하는 로직을 파일패키지에서 따로 할지
 //         방금 저장한 portfolio id를 불러와서
 //        long id = portfolio.getId();

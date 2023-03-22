@@ -2,7 +2,7 @@ package com.a604.cake4u.orders.controller;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.service.ImageFileService;
+import com.a604.cake4u.imagefile.service.ImageFileService;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
 import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
