@@ -51,14 +51,14 @@ class Portfolio(Base):
     gender = Column(String)
     hit = Column(Integer)
     shape = Column(String)
-    sheet
+    sheet_taste = Column(String)
+    situation = Column(String)
 
 @app.route("/db/<tid>")
 def db_conn(tid):
-    wishlists = Wishlist.query.all()
     answer = []
-    for wish in wishlists:
-        answer.append(wish.buyer_id)
+    for i in Wishlist.query.filter_by(buyer_id=tid).join(Portfolio, Wishlist.portfolio_id == Portfolio.id):
+        answer.append(i.portfolio_id)
     return jsonify(answer)
 
 if __name__ == "__main__" :
