@@ -8,11 +8,13 @@ import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
 import com.a604.cake4u.seller.dto.SellerUpdateDto;
 import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,5 +48,12 @@ public class SellerService {
 
     public void changeSellerInfo(SellerUpdateDto seller) {
         sellerRepository.save(seller.toEntity());
+    }
+
+    public List<SellerResponseDto> allSeller() {
+        return sellerRepository.AllSeller();
+    }
+    public List<SellerResponseDto> searchSeller(String dongCode) {
+        return sellerRepository.searchSeller(dongCode);
     }
 }
