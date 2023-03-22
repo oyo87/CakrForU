@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-const H7 = styled.div`
+const Hb7 = styled.div`
   font-size: ${(props) => {
     if (props.fontsize) {
       return props.fontsize;
     }
     return "20px";
   }};
-  font-weight: normal;
+  font-weight: bold;
   font-family: ${(props) => {
     if (props.font) {
       return props.font;
@@ -15,9 +15,9 @@ const H7 = styled.div`
     if (props.theme && props.theme.font) {
       return props.theme.font;
     }
-    return "NanumGothic";
+    return "Roboto";
   }};
   color: ${(props) => (props.color ? props.color : "black")};
 `;
 
-export default H7;
+export default Hb7;

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,15 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
             "from Seller s " +
             "where s.id=:sellerId")
     SellerResponseDto findSellerInfo(@Param("sellerId") Long sellerId);
+
+    @Query(value = "select new com.a604.cake4u.seller.dto.SellerResponseDto(s) " +
+            "from Seller s " +
+            "order by s.review_cnt desc")
+    List<SellerResponseDto> AllSeller();
+
+    @Query(value = "select new com.a604.cake4u.seller.dto.SellerResponseDto(s) " +
+            "from Seller s " +
+            "where s.dongCode =:dongCode " +
+            "order by s.review_cnt desc")
+    List<SellerResponseDto> searchSeller(@Param("dongCode") String dongCode);
 }

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="dong_code")
+@Table(name = "dong_code")
 @Setter
 @Getter
 public class DongCode {
