@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
 const Hb7 = styled.div`
-  font-size: 20px;
+  font-size: ${(props) => {
+    if (props.fontsize) {
+      return props.fontsize;
+    }
+    return "20px";
+  }};
   font-weight: bold;
   font-family: ${(props) => {
     if (props.font) {

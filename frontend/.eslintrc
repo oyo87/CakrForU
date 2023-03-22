@@ -3,6 +3,7 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/prop-types": 0
   },
   "env": {
     "browser": true,
