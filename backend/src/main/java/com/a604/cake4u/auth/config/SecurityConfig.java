@@ -1,6 +1,5 @@
 package com.a604.cake4u.auth.config;
 
-
 import com.a604.cake4u.auth.config.filter.TokenAuthenticationFilter;
 import com.a604.cake4u.auth.config.handler.OAuth2AuthenticationFailureHandler;
 import com.a604.cake4u.auth.config.handler.OAuth2AuthenticationSuccessHandler;
