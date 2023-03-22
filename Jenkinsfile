@@ -27,10 +27,22 @@ pipeline {
             }
         }
 
-        stage('Pull Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker pull fleur75/cakeforu'
+                    sh "docker build -t ${DOCKER_HUB_REPO}:latest ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    // Log in to Docker Hub using --password-stdin
+                    sh 'echo $DOCKER_HUB_CREDS_PSW | docker login -u $DOCKER_HUB_CREDS_USR --password-stdin $CONTAINER_REGISTRY'
+
+                    // Push the Docker image to Docker Hub
+                    sh "docker push ${DOCKER_HUB_REPO}:latest"
                 }
             }
         }
@@ -38,16 +50,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Log in to Docker Hub using --password-stdin
-                    sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin https://index.docker.io/v1/"
-
-                    // Push the Docker image to Docker Hub
-                    sh "docker push ${DOCKER_HUB_REPO}:latest"
-
-                    // SSH into the target server and deploy the new container
+                    // SSH into the target server, pull the image, and deploy the new container
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem ubuntu@3.34.141.245 <<-EOF
-
+                        ssh -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no ubuntu@3.34.141.245 <<-EOF
                         # Pull the Docker image from Docker Hub
                         docker pull ${DOCKER_HUB_REPO}:latest
 
@@ -56,8 +61,7 @@ pipeline {
 
                         # Run the new container using the pulled image
                         docker run -d --name cakeforu -p 80:80 ${DOCKER_HUB_REPO}:latest
-
-                        <<EOF
+EOF
                     """
                 }
             }
