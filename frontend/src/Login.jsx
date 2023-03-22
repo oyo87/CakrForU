@@ -81,7 +81,7 @@ function Login() {
           <Hb7 fontsize="30px">이메일</Hb7>
           <div style={{ flexGrow: 1 }} />
           <RadioButton name="userType" />
-          <H7>구매자</H7>
+          <H7>구매자2</H7>
           <GapW width="5px" />
           <RadioButton name="userType" />
           <H7>판매자</H7>
