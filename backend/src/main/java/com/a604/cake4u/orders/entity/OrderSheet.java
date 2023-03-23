@@ -55,16 +55,16 @@ public class OrderSheet {
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp createdAt;
 
-
-    @Column(nullable = false)
-    @Builder.Default
+    @Column(nullable = true)
     @ColumnDefault("0")
     private int price = 0;
 
-    @Column(name = "due_date", nullable = false)
+    //  입금 기한
+    @Column(name = "due_date", nullable = true)
     private LocalDate dueDate;
 
-    @Column(name = "pickup_date", nullable = false)
+    //  픽업 날짜
+    @Column(name = "pickup_date", nullable = true)
     private LocalDate pickUpDate;
 
 
