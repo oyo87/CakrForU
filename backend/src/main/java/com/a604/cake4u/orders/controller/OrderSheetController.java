@@ -2,7 +2,7 @@ package com.a604.cake4u.orders.controller;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.service.ImageFileService;
+import com.a604.cake4u.imagefile.service.ImageFileService;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
 import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
@@ -66,38 +66,38 @@ public class OrderSheetController {
     }
 
     @GetMapping("/{orderSheetId}")
-    public ResponseEntity<?> getOrderSheet(@PathVariable Long orderSheetId) {
+    public ResponseEntity<?> getOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
         OrderSheetResponseDto orderSheetResponseDto = orderSheetService.getOrderSheetByOrderSheetId(orderSheetId);
         return new ResponseEntity<>(orderSheetResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{buyerId}")
-    public ResponseEntity<?> getBuyerOrderSheet(@PathVariable Long buyerId) {
+    public ResponseEntity<?> getBuyerOrderSheet(@PathVariable(name = "buyerId") Long buyerId) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{sellerId}")
-    public ResponseEntity<?> getSellerOrderSheet(@PathVariable Long sellerId) {
+    public ResponseEntity<?> getSellerOrderSheet(@PathVariable(name = "sellerId") Long sellerId) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{buyerId}/{status}")
-    public ResponseEntity<?> getBuyerOrderSheetWithStatus(@PathVariable Long buyerId, @PathVariable String status) {
+    public ResponseEntity<?> getBuyerOrderSheetWithStatus(@PathVariable(name = "buyerId") Long buyerId, @PathVariable(name = "status")String status) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(buyerId, EStatus.valueOf(status));
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/{sellerId}/{status}")
-    public ResponseEntity<?> getSellerOrderSheetWithStatus(@PathVariable Long sellerId, @PathVariable String status) {
+    public ResponseEntity<?> getSellerOrderSheetWithStatus(@PathVariable(name = "sellerId") Long sellerId, @PathVariable(name = "status") String status) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(sellerId, EStatus.valueOf(status));
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
     @PutMapping("/{orderSheetId}")
     public ResponseEntity<?> registReview(
-            @PathVariable Long orderSheetId,
+            @PathVariable(name = "orderSheetId") Long orderSheetId,
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
         ResponseEntity<?> ret = null;
@@ -128,7 +128,7 @@ public class OrderSheetController {
     }
 
     @DeleteMapping("/{orderSheetId}")
-    public ResponseEntity<?> cancelOrderSheet(@PathVariable Long orderSheetId) {
+    public ResponseEntity<?> cancelOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
         //  주문서에 저장된 이미지 파일 전부 제거
         int deletedImages = imageFileService.deleteImageFilesByOrderSheetId(orderSheetId);
         //  DB에서 주문서 정보 삭제
@@ -140,12 +140,16 @@ public class OrderSheetController {
         return new ResponseEntity<>(sb, HttpStatus.OK);
     }
 
+    @PutMapping("/{orderSheetId}/update_status/{status}")
+    public ResponseEntity<?> updateStatus(@PathVariable(name = "orderSheetId") Long orderSheetId, @PathVariable(name = "status") String status) {
+        return new ResponseEntity<>("상태 업데이트 된 주문서 번호 : " + orderSheetService.updateStatus(orderSheetId, status) + "\n업데이트 상태 : " + status, HttpStatus.OK);
+    }
+
     private OrderSheetRegistVO createRegistVO(Map<String, Object> map) {
         return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
-                .status(EStatus.valueOf(String.valueOf(map.get("status"))))     //  String to Enum
-                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
+//                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
                 .price(Integer.parseInt("0"))
                 .dueDate(LocalDate.parse(String.valueOf(map.get("dueDate")), DateTimeFormatter.ISO_DATE))
                 .pickUpDate(LocalDate.parse(String.valueOf(map.get("pickUpDate")), DateTimeFormatter.ISO_DATE))

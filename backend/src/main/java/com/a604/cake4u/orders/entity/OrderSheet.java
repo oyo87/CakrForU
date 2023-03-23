@@ -2,7 +2,7 @@ package com.a604.cake4u.orders.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.files.entity.ImageFile;
+import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

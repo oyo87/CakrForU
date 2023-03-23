@@ -17,8 +17,7 @@ import java.time.LocalDate;
 public class OrderSheetRegistVO {
     private Long buyerId;   //  구매자 아이디(Buyer PK)
     private Long sellerId;  //  판매자 아이디(Seller PK)
-    private EStatus status; //  주문 상태
-    private Timestamp createdAt;    //  주문 생성 시각
+//    private Timestamp createdAt;    //  주문 생성 시각
     private int price = 0;  //  케이크 가격(주문 생성시에는 0으로 설정)
     private LocalDate dueDate;  //  입금 마감 기한
     private LocalDate pickUpDate;   //  픽업 기한

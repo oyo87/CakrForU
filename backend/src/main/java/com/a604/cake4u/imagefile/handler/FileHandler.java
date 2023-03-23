@@ -1,8 +1,8 @@
-package com.a604.cake4u.files.handler;
+package com.a604.cake4u.imagefile.handler;
 
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.files.entity.ImageFile;
-import com.a604.cake4u.files.repository.ImageFileRepository;
+import com.a604.cake4u.imagefile.entity.ImageFile;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.a604.cake4u.exception.ErrorMessage.IMAGE_FILE_CANT_DELETE;
 import static com.a604.cake4u.exception.ErrorMessage.NOT_CREATE_DIRECTORY;
@@ -39,9 +38,10 @@ public class FileHandler {
     public List<ImageFile> parseFileInfo(List<MultipartFile> multipartFileList) throws BaseException, IOException {
         //  반환할 파일 리스트
         List<ImageFile> retImageFileList = new ArrayList<>();
+        log.info("multipartFileList = " + multipartFileList);
 
         //  전달된 파일 리스트가 존재할 경우
-        if(Collections.isEmpty(multipartFileList)) {
+        if(!Collections.isEmpty(multipartFileList)) {
             //  파일명을 파일을 업로드한 날짜로 변환하여 저장
             LocalDateTime now = LocalDateTime.now();    //  현재 날짜
             String currentDate = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));   //  현재 날짜를 yyyyMMdd 꼴의 문자열로 변경
@@ -62,6 +62,7 @@ public class FileHandler {
 
             //  디렉토리
             File file = new File(directoryPath.toString());
+            log.info("file = " + file);
 
             //  해당 디렉토리가 존재하지 않을 경우
             if(!file.exists()) {
@@ -74,11 +75,13 @@ public class FileHandler {
                 }
             }
 
+            log.info("in multipartFileList");
             //  다중 파일 처리
             for(MultipartFile multipartFile : multipartFileList) {
                 //  파일 확장자 추출
                 String origFileExtension = null;
                 String contentType = multipartFile.getContentType();
+                log.info("multipartFile = " + multipartFile);
 
                 //  확장자명이 존재하지 않을 경우 해당 파일은 처리 x
                 if(ObjectUtils.isEmpty(contentType))

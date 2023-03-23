@@ -1,4 +1,4 @@
-package com.a604.cake4u.files.entity;
+package com.a604.cake4u.imagefile.entity;
 
 import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.orders.entity.OrderSheet;
