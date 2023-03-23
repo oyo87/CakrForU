@@ -21,12 +21,12 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
 
     @Query(value = "select new com.a604.cake4u.seller.dto.SellerResponseDto(s) " +
             "from Seller s " +
-            "order by s.review_cnt desc")
+            "order by s.averageScore desc")
     List<SellerResponseDto> AllSeller();
 
     @Query(value = "select new com.a604.cake4u.seller.dto.SellerResponseDto(s) " +
             "from Seller s " +
             "where s.dongCode =:dongCode " +
-            "order by s.review_cnt desc")
+            "order by s.averageScore desc")
     List<SellerResponseDto> searchSeller(@Param("dongCode") String dongCode);
 }
