@@ -5,7 +5,6 @@ import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.exception.BaseException;
-import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.dto.ImageFileDto;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.handler.FileHandler;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +55,9 @@ public class OrderSheetService {
         OrderSheet orderSheet = OrderSheet.builder()
                 .buyer(buyer)
                 .seller(seller)
-                .status(orderSheetRegistVO.getStatus())
-                .createdAt(orderSheetRegistVO.getCreatedAt())
+                .status(EStatus.REGISTRATION)
+//                .createdAt(orderSheetRegistVO.getCreatedAt())
+                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .price(orderSheetRegistVO.getPrice())
                 .dueDate(orderSheetRegistVO.getDueDate())
                 .pickUpDate(orderSheetRegistVO.getPickUpDate())
@@ -143,7 +144,8 @@ public class OrderSheetService {
         //  주문서에 해당하는 판매자 찾기
         Seller seller = orderSheet.getSeller();
         seller.setTotalScore(seller.getTotalScore() + orderSheetReviewVO.getReviewRating());    //  누적 점수 추가
-        seller.setReview_cnt(seller.getReview_cnt() + 1);                                       //  리뷰 개수 증가
+        seller.setReviewCnt(seller.getReviewCnt() + 1);                                         //  리뷰 개수 증가
+        seller.setAverageScore((double)seller.getTotalScore() / seller.getReviewCnt());         //  평점 재계산
 
         //  리뷰 관련 내용 등록
         orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());

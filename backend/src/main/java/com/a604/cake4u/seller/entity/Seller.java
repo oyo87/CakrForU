@@ -3,6 +3,7 @@ package com.a604.cake4u.seller.entity;
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -72,13 +73,17 @@ public class Seller {
     @Column(nullable = false, length = 1024)
     private String contact; //  문의 계정
 
-    @Builder.Default
-    @Column(nullable = false)
+    @ColumnDefault("0")
+    @Column(nullable = true)
     private int totalScore = 0 ;
 
-    @Builder.Default
-    @Column(nullable = false)
-    private int review_cnt = 0;
+    @ColumnDefault("0")
+    @Column(nullable = true)
+    private int reviewCnt = 0;
+
+    @ColumnDefault("0.0")
+    @Column(nullable = true)
+    private double averageScore;
 
     @Column(nullable = false, length = 100)
     private String account;

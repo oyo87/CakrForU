@@ -149,8 +149,7 @@ public class OrderSheetController {
         return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
-                .status(EStatus.valueOf(String.valueOf(map.get("status"))))     //  String to Enum
-                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
+//                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
                 .price(Integer.parseInt("0"))
                 .dueDate(LocalDate.parse(String.valueOf(map.get("dueDate")), DateTimeFormatter.ISO_DATE))
                 .pickUpDate(LocalDate.parse(String.valueOf(map.get("pickUpDate")), DateTimeFormatter.ISO_DATE))
