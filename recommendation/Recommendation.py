@@ -59,6 +59,8 @@ def db_conn(tid):
     for wish in Wishlist.query.all():
         raw.append([wish.buyer_id, wish.portfolio_id, 1.0])
     df_ratings = pd.DataFrame(raw, columns=['buyer_id', 'portfolio_id', 'values'])
+    if tid not in df_ratings.index:
+        return jsonify(list())
     pivot = df_ratings.pivot_table('values', index='buyer_id', columns='portfolio_id').fillna(0.0)
     ratings = np.mean(pivot.values, axis=1)
     ratings_mean = pivot.values - ratings.reshape(-1, 1)
