@@ -27,8 +27,8 @@ public class BuyerSaveRequestDto {
     @ApiParam(value="성별")
     private EGender gender;
 
-    @ApiParam(value="생일")
-    private LocalDate birthDate;
+    @ApiParam(value="연령대")
+    private int age;
 
     @ApiParam(value="핸드폰 번호")
     private String phoneNumber;
@@ -39,7 +39,7 @@ public class BuyerSaveRequestDto {
                 .password(this.password)
                 .nickname(this.nickname)
                 .gender(this.gender)
-                .birthDate(this.birthDate)
+                .age(this.age)
                 .phoneNumber(this.phoneNumber)
                 .build();
 

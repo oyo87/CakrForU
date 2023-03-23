@@ -80,6 +80,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .password(password)
                 .nickname(userInfo.getName())
                 .gender(gender)
+                .age(userInfo.getAge())
                 .providerType(providerType)
                 .build();
         return buyerRepository.saveAndFlush(buyer);

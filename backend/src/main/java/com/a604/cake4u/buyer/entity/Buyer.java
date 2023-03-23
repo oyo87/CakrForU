@@ -39,7 +39,7 @@ public class Buyer {
     private EGender gender;
 
     @Column
-    private LocalDate birthDate;
+    private int age;
 
     @Column(length = 12)
     private String phoneNumber;

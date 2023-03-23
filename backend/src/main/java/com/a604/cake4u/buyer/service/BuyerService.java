@@ -80,7 +80,7 @@ public class BuyerService {
         BuyerInfoDto buyerResponseDto = BuyerInfoDto.builder()
                 .nickname(buyer.get().getNickname())
                 .phoneNumber(buyer.get().getPhoneNumber())
-                .birthDate(buyer.get().getBirthDate())
+                .age(buyer.get().getAge())
                 .build();
 
         return buyerResponseDto;
@@ -91,7 +91,7 @@ public class BuyerService {
         Optional<Buyer> buyer = buyerRepository.findByEmail(buyerInfoDto.getEmail());
 
         buyer.get().setNickname(buyerInfoDto.getNickname());
-        buyer.get().setBirthDate(buyerInfoDto.getBirthDate());
+        buyer.get().setAge(buyerInfoDto.getAge());
         buyer.get().setPhoneNumber(buyerInfoDto.getPhoneNumber());
 
         buyerRepository.save(buyer.get());

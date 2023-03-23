@@ -43,7 +43,6 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
         return (String) response.get("email");
     }
 
-    @Override
     public String getImageUrl() {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
@@ -63,5 +62,16 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
         }
 
         return (String) response.get("gender");
+    }
+
+    @Override
+    public int getAge() {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        if (response == null) {
+            return 0;
+        }
+
+        return Integer.parseInt(((String) response.get("age")).split("-")[0]);
     }
 }
