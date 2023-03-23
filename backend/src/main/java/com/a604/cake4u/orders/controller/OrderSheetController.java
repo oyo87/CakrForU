@@ -34,6 +34,12 @@ public class OrderSheetController {
     private final OrderSheetService orderSheetService;
     private final ImageFileService imageFileService;
 
+    /**
+     * 
+     * @param files : 주문 등록 시 같이 등록할 사진 파일 리스트
+     * @param orderSheetRegistVOString : 주문서 내용
+     * @return
+     */
     @PostMapping
     public ResponseEntity<?> registOrderSheet(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
@@ -67,36 +73,13 @@ public class OrderSheetController {
         }
     }
 
-    @GetMapping("/{orderSheetId}")
-    public ResponseEntity<?> getOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
-        OrderSheetResponseDto orderSheetResponseDto = orderSheetService.getOrderSheetByOrderSheetId(orderSheetId);
-        return new ResponseEntity<>(orderSheetResponseDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/{buyerId}")
-    public ResponseEntity<?> getBuyerOrderSheet(@PathVariable(name = "buyerId") Long buyerId) {
-        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
-        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{sellerId}")
-    public ResponseEntity<?> getSellerOrderSheet(@PathVariable(name = "sellerId") Long sellerId) {
-        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
-        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{buyerId}/{status}")
-    public ResponseEntity<?> getBuyerOrderSheetWithStatus(@PathVariable(name = "buyerId") Long buyerId, @PathVariable(name = "status")String status) {
-        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(buyerId, EStatus.valueOf(status));
-        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
-    }
-
-    @GetMapping("/{sellerId}/{status}")
-    public ResponseEntity<?> getSellerOrderSheetWithStatus(@PathVariable(name = "sellerId") Long sellerId, @PathVariable(name = "status") String status) {
-        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(sellerId, EStatus.valueOf(status));
-        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
-    }
-
+    /**
+     * 
+     * @param orderSheetId : 리뷰 등록할 주문서 id
+     * @param files : 리뷰와 함께 등록할 사진 파일 리스트
+     * @param orderSheetReviewVOString : 리뷰 내용
+     * @return
+     */
     @PutMapping("/{orderSheetId}")
     public ResponseEntity<?> registReview(
             @PathVariable(name = "orderSheetId") Long orderSheetId,
@@ -145,6 +128,21 @@ public class OrderSheetController {
         }
     }
 
+    /**
+     * 
+     * @param orderSheetId
+     * @return
+     */
+    @PutMapping("/{orderSheetId}/send_estimation")
+    public ResponseEntity<?> sendEstimation(@PathVariable(name = "orderSheetId")Long orderSheetId) {
+        return null;
+    }
+
+    /**
+     *
+     * @param orderSheetId : 취소할 주문 id
+     * @return
+     */
     @DeleteMapping("/{orderSheetId}")
     public ResponseEntity<?> cancelOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
         //  주문서에 저장된 이미지 파일 전부 제거
@@ -158,6 +156,36 @@ public class OrderSheetController {
         return new ResponseEntity<>(sb, HttpStatus.OK);
     }
 
+    @GetMapping("/{orderSheetId}")
+    public ResponseEntity<?> getOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
+        OrderSheetResponseDto orderSheetResponseDto = orderSheetService.getOrderSheetByOrderSheetId(orderSheetId);
+        return new ResponseEntity<>(orderSheetResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{buyerId}")
+    public ResponseEntity<?> getBuyerOrderSheet(@PathVariable(name = "buyerId") Long buyerId) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{sellerId}")
+    public ResponseEntity<?> getSellerOrderSheet(@PathVariable(name = "sellerId") Long sellerId) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{buyerId}/{status}")
+    public ResponseEntity<?> getBuyerOrderSheetWithStatus(@PathVariable(name = "buyerId") Long buyerId, @PathVariable(name = "status")String status) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(buyerId, EStatus.valueOf(status));
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{sellerId}/{status}")
+    public ResponseEntity<?> getSellerOrderSheetWithStatus(@PathVariable(name = "sellerId") Long sellerId, @PathVariable(name = "status") String status) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getBuyerOrderSheetsByStatus(sellerId, EStatus.valueOf(status));
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
     @PutMapping("/{orderSheetId}/update_status/{status}")
     public ResponseEntity<?> updateStatus(@PathVariable(name = "orderSheetId") Long orderSheetId, @PathVariable(name = "status") String status) {
         return new ResponseEntity<>("상태 업데이트 된 주문서 번호 : " + orderSheetService.updateStatus(orderSheetId, status) + "\n업데이트 상태 : " + status, HttpStatus.OK);
@@ -167,10 +195,6 @@ public class OrderSheetController {
         return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
-//                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
-//                .price(Integer.parseInt("0"))
-//                .dueDate(LocalDate.parse(String.valueOf(map.get("dueDate")), DateTimeFormatter.ISO_DATE))
-//                .pickUpDate(LocalDate.parse(String.valueOf(map.get("pickUpDate")), DateTimeFormatter.ISO_DATE))
                 .sheetSize(ESheetSize.valueOf(String.valueOf(map.get("sheetSize"))))
                 .sheetShape(ESheetShape.valueOf(String.valueOf(map.get("sheetShape"))))
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
@@ -182,7 +206,6 @@ public class OrderSheetController {
     private OrderSheetReviewVO createReviewVO(Map<String, Object> map) {
         return OrderSheetReviewVO.builder()
                 .reviewContent(String.valueOf(map.get("reviewContent")))
-//                .reviewCreatedAt(Timestamp.valueOf(String.valueOf(map.get("reviewCreatedAt"))))
                 .reviewRating(Integer.parseInt(String.valueOf(map.get("reviewRating"))))
                 .build();
     }
