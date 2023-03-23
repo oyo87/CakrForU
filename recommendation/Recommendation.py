@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from scipy.sparse.linalg import svds
 
 # ORM
 from sqlalchemy import create_engine
@@ -6,11 +7,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
-# json to dictionary
-import json
-# sklearn 머신러닝 라이브러리
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+import numpy as np
+
 
 app = Flask(__name__)
 
@@ -56,10 +55,21 @@ class Portfolio(Base):
 
 @app.route("/db/<tid>")
 def db_conn(tid):
-    answer = []
-    for i in Wishlist.query.filter_by(buyer_id=tid).join(Portfolio, Wishlist.portfolio_id == Portfolio.id):
-        answer.append(i.portfolio_id)
-    return jsonify(answer)
+    raw = []
+    for wish in Wishlist.query.all():
+        raw.append([wish.buyer_id, wish.portfolio_id, 1.0])
+    df_ratings = pd.DataFrame(raw, columns=['buyer_id', 'portfolio_id', 'values'])
+    pivot = df_ratings.pivot_table('values', index='buyer_id', columns='portfolio_id').fillna(0.0)
+    ratings = np.mean(pivot.values, axis=1)
+    ratings_mean = pivot.values - ratings.reshape(-1, 1)
+
+    U, sigma, Vt = svds(ratings_mean, k=2)
+    svd_predicted_ratings = np.dot(np.dot(U, np.diag(sigma)), Vt) + ratings.reshape(-1, 1)
+    df_predicted = pd.DataFrame(svd_predicted_ratings, index=pivot.index, columns=pivot.columns)
+    tid = int(tid)
+    sorted_predictions = df_predicted.loc[tid].sort_values(ascending=False)
+    user_data = df_ratings[df_ratings.buyer_id == tid]['portfolio_id']
+    return jsonify(list(set(sorted_predictions.index) - set(user_data))[:5])
 
 if __name__ == "__main__" :
     # app.run(host='127.0.0.1', port=8080, debug=True)
