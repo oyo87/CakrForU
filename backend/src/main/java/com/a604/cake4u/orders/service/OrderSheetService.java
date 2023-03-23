@@ -140,6 +140,11 @@ public class OrderSheetService {
         //  PK로 리뷰 작성할 주문서 찾기
         OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
 
+        //  주문서에 해당하는 판매자 찾기
+        Seller seller = orderSheet.getSeller();
+        seller.setTotalScore(seller.getTotalScore() + orderSheetReviewVO.getReviewRating());    //  누적 점수 추가
+        seller.setReview_cnt(seller.getReview_cnt() + 1);                                       //  리뷰 개수 증가
+
         //  리뷰 관련 내용 등록
         orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());
         orderSheet.setReviewRating(orderSheetReviewVO.getReviewRating());

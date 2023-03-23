@@ -2,10 +2,7 @@ package com.a604.cake4u.seller.entity;
 
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.util.List;
 import static javax.persistence.FetchType.EAGER;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "seller")
 @Builder
