@@ -150,7 +150,8 @@ public class OrderSheetService {
         //  리뷰 관련 내용 등록
         orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());
         orderSheet.setReviewRating(orderSheetReviewVO.getReviewRating());
-        orderSheet.setCreatedAt(orderSheetReviewVO.getReviewCreatedAt());
+//        orderSheet.setCreatedAt(orderSheetReviewVO.getReviewCreatedAt());
+        orderSheet.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         try {
             List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);

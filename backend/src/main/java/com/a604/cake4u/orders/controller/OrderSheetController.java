@@ -102,13 +102,23 @@ public class OrderSheetController {
             @PathVariable(name = "orderSheetId") Long orderSheetId,
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
+        log.info("registReview!!!!!!!!");
+        log.info("orderSheetId = " + orderSheetId);
+
         ResponseEntity<?> ret = null;
+        log.info("ret = " + ret);
 
         try {
+            log.info("orderSheetReviewVOString = " + orderSheetReviewVOString);
             JSONParser jsonParser = new JSONParser(orderSheetReviewVOString);
+            log.info("1!!!!!");
             Object obj = jsonParser.parse();
+            log.info("obj = " + obj);
+            log.info("2!!!!!");
             ObjectMapper mapper = new ObjectMapper();
+            log.info("3!!!!!");
             Map<String, Object> map = mapper.convertValue(obj, Map.class);
+            log.info("4!!!!!");
 
             log.info("map : " + map);
             
@@ -117,14 +127,20 @@ public class OrderSheetController {
             log.info("OrderSheetReviewVO = " + orderSheetReviewVO);
 
             Long retId = orderSheetService.registReview(orderSheetId, files, orderSheetReviewVO);
+
+            log.info("retId = " + retId);
+
             ret = new ResponseEntity<>("리뷰 등록 성공", HttpStatus.OK);
         } catch(ParseException e) {
+            e.printStackTrace();
             ret = new ResponseEntity<>("리뷰 등록 실패, 리뷰 양식 에러", HttpStatus.BAD_REQUEST);
             throw new BaseException(ORDER_REVIEW_CLIENT_ERROR);
         } catch(Exception e) {
+            e.printStackTrace();
             ret = new ResponseEntity<>("리뷰 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
             throw new BaseException(ORDER_REVIEW_SERVER_ERROR);
         } finally {
+            log.info("종국엔 여기로 옴");
             return ret;
         }
     }
@@ -166,7 +182,7 @@ public class OrderSheetController {
     private OrderSheetReviewVO createReviewVO(Map<String, Object> map) {
         return OrderSheetReviewVO.builder()
                 .reviewContent(String.valueOf(map.get("reviewContent")))
-                .reviewCreatedAt(Timestamp.valueOf(String.valueOf(map.get("reviewCreatedAt"))))
+//                .reviewCreatedAt(Timestamp.valueOf(String.valueOf(map.get("reviewCreatedAt"))))
                 .reviewRating(Integer.parseInt(String.valueOf(map.get("reviewRating"))))
                 .build();
     }
