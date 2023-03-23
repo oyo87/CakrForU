@@ -34,6 +34,12 @@ public class OrderSheetController {
     private final OrderSheetService orderSheetService;
     private final ImageFileService imageFileService;
 
+    /**
+     * 
+     * @param files : 주문 등록 시 같이 등록할 사진 파일 리스트
+     * @param orderSheetRegistVOString : 주문서 내용
+     * @return
+     */
     @PostMapping
     public ResponseEntity<?> registOrderSheet(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
@@ -55,14 +61,99 @@ public class OrderSheetController {
             Long orderId = orderSheetService.registOrderSheet(files, orderSheetRegistVO);
             ret = new ResponseEntity<>("주문 등록 성공\n주문 번호 : " + orderId, HttpStatus.OK);
         } catch(ParseException e) { //  client가 요청을 잘못한 경우
+            e.printStackTrace();
             ret = new ResponseEntity<>("주문 등록 실패, 주문 양식 에러", HttpStatus.BAD_REQUEST);
             throw new BaseException(ORDER_SHEET_REGIST_CLIENT_ERROR);
         } catch(Exception e) {  //  server 문제인 경우
+            e.printStackTrace();
             ret = new ResponseEntity<>("주문 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
             throw new BaseException(ORDER_SHEET_REGIST_SERVER_ERROR);
         } finally {
             return ret;
         }
+    }
+
+    /**
+     * 
+     * @param orderSheetId : 리뷰 등록할 주문서 id
+     * @param files : 리뷰와 함께 등록할 사진 파일 리스트
+     * @param orderSheetReviewVOString : 리뷰 내용
+     * @return
+     */
+    @PutMapping("/{orderSheetId}")
+    public ResponseEntity<?> registReview(
+            @PathVariable(name = "orderSheetId") Long orderSheetId,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
+        log.info("registReview!!!!!!!!");
+        log.info("orderSheetId = " + orderSheetId);
+
+        ResponseEntity<?> ret = null;
+        log.info("ret = " + ret);
+
+        try {
+            log.info("orderSheetReviewVOString = " + orderSheetReviewVOString);
+            JSONParser jsonParser = new JSONParser(orderSheetReviewVOString);
+            log.info("1!!!!!");
+            Object obj = jsonParser.parse();
+            log.info("obj = " + obj);
+            log.info("2!!!!!");
+            ObjectMapper mapper = new ObjectMapper();
+            log.info("3!!!!!");
+            Map<String, Object> map = mapper.convertValue(obj, Map.class);
+            log.info("4!!!!!");
+
+            log.info("map : " + map);
+            
+            OrderSheetReviewVO orderSheetReviewVO = createReviewVO(map);
+
+            log.info("OrderSheetReviewVO = " + orderSheetReviewVO);
+
+            Long retId = orderSheetService.registReview(orderSheetId, files, orderSheetReviewVO);
+
+            log.info("retId = " + retId);
+
+            ret = new ResponseEntity<>("리뷰 등록 성공", HttpStatus.OK);
+        } catch(ParseException e) {
+            e.printStackTrace();
+            ret = new ResponseEntity<>("리뷰 등록 실패, 리뷰 양식 에러", HttpStatus.BAD_REQUEST);
+            throw new BaseException(ORDER_REVIEW_CLIENT_ERROR);
+        } catch(Exception e) {
+            e.printStackTrace();
+            ret = new ResponseEntity<>("리뷰 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new BaseException(ORDER_REVIEW_SERVER_ERROR);
+        } finally {
+            log.info("종국엔 여기로 옴");
+            return ret;
+        }
+    }
+
+    /**
+     * 
+     * @param orderSheetId
+     * @return
+     */
+    @PutMapping("/{orderSheetId}/send_estimation")
+    public ResponseEntity<?> sendEstimation(@PathVariable(name = "orderSheetId")Long orderSheetId) {
+        return null;
+    }
+
+    /**
+     *
+     * @param orderSheetId : 취소할 주문 id
+     * @return
+     */
+    @DeleteMapping("/{orderSheetId}")
+    public ResponseEntity<?> cancelOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
+        //  주문서에 저장된 이미지 파일 전부 제거
+        int deletedImages = imageFileService.deleteImageFilesByOrderSheetId(orderSheetId);
+        //  DB에서 주문서 정보 삭제
+        Long deletedOrderSheetId = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
+
+        StringBuilder sb = new StringBuilder("삭제된 이미지 개수 : ").append(deletedImages).append("\n")
+                .append("삭제된 주문서 id = ").append(deletedOrderSheetId).append("\n");
+
+        return new ResponseEntity<>(sb, HttpStatus.OK);
     }
 
     @GetMapping("/{orderSheetId}")
@@ -95,51 +186,6 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
-    @PutMapping("/{orderSheetId}")
-    public ResponseEntity<?> registReview(
-            @PathVariable(name = "orderSheetId") Long orderSheetId,
-            @RequestPart(value = "files", required = false) List<MultipartFile> files,
-            @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
-        ResponseEntity<?> ret = null;
-
-        try {
-            JSONParser jsonParser = new JSONParser(orderSheetReviewVOString);
-            Object obj = jsonParser.parse();
-            ObjectMapper mapper = new ObjectMapper();
-            Map<String, Object> map = mapper.convertValue(obj, Map.class);
-
-            log.info("map : " + map);
-            
-            OrderSheetReviewVO orderSheetReviewVO = createReviewVO(map);
-
-            log.info("OrderSheetReviewVO = " + orderSheetReviewVO);
-
-            Long retId = orderSheetService.registReview(orderSheetId, files, orderSheetReviewVO);
-            ret = new ResponseEntity<>("리뷰 등록 성공", HttpStatus.OK);
-        } catch(ParseException e) {
-            ret = new ResponseEntity<>("리뷰 등록 실패, 리뷰 양식 에러", HttpStatus.BAD_REQUEST);
-            throw new BaseException(ORDER_REVIEW_CLIENT_ERROR);
-        } catch(Exception e) {
-            ret = new ResponseEntity<>("리뷰 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
-            throw new BaseException(ORDER_REVIEW_SERVER_ERROR);
-        } finally {
-            return ret;
-        }
-    }
-
-    @DeleteMapping("/{orderSheetId}")
-    public ResponseEntity<?> cancelOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
-        //  주문서에 저장된 이미지 파일 전부 제거
-        int deletedImages = imageFileService.deleteImageFilesByOrderSheetId(orderSheetId);
-        //  DB에서 주문서 정보 삭제
-        Long deletedOrderSheetId = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
-
-        StringBuilder sb = new StringBuilder("삭제된 이미지 개수 : ").append(deletedImages).append("\n")
-                .append("삭제된 주문서 id = ").append(deletedOrderSheetId).append("\n");
-
-        return new ResponseEntity<>(sb, HttpStatus.OK);
-    }
-
     @PutMapping("/{orderSheetId}/update_status/{status}")
     public ResponseEntity<?> updateStatus(@PathVariable(name = "orderSheetId") Long orderSheetId, @PathVariable(name = "status") String status) {
         return new ResponseEntity<>("상태 업데이트 된 주문서 번호 : " + orderSheetService.updateStatus(orderSheetId, status) + "\n업데이트 상태 : " + status, HttpStatus.OK);
@@ -149,10 +195,6 @@ public class OrderSheetController {
         return OrderSheetRegistVO.builder()
                 .buyerId(Long.parseLong(String.valueOf(map.get("buyerId"))))
                 .sellerId(Long.parseLong(String.valueOf(map.get("sellerId"))))
-//                .createdAt(Timestamp.valueOf(String.valueOf(map.get("createdAt"))))
-                .price(Integer.parseInt("0"))
-                .dueDate(LocalDate.parse(String.valueOf(map.get("dueDate")), DateTimeFormatter.ISO_DATE))
-                .pickUpDate(LocalDate.parse(String.valueOf(map.get("pickUpDate")), DateTimeFormatter.ISO_DATE))
                 .sheetSize(ESheetSize.valueOf(String.valueOf(map.get("sheetSize"))))
                 .sheetShape(ESheetShape.valueOf(String.valueOf(map.get("sheetShape"))))
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
@@ -164,7 +206,6 @@ public class OrderSheetController {
     private OrderSheetReviewVO createReviewVO(Map<String, Object> map) {
         return OrderSheetReviewVO.builder()
                 .reviewContent(String.valueOf(map.get("reviewContent")))
-                .reviewCreatedAt(Timestamp.valueOf(String.valueOf(map.get("reviewCreatedAt"))))
                 .reviewRating(Integer.parseInt(String.valueOf(map.get("reviewRating"))))
                 .build();
     }

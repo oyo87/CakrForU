@@ -14,6 +14,6 @@ import java.sql.Timestamp;
 @ToString
 public class OrderSheetReviewVO {
     private String reviewContent;
-    private Timestamp reviewCreatedAt;
+//    private Timestamp reviewCreatedAt;
     private int reviewRating;
 }
