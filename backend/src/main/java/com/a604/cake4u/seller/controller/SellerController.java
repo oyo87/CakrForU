@@ -134,7 +134,7 @@ public class SellerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "모든 가게 조회(판매량순)")
+    @ApiOperation(value = "모든 가게 조회(리뷰 별점순)")
     @GetMapping("/seller/search/all")
     public ResponseEntity<?> searchAll() {
         List<SellerResponseDto> list = sellerService.allSeller();
@@ -144,7 +144,7 @@ public class SellerController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "지역 기반으로 가게 검색(판매량순)")
+    @ApiOperation(value = "지역 기반으로 가게 검색(리뷰 별점순)")
     @GetMapping("/seller/search/{dongCode}")
     public ResponseEntity<?> searchStore(@PathVariable String dongCode) {
         List<SellerResponseDto> list = sellerService.searchSeller(dongCode);
