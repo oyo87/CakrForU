@@ -1,14 +1,15 @@
 import pandas as pd
 import numpy as np
+from flask import jsonify
 from scipy.sparse.linalg import svds
 
-buyer_id = 10
+buyer_id = 3
 
 raw = [[1, 3, 1.0], [2, 6, 1.0], [3, 6, 1.0], [8, 5, 1.0], [3, 2, 1.0], [1, 6, 1.0], [3, 7, 1.0], [4, 2, 1.0], [8, 2, 1.0], [2, 3, 1.0]]
 df_ratings = pd.DataFrame(raw, columns=['buyer_id', 'portfolio_id', 'values'])
-if buyer_id not in df_ratings.index:
-    print("no!!!")
 pivot = df_ratings.pivot_table('values', index='buyer_id', columns='portfolio_id').fillna(0.0)
+if buyer_id not in pivot.index:
+    print("No")
 ratings = np.mean(pivot.values, axis=1)
 ratings_mean = pivot.values - ratings.reshape(-1,1)
 print(pivot)

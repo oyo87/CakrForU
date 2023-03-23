@@ -56,19 +56,19 @@ class Portfolio(Base):
 @app.route("/db/<tid>")
 def db_conn(tid):
     raw = []
+    tid = int(tid)
     for wish in Wishlist.query.all():
         raw.append([wish.buyer_id, wish.portfolio_id, 1.0])
     df_ratings = pd.DataFrame(raw, columns=['buyer_id', 'portfolio_id', 'values'])
-    if tid not in df_ratings.index:
-        return jsonify(list())
     pivot = df_ratings.pivot_table('values', index='buyer_id', columns='portfolio_id').fillna(0.0)
+    if tid not in pivot.index:
+        return jsonify(list())
     ratings = np.mean(pivot.values, axis=1)
     ratings_mean = pivot.values - ratings.reshape(-1, 1)
 
     U, sigma, Vt = svds(ratings_mean, k=2)
     svd_predicted_ratings = np.dot(np.dot(U, np.diag(sigma)), Vt) + ratings.reshape(-1, 1)
     df_predicted = pd.DataFrame(svd_predicted_ratings, index=pivot.index, columns=pivot.columns)
-    tid = int(tid)
     sorted_predictions = df_predicted.loc[tid].sort_values(ascending=False)
     user_data = df_ratings[df_ratings.buyer_id == tid]['portfolio_id']
     return jsonify(list(set(sorted_predictions.index) - set(user_data))[:5])
