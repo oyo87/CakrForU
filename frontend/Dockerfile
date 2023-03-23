@@ -5,7 +5,7 @@ FROM node:16.19.1 AS build
 WORKDIR /usr/src/app
 
 # Copy the entire frontend directory
-COPY frontend/ ./
+COPY . ./
 
 # Install any needed packages
 RUN npm ci
