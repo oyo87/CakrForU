@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.a604.cake4u.exception.ErrorMessage.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -43,9 +45,9 @@ public class OrderSheetService {
     public Long registOrderSheet(List<MultipartFile> files, OrderSheetRegistVO orderSheetRegistVO) {
         Long ret = -1L;
         //  구매자 Entity 찾아내기
-        Buyer buyer = buyerRepository.findById(orderSheetRegistVO.getBuyerId()).orElseThrow(() -> new BaseException(ErrorMessage.NO_BUYER_INFO));
+        Buyer buyer = buyerRepository.findById(orderSheetRegistVO.getBuyerId()).orElseThrow(() -> new BaseException(NO_BUYER_INFO));
         //  판매자 Entity 찾아내기
-        Seller seller = sellerRepository.findById(orderSheetRegistVO.getSellerId()).orElseThrow(() -> new BaseException(ErrorMessage.NO_SELLER_INFO));
+        Seller seller = sellerRepository.findById(orderSheetRegistVO.getSellerId()).orElseThrow(() -> new BaseException(NO_SELLER_INFO));
 
         log.info("buyer = " + buyer);
         log.info("seller = " + seller);
@@ -81,19 +83,19 @@ public class OrderSheetService {
             }
         } catch(IOException e) {
             e.printStackTrace();
-            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+            throw new BaseException(NOT_STORE_FILE);
         } finally {
             return ret;
         }
     }
 
     public OrderSheetResponseDto getOrderSheetByOrderSheetId(Long orderSheetId) throws BaseException {
-        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
         return entityToResponse(orderSheet);
     }
 
     public List<OrderSheetResponseDto> getOrderSheetsByBuyerId(Long buyerId) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetByBuyerId(buyerId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_BUYER_ID_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetByBuyerId(buyerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_BUYER_ID_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -103,7 +105,7 @@ public class OrderSheetService {
     }
 
     public List<OrderSheetResponseDto> getOrderSheetsBySellerId(Long sellerId) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetBySellerId(sellerId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_SELLER_ID_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetBySellerId(sellerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_SELLER_ID_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -112,7 +114,7 @@ public class OrderSheetService {
         return ret;
     }
     public List<OrderSheetResponseDto> getBuyerOrderSheetsByStatus(Long buyerId, EStatus status) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsByBuyer_IdAndStatus(buyerId, status).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_STATUS_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsByBuyer_IdAndStatus(buyerId, status).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -122,7 +124,7 @@ public class OrderSheetService {
     }
 
     public List<OrderSheetResponseDto> getSellerOrderSheetsByStatus(Long sellerId, EStatus status) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsBySeller_IdAndStatus(sellerId, status).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_STATUS_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsBySeller_IdAndStatus(sellerId, status).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -136,7 +138,7 @@ public class OrderSheetService {
         Long ret = -1L;
 
         //  PK로 리뷰 작성할 주문서 찾기
-        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
 
         //  리뷰 관련 내용 등록
         orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());
@@ -160,7 +162,7 @@ public class OrderSheetService {
             ret = orderSheetId;
         } catch(IOException e) {
             e.printStackTrace();
-            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+            throw new BaseException(NOT_STORE_FILE);
         } finally {
             return ret;
         }
@@ -169,6 +171,13 @@ public class OrderSheetService {
     @Transactional
     public Long deleteOrderSheetByOrderSheetId(Long orderSheetId) {
         orderSheetRepository.deleteById(orderSheetId);
+        return orderSheetId;
+    }
+
+    @Transactional
+    public Long updateStatus(Long orderSheetId, String status) {
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+        orderSheet.setStatus(EStatus.valueOf(status));
         return orderSheetId;
     }
 
