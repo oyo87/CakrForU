@@ -21,6 +21,6 @@ public class BuyerInfoDto {
     private String phoneNumber;
 
     @ApiParam(value="변경된 생일")
-    private LocalDate birthDate;
+    private int age;
 
 }

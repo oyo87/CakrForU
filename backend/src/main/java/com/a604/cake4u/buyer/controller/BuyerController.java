@@ -48,7 +48,7 @@ public class BuyerController {
     private final BuyerRepository buyerRepository;
     private final CustomUserDetailsService customUserDetailsService;
 
-    @ApiOperation(value = "회원가입", notes = "req_data : [email, password, nickname, gender, birthDate, phoneNumber]")
+    @ApiOperation(value = "회원가입", notes = "req_data : [email, password, nickname, gender, age, phoneNumber]")
     @PostMapping("/signup")
     public ResponseEntity<?> signUpBuyer(@RequestBody BuyerSaveRequestDto buyerSaveRequestDto){
 
@@ -165,7 +165,7 @@ public class BuyerController {
         return ResponseEntity.status(HttpStatus.OK).body(responseResult);
     }
 
-    @ApiOperation(value = "회원 정보 수정", notes = "req_data : [nickname, phonenumber, birthday]")
+    @ApiOperation(value = "회원 정보 수정", notes = "req_data : [nickname, phonenumber, age]")
     @PutMapping("/info")
     public ResponseEntity<?> changeInfo(@RequestBody BuyerInfoDto buyerInfoDto){
         buyerService.updateBuyerInfo(buyerInfoDto);

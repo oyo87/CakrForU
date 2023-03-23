@@ -199,7 +199,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     }
 
     //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
-    private Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto) throws NoSuchElementException {
+    public Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto) throws NoSuchElementException {
         Optional<Seller> sellerOptional = sellerRepository.findById(portfolioSaveDto.getSellerId());
         if (sellerOptional.isPresent()) {
             Seller seller = sellerOptional.get();
@@ -225,7 +225,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
 
 
     //포트폴리오 엔티티를 포트폴리오DTO로 변환
-    private PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {
+    public PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {
         return PortfolioResponseDto.builder().
                 id(portfolio.getId()).
                 sellerId(portfolio.getId()).
