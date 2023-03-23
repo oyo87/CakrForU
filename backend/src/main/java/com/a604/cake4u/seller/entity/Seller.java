@@ -4,6 +4,11 @@ import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import com.a604.cake4u.seller.dto.SellerResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +24,27 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+@SqlResultSetMapping(
+        name="SellerMapping",
+        classes = @ConstructorResult(
+                targetClass = SellerResponseDto.class,
+                columns = {
+                 @ColumnResult(name = "email", type = String.class),
+                 @ColumnResult(name = "road_address", type = String.class),
+                 @ColumnResult(name = "detailed_address", type = String.class),
+                 @ColumnResult(name= " building_name", type = String.class),
+                        @ColumnResult(name = "phone_number", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "business_number", type = String.class),
+                        @ColumnResult(name = "business_location", type= String.class),
+                        @ColumnResult(name = "business_name", type = String.class),
+                        @ColumnResult(name = "contact", type = String.class),
+                        @ColumnResult(name = "account", type = String.class),
+                        @ColumnResult(name = "business_description", type = String.class)
+                })
+)
+
 public class Seller {
     @SequenceGenerator(
             name="SELLER_SEQ_GEN",

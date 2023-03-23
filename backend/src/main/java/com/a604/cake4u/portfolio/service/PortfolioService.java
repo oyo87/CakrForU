@@ -44,8 +44,10 @@ public class PortfolioService implements PortfolioRepositoryCustom{
 
         QPortfolio portfolio = QPortfolio.portfolio;
 
-        BooleanExpression whereClause = portfolio.isNotNull();
+//      null 체크. CakeFilter 클래스의 각 필드에서 null 여부를 확인하고, 해당 필드에 대한 검색 조건이 있으면 whereClause에 추가
+        BooleanExpression whereClause = portfolio.isNotNull(); // where조건절
 
+        //and연산으로 선택한 핉터와 일치하는지 확인하는 조건을 추가
         if (cakeFilter.getSize() != null) {
             whereClause = whereClause.and(portfolio.size.eq(cakeFilter.getSize()));
         }

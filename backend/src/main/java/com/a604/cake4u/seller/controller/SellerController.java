@@ -134,6 +134,26 @@ public class SellerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "모든 가게 조회(판매량순)")
+    @GetMapping("/seller/search/all")
+    public ResponseEntity<?> searchAll() {
+        List<SellerResponseDto> list = sellerService.allSeller();
+        if (list != null)
+            return new ResponseEntity<List<SellerResponseDto>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @ApiOperation(value = "지역 기반으로 가게 검색(판매량순)")
+    @GetMapping("/seller/search/{dongCode}")
+    public ResponseEntity<?> searchStore(@PathVariable String dongCode) {
+        List<SellerResponseDto> list = sellerService.searchSeller(dongCode);
+        if (list != null)
+            return new ResponseEntity<List<SellerResponseDto>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     private SellerSaveRequestDto createSaveRequestDto(Map<String, Object> map) {
         return SellerSaveRequestDto.builder()
                 .email(String.valueOf(map.get("email")))
