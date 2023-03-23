@@ -4,11 +4,11 @@ COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
-COPY src/main/resources/application.yml src/main/resources/application.yml
 RUN chmod +x ./gradlew
 RUN ./gradlew bootjar
 
 FROM azul/zulu-openjdk-alpine:11.0.17
 COPY --from=builder build/libs/backend-0.0.1-SNAPSHOT.jar app.jar
+COPY /home/ubuntu/S08P22A604/backend/src/main/resources/application.yml src/main/resources/application.yml
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
