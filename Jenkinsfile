@@ -28,6 +28,12 @@ pipeline {
             }
         }
 
+        stage('Copy application.yml') {
+            steps {
+                sh 'cp /home/ubuntu/S08P22A604/backend/src/main/resources/application.yml ${WORKSPACE}/backend/src/main/resources/'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
