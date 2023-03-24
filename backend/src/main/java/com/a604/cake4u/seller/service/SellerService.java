@@ -15,6 +15,7 @@ import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class SellerService {
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
     private final FileHandler fileHandler;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
     public Long saveSeller(SellerSaveRequestDto sellerSaveRequestDto, List<MultipartFile> files) {
@@ -42,6 +44,7 @@ public class SellerService {
 
         try {
             List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            seller.setPassword(passwordEncoder.encode(sellerSaveRequestDto.getPassword()));
             ret = sellerRepository.save(seller).getId();
 
             //  파일이 존재하면 처리

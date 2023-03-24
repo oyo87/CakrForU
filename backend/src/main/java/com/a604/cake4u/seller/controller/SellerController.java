@@ -1,13 +1,21 @@
 package com.a604.cake4u.seller.controller;
 
+import com.a604.cake4u.auth.config.AppProperties;
+import com.a604.cake4u.auth.entity.AuthReqModel;
+import com.a604.cake4u.auth.entity.UserPrincipal;
+import com.a604.cake4u.auth.service.AuthToken;
+import com.a604.cake4u.auth.service.AuthTokenProvider;
+import com.a604.cake4u.auth.service.CustomUserDetailsService;
+import com.a604.cake4u.auth.util.CookieUtil;
 import com.a604.cake4u.creamtaste.dto.CreamTasteSaveRequestDto;
 import com.a604.cake4u.creamtaste.service.CreamTasteService;
-import com.a604.cake4u.enums.*;
-import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
-import com.a604.cake4u.seller.dto.SellerLoginDto;
+import com.a604.cake4u.enums.EGender;
+import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
 import com.a604.cake4u.seller.dto.SellerUpdateDto;
+import com.a604.cake4u.seller.entity.Seller;
+import com.a604.cake4u.seller.repository.SellerRepository;
 import com.a604.cake4u.seller.service.SellerService;
 import com.a604.cake4u.sheetshape.dto.SheetShapeSaveRequestDto;
 import com.a604.cake4u.sheetshape.service.SheetShapeService;
@@ -21,18 +29,27 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REFRESH_TOKEN;
 
 @RestController
 @Api(value = "SellerController")
@@ -40,21 +57,21 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/seller")
 public class SellerController {
-    @Autowired
-    private final SellerService sellerService;
-    @Autowired
-    private final SheetShapeService sheetShapeService;
-    @Autowired
-    private final SheetSizeService sheetSizeService;
-    @Autowired
-    private final SheetTasteService sheetTasteService;
-    @Autowired
-    private final CreamTasteService creamTasteService;
 
+    private final SellerRepository sellerRepository;
+    private final SellerService sellerService;
+    private final SheetShapeService sheetShapeService;
+    private final SheetSizeService sheetSizeService;
+    private final SheetTasteService sheetTasteService;
+    private final CreamTasteService creamTasteService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final AppProperties appProperties;
+    private final AuthTokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
 
     @ApiOperation(value = "판매자 회원가입")
-    @PostMapping("/new")
-    public ResponseEntity<?> newSeller(
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUpSeller(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "sellerSaveRequestDtoString") String sellerSaveRequestDtoString) {
         Long retId = -1L;
@@ -108,16 +125,70 @@ public class SellerController {
 
     @ApiOperation(value = "판매자 로그인")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody SellerLoginDto seller) throws Exception{
-            Map<String, Object> info = sellerService.sellerLogin(seller);
-            Map<String, Object> msg = new HashMap<>();
+    public ResponseEntity<?> loginSeller
+            (HttpServletRequest request,
+             HttpServletResponse response,
+             @RequestBody AuthReqModel authReqModel) {
+        try{
+            customUserDetailsService.loadUserByUsername(authReqModel.getId());
+        } catch(BaseException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
+        }
 
-            HttpStatus sts = HttpStatus.BAD_REQUEST;
+        Authentication authentication;
+        try{
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authReqModel.getId(),
+                            authReqModel.getPassword()
+                    )
+            );
+        } catch(BadCredentialsException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch(InternalAuthenticationServiceException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
 
-            sts = HttpStatus.OK;
-            msg.put("result", true);
-            msg.put("msg", "로그인을 성공하였습니다.");
-        return ResponseEntity.status(sts).body(msg);
+        String userId = authReqModel.getId();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        Date now = new Date();
+        AuthToken accessToken = tokenProvider.createAuthToken(
+                userId,
+                ((UserPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
+                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())    // 만료 시점
+        );
+
+        // New refresh token
+        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+        AuthToken refreshToken = tokenProvider.createAuthToken(
+                appProperties.getAuth().getTokenSecret(),
+                new Date(now.getTime() + refreshTokenExpiry)
+        );
+
+        // userId refresh token 으로 DB 확인
+        Seller seller = sellerRepository.findByEmail(userId).orElse(null);
+        if (seller == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        String userRefreshToken = seller.getRefreshToken();
+        if (userRefreshToken == null) {
+            // 없는 경우 새로 등록
+            userRefreshToken = refreshToken.getToken();
+            seller.setRefreshToken(userRefreshToken);
+            sellerRepository.saveAndFlush(seller);
+        } else {
+            // DB에 refresh 토큰 업데이트
+            seller.setRefreshToken(refreshToken.getToken());
+            sellerRepository.saveAndFlush(seller);
+        }
+
+        int cookieMaxAge = (int) refreshTokenExpiry / 60;
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+
+        return ResponseEntity.status(HttpStatus.OK).body(accessToken.getToken());
+
     }
 
     @ApiOperation(value = "판매자 정보 조회")

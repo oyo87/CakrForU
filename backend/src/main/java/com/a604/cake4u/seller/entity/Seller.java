@@ -59,7 +59,7 @@ public class Seller {
     @Column(unique = false, nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
