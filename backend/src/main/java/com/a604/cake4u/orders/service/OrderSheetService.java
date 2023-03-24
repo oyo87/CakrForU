@@ -9,6 +9,8 @@ import com.a604.cake4u.imagefile.dto.ImageFileDto;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.handler.FileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
+import com.a604.cake4u.mail.service.MailService;
+import com.a604.cake4u.orders.dto.request.OrderSheetMailVO;
 import com.a604.cake4u.orders.dto.request.OrderSheetRegistVO;
 import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
@@ -24,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,60 +39,12 @@ import static com.a604.cake4u.exception.ErrorMessage.*;
 @Transactional
 @Slf4j
 public class OrderSheetService {
+    private final MailService mailService;
     private final OrderSheetRepository orderSheetRepository;
     private final FileHandler fileHandler;
     private final ImageFileRepository imageFileRepository;
     private final BuyerRepository buyerRepository;      //  주문 등록 때 PK로 구매자 찾아야 함
     private final SellerRepository sellerRepository;    //  주문 등록 때 PK로 판매자 찾아야 함
-
-    @Transactional
-    public Long registOrderSheet(List<MultipartFile> files, OrderSheetRegistVO orderSheetRegistVO) {
-        Long ret = -1L;
-        //  구매자 Entity 찾아내기
-        Buyer buyer = buyerRepository.findById(orderSheetRegistVO.getBuyerId()).orElseThrow(() -> new BaseException(NO_BUYER_INFO));
-        //  판매자 Entity 찾아내기
-        Seller seller = sellerRepository.findById(orderSheetRegistVO.getSellerId()).orElseThrow(() -> new BaseException(NO_SELLER_INFO));
-
-        log.info("buyer = " + buyer);
-        log.info("seller = " + seller);
-
-        OrderSheet orderSheet = OrderSheet.builder()
-                .buyer(buyer)
-                .seller(seller)
-                .status(EStatus.REGISTRATION)
-//                .createdAt(orderSheetRegistVO.getCreatedAt())
-                .createdAt(new Timestamp(System.currentTimeMillis()))
-//                .price(orderSheetRegistVO.getPrice())
-//                .dueDate(orderSheetRegistVO.getDueDate())
-//                .pickUpDate(orderSheetRegistVO.getPickUpDate())
-                .sheetSize(orderSheetRegistVO.getSheetSize())
-                .sheetShape(orderSheetRegistVO.getSheetShape())
-                .sheetTaste(orderSheetRegistVO.getSheetTaste())
-                .creamTaste(orderSheetRegistVO.getCreamTaste())
-                .buyerMessage(orderSheetRegistVO.getBuyerMessage())
-                .build();
-
-        try {
-            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
-            ret = orderSheetRepository.save(orderSheet).getId();
-
-            //  파일이 존재하면 처리
-            if(!imageFileList.isEmpty()) {
-                for(ImageFile imageFile : imageFileList) {
-                    //  파일을 DB에 저장
-                    imageFile.setOrderSheet(orderSheet); //  사진에 주문서 등록
-                    imageFile.setImageFileType(EImageFileType.ORDERS_PICTURE);   //  사진 유형 등록
-                    orderSheet.addOrderSheetImageFile(imageFile); //  주문서에 사진 등록
-                    imageFileRepository.save(imageFile); //  파일을 DB에 등록
-                }
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
-            throw new BaseException(NOT_STORE_FILE);
-        } finally {
-            return ret;
-        }
-    }
 
     public OrderSheetResponseDto getOrderSheetByOrderSheetId(Long orderSheetId) throws BaseException {
         OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
@@ -134,6 +90,64 @@ public class OrderSheetService {
         return ret;
     }
 
+    /**
+     *
+     * @param files : 주문서에 등록할 이미지 파일 리스트
+     * @param orderSheetRegistVO : 주문서 내용 vo
+     * @return
+     */
+    @Transactional
+    public Long registOrderSheet(List<MultipartFile> files, OrderSheetRegistVO orderSheetRegistVO) {
+        Long ret = -1L;
+        //  구매자 Entity 찾아내기
+        Buyer buyer = buyerRepository.findById(orderSheetRegistVO.getBuyerId()).orElseThrow(() -> new BaseException(NO_BUYER_INFO));
+        //  판매자 Entity 찾아내기
+        Seller seller = sellerRepository.findById(orderSheetRegistVO.getSellerId()).orElseThrow(() -> new BaseException(NO_SELLER_INFO));
+
+        log.info("buyer = " + buyer);
+        log.info("seller = " + seller);
+
+        OrderSheet orderSheet = OrderSheet.builder()
+                .buyer(buyer)
+                .seller(seller)
+                .status(EStatus.REGISTRATION)
+                .createdAt(new Timestamp(System.currentTimeMillis()))
+                .sheetSize(orderSheetRegistVO.getSheetSize())
+                .sheetShape(orderSheetRegistVO.getSheetShape())
+                .sheetTaste(orderSheetRegistVO.getSheetTaste())
+                .creamTaste(orderSheetRegistVO.getCreamTaste())
+                .buyerMessage(orderSheetRegistVO.getBuyerMessage())
+                .build();
+
+        try {
+            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            ret = orderSheetRepository.save(orderSheet).getId();
+
+            //  파일이 존재하면 처리
+            if(!imageFileList.isEmpty()) {
+                for(ImageFile imageFile : imageFileList) {
+                    //  파일을 DB에 저장
+                    imageFile.setOrderSheet(orderSheet); //  사진에 주문서 등록
+                    imageFile.setImageFileType(EImageFileType.ORDERS_PICTURE);   //  사진 유형 등록
+                    orderSheet.addOrderSheetImageFile(imageFile); //  주문서에 사진 등록
+                    imageFileRepository.save(imageFile); //  파일을 DB에 등록
+                }
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+            throw new BaseException(NOT_STORE_FILE);
+        } finally {
+            return ret;
+        }
+    }
+
+    /**
+     * 
+     * @param orderSheetId : 리뷰 등록할 주문서 id
+     * @param files : 리뷰와 등록할 이미지 파일 리스트 
+     * @param orderSheetReviewVO : 리뷰 내용과, 별점
+     * @return
+     */
     @Transactional
     public Long registReview(Long orderSheetId, List<MultipartFile> files, OrderSheetReviewVO orderSheetReviewVO) {
         Long ret = -1L;
@@ -150,7 +164,6 @@ public class OrderSheetService {
         //  리뷰 관련 내용 등록
         orderSheet.setReviewContent(orderSheetReviewVO.getReviewContent());
         orderSheet.setReviewRating(orderSheetReviewVO.getReviewRating());
-//        orderSheet.setCreatedAt(orderSheetReviewVO.getReviewCreatedAt());
         orderSheet.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         try {
@@ -176,12 +189,47 @@ public class OrderSheetService {
         }
     }
 
+    /**
+     *
+     * @param orderSheetId : 삭제할 주문서 id
+     * @return
+     */
     @Transactional
     public Long deleteOrderSheetByOrderSheetId(Long orderSheetId) {
         orderSheetRepository.deleteById(orderSheetId);
         return orderSheetId;
     }
 
+    /**
+     *
+     * @param orderSheetId : 견적을 낼 주문서 id
+     * @param price : 견적으로 나온 케이크 가격
+     * @param dueDate : 입금 기한
+     * @return
+     */
+    public Long sendOrderSheetEstimate(Long orderSheetId, int price, LocalDate dueDate) {
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+        String buyerEmail = orderSheet.getBuyer().getEmail();
+        
+        //  주문서에 가격이랑 입금 날짜 업그레이드
+        orderSheet.setPrice(price);
+        orderSheet.setDueDate(dueDate);
+        
+        //  메일 전송 form 생성
+        OrderSheetMailVO orderSheetMailVO = OrderSheetMailVO.builder()
+                .price(price)
+                .dueDate(dueDate)
+                .build();
+        
+        return mailService.sendMail(orderSheetMailVO, buyerEmail);
+    }
+
+    /**
+     * 
+     * @param orderSheetId : 주문 상태 변경할 주문서 id
+     * @param status : 변경할 주문서 상태
+     * @return
+     */
     @Transactional
     public Long updateStatus(Long orderSheetId, String status) {
         OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
