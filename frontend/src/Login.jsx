@@ -55,20 +55,6 @@ function Login() {
     height: 100%;
   `;
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   const data = { id: e.target[0].value, password: e.target[1].value };
-  //   await axios
-  //     .post(`${process.env.REACT_APP_BACKEND_URL}/buyer/login`, data)
-  //     .then((response) => {
-  //       console.log(response);
-  //       localStorage.setItem("access-token", response.data.body.token);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   return (
     <LoginContainer>
       <ImageContainer>
@@ -100,10 +86,18 @@ function Login() {
         </Button>
         <GapH height="21px" />
         <Button width="100%" height="120px" background="#06BE34">
-          <FlexBox>
-            <img src={NaverIcon} alt="naver" />
-            <Hb7 color="white">네이버로 로그인하기</Hb7>
-          </FlexBox>
+          <a
+            href="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect"
+            style={{
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            <FlexBox>
+              <img src={NaverIcon} alt="naver" />
+              <Hb7 color="white">네이버로 로그인하기</Hb7>
+            </FlexBox>
+          </a>
         </Button>
         <GapH height="41px" />
         <HorizonBox
