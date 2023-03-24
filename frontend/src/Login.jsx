@@ -87,7 +87,7 @@ function Login() {
         <GapH height="21px" />
         <Button width="100%" height="120px" background="#06BE34">
           <a
-            href="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect"
+            href="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
             style={{
               color: "white",
               textDecoration: "none",
