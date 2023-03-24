@@ -214,6 +214,7 @@ public class OrderSheetService {
         //  주문서에 가격이랑 입금 날짜 업그레이드
         orderSheet.setPrice(price);
         orderSheet.setDueDate(dueDate);
+        updateStatus(orderSheetId, "SEND");
         
         //  메일 전송 form 생성
         OrderSheetMailVO orderSheetMailVO = OrderSheetMailVO.builder()
