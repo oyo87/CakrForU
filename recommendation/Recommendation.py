@@ -13,8 +13,8 @@ import numpy as np
 
 app = Flask(__name__)
 
-mysql_url = "mysql+pymysql://root:root@localhost:3306/c4u?charset=utf8"
-engine = create_engine(mysql_url, echo=True, convert_unicode=True)
+mysql_url = "mysql+pymysql://a604:a604ssafy@localhost:3306/C4U?charset=utf8"
+engine = create_engine(mysql_url, echo=True)
 
 # Declare & create Session
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -34,7 +34,7 @@ def teardownContext(exception):
     db_session.remove()
 
 class Wishlist(Base):
-    __tablename__ = 'WishList'
+    __tablename__ = 'wishlist'
 
     id = Column(Integer, primary_key=True)
     buyer_id = Column(Integer)
@@ -71,7 +71,7 @@ def db_conn(tid):
     df_predicted = pd.DataFrame(svd_predicted_ratings, index=pivot.index, columns=pivot.columns)
     sorted_predictions = df_predicted.loc[tid].sort_values(ascending=False)
     user_data = df_ratings[df_ratings.buyer_id == tid]['portfolio_id']
-    return jsonify(list(set(sorted_predictions.index) - set(user_data))[:5])
+    return jsonify(list(set(sorted_predictions.index) - set(user_data)))
 
 if __name__ == "__main__" :
     # app.run(host='127.0.0.1', port=8080, debug=True)
