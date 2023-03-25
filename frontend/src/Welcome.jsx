@@ -14,12 +14,13 @@ import TextContainer from "./components/TextContainer";
 import WelcomeCard from "./components/WelcomeCard";
 import WelcomMain from "./assets/img/welcome_main.png";
 import Welcome3d from "./assets/img/welcome_3d.png";
+import Welcome2d from "./assets/img/welcome_2d.png";
 
 function Welcome() {
   const [activeCard, setActiveCard] = useState(0);
   const cards = [
     {
-      title: "일메인페이지",
+      title: "메인페이지",
       content: `기념일을 위한 케이크를
 추천해드려요`,
       url: WelcomMain,
@@ -41,26 +42,36 @@ function Welcome() {
       color: "white",
     },
     {
-      title: "삼메인페이지3",
+      title: "메인페이지",
       content: `기념일을 위한 케이크를
 추천해드려요`,
       url: WelcomMain,
       width: "152px",
+      background: "#F6F1EE",
+      titleTop: "17.21%",
+      contentTop: "34.74%",
+      imgTop: "46.02%",
     },
     {
-      title: "사메인페이지4",
+      title: "메인페이지",
       content: `기념일을 위한 케이크를
 추천해드려요`,
       url: WelcomMain,
       width: "152px",
+      background: "#F6F1EE",
+      titleTop: "17.21%",
+      contentTop: "34.74%",
+      imgTop: "46.02%",
     },
     {
-      title: "오메인페이지5",
-      content: `기념일을 위한 케이크를
-추천해드려요`,
-      url: WelcomMain,
+      title: "케이크 DIY",
+      content: `케이크 디자인을 해볼까요?`,
+      url: Welcome2d,
       width: "152px",
       background: "#FBFBFB",
+      titleTop: "15.58%",
+      contentTop: "79.22%",
+      imgTop: "27.36%",
     },
   ];
 
