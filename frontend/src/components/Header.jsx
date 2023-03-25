@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import B5 from "./B5";
-import H7 from "./H7";
-import Button from "./Button";
+import BoldMedium from "./text/BoldMedium";
+import Small from "./text/Small";
+import Button1 from "./button/Button1";
 import LogoDog from "../assets/img/logo_dog.png";
+import GapW from "./GapW";
 
 // 사이트 헤더 컴포넌트
 function Header() {
   const HeaderContainer = styled.header`
     width: 100%;
-    height: 100px;
+    height: 60px;
     display: flex;
     border-bottom: 1px solid #e5e5e5;
   `;
@@ -46,19 +47,27 @@ function Header() {
   return (
     <HeaderContainer>
       <LogoSection>
-        <B5>CakeForU</B5>
-        <img src={LogoDog} alt="logo" />
+        <BoldMedium>CakeForU</BoldMedium>
+        <GapW width="10px" />
+        <img
+          src={LogoDog}
+          alt="logo"
+          style={{
+            height: "30px",
+          }}
+        />
       </LogoSection>
       <MenuSection>
-        <H7>케이크</H7>
-        <H7>가게</H7>
-        <H7>추천</H7>
+        <Small>케이크</Small>
+        <Small>가게</Small>
+        <Small>추천</Small>
+        <Small>리뷰</Small>
       </MenuSection>
       <LoginSection>
-        <H7>로그인</H7>
-        <Button width="219px" height="56px">
-          <H7 color="white">회원가입</H7>
-        </Button>
+        <Small>로그인</Small>
+        <Button1>
+          <Small color="white">회원가입</Small>
+        </Button1>
       </LoginSection>
     </HeaderContainer>
   );

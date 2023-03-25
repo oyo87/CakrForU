@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Home from "./Home";
-import Login from "./Login";
+import Welcome from "./Welcome";
+// import Login from "./Login";
 import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
 
@@ -16,10 +15,9 @@ function App() {
   `;
   return (
     <AppContainer>
-      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Welcome />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
       </Routes>
