@@ -15,6 +15,8 @@ import WelcomeCard from "./components/WelcomeCard";
 import WelcomMain from "./assets/img/welcome_main.png";
 import Welcome3d from "./assets/img/welcome_3d.png";
 import Welcome2d from "./assets/img/welcome_2d.png";
+import LeftButton from "./assets/img/left_button.png";
+import RightButton from "./assets/img/right_button.png";
 
 function Welcome() {
   const [activeCard, setActiveCard] = useState(0);
@@ -99,13 +101,12 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
       titleTop: "15.58%",
       contentTop: "79.22%",
       imgTop: "27.36%",
-      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
-추천 서비스를 이용할 수 있어요
+      rightContent: `원하는 케이크를 직접 꾸며보세요
 
 인기 케이크, 인기 가게를 확인하고 케이크를
 간편하게 주문할 수 있어요
 
-CAKE FOR U의 메인페이지로 이동합니다.`,
+2D 모델링 페이지로 이동합니다.`,
     },
   ];
 
@@ -171,13 +172,13 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 100%;
+    width: 55%;
   `;
 
   const Button = styled.button`
     position: absolute;
     z-index: 2;
-    ${(props) => (props.left ? "left: 16px;" : "right: 16px;")}
+    ${(props) => (props.left ? "left: -45px;" : "right: -45px;")}
     background-color: transparent;
     border: none;
     color: white;
@@ -203,7 +204,7 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
             <ColContainer width="50%" justify="end">
               <CardContainer>
                 <Button left onClick={() => handleButtonClick("left")}>
-                  {"<"}
+                  <img src={LeftButton} alt="left" />
                 </Button>
                 {cards.map((card, index) => (
                   <WelcomeCard
@@ -227,17 +228,19 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
                   />
                 ))}
                 <Button right onClick={() => handleButtonClick("right")}>
-                  {">"}
+                  <img src={RightButton} alt="right" />
                 </Button>
               </CardContainer>
               <GapW width="100px" />
             </ColContainer>
+            <ColContainer width="4.7%" />
             <ColContainer
-              width="50%"
+              width="45.3%"
               justify="start"
               align="start"
               direction="column"
             >
+              <GapH height="35px" />
               <BoldLarge>{cards[activeCard].title}</BoldLarge>
               <GapH height="20px" />
               <TextContainer>
