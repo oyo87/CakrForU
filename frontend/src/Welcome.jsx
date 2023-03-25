@@ -29,6 +29,13 @@ function Welcome() {
       titleTop: "17.21%",
       contentTop: "34.74%",
       imgTop: "46.02%",
+      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
+추천 서비스를 이용할 수 있어요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+CAKE FOR U의 메인페이지로 이동합니다.`,
     },
     {
       title: "3D 모델링",
@@ -40,6 +47,12 @@ function Welcome() {
       contentTop: "30.84%",
       imgTop: "39.55%",
       color: "white",
+      rightContent: `3D 모델링으로 자신만의 케이크를 만들어보세요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+3D 모델링 페이지로 이동합니다.`,
     },
     {
       title: "메인페이지",
@@ -51,6 +64,13 @@ function Welcome() {
       titleTop: "17.21%",
       contentTop: "34.74%",
       imgTop: "46.02%",
+      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
+추천 서비스를 이용할 수 있어요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+CAKE FOR U의 메인페이지로 이동합니다.`,
     },
     {
       title: "메인페이지",
@@ -62,6 +82,13 @@ function Welcome() {
       titleTop: "17.21%",
       contentTop: "34.74%",
       imgTop: "46.02%",
+      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
+추천 서비스를 이용할 수 있어요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+CAKE FOR U의 메인페이지로 이동합니다.`,
     },
     {
       title: "케이크 DIY",
@@ -72,6 +99,13 @@ function Welcome() {
       titleTop: "15.58%",
       contentTop: "79.22%",
       imgTop: "27.36%",
+      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
+추천 서비스를 이용할 수 있어요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+CAKE FOR U의 메인페이지로 이동합니다.`,
     },
   ];
 
@@ -167,14 +201,6 @@ function Welcome() {
           <GapH height="50px" />
           <RowContainer height="39%">
             <ColContainer width="50%" justify="end">
-              {/* <WelcomeCard
-                background="#f6f1ee"
-                title="메인페이지"
-                content={`기념일을 위한 케이크를
-추천해드려요`}
-                url={WelcomMain}
-                width="152px"
-              /> */}
               <CardContainer>
                 <Button left onClick={() => handleButtonClick("left")}>
                   {"<"}
@@ -212,18 +238,10 @@ function Welcome() {
               align="start"
               direction="column"
             >
-              <BoldLarge>메인 페이지</BoldLarge>
+              <BoldLarge>{cards[activeCard].title}</BoldLarge>
               <GapH height="20px" />
               <TextContainer>
-                <SmallMedium>
-                  {`기념일을 위해 어떤 케이크를 해야 할지 고민될 때
-추천 서비스를 이용할 수 있어요
-
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
-
-CAKE FOR U의 메인페이지로 이동합니다.`}
-                </SmallMedium>
+                <SmallMedium>{cards[activeCard].rightContent}</SmallMedium>
               </TextContainer>
             </ColContainer>
           </RowContainer>
