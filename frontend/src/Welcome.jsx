@@ -201,7 +201,7 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
           </RowContainer>
           <GapH height="50px" />
           <RowContainer height="39%">
-            <ColContainer width="50%" justify="end">
+            <ColContainer width="50%" justify="end" direction="auto">
               <CardContainer>
                 <Button left onClick={() => handleButtonClick("left")}>
                   <img src={LeftButton} alt="left" />

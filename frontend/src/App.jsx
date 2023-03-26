@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Routes, Route } from "react-router-dom";
 import Welcome from "./Welcome";
-// import Login from "./Login";
+import Login from "./Login";
 import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
 
@@ -17,7 +17,7 @@ function App() {
     <AppContainer>
       <Routes>
         <Route path="/" element={<Welcome />} />
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/login" element={<Login />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
       </Routes>
