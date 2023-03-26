@@ -7,7 +7,7 @@ import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
-import CTest from "./CTest";
+import CTest from "./components/BuyerCarousel";
 
 function App() {
   const AppContainer = styled.div`
