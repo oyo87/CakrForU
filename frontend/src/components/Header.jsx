@@ -43,6 +43,7 @@ function Header() {
     height: 60px;
     display: flex;
     border-bottom: 1px solid #e5e5e5;
+    background-color: white;
   `;
   const LogoSection = styled.div`
     width: 20%;
