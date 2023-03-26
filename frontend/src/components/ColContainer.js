@@ -7,6 +7,8 @@ const ColContainer = styled.div`
   flex-direction: ${(props) => props.direction || "column"};
   justify-content: ${(props) => props.justify || "center"};
   align-items: ${(props) => props.align || "center"};
+  background-color: ${(props) => props.background || "transparent"};
+  top: ${(props) => props.top || "0"};
 `;
 
 export default ColContainer;
