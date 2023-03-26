@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import LeftRightContainer from "./components/LeftRightContainer";
@@ -127,20 +128,17 @@ function SignUpBuyer() {
             <GapH height="20px" />
             <BoldSmall>간편 회원가입도 준비되어 있어요</BoldSmall>
             <GapH height="18px" />
-            <Button4 width="460px" background="#06BE34">
-              <a
-                href="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                }}
-              >
+            <Link
+              to="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button4 width="460px" background="#06BE34">
                 <FlexBox>
                   <img src={NaverIcon} alt="naver" />
                   <MediumSmall color="white">네이버로 로그인하기</MediumSmall>
                 </FlexBox>
-              </a>
-            </Button4>
+              </Button4>
+            </Link>
           </ColContainer>
         </RowContainer>
       </LeftRightContainer>
