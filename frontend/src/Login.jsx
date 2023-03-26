@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
@@ -15,6 +15,8 @@ import Header from "./components/Header";
 import ColContainer from "./components/ColContainer";
 
 function Login() {
+  const [selectedUserType, setSelectedUserType] = useState("buyer");
+
   const HorizonBox = styled.div`
     display: flex;
     justify-content: start;
@@ -45,10 +47,18 @@ function Login() {
           <HorizonBox gap="10px">
             <SmallMedium fontsize="30px">Email</SmallMedium>
             <div style={{ flexGrow: 1 }} />
-            <RadioButton name="userType" />
+            <RadioButton
+              name="userType"
+              onChange={() => setSelectedUserType("buyer")}
+              checked={selectedUserType === "buyer"}
+            />
             <Small>구매자</Small>
             <GapW width="5px" />
-            <RadioButton name="userType" />
+            <RadioButton
+              name="userType"
+              onChange={() => setSelectedUserType("seller")}
+              checked={selectedUserType === "seller"}
+            />
             <Small>판매자</Small>
           </HorizonBox>
           <Input width="100%" height="64px" />
@@ -61,21 +71,27 @@ function Login() {
           <Button4 width="100%" background="#FF9494">
             <SmallMedium color="white">로그인</SmallMedium>
           </Button4>
-          <GapH height="21px" />
-          <Button4 width="100%" background="#06BE34">
-            <a
-              href="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
-              style={{
-                color: "white",
-                textDecoration: "none",
-              }}
-            >
-              <FlexBox>
-                <img src={NaverIcon} alt="naver" />
-                <SmallMedium color="white">네이버로 로그인하기</SmallMedium>
-              </FlexBox>
-            </a>
-          </Button4>
+          {selectedUserType === "buyer" && (
+            <div>
+              <GapH height="21px" />
+            </div>
+          )}
+          {selectedUserType === "buyer" && (
+            <Button4 width="100%" background="#06BE34">
+              <a
+                href="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                }}
+              >
+                <FlexBox>
+                  <img src={NaverIcon} alt="naver" />
+                  <SmallMedium color="white">네이버로 로그인하기</SmallMedium>
+                </FlexBox>
+              </a>
+            </Button4>
+          )}
           <GapH height="20px" />
           <HorizonBox
             style={{
@@ -86,7 +102,12 @@ function Login() {
             <MediumSmall fontsize="18px" color="#9e9e9e">
               계정이 없으신가요?
             </MediumSmall>
-            <MediumSmall fontsize="18px">구매자 회원가입</MediumSmall>
+            {selectedUserType === "buyer" && (
+              <MediumSmall fontsize="18px">구매자 회원가입</MediumSmall>
+            )}
+            {selectedUserType === "seller" && (
+              <MediumSmall fontsize="18px">판매자 회원가입</MediumSmall>
+            )}
           </HorizonBox>
         </ColContainer>
       </UpDownContainer>

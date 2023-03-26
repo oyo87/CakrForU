@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
-const RadioButton = styled.input.attrs({ type: "radio" })`
+const RadioButton = styled.input.attrs((props) => ({
+  type: "radio",
+  name: props.name || null,
+  onChange: props.onChange || null,
+  checked: props.checked || false,
+}))`
   cursor: pointer;
   accent-color: #ff0000;
-  name: ${(props) => {
-    if (props.name) {
-      return props.name;
-    }
-    return null;
-  }};
 `;
 
 const Label = styled.label``;
