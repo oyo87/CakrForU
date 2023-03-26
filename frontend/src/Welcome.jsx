@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import WelcomeImg from "./assets/img/welcome.png";
@@ -19,6 +20,7 @@ import LeftButton from "./assets/img/left_button.png";
 import RightButton from "./assets/img/right_button.png";
 
 function Welcome() {
+  const navigate = useNavigate();
   const [activeCard, setActiveCard] = useState(0);
   const cards = [
     {
@@ -38,6 +40,7 @@ function Welcome() {
 간편하게 주문할 수 있어요
 
 CAKE FOR U의 메인페이지로 이동합니다.`,
+      link: "/main",
     },
     {
       title: "3D 모델링",
@@ -218,6 +221,8 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
                     contentTop={card.contentTop}
                     imgTop={card.imgTop}
                     color={card.color}
+                    onClick={() => navigate(card.link)}
+                    isActive={index === activeCard}
                     style={{
                       position: "absolute",
                       zIndex: index === activeCard ? 2 : 1,
