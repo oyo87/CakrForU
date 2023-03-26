@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
 import Input from "./components/Input";
@@ -103,10 +104,20 @@ function Login() {
               계정이 없으신가요?
             </MediumSmall>
             {selectedUserType === "buyer" && (
-              <MediumSmall fontsize="18px">구매자 회원가입</MediumSmall>
+              <Link
+                to="/signup/buyer"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <MediumSmall fontsize="18px">구매자 회원가입</MediumSmall>
+              </Link>
             )}
             {selectedUserType === "seller" && (
-              <MediumSmall fontsize="18px">판매자 회원가입</MediumSmall>
+              <Link
+                to="/signup/seller"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <MediumSmall fontsize="18px">판매자 회원가입</MediumSmall>
+              </Link>
             )}
           </HorizonBox>
         </ColContainer>
