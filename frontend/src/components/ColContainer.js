@@ -8,7 +8,7 @@ const ColContainer = styled.div`
   justify-content: ${(props) => props.justify || "center"};
   align-items: ${(props) => props.align || "center"};
   background-color: ${(props) => props.background || "transparent"};
-  top: ${(props) => props.top || "0"};
+  position: ${(props) => props.position || "static"};
 `;
 
 export default ColContainer;

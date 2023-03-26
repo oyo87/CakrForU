@@ -32,6 +32,7 @@ const Button3 = styled.button`
     return "none";
   }};
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 export default Button3;

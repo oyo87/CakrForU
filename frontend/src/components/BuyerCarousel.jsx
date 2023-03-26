@@ -60,7 +60,7 @@ function BuyerCarousel() {
   const items = cards.map((card) => {
     return (
       <ItemsContain>
-        <ColContainer width="450px">
+        <ColContainer width="448px">
           <RowContainer justify="start">
             <Medium>{card.title}</Medium>
           </RowContainer>
@@ -89,7 +89,7 @@ function BuyerCarousel() {
         mouseTracking
         infinite
         animationDuration={3000}
-        autoPlayInterval={3000}
+        autoPlayInterval={2000}
         disableDotsControls
         disableButtonsControls
         responsive={responsive}
