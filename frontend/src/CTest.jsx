@@ -2,40 +2,35 @@ import React from "react";
 import styled from "styled-components";
 import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
-import Welcome3d from "./assets/img/welcome_3d.png";
-import Welcome2d from "./assets/img/welcome_2d.png";
-import WelcomeMain from "./assets/img/welcome_main.png";
-import Blue from "./assets/img/blue.png";
-import Pink from "./assets/img/pink.png";
-import Candle from "./assets/img/candle.png";
+import Medium from "./components/text/Medium";
+import MediumSmall from "./components/text/MediumSmall";
 
 function CTest() {
   const Contain = styled.div`
-    width: 1000px;
-    height: 1000px;
+    width: 521px;
+    height: 354px;
     display: flex;
     align-items: center;
-    margin: 0 auto;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   `;
 
   const ItemsContain = styled.div`
-    width: 100%;
-    height: 100%;
-    padding: 0 10px;
+    width: 521px;
+    height: 521px;
   `;
 
   const ItemsWrap = styled.div`
     width: 100%;
-    height: 380px;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 0 20px;
+    height: 100%;
+    // border-radius: 20px;
+    // overflow: hidden;
+    // margin: 0 20px;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    // img {
+    //   width: 100%;
+    //   height: 100%;
+    //   object-fit: cover;
+    // }
   `;
 
   const responsive = {
@@ -47,16 +42,31 @@ function CTest() {
     },
   };
 
-  const handleDragStart = (e) => e.preventDefault();
+  // const handleDragStart = (e) => e.preventDefault();
 
-  const images = [Welcome3d, Welcome2d, WelcomeMain, Blue, Pink, Candle];
+  const cards = [
+    {
+      title: "ORDER",
+      content:
+        "회원이라면 누구나 판매자에게 직접 커스텀 케이크를 주문할 수 있어요",
+    },
+    {
+      title: "RECOMMEND",
+      content: "기념일, 성별, 연령 등 나에게 딱 맞는 케이크를 추천받아요.",
+    },
+    {
+      title: "CUSTOMIZE",
+      content:
+        "상상만 하던 케이크 디자인을 실현해보고 주문까지 한 번에 할 수 있어요",
+    },
+  ];
 
-  const items = images.map((image) => {
+  const items = cards.map((card) => {
     return (
       <ItemsContain>
         <ItemsWrap>
-          <img src={image} alt="" onDragStart={handleDragStart} />
-          <h1>hihi</h1>
+          <Medium>{card.title}</Medium>
+          <MediumSmall>{card.content}</MediumSmall>
         </ItemsWrap>
       </ItemsContain>
     );

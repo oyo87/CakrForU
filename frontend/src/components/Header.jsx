@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 import BoldMedium from "./text/BoldMedium";
 import Small from "./text/Small";
 import Button1 from "./button/Button1";
@@ -8,6 +9,12 @@ import GapW from "./GapW";
 
 // 사이트 헤더 컴포넌트
 function Header() {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate("/");
+  };
+
   const HeaderContainer = styled.header`
     width: 100%;
     height: 60px;
@@ -20,6 +27,12 @@ function Header() {
     display: flex;
     justify-content: center;
     align-items: center;
+  `;
+  const ClickSection = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   `;
   const MenuSection = styled.div`
     width: 53%;
@@ -47,15 +60,17 @@ function Header() {
   return (
     <HeaderContainer>
       <LogoSection>
-        <BoldMedium>CakeForU</BoldMedium>
-        <GapW width="10px" />
-        <img
-          src={LogoDog}
-          alt="logo"
-          style={{
-            height: "30px",
-          }}
-        />
+        <ClickSection onClick={handleLogoClick}>
+          <BoldMedium>CakeForU</BoldMedium>
+          <GapW width="10px" />
+          <img
+            src={LogoDog}
+            alt="logo"
+            style={{
+              height: "30px",
+            }}
+          />
+        </ClickSection>
       </LogoSection>
       <MenuSection>
         <Small>케이크</Small>
@@ -64,7 +79,9 @@ function Header() {
         <Small>리뷰</Small>
       </MenuSection>
       <LoginSection>
-        <Small>로그인</Small>
+        <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+          <Small>로그인</Small>
+        </Link>
         <Button1>
           <Small color="white">회원가입</Small>
         </Button1>
