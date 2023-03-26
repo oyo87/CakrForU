@@ -13,6 +13,7 @@ const Card = styled.div`
   position: relative;
   align-items: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: ${(props) => (props.isActive ? "pointer" : "default")};
 `;
 
 const CardImage = styled.img`
@@ -33,9 +34,16 @@ function WelcomeCard({
   contentTop,
   imgTop,
   color,
+  onClick,
+  isActive,
 }) {
   return (
-    <Card background={background} style={style}>
+    <Card
+      background={background}
+      style={style}
+      isActive={isActive}
+      onClick={isActive ? onClick : undefined}
+    >
       <BoldMedium
         style={{
           position: "absolute",
