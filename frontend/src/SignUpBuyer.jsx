@@ -14,6 +14,8 @@ import Button4 from "./components/button/Button4";
 import GapW from "./components/GapW";
 import Select from "./components/Select";
 import BoldMedium from "./components/text/BoldMedium";
+import BuyerCarousel from "./components/BuyerCarousel";
+import NaverIcon from "./assets/img/naver_icon.png";
 
 function SignUpBuyer() {
   const HorizonBox = styled.div`
@@ -22,6 +24,13 @@ function SignUpBuyer() {
     align-items: center;
     width: 539px;
     gap: ${(props) => props.gap || "0px"};
+  `;
+  const FlexBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   `;
   return (
     <div>
@@ -84,7 +93,21 @@ function SignUpBuyer() {
             </HorizonBox>
             <GapH height="10px" />
             <HorizonBox>
-              <Select width="201px" height="55px" options={["여성", "남성"]} />
+              <Select
+                width="201px"
+                height="55px"
+                options={[
+                  "010",
+                  "011",
+                  "012",
+                  "013",
+                  "015",
+                  "016",
+                  "017",
+                  "018",
+                  "019",
+                ]}
+              />
               <GapW width="11px" />
               <Input width="161px" height="55px" borderRadius="10px" />
               <GapW width="11px" />
@@ -99,9 +122,24 @@ function SignUpBuyer() {
           <ColContainer width="50%">
             <BoldMedium>나만의 케이크를 주문해보세요</BoldMedium>
             <BoldMedium color="#BE1E1E">Better Special Cake</BoldMedium>
+            <GapH height="28px" />
+            <BuyerCarousel />
+            <GapH height="20px" />
             <BoldSmall>간편 회원가입도 준비되어 있어요</BoldSmall>
-            <Button4>
-              <MediumSmall color="white">네이버로 로그인하기</MediumSmall>
+            <GapH height="18px" />
+            <Button4 width="460px" background="#06BE34">
+              <a
+                href="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                }}
+              >
+                <FlexBox>
+                  <img src={NaverIcon} alt="naver" />
+                  <MediumSmall color="white">네이버로 로그인하기</MediumSmall>
+                </FlexBox>
+              </a>
             </Button4>
           </ColContainer>
         </RowContainer>
