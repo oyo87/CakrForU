@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Home from "./Home";
+import Welcome from "./Welcome";
 import Login from "./Login";
+import Main from "./Main";
 import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
+import SignUpBuyer from "./SignUpBuyer";
+import SignUpSeller from "./SignUpSeller";
 
 function App() {
   const AppContainer = styled.div`
@@ -16,10 +18,12 @@ function App() {
   `;
   return (
     <AppContainer>
-      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup/buyer" element={<SignUpBuyer />} />
+        <Route path="/signup/seller" element={<SignUpSeller />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
       </Routes>

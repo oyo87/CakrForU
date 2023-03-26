@@ -1,11 +1,21 @@
 import styled from "styled-components";
 
-const Input = styled.input`
+const Input = styled.input.attrs((props) => ({
+  type: "text",
+  placeholder: props.placeholder || "",
+}))`
   width: ${(props) => props.width || "490px"};
   height: ${(props) => props.height || "58px"};
-  type: text;
-  placeholder: ${(props) => (props.placeholder ? props.placeholder : "")};
-  text-indent: 20px;
+  text-indent: ${(props) => (props.centerPlaceholder ? "0" : "20px")};
+  border: ${(props) => props.border || "1px solid #cccccc"};
+  border-radius: ${(props) => props.borderRadius || "0"};
+  text-align: ${(props) => (props.centerPlaceholder ? "center" : "inherit")};
+
+  &::placeholder {
+    color: ${(props) =>
+      props.placeholderColor ? props.placeholderColor : "#9E9E9E"};
+    text-align: ${(props) => (props.centerPlaceholder ? "center" : "inherit")};
+  }
 `;
 
 export default Input;

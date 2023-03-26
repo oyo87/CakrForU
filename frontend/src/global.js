@@ -1,4 +1,7 @@
 import { createGlobalStyle } from "styled-components";
+import NanumSquareR from "./fonts/NanumSquareR.ttf";
+import NanumSquareB from "./fonts/NanumSquareB.ttf";
+import NanumSquareEB from "./fonts/NanumSquareEB.ttf";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -12,8 +15,16 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
   @font-face {
-    font-family: 'Nanum GarMaesGeur';
-    src: url('./fonts/Nanum GarMaesGeur.ttf') format('truetype');
+    font-family: 'NanumSquareR';
+    src: url(${NanumSquareR}) format('truetype');
+  }
+  @font-face {
+    font-family: 'NanumSquareB';
+    src: url(${NanumSquareB}) format('truetype');
+  }
+  @font-face {
+    font-family: 'NanumSquareEB';
+    src: url(${NanumSquareEB}) format('truetype');
   }
 `;
 
