@@ -108,7 +108,9 @@ function Header() {
           </ClickSection>
         </LogoSection>
         <MenuSection>
-          <Small>케이크</Small>
+          <Link to="/main" style={{ textDecoration: "none", color: "inherit" }}>
+            <Small>케이크</Small>
+          </Link>
           <Small>가게</Small>
           <Small>추천</Small>
           <Small>리뷰</Small>
