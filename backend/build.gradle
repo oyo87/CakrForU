@@ -60,6 +60,7 @@ dependencies {
 
 	//  file upload dependency 추가
 	implementation 'commons-io:commons-io:2.6'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 //	//  spring security 의존성
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
