@@ -3,7 +3,7 @@ package com.a604.cake4u.portfolio.dto;
 import com.a604.cake4u.enums.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -39,6 +39,6 @@ public class PortfolioSaveDto {
 
     private String detail;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
 }

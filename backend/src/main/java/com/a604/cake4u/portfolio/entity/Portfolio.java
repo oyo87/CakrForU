@@ -6,7 +6,7 @@ import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,14 +35,14 @@ public class Portfolio {
     @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     private Seller seller;
 
-    //  주문서에서 포트폴리오로 접근 가능하도록 참조자
+    //  포트폴리오에서 파일로 접근 가능하도록 참조자
     @OneToMany(mappedBy = "portfolio", fetch = EAGER)
     @Builder.Default
     private List<ImageFile> imageFileList = new ArrayList<>();
     @Column(nullable = false)
     private int hit;
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

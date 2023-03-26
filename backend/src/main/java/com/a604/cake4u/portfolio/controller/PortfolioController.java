@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -61,7 +62,7 @@ public class PortfolioController {
     @PostMapping
     public ResponseEntity<?> createPortfolio(
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
-            @RequestParam String portfolioSaveDtoString) {
+            @RequestParam(value = "portfolioSaveDtoString") String portfolioSaveDtoString) {
         ResponseEntity<?> ret = null;
 
         try {
@@ -76,11 +77,11 @@ public class PortfolioController {
             log.info("map = " + map);
 
             PortfolioSaveDto portfolioSaveDto = createSaveDto(map);
-            Portfolio portfolio = portfolioService.uploadPortfolio(portfolioSaveDto, files);
+            Long portfolioId = portfolioService.uploadPortfolio(portfolioSaveDto, files);
 
             log.info("portfolioSaveDto : " + portfolioSaveDto);
 
-            return new ResponseEntity<>(portfolio, HttpStatus.CREATED);
+            return new ResponseEntity<>(portfolioId, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error creating portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error creating portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -198,7 +199,7 @@ public class PortfolioController {
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
                 .creamTaste(ECreamTaste.valueOf(String.valueOf(map.get("creamTaste"))))
                 .detail(String.valueOf(map.get("detail")))
-                .createdAt(LocalDateTime.parse(String.valueOf(map.get("createdAt")), DateTimeFormatter.ISO_DATE_TIME))
+                .createdAt(LocalDate.parse(String.valueOf(map.get("createdAt")), DateTimeFormatter.ISO_DATE))
                 .build();
     }
 }

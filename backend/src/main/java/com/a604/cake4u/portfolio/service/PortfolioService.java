@@ -19,17 +19,22 @@ import com.a604.cake4u.seller.repository.SellerRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static com.a604.cake4u.exception.ErrorMessage.NOT_STORE_FILE;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PortfolioService implements PortfolioRepositoryCustom{
 
     private final PortfolioRepository portfolioRepository;
@@ -87,37 +92,81 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     //public void uploadPortfolio(PortfolioSaveDto portfolioSaveDto, PortfolioFileDto portfolioFileDto
 
     @Transactional
-    public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
-//         dto를 portfolio table에 entity화 하여 저장
-        Portfolio portfolio = portfolioSaveDtoToEntity(portfolioSaveDto);
-        Seller seller = sellerRepository.findById(portfolio.getSeller().getId()).orElseThrow(() -> (new NoSuchElementException()));
-        portfolio.setSeller(seller);
+    public Long uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
+        Long ret = -1L;
+        //  Seller Entity 찾아내기
+        Seller seller = sellerRepository.findById(portfolioSaveDto.getSellerId()).orElseThrow(() -> new BaseException(ErrorMessage.NO_SELLER_INFO));
+        log.info("seller = " + seller);
+        
+        Portfolio portfolio = Portfolio.builder()
+                .seller(seller)
+                .gender(portfolioSaveDto.getGender())
+                .situation(portfolioSaveDto.getSituation())
+                .ageGroup(portfolioSaveDto.getAgeGroup())
+                .size(portfolioSaveDto.getSize())
+                .shape(portfolioSaveDto.getShape())
+                .color(portfolioSaveDto.getColor())
+                .sheetTaste(portfolioSaveDto.getSheetTaste())
+                .creamTaste(portfolioSaveDto.getCreamTaste())
+                .detail(portfolioSaveDto.getDetail())
+                .createdAt(portfolioSaveDto.getCreatedAt())
+                .hit(0)
+                .build();
 
         try {
             List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            ret = portfolioRepository.save(portfolio).getId();
 
             //  파일이 존재하면 처리
             if(!imageFileList.isEmpty()) {
                 for(ImageFile imageFile : imageFileList) {
                     //  파일을 DB에 저장
-                    imageFile.setPortfolio(portfolio);  //  사진에 포트폴리오 등록
-                    imageFile.setImageFileType(EImageFileType.PORTFOLIO_CAKE);  //  사진 유형 등록
+                    imageFile.setPortfolio(portfolio); //  사진에 포트폴리오 등록
+                    imageFile.setImageFileType(EImageFileType.PORTFOLIO_CAKE);   //  사진 유형 등록
                     portfolio.addPortfolioImageFile(imageFile); //  포트폴리오에 사진 등록
-                    imageFileRepository.save(imageFile);    //  파일을 DB에 저장
+                    imageFileRepository.save(imageFile); //  파일을 DB에 등록
                 }
             }
         } catch(IOException e) {
             e.printStackTrace();
-            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+            throw new BaseException(NOT_STORE_FILE);
         } finally {
-            return portfolioRepository.save(portfolio);
+            return ret;
         }
-//         파일을 여기서 처리할지 파일처리하는 로직을 파일패키지에서 따로 할지
-//         방금 저장한 portfolio id를 불러와서
-//        long id = portfolio.getId();
-//         file entity를 만들고 저장
-
     }
+
+//    @Transactional
+//    public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
+////         dto를 portfolio table에 entity화 하여 저장
+//        Portfolio portfolio = portfolioSaveDtoToEntity(portfolioSaveDto);
+////        Seller seller = sellerRepository.findById(portfolio.getSeller().getId()).orElseThrow(() -> (new NoSuchElementException()));
+////        portfolio.setSeller(seller);
+//
+//        try {
+//            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+//
+//            //  파일이 존재하면 처리
+//            if(!imageFileList.isEmpty()) {
+//                for(ImageFile imageFile : imageFileList) {
+//                    //  파일을 DB에 저장
+//                    imageFile.setPortfolio(portfolio);  //  사진에 포트폴리오 등록
+//                    imageFile.setImageFileType(EImageFileType.PORTFOLIO_CAKE);  //  사진 유형 등록
+//                    portfolio.addPortfolioImageFile(imageFile); //  포트폴리오에 사진 등록
+//                    imageFileRepository.save(imageFile);    //  파일을 DB에 저장
+//                }
+//            }
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
+//        } finally {
+//            return portfolioRepository.save(portfolio);
+//        }
+////         파일을 여기서 처리할지 파일처리하는 로직을 파일패키지에서 따로 할지
+////         방금 저장한 portfolio id를 불러와서
+////        long id = portfolio.getId();
+////         file entity를 만들고 저장
+//
+//    }
 
     //포트폴리오 하나 얻어오기
     public PortfolioResponseDto getPortfolio(Long id) {
@@ -206,7 +255,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
             return Portfolio.builder()
                     .seller(seller)
                     .hit(0)
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(LocalDate.now())
                     .gender(portfolioSaveDto.getGender())
                     .situation(portfolioSaveDto.getSituation())
                     .ageGroup(portfolioSaveDto.getAgeGroup())
