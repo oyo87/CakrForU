@@ -1,6 +1,7 @@
-package com.a604.cake4u.s3imagefile;
+package com.a604.cake4u.imagefile.handler;
 
 import com.a604.cake4u.exception.BaseException;
+import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.amazonaws.AmazonClientException;
@@ -13,21 +14,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class S3ImageFileUploadService {
+public class S3ImageFileHandler {
     //  버킷 이름 동적 할당
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -98,43 +96,6 @@ public class S3ImageFileUploadService {
         return retImageFileList;
     }
 
-    public String upload(MultipartFile uploadFile) throws IOException {
-        String origName = uploadFile.getOriginalFilename();
-        String url;
-
-        try {
-            //  확장자를 찾기 위한 코드
-            final String extension = origName.substring(origName.lastIndexOf('.'));
-            //  파일 이름 암호화
-            final String saveFileName = getUuid() + extension;
-
-            //  파일 객체 생성
-            //  System.getProperty => 시스템 환경에 대한 정보를 얻을 수 있다. (user.dir = 현재 작업 디렉토리)
-            File file = new File(System.getProperty("user.dir") + saveFileName);
-
-            //  파일 변환
-            uploadFile.transferTo(file);
-
-            //  S3 파일 업로드
-            uploadOnS3(saveFileName, file);
-
-            //  주소 할당
-            url = defaultUrl + saveFileName;
-
-            ImageFile imageFile = ImageFile.builder()
-                    .origImageFileName(origName)
-                    .imageFileUri(url)
-                    .build();
-
-            //  파일 삭제
-            file.delete();
-        } catch(StringIndexOutOfBoundsException e) {
-            url = null;
-        }
-
-        return url;
-    }
-
     private static String getUuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
@@ -155,6 +116,30 @@ public class S3ImageFileUploadService {
             log.error(amazonClientException.getMessage());
         } catch(InterruptedException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    public int deleteImageFiles(List<ImageFile> imageFileList) {
+        int ret = 0;
+
+        try {
+            ret= imageFileList.size();
+
+            for(ImageFile imageFile : imageFileList) {
+                String url = imageFile.getImageFileUri();
+
+                imageFileRepository.delete(imageFile);
+                //  파일이 존재할 경우
+                if(amazonS3Client.doesObjectExist(bucket, url)) {
+                    amazonS3Client.deleteObject(bucket, url);
+                } else {
+                    throw new BaseException(ErrorMessage.IMAGE_FILE_CANT_DELETE);
+                }
+            }
+        } catch (BaseException e) {
+            e.printStackTrace();
+        } finally {
+            return ret;
         }
     }
 }
