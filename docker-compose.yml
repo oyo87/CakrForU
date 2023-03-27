@@ -19,6 +19,18 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
     depends_on:
       - db
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: a604ssafy
+      MYSQL_DATABASE: C4U
+      MYSQL_USER: a604
+      MYSQL_PASSWORD: a604ssafy
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
   certbot:
     image: certbot/certbot
     command: certonly --webroot --webroot-path=/var/www/html --email <your-email-address> --agree-tos -d <your-domain-name>
