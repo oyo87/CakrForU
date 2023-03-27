@@ -70,7 +70,7 @@ pipeline {
                     // SSH into the target server and deploy the containers using Docker Compose
                     sh """
                         scp -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no docker-compose.yml ubuntu@3.34.141.245:./
-                        scp -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no data/nginx/app.conf ubuntu@3.34.141.245:./
+                        scp -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no data/nginx/app.conf ubuntu@3.34.141.245:./data/nginx/
                         ssh -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no ubuntu@3.34.141.245 <<-EOF
                             export DOCKER_HUB_REPO_FRONTEND=${DOCKER_HUB_REPO_FRONTEND}
                             export DOCKER_HUB_REPO_BACKEND=${DOCKER_HUB_REPO_BACKEND}
