@@ -16,6 +16,7 @@ import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
 import com.a604.cake4u.orders.entity.OrderSheet;
 import com.a604.cake4u.orders.repository.OrderSheetRepository;
+import com.a604.cake4u.s3imagefile.S3ImageFileUploadService;
 import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,8 @@ public class OrderSheetService {
     private final MailService mailService;
     private final OrderSheetRepository orderSheetRepository;
     private final FileHandler fileHandler;
+
+    private final S3ImageFileUploadService s3ImageFileUploadService;
     private final ImageFileRepository imageFileRepository;
     private final BuyerRepository buyerRepository;      //  주문 등록 때 PK로 구매자 찾아야 함
     private final SellerRepository sellerRepository;    //  주문 등록 때 PK로 판매자 찾아야 함
@@ -120,7 +123,8 @@ public class OrderSheetService {
                 .build();
 
         try {
-            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+//            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = s3ImageFileUploadService.parseFileInfo(files);
             ret = orderSheetRepository.save(orderSheet).getId();
 
             //  파일이 존재하면 처리
