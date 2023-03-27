@@ -1,20 +1,17 @@
 pipeline {
     agent any
-
+    
     environment {
-        // Replace with your Docker Hub username and repository name
         DOCKER_HUB_REPO_FRONTEND = 'fleur75/cakeforu'
         DOCKER_HUB_REPO_BACKEND = 'fleur75/cakeforuapi'
-        // Replace with the URL of your container registry
-        CONTAINER_REGISTRY = 'https://index.docker.io/v1/'
-        // Add the Docker Hub credentials
+        COMPOSE_PROJECT_NAME = 'cakeforu'
+        DOCKER_REGISTRY_URL = 'https://index.docker.io/v1/'
         DOCKER_HUB_CREDS = credentials('dockerhub-credentials')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your React app's source code from the Git repository
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/develop']],
                     doGenerateSubmoduleConfigurations: false,
@@ -34,32 +31,17 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and push Docker images') {
             steps {
                 script {
-                    // Build frontend image
-                    dir('frontend') {
-                        sh "docker build -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
+                    // Log in to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                        sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD} ${DOCKER_REGISTRY_URL}"
                     }
-                    // Build backend image
-                    dir('backend') {
-                        sh "docker build -t ${DOCKER_HUB_REPO_BACKEND}:latest ."
-                    }
-                }
-            }
-        }
 
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    // Log in to Docker Hub using --password-stdin
-                    sh 'echo $DOCKER_HUB_CREDS_PSW | docker login -u $DOCKER_HUB_CREDS_USR --password-stdin $CONTAINER_REGISTRY'
-
-                    // Push frontend Docker image to Docker Hub
-                    sh "docker push ${DOCKER_HUB_REPO_FRONTEND}:latest"
-
-                    // Push backend Docker image to Docker Hub
-                    sh "docker push ${DOCKER_HUB_REPO_BACKEND}:latest"
+                    // Build and push the Docker images for the frontend and backend
+                    sh "docker-compose build"
+                    sh "docker-compose push"
                 }
             }
         }
@@ -67,23 +49,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // SSH into the target server, pull the image, and deploy the new container
-                    sh """
-                        ssh -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no ubuntu@3.34.141.245 <<-EOF
-                        # Pull frontend Docker image from Docker Hub
-                        docker pull ${DOCKER_HUB_REPO_FRONTEND}:latest
-                        # Pull backend Docker image from Docker Hub
-                        docker pull ${DOCKER_HUB_REPO_BACKEND}:latest
-
-                        # Stop and remove the existing container (if any)
-                        docker rm -f cakeforu_frontend || true
-                        docker rm -f cakeforu_backend || true
-
-                        # Run the new container using the pulled image
-                        docker run -d --name cakeforu_frontend -p 80:80 -p 443:443 ${DOCKER_HUB_REPO_FRONTEND}:latest
-                        docker run -d --name cakeforu_backend -p 8080:8080 ${DOCKER_HUB_REPO_BACKEND}:latest
-EOF
-                    """
+                    // SSH into the target server and start the Docker Compose stack
+                    sshagent(credentials: ['jenkins-ssh-credentials']) {
+                        sh "ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem ubuntu@3.34.141.245 \"cd /home/ubuntu/S08P22A604 && docker-compose pull && docker-compose up -d\""
+                    }
                 }
             }
         }
