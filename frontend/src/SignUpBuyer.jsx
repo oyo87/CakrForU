@@ -42,7 +42,7 @@ function SignUpBuyer() {
         minHeight="calc(100vh - 60px)"
       >
         <RowContainer
-          width="74.7%"
+          width="1434px"
           boxShadow="0 0 20px 10px rgba(0, 0, 0, 0.15)"
           background="white"
         >

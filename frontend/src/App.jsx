@@ -8,6 +8,7 @@ import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
+import RecommendPersonal from "./RecommendPersonal";
 
 function App() {
   const AppContainer = styled.div`
@@ -26,6 +27,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
+        <Route path="/recommend/personal" element={<RecommendPersonal />} />
       </Routes>
     </AppContainer>
   );

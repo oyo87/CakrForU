@@ -112,7 +112,12 @@ function Header() {
             <Small>케이크</Small>
           </Link>
           <Small>가게</Small>
-          <Small>추천</Small>
+          <Link
+            to="/recommend"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Small>추천</Small>
+          </Link>
           <Small>리뷰</Small>
         </MenuSection>
         <LoginSection>

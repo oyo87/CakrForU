@@ -88,8 +88,8 @@ function BuyerCarousel() {
       <AliceCarousel
         mouseTracking
         infinite
-        animationDuration={3000}
-        autoPlayInterval={2000}
+        animationDuration={1000}
+        autoPlayInterval={1000}
         disableDotsControls
         disableButtonsControls
         responsive={responsive}

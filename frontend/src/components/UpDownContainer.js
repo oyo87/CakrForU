@@ -6,6 +6,7 @@ const UpDownContainer = styled.div`
   align-items: ${(props) => props.align || "auto"};
   justify-content: ${(props) => props.justify || "auto"};
   min-height: ${(props) => props.minHeight || "100vh"};
+  height: ${(props) => props.height || "auto"};
   background-color: ${(props) => props.background || "transparent"};
 `;
 

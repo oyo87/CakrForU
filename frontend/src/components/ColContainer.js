@@ -9,6 +9,7 @@ const ColContainer = styled.div`
   align-items: ${(props) => props.align || "center"};
   background-color: ${(props) => props.background || "transparent"};
   position: ${(props) => props.position || "static"};
+  gap: ${(props) => props.gap || "0"};
 `;
 
 export default ColContainer;
