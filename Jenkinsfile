@@ -80,8 +80,9 @@ pipeline {
                         docker rm -f cakeforu_backend || true
 
                         # Run the new container using the pulled image
-                        docker run -d --name cakeforu_frontend -p 80:80 ${DOCKER_HUB_REPO_FRONTEND}:latest
-                        docker run -d --name cakeforu_backend -p 8080:8080 ${DOCKER_HUB_REPO_BACKEND}:latest
+                        docker run -d --name cakeforu_frontend -p 80:80 -v /var/www/certbot:/var/www/certbot --network my_network ${DOCKER_HUB_REPO_FRONTEND}:latest
+                        docker run -d --name cakeforu_backend -p 8080:8080 --network my_network ${DOCKER_HUB_REPO_BACKEND}:latest
+
 EOF
                     """
                 }
