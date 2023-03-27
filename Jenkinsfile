@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         DOCKER_HUB_REPO_FRONTEND = 'fleur75/cakeforu'
         DOCKER_HUB_REPO_BACKEND = 'fleur75/cakeforuapi'
@@ -42,6 +42,14 @@ pipeline {
                     // Build and push the Docker images for the frontend and backend
                     sh "docker-compose build"
                     sh "docker-compose push"
+                }
+            }
+        }
+
+        stage('Copy docker-compose.yml') {
+            steps {
+                sshagent(credentials: ['jenkins-ssh-credentials']) {
+                    sh "scp -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem ./docker-compose.yml ubuntu@3.34.141.245:/home/ubuntu/S08P22A604/"
                 }
             }
         }
