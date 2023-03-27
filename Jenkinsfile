@@ -64,6 +64,13 @@ pipeline {
             }
         }
 
+        stage('Copy certificate files') {
+            steps {
+                sh 'mkdir -p ${WORKSPACE}/data'
+                sh 'cp -r /path/to/your/certificate/files/on/jenkins/server/* ${WORKSPACE}/data/'
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
