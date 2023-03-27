@@ -22,7 +22,7 @@ services:
       - webroot:/var/www/html
     environment:
       - CERTBOT_DOMAIN=j8a604.p.ssafy.io
-      - CERTBOT_STAGING=false
+      - CERTBOT_STAGING=true
   nginx:
     image: nginx:stable-alpine
     ports:
