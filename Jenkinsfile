@@ -67,7 +67,7 @@ pipeline {
         stage('Copy certificate files') {
             steps {
                 sh 'mkdir -p ${WORKSPACE}/data'
-                sh 'sudo cp -r /home/ubuntu/S08P22A604/data/certbot/conf/* ${WORKSPACE}/data/'
+                sh 'cp -r /home/ubuntu/S08P22A604/data/certbot/conf/* ${WORKSPACE}/data/'
             }
         }
 
