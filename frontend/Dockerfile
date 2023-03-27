@@ -3,7 +3,6 @@ FROM node:16.19.1 AS build
 
 # Set the working directory
 WORKDIR /usr/src/app
-VOLUME /var/www/certbot
 
 # Copy the entire frontend directory
 COPY . ./
