@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -106,13 +105,13 @@ public class PortfolioController {
     }
 
     // 모든 포트폴리오 얻기
-    @GetMapping
-    @ApiOperation(value = "전체 포트폴리오 조회")
-    public ResponseEntity<?> getAllPortfolios() {
+    @GetMapping("/list/{id}")
+    @ApiOperation(value = "페이징 포트폴리오 조회")
+    public ResponseEntity<?> getAllPortfolios(@PathVariable(value="id") int page) {
         try {
             log.info("In getAllPortfolios");
 
-            List<PortfolioResponseDto> portfolios = portfolioService.getAllPortfolios();
+            List<PortfolioResponseDto> portfolios = portfolioService.getAllPortfolios(page);
 
             return new ResponseEntity<>(portfolios, HttpStatus.OK);
         } catch (Exception e) {

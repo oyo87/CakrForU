@@ -21,6 +21,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -178,12 +181,13 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     }
 
     //전체 포트폴리오 가져오기
-    public List<PortfolioResponseDto> getAllPortfolios() {
+    public List<PortfolioResponseDto> getAllPortfolios(int page) {
 
-        List<Portfolio> portfolioList = portfolioRepository.findAll();
+        Page<Portfolio> portfolioList = portfolioRepository.findAll(PageRequest.of(page, 20, Sort.by("id").descending()));
+        List<Portfolio> portfolios = portfolioList.getContent();
         List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
 
-        for (Portfolio p : portfolioList) {
+        for (Portfolio p : portfolios) {
             portfolioDtos.add(portfolioEntityToPortfolioResponseDTO(p));
         }
         return portfolioDtos;
