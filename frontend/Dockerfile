@@ -21,7 +21,7 @@ FROM nginx:stable
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy the Let's Encrypt configuration files and certificates
-COPY /etc/letsencrypt /etc/letsencrypt
+COPY ./letsencrypt /etc/letsencrypt
 
 # Add custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d

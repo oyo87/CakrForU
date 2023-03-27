@@ -39,6 +39,8 @@ pipeline {
                 script {
                     // Build frontend image
                     dir('frontend') {
+                        // Copy the /etc/letsencrypt directory from the build system to the workspace
+                        sh 'cp -R /etc/letsencrypt .'
                         sh "docker build -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
                     }
                     // Build backend image
