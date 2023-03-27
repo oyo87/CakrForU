@@ -199,7 +199,7 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
         <MainContainer>
           <RowContainer height="22%" align="end">
             <BoldMedium>
-              당신의 소중한 하루를 완성해 줄 특별한 케이크2
+              당신의 소중한 하루를 완성해 줄 특별한 케이크
             </BoldMedium>
           </RowContainer>
           <GapH height="50px" />
