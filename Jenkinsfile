@@ -54,6 +54,15 @@ pipeline {
             }
         }
 
+        stage('Copy nginx folder') {
+            steps {
+                sshagent(credentials: ['jenkins-ssh-credentials']) {
+                    sh "scp -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/J8A604T.pem -r ./nginx ubuntu@3.34.141.245:/home/ubuntu/S08P22A604/"
+                }
+            }
+        }
+
+
         stage('Deploy') {
             steps {
                 script {

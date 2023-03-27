@@ -30,7 +30,8 @@ services:
       - "443:443"
     volumes:
       - certbot-certs:/etc/letsencrypt:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx-conf:/etc/nginx:ro
+      - webroot:/var/www/html
     depends_on:
       - frontend
       - certbot
@@ -39,3 +40,4 @@ volumes:
   certbot-certs:
   webroot:
   mysql_data:
+  nginx-conf:
