@@ -67,7 +67,7 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
+          steps {
                 script {
                     // SSH into the target server, pull the image, and deploy the new container
                     sh """
@@ -77,18 +77,27 @@ pipeline {
                         # Pull backend Docker image from Docker Hub
                         docker pull ${DOCKER_HUB_REPO_BACKEND}:latest
 
+                        # Create the 'my_network' network if it doesn't exist
+                        docker network create my_network || true
+
                         # Stop and remove the existing container (if any)
                         docker rm -f cakeforu_frontend || true
                         docker rm -f cakeforu_backend || true
 
-                        # Run the new container using the pulled image
-                        docker run -d --name cakeforu_frontend -p 80:80 -v /var/www/certbot:/var/www/certbot --network my_network ${DOCKER_HUB_REPO_FRONTEND}:latest
+                        # Run the new backend container using the pulled image
                         docker run -d --name cakeforu_backend -p 8080:8080 --network my_network ${DOCKER_HUB_REPO_BACKEND}:latest
+
+                        # Wait for 30 seconds to give the backend container enough time to start
+                        sleep 30
+
+                        # Run the new frontend container using the pulled image
+                        docker run -d --name cakeforu_frontend -p 80:80 -v /var/www/certbot:/var/www/certbot --network my_network ${DOCKER_HUB_REPO_FRONTEND}:latest
 
 EOF
                     """
                 }
             }
         }
+
     }
 }
