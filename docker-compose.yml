@@ -33,12 +33,12 @@ services:
       - "3306:3306"
   certbot:
     image: certbot/certbot
-    command: certonly --webroot --webroot-path=/var/www/html --email <your-email-address> --agree-tos -d <your-domain-name>
+    command: certonly --webroot --webroot-path=/var/www/html --email fleur75921@gmail.com --agree-tos -d j8a604.p.ssafy.io
     volumes:
       - certbot-certs:/etc/letsencrypt
       - webroot:/var/www/html
     environment:
-      - CERTBOT_DOMAIN=<your-domain-name>
+      - CERTBOT_DOMAIN=j8a604.p.ssafy.io
       - CERTBOT_STAGING=false
   nginx:
     image: nginx:stable-alpine
