@@ -35,6 +35,7 @@ services:
     depends_on:
       - frontend
       - certbot
+    command: /bin/sh -c "chmod -R 755 /etc/letsencrypt && nginx -g 'daemon off;'"
 
 volumes:
   certbot-certs:
