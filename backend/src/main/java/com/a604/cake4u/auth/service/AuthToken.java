@@ -1,10 +1,13 @@
 package com.a604.cake4u.auth.service;
 
 
+import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.buyer.service.BuyerService;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.security.Key;
 import java.util.Date;

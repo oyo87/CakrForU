@@ -17,6 +17,7 @@ import ColContainer from "./components/ColContainer";
 
 function Login() {
   const [selectedUserType, setSelectedUserType] = useState("buyer");
+  // const user = { nickname: "ssafy" };
 
   const HorizonBox = styled.div`
     display: flex;
@@ -79,7 +80,8 @@ function Login() {
           )}
           {selectedUserType === "buyer" && (
             <Link
-              to="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
+              // to="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
+              to="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect"
               style={{
                 textDecoration: "none",
                 color: "inherit",

@@ -1,4 +1,5 @@
 import React from "react";
+
 import Header from "./components/Header";
 import ColContainer from "./components/ColContainer";
 import Select from "./components/Select";
@@ -9,6 +10,11 @@ import RecommendSidebar from "./components/RecommendSidebar";
 import RowContainer from "./components/RowContainer";
 
 function RecommendPersonal() {
+  // const [recommendList, setRecommendList] = useState([]);
+  // recommendList, setRecommendList;
+  // useEffect(() => {
+  //   axios.get(`${process.env.REACT_APP_BACKEND_URL}/portfolio/list/` + 20);
+  // });
   return (
     <div>
       <Header />
