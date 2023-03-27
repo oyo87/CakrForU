@@ -1,0 +1,32 @@
+version: "3"
+services:
+  frontend:
+    image: ${DOCKER_HUB_REPO_FRONTEND}:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    image: ${DOCKER_HUB_REPO_BACKEND}:latest
+    ports:
+      - "8080:8080"
+
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot -d j8a604.p.ssafy.io -d www.j8a604.p.ssafy.io --email fleur75921@gmail.com --agree-tos --no-eff-email --keep-until-expiring
+    depends_on:
+      - frontend

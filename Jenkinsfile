@@ -67,21 +67,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // SSH into the target server, pull the image, and deploy the new container
+                    // SSH into the target server and deploy the containers using Docker Compose
                     sh """
+                        scp -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no docker-compose.yml ubuntu@3.34.141.245:./
                         ssh -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no ubuntu@3.34.141.245 <<-EOF
-                        # Pull frontend Docker image from Docker Hub
-                        docker pull ${DOCKER_HUB_REPO_FRONTEND}:latest
-                        # Pull backend Docker image from Docker Hub
-                        docker pull ${DOCKER_HUB_REPO_BACKEND}:latest
-
-                        # Stop and remove the existing container (if any)
-                        docker rm -f cakeforu_frontend || true
-                        docker rm -f cakeforu_backend || true
-
-                        # Run the new container using the pulled image
-                        docker run -d --name cakeforu_frontend -p 80:80 ${DOCKER_HUB_REPO_FRONTEND}:latest
-                        docker run -d --name cakeforu_backend -p 8080:8080 ${DOCKER_HUB_REPO_BACKEND}:latest
+                            export DOCKER_HUB_REPO_FRONTEND=${DOCKER_HUB_REPO_FRONTEND}
+                            export DOCKER_HUB_REPO_BACKEND=${DOCKER_HUB_REPO_BACKEND}
+                            docker-compose pull
+                            docker-compose down
+                            docker-compose up -d
 EOF
                     """
                 }
