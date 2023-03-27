@@ -73,7 +73,8 @@ pipeline {
                         ssh -i /var/lib/jenkins/.ssh/J8A604T.pem -o StrictHostKeyChecking=no ubuntu@3.34.141.245 <<-EOF
                             export DOCKER_HUB_REPO_FRONTEND=${DOCKER_HUB_REPO_FRONTEND}
                             export DOCKER_HUB_REPO_BACKEND=${DOCKER_HUB_REPO_BACKEND}
-                            docker-compose pull
+                            docker-compose pull ${DOCKER_HUB_REPO_FRONTEND}:latest
+                            docker-compose pull ${DOCKER_HUB_REPO_BACKEND}:latest
                             docker-compose down
                             docker-compose up -d
 EOF
