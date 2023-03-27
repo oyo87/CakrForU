@@ -7,7 +7,7 @@ import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.imagefile.dto.ImageFileDto;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.mail.service.MailService;
 import com.a604.cake4u.orders.dto.request.OrderSheetMailVO;
@@ -16,6 +16,7 @@ import com.a604.cake4u.orders.dto.request.OrderSheetReviewVO;
 import com.a604.cake4u.orders.dto.response.OrderSheetResponseDto;
 import com.a604.cake4u.orders.entity.OrderSheet;
 import com.a604.cake4u.orders.repository.OrderSheetRepository;
+import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +41,9 @@ import static com.a604.cake4u.exception.ErrorMessage.*;
 public class OrderSheetService {
     private final MailService mailService;
     private final OrderSheetRepository orderSheetRepository;
-    private final FileHandler fileHandler;
+    private final LocalFileHandler localFileHandler;
+
+    private final S3ImageFileHandler s3ImageFileHandler;
     private final ImageFileRepository imageFileRepository;
     private final BuyerRepository buyerRepository;      //  주문 등록 때 PK로 구매자 찾아야 함
     private final SellerRepository sellerRepository;    //  주문 등록 때 PK로 판매자 찾아야 함
@@ -120,7 +122,8 @@ public class OrderSheetService {
                 .build();
 
         try {
-            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+//            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = s3ImageFileHandler.parseFileInfo(files);
             ret = orderSheetRepository.save(orderSheet).getId();
 
             //  파일이 존재하면 처리
@@ -167,7 +170,7 @@ public class OrderSheetService {
         orderSheet.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         try {
-            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = s3ImageFileHandler.parseFileInfo(files);
 
             //  파일이 존재하면 처리
             if(!imageFileList.isEmpty()) {

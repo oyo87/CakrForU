@@ -129,7 +129,7 @@ public class OrderSheetController {
     }
 
     /**
-     *
+     *  https://web-dev.tistory.com/927
      * @param orderSheetId : 견적서 보낼 id
      * @param estimate : 견적서 내용 (Key : price, dueDate)
      * @return
@@ -138,8 +138,14 @@ public class OrderSheetController {
     public ResponseEntity<?> sendEstimation(
             @PathVariable(name = "orderSheetId")Long orderSheetId,
             @RequestBody Map<String, Object> estimate) {
+        log.info("sendEstimation!!!");
+
         int price = Integer.parseInt(String.valueOf(estimate.get("price")));
+        log.info("price = " + price);
+
         LocalDate dueDate = LocalDate.parse(String.valueOf(estimate.get("dueDate")), DateTimeFormatter.ISO_DATE);
+        log.info("dueDate = " + dueDate);
+
         Long send = orderSheetService.sendOrderSheetEstimate(orderSheetId, price, dueDate);
 
         return send == 1L ? new ResponseEntity<>("견적서 전송 성공", HttpStatus.OK) : new ResponseEntity<>("견적서 전송 실패", HttpStatus.BAD_REQUEST);

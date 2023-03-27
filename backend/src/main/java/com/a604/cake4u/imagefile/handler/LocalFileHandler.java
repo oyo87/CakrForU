@@ -23,7 +23,7 @@ import static com.a604.cake4u.exception.ErrorMessage.NOT_CREATE_DIRECTORY;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class FileHandler {
+public class LocalFileHandler {
     private String publicPath = "";
     private String webPath;
 
