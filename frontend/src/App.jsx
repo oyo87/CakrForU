@@ -8,6 +8,8 @@ import DragSize from "./DragSize";
 import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
+import MyPage from "./MyPage";
+import Testpage from "./Testpage";
 
 function App() {
   const AppContainer = styled.div`
@@ -24,6 +26,8 @@ function App() {
         <Route path="/signup/buyer" element={<SignUpBuyer />} />
         <Route path="/signup/seller" element={<SignUpSeller />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
       </Routes>
