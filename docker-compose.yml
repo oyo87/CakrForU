@@ -32,7 +32,7 @@ services:
       - certbot-certs:/etc/letsencrypt:ro
       - nginx-conf:/etc/nginx:ro
       - webroot:/var/www/letsencrypt
-      - /home/ubuntu/S08P22A604/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
+      - /home/ubuntu/S08P22A604/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro
     depends_on:
       - frontend
     command: /bin/sh -c "chmod -R 755 /etc/letsencrypt && nginx -g 'daemon off;'"
