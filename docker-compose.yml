@@ -16,10 +16,10 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
   certbot:
     image: certbot/certbot
-    command: certonly --webroot --webroot-path=/var/www/html --email fleur75921@gmail.com --agree-tos -d j8a604.p.ssafy.io
+    command: certonly --webroot --webroot-path=/var/www/letsencrypt --email fleur75921@gmail.com --agree-tos -d j8a604.p.ssafy.io
     volumes:
       - certbot-certs:/etc/letsencrypt
-      - webroot:/var/www/html
+      - webroot:/var/www/letsencrypt
     environment:
       - CERTBOT_DOMAIN=j8a604.p.ssafy.io
       - CERTBOT_STAGING=true
@@ -31,10 +31,9 @@ services:
     volumes:
       - certbot-certs:/etc/letsencrypt:ro
       - nginx-conf:/etc/nginx:ro
-      - webroot:/var/www/html
+      - webroot:/var/www/letsencrypt
     depends_on:
       - frontend
-      - certbot
     command: /bin/sh -c "chmod -R 755 /etc/letsencrypt && nginx -g 'daemon off;'"
 
 volumes:
