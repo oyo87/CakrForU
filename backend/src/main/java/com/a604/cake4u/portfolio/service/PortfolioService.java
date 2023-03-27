@@ -4,7 +4,7 @@ import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
@@ -14,6 +14,7 @@ import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.entity.QPortfolio;
 import com.a604.cake4u.portfolio.repository.PortfolioRepository;
 import com.a604.cake4u.portfolio.repository.PortfolioRepositoryCustom;
+import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.a604.cake4u.exception.ErrorMessage.NOT_STORE_FILE;
@@ -43,7 +43,8 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
-    private final FileHandler fileHandler;
+    private final LocalFileHandler localFileHandler;
+    private final S3ImageFileHandler s3ImageFileHandler;
     private final JPAQueryFactory queryFactory;
 
 //  querydsl=========================================================================
@@ -117,7 +118,8 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 .build();
 
         try {
-            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
+//            List<ImageFile> imageFileList = localFileHandler.parseFileInfo(files);
+            List<ImageFile> imageFileList = s3ImageFileHandler.parseFileInfo(files);
             ret = portfolioRepository.save(portfolio).getId();
 
             //  파일이 존재하면 처리

@@ -2,8 +2,9 @@ package com.a604.cake4u.imagefile.service;
 
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.FileHandler;
+import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
+import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,8 @@ import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SH
 @Slf4j
 public class ImageFileService {
     private final ImageFileRepository imageFileRepository;
-    private final FileHandler fileHandler;
+    private final LocalFileHandler localFileHandler;
+    private final S3ImageFileHandler s3ImageFileHandler;
 
     /**
      *
@@ -44,7 +46,8 @@ public class ImageFileService {
         try {
             List<ImageFile> imageFileList = imageFileRepository.findAllByOrderSheet_OrderSheetId(orderSheetId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
-            ret = fileHandler.deleteImageFiles(imageFileList);
+//            ret = fileHandler.deleteImageFiles(imageFileList);
+            ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -64,7 +67,8 @@ public class ImageFileService {
         try {
             List<ImageFile> imageFileList = imageFileRepository.findAllByPortfolio_PortfolioId(portfolioId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
-            ret = fileHandler.deleteImageFiles(imageFileList);
+//            ret = fileHandler.deleteImageFiles(imageFileList);
+            ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -84,7 +88,8 @@ public class ImageFileService {
         try {
             List<ImageFile> imageFileList = imageFileRepository.findAllBySeller_SellerId(sellerId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
-            ret = fileHandler.deleteImageFiles(imageFileList);
+//            ret = fileHandler.deleteImageFiles(imageFileList);
+            ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
