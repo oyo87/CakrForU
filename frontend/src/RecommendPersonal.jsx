@@ -1,13 +1,13 @@
 import React from "react";
 
 import Header from "./components/Header";
-import ColContainer from "./components/ColContainer";
+import ColContainer from "./components/layout/ColContainer";
 import Select from "./components/Select";
-import GapW from "./components/GapW";
+import GapW from "./components/layout/GapW";
 import Small from "./components/text/Small";
 import RecommendHeader from "./components/RecommendHeader";
 import RecommendSidebar from "./components/RecommendSidebar";
-import RowContainer from "./components/RowContainer";
+import RowContainer from "./components/layout/RowContainer";
 
 function RecommendPersonal() {
   // const [recommendList, setRecommendList] = useState([]);
