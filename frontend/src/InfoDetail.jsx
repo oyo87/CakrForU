@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+/* eslint-disable react/no-unstable-nested-components */
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { gsap } from "gsap";
 import UpDownContainer from "./components/UpDownContainer";
@@ -8,7 +9,7 @@ import Small from "./components/text/Small";
 
 function InfoDetail() {
   const GrandParent = styled.div`
-    height: 100vh;
+    height: 90vh;
   `;
   const Parent = styled.div`
     height: 100%;
@@ -26,8 +27,8 @@ function InfoDetail() {
   `;
   const Box = styled.div`
     height: 55%;
-    border: black;
-    background: black;
+    border: #b8b8b8 solid 1px;
+    border-radius: 10px;
     color: white;
     display: flex;
     top: 20px;
@@ -35,9 +36,7 @@ function InfoDetail() {
   `;
   const FooterBox = styled.div`
     height: 15%;
-    border: black;
-    background: black;
-    color: white;
+    background: #8c8279;
     display: flex;
     position: relative;
     margin: 10px 20% 0;
@@ -49,78 +48,56 @@ function InfoDetail() {
   const textRef = useRef();
   const text2Ref = useRef();
   const text3Ref = useRef();
-  const [active, setActive] = useState(true);
-  useEffect(() => {
-    // eslint-disable-next-line no-use-before-define
-    const timeout = setTimeout(() => remove(), 0);
-    return () => clearTimeout(timeout);
-  }, [textRef]);
-  useEffect(() => {
-    // eslint-disable-next-line no-use-before-define
-    const timeout = setTimeout(() => show(), 400);
-    return () => clearTimeout(timeout);
-  }, [active]);
-  useEffect(() => {
-    // eslint-disable-next-line no-use-before-define
-    const timeout = setTimeout(() => show2(), 800);
-    return () => clearTimeout(timeout);
-  }, [active]);
+
+  const show2 = () => {
+    const ani2 = gsap.fromTo(
+      text3Ref.current,
+      { y: 100, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 6,
+        ease: "strong.inOut",
+      }
+    );
+    return () => {
+      ani2.kill();
+    };
+  };
+  const show = () => {
+    const ani2 = gsap.fromTo(
+      text2Ref.current,
+      { y: 100, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 4,
+        ease: "strong.inOut",
+      }
+    );
+    return () => {
+      ani2.kill();
+    };
+  };
   const remove = () => {
     const ani = gsap.from(textRef.current, {
       y: 100,
       opacity: 0,
-      display: "none",
       duration: 2,
       ease: "strong.inOut",
-      onComplete: () => setActive(false),
     });
     return () => {
       ani.kill();
+      // show();
     };
   };
-  const show = () => {
-    const ani2 = gsap.from(text2Ref.current, {
-      y: 100,
-      opacity: 0,
-      display: "none",
-      duration: 3,
-      ease: "strong.inOut",
-    });
-    return () => {
-      ani2.kill();
-    };
-  };
-  const show2 = () => {
-    const ani2 = gsap.from(text3Ref.current, {
-      y: 100,
-      opacity: 0,
-      display: "none",
-      duration: 5,
-      ease: "strong.inOut",
-    });
-    return () => {
-      ani2.kill();
-    };
-  };
-  // eslint-disable-next-line react/no-unstable-nested-components
-  function Textcomponent() {
-    return (
-      <>
-        <Text ref={text2Ref}>
-          <Small color="white">
-            비밀번호 변경 시 현재 비밀번호, 새로운 비밀번호, 새로운 비밀번호
-            확인 작성 후 비밀번호 변경 버튼을 누르면 적용됩니다
-          </Small>
-        </Text>
-        <Text ref={text3Ref}>
-          <Small color="white">
-            닉네임/전화번호 변경 시 변경 내용 입력 후 변경사항 저장을 누르면
-            적용됩니다
-          </Small>
-        </Text>
-      </>
-    );
-  }
+
+  useEffect(() => {
+    setTimeout(() => remove(), 0);
+    setTimeout(() => show(), 500);
+    setTimeout(() => show2(), 1000);
+  }, []);
+
   return (
     <UpDownContainer>
       <Header />
@@ -132,10 +109,31 @@ function InfoDetail() {
                 회원정보
               </BoldMedium>
             </Text>
-            {!active && Textcomponent()}
+            <Text
+              ref={text2Ref}
+              style={{
+                opacity: 0,
+              }}
+            >
+              <Small color="white">
+                비밀번호 변경 시 현재 비밀번호, 새로운 비밀번호, 새로운 비밀번호
+                확인 작성 후 비밀번호 변경 버튼을 누르면 적용됩니다
+              </Small>
+            </Text>
+            <Text
+              ref={text3Ref}
+              style={{
+                opacity: 0,
+              }}
+            >
+              <Small color="white">
+                닉네임/전화번호 변경 시 변경 내용 입력 후 변경사항 저장을 누르면
+                적용됩니다
+              </Small>
+            </Text>
           </HeaderBox>
           <Box />
-          <FooterBox>dd</FooterBox>
+          <FooterBox />
         </Parent>
       </GrandParent>
     </UpDownContainer>
