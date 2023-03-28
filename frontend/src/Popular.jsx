@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
@@ -7,12 +8,24 @@ import SmallMedium from "./components/text/SmallMedium";
 import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import Card from "./components/Card";
 import PinkSearch from "./assets/img/pink_search.png";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function Popular() {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
+
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
+
   return (
     <div>
-      <Header />
-      <UpDownContainer align="center">
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
+      <UpDownContainer align="center" onClick={handleClickOutModal}>
         <GapH height="34px" />
         <RowContainer
           height="61px"
