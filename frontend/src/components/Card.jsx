@@ -35,6 +35,8 @@ function Card() {
           style={{
             position: "absolute",
             width: "20px",
+            top: "10px",
+            right: "10px",
             zIndex: "1",
           }}
         />

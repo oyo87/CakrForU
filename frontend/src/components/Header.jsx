@@ -136,7 +136,12 @@ function Header() {
           <Link to="/main" style={{ textDecoration: "none", color: "inherit" }}>
             <Small>케이크</Small>
           </Link>
-          <Small>가게</Small>
+          <Link
+            to="/popular"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Small>가게</Small>
+          </Link>
           <Link
             to="/recommend"
             style={{ textDecoration: "none", color: "inherit" }}
