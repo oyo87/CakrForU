@@ -10,6 +10,7 @@ import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
 import Testpage from "./Testpage";
+import InfoDetail from "./InfoDetail";
 
 function App() {
   const AppContainer = styled.div`
@@ -30,6 +31,7 @@ function App() {
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
+        <Route path="/infodetail" element={<InfoDetail />} />
       </Routes>
     </AppContainer>
   );
