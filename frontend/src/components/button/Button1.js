@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Button1 = styled.button`
   display: flex;
+  width: ${(props) => props.width || "auto"};
   justify-content: center;
   align-items: center;
   padding: 11px 16px;
