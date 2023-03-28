@@ -7,7 +7,16 @@ import Small from "./text/Small";
 import MediumSmall from "./text/MediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
 
-function Card() {
+function Card({
+  title,
+  sellerId,
+  color,
+  shape,
+  sheetTaste,
+  creamTaste,
+  situation,
+}) {
+  const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   return (
     <ColContainer
       width="222px"
@@ -49,9 +58,9 @@ function Card() {
         justify="start"
       >
         <GapH height="14px" />
-        <Small color="#A5A6A6">삼성 케이크</Small>
+        <Small color="#A5A6A6">{sellerId}</Small>
         <GapH height="1px" />
-        <MediumSmall>2023 취업을 보장하는 삼성 케이크</MediumSmall>
+        <MediumSmall>{title}</MediumSmall>
       </ColContainer>
       <ColContainer
         height="62px"
@@ -63,7 +72,7 @@ function Card() {
         justify="start"
       >
         <GapH height="10px" />
-        <Small color="#A5A6A6">3호, 동그라미 시트, 생크림, 바닐라, 파랑</Small>
+        <Small color="#A5A6A6">{desc}</Small>
       </ColContainer>
     </ColContainer>
   );

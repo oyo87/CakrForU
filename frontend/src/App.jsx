@@ -9,6 +9,7 @@ import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
+import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
+        <Route path="/recommend/theme" element={<RecommendTheme />} />
       </Routes>
     </AppContainer>
   );

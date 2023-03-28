@@ -13,17 +13,16 @@ import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
 
-function RecommendPersonal() {
+function RecommendSituation() {
   const loginUser = useSelector((state) => state.login.user);
   const [recommendList, setRecommendList] = useState([]);
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
-  const user = useSelector((state) => state.login.user);
-  function fetchPortfolios() {
+  function fetchPortfolios(situation) {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?email=${user.email}&page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/recommendation/situation?situation=${situation}&page=${page}`
       )
       .then((res) => {
         setRecommendList(res.data);
@@ -45,7 +44,7 @@ function RecommendPersonal() {
   }
 
   useEffect(() => {
-    fetchPortfolios();
+    fetchPortfolios("birthday");
   });
 
   const load = () => {
@@ -78,15 +77,18 @@ function RecommendPersonal() {
             <Select
               width="183px"
               height="55px"
-              options={["여성", "남성"]}
-              placeholder="성별"
-            />
-            <GapW width="15px" />
-            <Select
-              width="183px"
-              height="55px"
-              options={["여성", "남성"]}
-              placeholder="연령"
+              options={[
+                "아이돌",
+                "입/퇴사",
+                "환갑",
+                "생일",
+                "기념일",
+                "결혼 케이크",
+                "전역",
+                "크리스마스",
+                "기타",
+              ]}
+              value="생일"
             />
           </RowContainer>
           <GapH height="57px" />
@@ -143,4 +145,4 @@ function RecommendPersonal() {
   );
 }
 
-export default RecommendPersonal;
+export default RecommendSituation;

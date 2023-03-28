@@ -105,9 +105,9 @@ public class PortfolioController {
     }
 
     // 모든 포트폴리오 얻기
-    @GetMapping("/list/{id}")
+    @GetMapping("/list")
     @ApiOperation(value = "페이징 포트폴리오 조회")
-    public ResponseEntity<?> getAllPortfolios(@PathVariable(value="id") int page) {
+    public ResponseEntity<?> getAllPortfolios(@RequestParam(value="page") int page) {
         try {
             log.info("In getAllPortfolios");
 
