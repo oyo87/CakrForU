@@ -17,6 +17,7 @@ const Small = styled.div`
     return "NanumSquareR";
   }};
   color: ${(props) => (props.color ? props.color : "black")};
+  cursor: ${(props) => (props.cursor ? props.cursor : "default")};
 `;
 
 export default Small;

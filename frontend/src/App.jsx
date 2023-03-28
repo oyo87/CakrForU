@@ -11,6 +11,7 @@ import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
+import Mypage from "./Mypage";
 import PortfolioModal from "./components/PortfolioModal";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
