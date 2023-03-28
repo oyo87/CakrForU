@@ -9,7 +9,7 @@ import Small from "./text/Small";
 import Button1 from "./button/Button1";
 import Button3 from "./button/Button3";
 import LogoDog from "../assets/img/logo_dog.png";
-import GapW from "./GapW";
+import GapW from "./layout/GapW";
 
 // 사이트 헤더 컴포넌트
 function Header() {

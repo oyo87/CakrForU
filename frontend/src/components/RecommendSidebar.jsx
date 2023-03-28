@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ColContainer from "./ColContainer";
+import ColContainer from "./layout/ColContainer";
 import Medium from "./text/Medium";
 
 function RecommendSidebar() {
