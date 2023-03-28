@@ -17,7 +17,6 @@ import ColContainer from "./components/layout/ColContainer";
 
 function Login() {
   const [selectedUserType, setSelectedUserType] = useState("buyer");
-  // const user = { nickname: "ssafy" };
 
   const HorizonBox = styled.div`
     display: flex;

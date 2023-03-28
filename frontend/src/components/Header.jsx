@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../store/loginSlice";
+import { login, logout } from "../store/loginSlice";
 import axios from "../util/axiosInstance";
 import BoldMedium from "./text/BoldMedium";
 import Small from "./text/Small";
@@ -35,6 +35,12 @@ function Header() {
     if (buttonRef.current && !buttonRef.current.contains(event.target)) {
       setSignupMenuVisible(false);
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.alert("로그아웃 되었습니다.");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -154,8 +160,6 @@ function Header() {
                 판매자 회원가입
               </Button3>
             </Link>
-            {/* <Small>Choice 1</Small> */}
-            {/* <Small>Choice 2</Small> */}
           </Menu>
         </div>
       </LoginSection>
@@ -168,9 +172,7 @@ function Header() {
         <Link to="/mylist" style={{ textDecoration: "none", color: "inherit" }}>
           <Small>마이리스트</Small>
         </Link>
-        <Link to="/logout" style={{ textDecoration: "none", color: "inherit" }}>
-          <Small>로그아웃</Small>
-        </Link>
+        <Small onClick={handleLogout}>로그아웃</Small>
       </LoginSection>
     );
   }
