@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@ToString
 public class ImageFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +29,13 @@ public class ImageFile {
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
     private Seller seller;
     
-    //  스토리지에 저장될 이름
+    //  S3에 저장될 URL
     @Column(nullable = false)
     private String imageFileUri;
+    
+    //  S3에 저장될 이름
+    @Column(nullable = false)
+    private String savedFileName;
     
     //  원본 파일 이름
     @Column(nullable = false)

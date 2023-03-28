@@ -199,7 +199,9 @@ public class OrderSheetService {
      */
     @Transactional
     public Long deleteOrderSheetByOrderSheetId(Long orderSheetId) {
+        log.info("in OrderSheetService, deleteOrderSheetByOrderSheetId start");
         orderSheetRepository.deleteById(orderSheetId);
+        log.info("in OrderSheetService, deleteOrderSheetByOrderSheetId end");
         return orderSheetId;
     }
 
