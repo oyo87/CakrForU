@@ -160,9 +160,11 @@ public class OrderSheetController {
     public ResponseEntity<?> cancelOrderSheet(@PathVariable(name = "orderSheetId") Long orderSheetId) {
         //  주문서에 저장된 이미지 파일 전부 제거
         int deletedImages = imageFileService.deleteImageFilesByOrderSheetId(orderSheetId);
+
+        log.info("deletedImages = " + deletedImages);
         //  DB에서 주문서 정보 삭제
         Long deletedOrderSheetId = orderSheetService.deleteOrderSheetByOrderSheetId(orderSheetId);  //  삭제된 주문 id
-
+        log.info("deletedOrderSheetId = " + deletedOrderSheetId);
         StringBuilder sb = new StringBuilder("삭제된 이미지 개수 : ").append(deletedImages).append("\n")
                 .append("삭제된 주문서 id = ").append(deletedOrderSheetId).append("\n");
 

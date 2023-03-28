@@ -13,9 +13,11 @@ import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class S3ImageFileHandler {
     //  버킷 이름 동적 할당
@@ -35,8 +37,7 @@ public class S3ImageFileHandler {
     private String defaultUrl;
 
     private final AmazonS3Client amazonS3Client;
-
-    private ImageFileRepository imageFileRepository;
+    private final ImageFileRepository imageFileRepository;
 
     public List<ImageFile> parseFileInfo(List<MultipartFile> multipartFileList) throws BaseException, IOException {
         log.info("bucket = " + bucket);
@@ -60,6 +61,8 @@ public class S3ImageFileHandler {
                     //  파일 이름 암호화
                     final String saveFileName = getUuid() + extension;
 
+                    log.info("saveFileName = " + saveFileName);
+
                     //  파일 객체 생성
                     //  System.getProperty => 시스템 환경에 대한 정보를 얻을 수 있다. (user.dir = 현재 작업 디렉토리)
                     File file = new File(System.getProperty("user.dir") + saveFileName);
@@ -79,6 +82,7 @@ public class S3ImageFileHandler {
 
                     ImageFile imageFile = ImageFile.builder()
                             .origImageFileName(originalFileName)
+                            .savedFileName(saveFileName)
                             .imageFileUri(url)
                             .build();
                     
@@ -119,25 +123,39 @@ public class S3ImageFileHandler {
         }
     }
 
+    @Transactional
     public int deleteImageFiles(List<ImageFile> imageFileList) {
+        log.info("in S3ImageFileHandler, deleteImageFiles");
+        log.info("imageFileRepository = " + imageFileRepository);
+
         int ret = 0;
 
         try {
             ret= imageFileList.size();
 
             for(ImageFile imageFile : imageFileList) {
-                String url = imageFile.getImageFileUri();
+//                String url = imageFile.getImageFileUri();
+//                log.info("imageFile url = " + url);
+                String savedFileName = imageFile.getSavedFileName();
+                log.info("s3에 저장된 파일 이름 = " + savedFileName);
+                log.info("삭제할 이미지 = " + imageFile);
 
                 imageFileRepository.delete(imageFile);
                 //  파일이 존재할 경우
-                if(amazonS3Client.doesObjectExist(bucket, url)) {
-                    amazonS3Client.deleteObject(bucket, url);
+                if(amazonS3Client.doesObjectExist(bucket, savedFileName)) {
+                    log.info("imageFile url = " + savedFileName + "이 존재");
+                    amazonS3Client.deleteObject(bucket, savedFileName);
                 } else {
+                    log.info("savedFileName = " + savedFileName + "이 존재하지 않음");
                     throw new BaseException(ErrorMessage.IMAGE_FILE_CANT_DELETE);
                 }
             }
         } catch (BaseException e) {
+            log.info("무언가 잘못됨.");
             e.printStackTrace();
+        } catch (Exception e) {
+            log.info("무언가 정말 많이 많이 잘못됨.");
+            e.printStackTrace();;
         } finally {
             return ret;
         }
