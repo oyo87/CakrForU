@@ -12,7 +12,7 @@ import LogoDog from "../assets/img/logo_dog.png";
 import GapW from "./layout/GapW";
 
 // 사이트 헤더 컴포넌트
-function Header() {
+function Header({ handleClickOutModal }) {
   const dispatch = useDispatch();
   const loginUser = useSelector((state) => state.login.user);
 
@@ -178,7 +178,7 @@ function Header() {
   }
   return (
     <div style={{ position: "relative" }} ref={headerRef}>
-      <HeaderContainer>
+      <HeaderContainer onClick={handleClickOutModal}>
         <LogoSection>
           <ClickSection onClick={handleLogoClick}>
             <BoldMedium>CakeForU</BoldMedium>

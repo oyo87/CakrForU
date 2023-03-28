@@ -1,5 +1,6 @@
 import React from "react";
 // import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
 import RowContainer from "./layout/RowContainer";
 import GapH from "./layout/GapH";
@@ -10,10 +11,24 @@ import ColContainer from "./layout/ColContainer";
 import Tmp from "../assets/img/login_image.png";
 import BoldSmall from "./text/BoldSmall";
 import Button1 from "./button/Button1";
+import { closePortfolio } from "../store/modalSlice";
 
 function PortfolioModal() {
+  const dispatch = useDispatch();
   return (
-    <UpDownContainer width="1201px" align="center">
+    <UpDownContainer
+      width="1201px"
+      height="699px"
+      align="center"
+      position="absolute"
+      zIndex="2"
+      background="white"
+      minHeight="auto"
+      top="50%"
+      left="50%"
+      transform="translate(-50%, -50%)"
+      boxShadow="0px 0px 100px 20px rgba(0, 0, 0, 0.15)"
+    >
       <GapH height="48px" />
       <RowContainer height="49px" width="1020px">
         <RowContainer width="384px" height="100%" justify="start">
@@ -132,8 +147,15 @@ function PortfolioModal() {
       />
       <GapH height="30px" />
       <RowContainer width="1020px" justify="end">
-        <Button1>닫기</Button1>
+        <Button1
+          onClick={() => {
+            dispatch(closePortfolio());
+          }}
+        >
+          닫기
+        </Button1>
       </RowContainer>
+      <GapH height="40px" />
     </UpDownContainer>
   );
 }
