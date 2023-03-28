@@ -115,7 +115,65 @@ function Header() {
     top: 100%; // Position the menu below the button
     left: 0; // Align the menu with the left side of the button
   `;
+  function loginFalse() {
+    return (
+      <LoginSection>
+        <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+          <Small>로그인</Small>
+        </Link>
+        <div style={{ position: "relative" }} ref={buttonRef}>
+          <Button1 onClick={toggleSignupMenu}>
+            <Small color="white">회원가입</Small>
+          </Button1>
+          <Menu visible={signupMenuVisible}>
+            <Link
+              to="/signup/buyer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button3
+                width="150px"
+                borderRadius="0px"
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                구매자 회원가입
+              </Button3>
+            </Link>
+            <Link
+              to="/signup/seller"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button3
+                width="150px"
+                borderRadius="0px"
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                판매자 회원가입
+              </Button3>
+            </Link>
+            {/* <Small>Choice 1</Small> */}
+            {/* <Small>Choice 2</Small> */}
+          </Menu>
+        </div>
+      </LoginSection>
+    );
+  }
 
+  function loginTrue() {
+    return (
+      <LoginSection>
+        <Link to="/mylist" style={{ textDecoration: "none", color: "inherit" }}>
+          <Small>마이리스트</Small>
+        </Link>
+        <Link to="/logout" style={{ textDecoration: "none", color: "inherit" }}>
+          <Small>로그아웃</Small>
+        </Link>
+      </LoginSection>
+    );
+  }
   return (
     <div style={{ position: "relative" }} ref={headerRef}>
       <HeaderContainer>
@@ -145,69 +203,7 @@ function Header() {
           </Link>
           <Small>리뷰</Small>
         </MenuSection>
-        {!loginUser && (
-          <LoginSection>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Small>로그인</Small>
-            </Link>
-            <div style={{ position: "relative" }} ref={buttonRef}>
-              <Button1 onClick={toggleSignupMenu}>
-                <Small color="white">회원가입</Small>
-              </Button1>
-              <Menu visible={signupMenuVisible}>
-                <Link
-                  to="/signup/buyer"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Button3
-                    width="150px"
-                    borderRadius="0px"
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    구매자 회원가입
-                  </Button3>
-                </Link>
-                <Link
-                  to="/signup/seller"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Button3
-                    width="150px"
-                    borderRadius="0px"
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    판매자 회원가입
-                  </Button3>
-                </Link>
-                {/* <Small>Choice 1</Small> */}
-                {/* <Small>Choice 2</Small> */}
-              </Menu>
-            </div>
-          </LoginSection>
-        )}
-        {loginUser && (
-          <LoginSection>
-            <Link
-              to="/mylist"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Small>마이리스트</Small>
-            </Link>
-            <Link
-              to="/logout"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Small>로그아웃</Small>
-            </Link>
-          </LoginSection>
-        )}
+        {loginUser ? loginTrue() : loginFalse()}
       </HeaderContainer>
     </div>
   );
