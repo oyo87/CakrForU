@@ -11,8 +11,10 @@ import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
-import Mypage from "./Mypage";
+import MyPage from "./MyPage";
 import PortfolioModal from "./components/PortfolioModal";
+import Diff from "./Diff";
+import MakeOrder from "./MakeOrder";
 
 function App() {
   const AppContainer = styled.div`
@@ -31,7 +33,9 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/diff" element={<Diff />} />
+        <Route path="/makeOrder" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
