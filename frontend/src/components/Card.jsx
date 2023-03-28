@@ -1,11 +1,12 @@
 import React from "react";
-// import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
 import Tmp from "../assets/img/login_image.png";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import MediumSmall from "./text/MediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
+import { openPortfolio } from "../store/modalSlice";
 
 function Card({
   title,
@@ -17,12 +18,19 @@ function Card({
   situation,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(openPortfolio());
+  };
+
   return (
     <ColContainer
       width="222px"
       height="393px"
       border="1px solid"
       borderColor="#D9D9D9"
+      onClick={handleClick}
     >
       <div
         style={{

@@ -12,6 +12,7 @@ import RecommendPersonal from "./RecommendPersonal";
 import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
+import PortfolioModal from "./components/PortfolioModal";
 
 function App() {
   const AppContainer = styled.div`
@@ -29,6 +30,7 @@ function App() {
         <Route path="/signup/seller" element={<SignUpSeller />} />
         <Route path="/main" element={<Main />} />
         <Route path="/popular" element={<Popular />} />
+        <Route path="/modal" element={<PortfolioModal />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
