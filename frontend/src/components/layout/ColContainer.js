@@ -17,6 +17,7 @@ const ColContainer = styled.div`
   border-top-color: ${(props) => props.borderTopColor || "transparent"};
   padding-left: ${(props) => props.paddingLeft || "0"};
   padding-right: ${(props) => props.paddingRight || "0"};
+  cursor: ${(props) => props.cursor || "default"};
 `;
 
 export default ColContainer;

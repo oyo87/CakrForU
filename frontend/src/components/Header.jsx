@@ -125,11 +125,13 @@ function Header({ handleClickOutModal }) {
     return (
       <LoginSection>
         <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
-          <Small>로그인</Small>
+          <Small cursor="pointer">로그인</Small>
         </Link>
         <div style={{ position: "relative" }} ref={buttonRef}>
           <Button1 onClick={toggleSignupMenu}>
-            <Small color="white">회원가입</Small>
+            <Small color="white" cursor="pointer">
+              회원가입
+            </Small>
           </Button1>
           <Menu visible={signupMenuVisible}>
             <Link
@@ -170,9 +172,11 @@ function Header({ handleClickOutModal }) {
     return (
       <LoginSection>
         <Link to="/mylist" style={{ textDecoration: "none", color: "inherit" }}>
-          <Small>마이리스트</Small>
+          <Small cursor="pointer">마이리스트</Small>
         </Link>
-        <Small onClick={handleLogout}>로그아웃</Small>
+        <Small onClick={handleLogout} cursor="pointer">
+          로그아웃
+        </Small>
       </LoginSection>
     );
   }
@@ -193,22 +197,28 @@ function Header({ handleClickOutModal }) {
           </ClickSection>
         </LogoSection>
         <MenuSection>
-          <Link to="/main" style={{ textDecoration: "none", color: "inherit" }}>
-            <Small>케이크</Small>
+          <Link
+            to="/main"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            <Small cursor="pointer">케이크</Small>
           </Link>
           <Link
             to="/popular"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Small>가게</Small>
+            <Small cursor="pointer">가게</Small>
           </Link>
           <Link
             to="/recommend/personal"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Small>추천</Small>
+            <Small cursor="pointer">추천</Small>
           </Link>
-          <Small>리뷰</Small>
+          <Small cursor="pointer">리뷰</Small>
         </MenuSection>
         {loginUser ? loginTrue() : loginFalse()}
       </HeaderContainer>

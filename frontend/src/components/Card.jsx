@@ -31,6 +31,7 @@ function Card({
       border="1px solid"
       borderColor="#D9D9D9"
       onClick={handleClick}
+      cursor="pointer"
     >
       <div
         style={{
@@ -66,9 +67,13 @@ function Card({
         justify="start"
       >
         <GapH height="14px" />
-        <Small color="#A5A6A6">{sellerId}</Small>
+        <Small color="#A5A6A6" cursor="pointer">
+          삼성 케이크
+        </Small>
         <GapH height="1px" />
-        <MediumSmall>{title}</MediumSmall>
+        <MediumSmall cursor="pointer">
+          2023 취업을 보장하는 삼성 케이크
+        </MediumSmall>
       </ColContainer>
       <ColContainer
         height="62px"
@@ -80,7 +85,9 @@ function Card({
         justify="start"
       >
         <GapH height="10px" />
-        <Small color="#A5A6A6">{desc}</Small>
+        <Small color="#A5A6A6" cursor="pointer">
+          3호, 동그라미 시트, 생크림, 바닐라, 파랑
+        </Small>
       </ColContainer>
     </ColContainer>
   );
