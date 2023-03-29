@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class RecommPortfolioRepositoryImpl implements RecommPortfolioRepository {
+public class  RecommPortfolioRepositoryImpl implements RecommPortfolioRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
