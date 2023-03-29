@@ -16,13 +16,14 @@ import PortfolioModal from "./components/PortfolioModal";
 import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 
+const AppContainer = styled.div`
+  &,
+  & * {
+    box-sizing: border-box;
+  }
+`;
+
 function App() {
-  const AppContainer = styled.div`
-    &,
-    & * {
-      box-sizing: border-box;
-    }
-  `;
   return (
     <AppContainer>
       <Routes>

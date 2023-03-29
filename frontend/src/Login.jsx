@@ -15,24 +15,24 @@ import UpDownContainer from "./components/layout/UpDownContainer";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
 
+const HorizonBox = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+  gap: ${(props) => props.gap || "0px"};
+`;
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 function Login() {
   const [selectedUserType, setSelectedUserType] = useState("buyer");
-
-  const HorizonBox = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    width: 100%;
-    height: 64px;
-    gap: ${(props) => props.gap || "0px"};
-  `;
-  const FlexBox = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-  `;
 
   return (
     <div>

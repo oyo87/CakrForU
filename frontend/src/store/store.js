@@ -8,6 +8,7 @@ const initialState = {
   },
   modal: {
     portfolioOpen: false,
+    addressOpen: false,
   },
 };
 
