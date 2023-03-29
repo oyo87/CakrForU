@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
-import Select from "./components/Select";
 import GapW from "./components/layout/GapW";
 import GapH from "./components/layout/GapH";
 import RecommendHeader from "./components/RecommendHeader";
@@ -13,16 +12,15 @@ import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
 
-function RecommendPersonal() {
+function RecommendWishlist() {
   const loginUser = useSelector((state) => state.login.user);
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
-  const user = useSelector((state) => state.login.user);
   function fetchPortfolios() {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?email=${user.email}&page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/recommendation/wishlist?user-id=${loginUser.id}&page=${page}`
       )
       .then((res) => {
         const answer = [];
@@ -40,7 +38,7 @@ function RecommendPersonal() {
 
   useEffect(() => {
     fetchPortfolios();
-  }, []);
+  }, [page]);
 
   const load = () => {
     fetchPortfolios();
@@ -52,7 +50,8 @@ function RecommendPersonal() {
   };
 
   const loadMore = () => {
-    setPage(page + 1);
+    const nextpage = page + 1;
+    setPage(nextpage);
     load();
   };
 
@@ -68,45 +67,32 @@ function RecommendPersonal() {
       <RowContainer justify="start" align="start">
         <RecommendSidebar />
         <ColContainer>
-          <RowContainer justify="start">
-            <Select
-              width="183px"
-              height="55px"
-              options={["여성", "남성"]}
-              placeholder="성별"
-            />
-            <GapW width="15px" />
-            <Select
-              width="183px"
-              height="55px"
-              options={["여성", "남성"]}
-              placeholder="연령"
-            />
-          </RowContainer>
           <GapH height="57px" />
           <RowContainer justify="start">
-            <Medium># {loginUser.age}대</Medium>
+            <Medium># {loginUser.nickname}님의 위시리스트 기반</Medium>
             <GapW />
           </RowContainer>
           <GapH height="58px" />
           <ColContainer gap="50px">
-            {recommendMatrix.map((recommendRow) => (
-              <RowContainer>
-                {recommendRow.map((recommend) => (
-                  <RowContainer>
-                    <Card
-                      title={recommend.detail}
-                      shape={recommend.shape}
-                      sheetTaste={recommend.sheetTaste}
-                      creamTaste={recommend.creamTaste}
-                      situation={recommend.situation}
-                      sellerId={recommend.sellerId}
-                    />
-                    <GapW width="20px" />
-                  </RowContainer>
-                ))}
-              </RowContainer>
-            ))}
+            {recommendMatrix
+              .slice(page * 2, page * 2 + 2)
+              .map((recommendRow) => (
+                <RowContainer>
+                  {recommendRow.map((recommend) => (
+                    <RowContainer>
+                      <Card
+                        title={recommend.detail}
+                        shape={recommend.shape}
+                        sheetTaste={recommend.sheetTaste}
+                        creamTaste={recommend.creamTaste}
+                        situation={recommend.situation}
+                        sellerId={recommend.sellerId}
+                      />
+                      <GapW width="20px" />
+                    </RowContainer>
+                  ))}
+                </RowContainer>
+              ))}
           </ColContainer>
           <GapH height="50px" />
           <RowContainer>
@@ -137,4 +123,4 @@ function RecommendPersonal() {
   );
 }
 
-export default RecommendPersonal;
+export default RecommendWishlist;

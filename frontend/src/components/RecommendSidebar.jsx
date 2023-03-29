@@ -36,7 +36,7 @@ function RecommendSidebar() {
           >
             <Medium>테마</Medium>
           </Link>
-          <Link
+          {/* <Link
             to="/recommend/combination"
             style={{
               textDecoration: "none",
@@ -45,7 +45,7 @@ function RecommendSidebar() {
             }}
           >
             <Medium>조합</Medium>
-          </Link>
+          </Link> */}
           <Link
             to="/recommend/wishlist"
             style={{

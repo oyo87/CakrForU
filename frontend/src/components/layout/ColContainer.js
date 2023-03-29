@@ -18,6 +18,7 @@ const ColContainer = styled.div`
   padding-left: ${(props) => props.paddingLeft || "0"};
   padding-right: ${(props) => props.paddingRight || "0"};
   cursor: ${(props) => props.cursor || "default"};
+  overflow-y: ${(props) => props.overflowY || "none"};
 `;
 
 export default ColContainer;
