@@ -1,5 +1,6 @@
 package com.a604.cake4u.buyer.dto;
 
+import com.a604.cake4u.enums.EGender;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
 
@@ -13,6 +14,9 @@ import java.time.LocalDate;
 @ToString
 public class BuyerInfoDto {
 
+    @ApiParam
+    private Long id;
+
     @ApiParam(value="이메일", required = true)
     private String email;
     @ApiParam(value="변경된 닉네임")
@@ -22,5 +26,8 @@ public class BuyerInfoDto {
 
     @ApiParam(value="변경된 생일")
     private int age;
+
+    @ApiParam
+    private EGender gender;
 
 }
