@@ -6,9 +6,11 @@ import com.a604.cake4u.area.entity.DongCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface DongCodeRepository extends JpaRepository<DongCode, String> {
     @Query(value = "select distinct d.dong_name as dongName, d.dong_code as dongCode " +
             "from dong_code d " +

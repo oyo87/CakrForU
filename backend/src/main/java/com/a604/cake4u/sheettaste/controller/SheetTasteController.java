@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "SheetTasteConroller")
 @RequiredArgsConstructor
 public class SheetTasteController {
-    @Autowired
+
     private final SheetTasteService sheetTasteService;
 
     @ApiOperation(value = "시트맛 폼 수정")
