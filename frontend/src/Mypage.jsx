@@ -43,7 +43,7 @@ function Mypage() {
               <BoldLarge>배진호 님의 마이페이지입니다</BoldLarge>
               <GapW width="10.1%" />
               <Button4>
-                <BoldMedium color="white">회원정보 수정</BoldMedium>
+                <BoldMedium color="white">회원정보</BoldMedium>
               </Button4>
             </RowContainer>
           </ColContainer>
