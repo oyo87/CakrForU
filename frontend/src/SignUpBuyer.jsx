@@ -18,21 +18,22 @@ import BoldMedium from "./components/text/BoldMedium";
 import BuyerCarousel from "./components/BuyerCarousel";
 import NaverIcon from "./assets/img/naver_icon.png";
 
+const HorizonBox = styled.div`
+  display: flex;
+  justify-content: ${(props) => props.justify || "start"};
+  align-items: center;
+  width: 539px;
+  gap: ${(props) => props.gap || "0px"};
+`;
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 function SignUpBuyer() {
-  const HorizonBox = styled.div`
-    display: flex;
-    justify-content: ${(props) => props.justify || "start"};
-    align-items: center;
-    width: 539px;
-    gap: ${(props) => props.gap || "0px"};
-  `;
-  const FlexBox = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-  `;
   return (
     <div>
       <Header />

@@ -63,6 +63,7 @@ public class BuyerService {
                 .phoneNumber(buyer.get().getPhoneNumber())
                 .age(buyer.get().getAge())
                 .gender(buyer.get().getGender())
+                .providerType(buyer.get().getProviderType())
                 .build();
 
         return buyerResponseDto;

@@ -1,5 +1,6 @@
 package com.a604.cake4u.buyer.dto;
 
+import com.a604.cake4u.auth.entity.ProviderType;
 import com.a604.cake4u.enums.EGender;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
@@ -29,5 +30,8 @@ public class BuyerInfoDto {
 
     @ApiParam
     private EGender gender;
+
+    @ApiParam
+    private ProviderType providerType;
 
 }

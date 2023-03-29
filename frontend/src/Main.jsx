@@ -20,28 +20,28 @@ import BoldMedium from "./components/text/BoldMedium";
 import MediumSmall from "./components/text/MediumSmall";
 import GapW from "./components/layout/GapW";
 
+const ImageContainer = styled.div`
+  width: ${(props) => props.width || "100%"};
+  height: ${(props) => props.height || "100%"};
+  background-color: ${(props) => props.background || "white"};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: ${(props) => props.transform || "none"};
+  position: ${(props) => props.position || "absolute"};
+  top: ${(props) => props.top || "auto"};
+  right: ${(props) => props.right || "auto"};
+  bottom: ${(props) => props.bottom || "auto"};
+  left: ${(props) => props.left || "auto"};
+`;
+
+const StyledImage = styled.img`
+  width: ${(props) => props.width || "100%"};
+  height: ${(props) => props.height || "100%"};
+  transform: ${(props) => props.transform || "none"};
+`;
+
 function Main() {
-  const ImageContainer = styled.div`
-    width: ${(props) => props.width || "100%"};
-    height: ${(props) => props.height || "100%"};
-    background-color: ${(props) => props.background || "white"};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: ${(props) => props.transform || "none"};
-    position: ${(props) => props.position || "absolute"};
-    top: ${(props) => props.top || "auto"};
-    right: ${(props) => props.right || "auto"};
-    bottom: ${(props) => props.bottom || "auto"};
-    left: ${(props) => props.left || "auto"};
-  `;
-
-  const StyledImage = styled.img`
-    width: ${(props) => props.width || "100%"};
-    height: ${(props) => props.height || "100%"};
-    transform: ${(props) => props.transform || "none"};
-  `;
-
   return (
     <div>
       <Header />

@@ -7,6 +7,7 @@ import com.a604.cake4u.area.dto.SidoDto;
 import com.a604.cake4u.area.repository.DongCodeRepository;
 import com.a604.cake4u.area.repository.GugunCodeRepository;
 import com.a604.cake4u.area.repository.SidoCodeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,11 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AreaService {
-    @Autowired
-    private SidoCodeRepository sidoCodeRepository;
-    @Autowired
-    private GugunCodeRepository gugunCodeRepository;
-    @Autowired
-    private DongCodeRepository dongCodeRepository;
+    private final SidoCodeRepository sidoCodeRepository;
+    private final GugunCodeRepository gugunCodeRepository;
+    private final DongCodeRepository dongCodeRepository;
 
     public List<SidoDto> getSido() {
         return sidoCodeRepository.getSido();
