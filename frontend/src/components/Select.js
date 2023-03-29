@@ -1,7 +1,14 @@
 import React from "react";
 import ReactSelect from "react-select";
 
-function Select({ options, width, height, centerPlaceholder, placeholder }) {
+function Select({
+  options,
+  width,
+  height,
+  centerPlaceholder,
+  placeholder,
+  onChange,
+}) {
   const formattedOptions = options.map((option) => ({
     value: option,
     label: option,
@@ -40,7 +47,8 @@ function Select({ options, width, height, centerPlaceholder, placeholder }) {
     <ReactSelect
       styles={customStyles}
       options={formattedOptions}
-      placeholder={placeholder || "선택"}
+      placeholder={placeholder || "생일"}
+      onChange={onChange}
     />
   );
 }

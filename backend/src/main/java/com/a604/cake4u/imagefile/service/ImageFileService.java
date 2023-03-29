@@ -47,7 +47,9 @@ public class ImageFileService {
             List<ImageFile> imageFileList = imageFileRepository.findAllByOrderSheet_OrderSheetId(orderSheetId)
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
 //            ret = fileHandler.deleteImageFiles(imageFileList);
+            log.info("imageFileList = " + imageFileList);
             ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
+            log.info("imageFileService ret = " + ret);
         } catch(Exception e) {
             e.printStackTrace();
         } finally {

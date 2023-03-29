@@ -5,19 +5,18 @@ import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
 import Input from "./components/Input";
 import NaverIcon from "./assets/img/naver_icon.png";
-import GapW from "./components/GapW";
-import GapH from "./components/GapH";
+import GapW from "./components/layout/GapW";
+import GapH from "./components/layout/GapH";
 import { RadioButton } from "./components/Radio";
 import SmallMedium from "./components/text/SmallMedium";
 import MediumSmall from "./components/text/MediumSmall";
 import Small from "./components/text/Small";
-import UpDownContainer from "./components/UpDownContainer";
+import UpDownContainer from "./components/layout/UpDownContainer";
 import Header from "./components/Header";
-import ColContainer from "./components/ColContainer";
+import ColContainer from "./components/layout/ColContainer";
 
 function Login() {
   const [selectedUserType, setSelectedUserType] = useState("buyer");
-  // const user = { nickname: "ssafy" };
 
   const HorizonBox = styled.div`
     display: flex;
