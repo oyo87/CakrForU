@@ -16,18 +16,18 @@ import Small from "./components/text/Small";
 import Large from "./components/text/Large";
 import AddFile from "./assets/img/add_file.png";
 
-function MakeOrder() {
-  const Text = styled.textarea`
-    width: 542px;
-    height: 230px;
-    border: 1px solid #d8d8d8;
-    text-indent: 20px;
-    padding-top: 20px;
-  `;
-  const FileButton = styled.img`
-    cursor: pointer;
-  `;
+const Text = styled.textarea`
+  width: 542px;
+  height: 230px;
+  border: 1px solid #d8d8d8;
+  padding-left: 20px;
+  padding-top: 20px;
+`;
+const FileButton = styled.img`
+  cursor: pointer;
+`;
 
+function MakeOrder() {
   const [imageSrcs, setImageSrcs] = useState([]);
   const [sheetShape, setSheetShape] = useState(null);
   const [sheetSize, setSheetSize] = useState(null);

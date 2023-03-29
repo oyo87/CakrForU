@@ -11,6 +11,59 @@ import Button3 from "./button/Button3";
 import LogoDog from "../assets/img/logo_dog.png";
 import GapW from "./layout/GapW";
 
+const HeaderContainer = styled.header`
+  width: 100%;
+  height: 60px;
+  display: flex;
+  border-bottom: 1px solid #e5e5e5;
+  background-color: white;
+`;
+const LogoSection = styled.div`
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ClickSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+const MenuSection = styled.div`
+  width: 53%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 48px;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 30px;
+  }
+`;
+const LoginSection = styled.div`
+  width: 27%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+`;
+const Menu = styled.div`
+  display: ${({ visible }) => (visible ? "flex" : "none")};
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: 1;
+  top: 100%; // Position the menu below the button
+  left: 0; // Align the menu with the left side of the button
+`;
+
 // 사이트 헤더 컴포넌트
 function Header({ handleClickOutModal }) {
   const dispatch = useDispatch();
@@ -69,58 +122,6 @@ function Header({ handleClickOutModal }) {
     };
   }, []);
 
-  const HeaderContainer = styled.header`
-    width: 100%;
-    height: 60px;
-    display: flex;
-    border-bottom: 1px solid #e5e5e5;
-    background-color: white;
-  `;
-  const LogoSection = styled.div`
-    width: 20%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `;
-  const ClickSection = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  `;
-  const MenuSection = styled.div`
-    width: 53%;
-    height: 100%;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 48px;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 30px;
-    }
-  `;
-  const LoginSection = styled.div`
-    width: 27%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 60px;
-  `;
-  const Menu = styled.div`
-    display: ${({ visible }) => (visible ? "flex" : "none")};
-    flex-direction: column;
-    background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    z-index: 1;
-    top: 100%; // Position the menu below the button
-    left: 0; // Align the menu with the left side of the button
-  `;
   function loginFalse() {
     return (
       <LoginSection>

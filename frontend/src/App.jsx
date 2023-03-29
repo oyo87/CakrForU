@@ -18,13 +18,14 @@ import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 import RecommendWishList from "./RecommendWishlist";
 
+const AppContainer = styled.div`
+  &,
+  & * {
+    box-sizing: border-box;
+  }
+`;
+
 function App() {
-  const AppContainer = styled.div`
-    &,
-    & * {
-      box-sizing: border-box;
-    }
-  `;
   return (
     <AppContainer>
       <Routes>
