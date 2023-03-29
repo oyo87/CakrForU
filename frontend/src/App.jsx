@@ -9,6 +9,7 @@ import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
+import InfoDetail from "./InfoDetail";
 import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
+        <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
       </Routes>
