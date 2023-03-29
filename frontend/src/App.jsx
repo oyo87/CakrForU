@@ -9,7 +9,6 @@ import AuthPage from "./AuthPage";
 import SignUpBuyer from "./SignUpBuyer";
 import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
-import Testpage from "./Testpage";
 import InfoDetail from "./InfoDetail";
 import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
