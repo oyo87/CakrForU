@@ -134,7 +134,6 @@ public class SellerController {
         } catch(BaseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
         }
-
         Authentication authentication;
         try{
             authentication = authenticationManager.authenticate(
