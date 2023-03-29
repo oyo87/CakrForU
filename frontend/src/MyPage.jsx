@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
 import ColContainer from "./components/layout/ColContainer";
+import MyPageCard from "./components/MyPageCard";
 import Burger from "./assets/img/burger.png";
 import GapH from "./components/layout/GapH";
 import GapW from "./components/layout/GapW";
@@ -48,7 +49,21 @@ function MyPage() {
             </RowContainer>
           </ColContainer>
         </RowContainer>
-        <RowContainer height="calc(100vh * 70.2 / 100 - 60px)">a</RowContainer>
+                <ColContainer
+          height="calc(100vh * 70.2 / 100 - 60px)"
+          align="start"
+          width="1170px"
+          style={{ alignSelf: "center" }}
+        >
+          <BoldMedium>MY CAKE</BoldMedium>
+          <GapH />
+          <RowContainer
+            width="100%"
+            style={{ justifyContent: "space-between" }}
+          >
+            <MyPageCard title="title1" />
+            <MyPageCard title="title2" />
+          </RowContainer>
       </UpDownContainer>
     </div>
   );
