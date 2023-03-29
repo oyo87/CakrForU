@@ -3,6 +3,8 @@ package com.a604.cake4u.recommendation.controller;
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.enums.ESituation;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.repository.RecommPortfolioRepository;
+import com.a604.cake4u.recommendation.dto.RecommendationFilter;
 import com.a604.cake4u.recommendation.service.RecommendationService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.List;
 public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;
+    private final RecommPortfolioRepository recommPortfolioRepository;
 
     @GetMapping("/gender-and-age")
     public ResponseEntity<?> recommendByGenderAndAge(@RequestParam(value="age") int age,
@@ -40,6 +43,12 @@ public class RecommendationController {
     public ResponseEntity<?> recommendByWishlist(@RequestParam(value="user-id") long userId){
         List<PortfolioResponseDto> portfolios = recommendationService.getPortfolioRecommendationByWishlist(userId);
         return ResponseEntity.status(HttpStatus.OK).body(portfolios);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> recommendByFilter(RecommendationFilter recommendationFilter) {
+        List<PortfolioResponseDto> portfolios = recommPortfolioRepository.findPortfolioRecommended(recommendationFilter);
+        return new ResponseEntity<>(portfolios, HttpStatus.OK);
     }
 
 }
