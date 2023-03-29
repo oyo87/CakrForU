@@ -11,6 +11,10 @@ import SignUpSeller from "./SignUpSeller";
 import RecommendPersonal from "./RecommendPersonal";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
+import MyPage from "./MyPage";
+import PortfolioModal from "./components/PortfolioModal";
+import Diff from "./Diff";
+import MakeOrder from "./MakeOrder";
 import MyPageOrderList from "./MyPageOrderList";
 
 function App() {
@@ -29,11 +33,15 @@ function App() {
         <Route path="/signup/seller" element={<SignUpSeller />} />
         <Route path="/main" element={<Main />} />
         <Route path="/popular" element={<Popular />} />
+        <Route path="/modal" element={<PortfolioModal />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/diff" element={<Diff />} />
+        <Route path="/makeOrder" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
-        <Route path="mypage/orderlist" element={<MyPageOrderList />} />
+        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
       </Routes>
     </AppContainer>
   );

@@ -10,7 +10,7 @@ import BoldMedium from "./components/text/BoldMedium";
 import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
 
-function Mypage() {
+function MyPage() {
   return (
     <div>
       <Header />
@@ -54,4 +54,4 @@ function Mypage() {
   );
 }
 
-export default Mypage;
+export default MyPage;
