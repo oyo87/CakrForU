@@ -88,45 +88,55 @@ function SignUpSeller() {
   });
 
   const handleChange = (e) => {
-    console.log(e);
-    console.log(e.target);
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSelect = (e) => {
-    console.log(e.value);
     setFormData((prevData) => ({ ...prevData, phonePrefix: e.value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     const phoneNumber = `${formData.phonePrefix}-${formData.phoneNumberPart1}-${formData.phoneNumberPart2}`;
     const birthDate = `${formData.year}-${formData.month}-${formData.day}`;
     const businessLocation = `${formData.roadAddress} ${formData.detailedAddress}`;
+
+    const sellerSaveRequestDto = {
+      email: formData.email,
+      password: formData.password,
+      gender: formData.gender,
+      birthDate,
+      roadAddress: formData.roadAddress,
+      detailedAddress: formData.detailedAddress,
+      dongCode: formData.dongCode,
+      buildingName: formData.buildingName,
+      phoneNumber,
+      name: formData.name,
+      businessNumber: formData.businessNumber,
+      businessLocation,
+      businessName: formData.businessName,
+      contact: formData.contact,
+      account: `${formData.bankName} ${formData.bankAccount}`,
+      businessDescription: formData.businessDescription,
+    };
+    const queryParams = {
+      sellerSaveRequestDtoString: JSON.stringify(sellerSaveRequestDto),
+    };
     axios
-      .post("https://j8a604.p.ssafy.io/api/seller/signup", {
-        email: formData.email,
-        password: formData.password,
-        gender: formData.gender,
-        birthDate,
-        roadAddress: formData.roadAddress,
-        detailedAddress: formData.detailedAddress,
-        dongCode: formData.dongCode,
-        buildingName: formData.buildingName,
-        phoneNumber,
-        name: formData.name,
-        businessNumber: formData.businessNumber,
-        businessLocation,
-        businessName: formData.businessName,
-        contact: formData.contact,
-        account: `${formData.bankName} ${formData.bankAccount}`,
-        businessDescription: formData.businessDescription,
-      })
+      .post(
+        "/seller/signup",
+        {},
+        {
+          params: queryParams,
+        }
+      )
       .then((res) => {
         console.log(res);
       });
+    axios.get("seller/seller/search/all").then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -150,7 +160,6 @@ function SignUpSeller() {
               zIndex: "2",
             }}
             onComplete={(data) => {
-              console.log(data);
               setFormData((prevData) => ({
                 ...prevData,
                 roadAddress: data.roadAddress,
@@ -369,7 +378,7 @@ function SignUpSeller() {
             height="55px"
             borderRadius="10px"
             placeholder="상세주소 입력(동/호)"
-            name="DetailedAddress"
+            name="detailedAddress"
             onChange={handleChange}
           />
           <GapH height="25px" />
