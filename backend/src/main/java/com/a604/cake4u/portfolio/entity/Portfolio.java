@@ -2,6 +2,7 @@ package com.a604.cake4u.portfolio.entity;
 
 import com.a604.cake4u.enums.*;
 import com.a604.cake4u.imagefile.entity.ImageFile;
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
@@ -72,5 +73,23 @@ public class Portfolio {
     private String detail;
     public void addPortfolioImageFile(ImageFile imageFile) {
         this.imageFileList.add(imageFile);
+    }
+
+    public PortfolioResponseDto toDto() {
+        return PortfolioResponseDto.builder()
+                .id(this.id)
+                .sellerId(this.seller.getId())
+                .hit(this.hit)
+                .createdAt(this.createdAt)
+                .gender(this.gender)
+                .situation(this.situation)
+                .ageGroup(this.ageGroup)
+                .size(this.size)
+                .color(this.color)
+                .shape(this.shape)
+                .sheetTaste(this.sheetTaste)
+                .creamTaste(this.creamTaste)
+                .detail(this.detail)
+                .build();
     }
 }

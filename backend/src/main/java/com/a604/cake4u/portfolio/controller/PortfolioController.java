@@ -1,6 +1,7 @@
 package com.a604.cake4u.portfolio.controller;
 
 import com.a604.cake4u.enums.*;
+import com.a604.cake4u.imagefile.service.ImageFileService;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.dto.PortfolioSaveDto;
@@ -31,6 +32,7 @@ import java.util.Objects;
 @RequestMapping("/portfolio")
 public class PortfolioController {
     private final PortfolioService portfolioService;
+    private final ImageFileService imageFileService;
 
     //포트폴리오 생성
     @ApiOperation(value = "포트폴리오 생성", notes = "req_data : " +
@@ -80,7 +82,7 @@ public class PortfolioController {
 
             log.info("portfolioSaveDto : " + portfolioSaveDto);
 
-            return new ResponseEntity<>(portfolioId, HttpStatus.CREATED);
+            return new ResponseEntity<>("포트폴리오 등록 성공\n포트폴리오 번호 : " + portfolioId, HttpStatus.CREATED);
         } catch (Exception e) {
             log.error("Error creating portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error creating portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -155,9 +157,10 @@ public class PortfolioController {
             log.info("In deletePortfolio");
             log.info("id = " + id);
 
+            int deletedImages = imageFileService.deleteImageFilesByPortfolioId(id);
             portfolioService.deletePortfolio(id);
 
-            return new ResponseEntity<>("Portfolio deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Portfolio deleted successfully, " + deletedImages + " images are deleted.", HttpStatus.OK);
         } catch (Exception e) {
             log.error("Error deleting portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error deleting portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

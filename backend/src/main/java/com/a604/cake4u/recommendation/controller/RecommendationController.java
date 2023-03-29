@@ -4,6 +4,8 @@ import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
 import com.a604.cake4u.enums.ESituation;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.repository.RecommPortfolioRepository;
+import com.a604.cake4u.recommendation.dto.RecommendationFilter;
 import com.a604.cake4u.recommendation.service.RecommendationService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,9 @@ import java.util.List;
 public class RecommendationController {
     @Autowired
     private RecommendationService recommendationService;
+
+    private final RecommPortfolioRepository recommPortfolioRepository;
+
     @Autowired
     private BuyerRepository buyerRepository;
 
@@ -44,6 +49,12 @@ public class RecommendationController {
     public ResponseEntity<?> recommendByWishlist(@RequestParam(value="user-id") long userId, @RequestParam(value="page") int page){
         List<PortfolioResponseDto> portfolios = recommendationService.getPortfolioRecommendationByWishlist(userId);
         return ResponseEntity.status(HttpStatus.OK).body(portfolios);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> recommendByFilter(RecommendationFilter recommendationFilter) {
+        List<PortfolioResponseDto> portfolios = recommPortfolioRepository.findPortfolioRecommended(recommendationFilter);
+        return new ResponseEntity<>(portfolios, HttpStatus.OK);
     }
 
 }
