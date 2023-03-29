@@ -24,13 +24,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/recommendation")
 public class RecommendationController {
-    @Autowired
-    private RecommendationService recommendationService;
-
+    private final RecommendationService recommendationService;
     private final RecommPortfolioRepository recommPortfolioRepository;
-
-    @Autowired
-    private BuyerRepository buyerRepository;
+    private final BuyerRepository buyerRepository;
 
     @GetMapping("/personal")
     public ResponseEntity<?> recommendByGenderAndAge(@RequestParam(value="page") int page, @RequestParam(value="email") String email){

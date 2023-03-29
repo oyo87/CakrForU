@@ -20,11 +20,10 @@ import java.util.List;
 @RestController("/wish")
 public class WishListController {
 
-    @Autowired
-    private WishListService wishListService;
 
-    @Autowired
-    private PortfolioService portfolioService;
+    private final WishListService wishListService;
+
+    private final PortfolioService portfolioService;
 
     @ApiOperation(value = "찜목록 추가", notes = "req_data=[Long Buyer_id, Long Portfolio_id]")
     @PostMapping("/")

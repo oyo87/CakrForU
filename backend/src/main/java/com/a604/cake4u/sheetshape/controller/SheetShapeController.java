@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "SheetShapeConroller")
 @RequiredArgsConstructor
 public class SheetShapeController {
-    @Autowired
     private final SheetShapeService sheetShapeService;
 
     @ApiOperation(value = "시트모양 폼 수정")

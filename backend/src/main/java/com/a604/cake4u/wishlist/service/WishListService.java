@@ -7,6 +7,7 @@ import com.a604.cake4u.portfolio.repository.PortfolioRepository;
 import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.entity.Wishlist;
 import com.a604.cake4u.wishlist.repository.WishListRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +17,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class WishListService {
 
-    @Autowired
-    private BuyerRepository buyerRepository;
+    private final BuyerRepository buyerRepository;
 
-    @Autowired
-    private PortfolioRepository portfolioRepository;
+    private final PortfolioRepository portfolioRepository;
 
-    @Autowired
-    private WishListRepository wishListRepository;
+    private final WishListRepository wishListRepository;
 
     public void saveWish(WishListRequestDto wishListRequestDto){
 
