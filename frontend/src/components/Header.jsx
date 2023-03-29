@@ -213,7 +213,7 @@ function Header({ handleClickOutModal }) {
             <Small cursor="pointer">가게</Small>
           </Link>
           <Link
-            to="/recommend"
+            to="/recommend/personal"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Small cursor="pointer">추천</Small>
