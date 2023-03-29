@@ -177,14 +177,14 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/{buyerId}")
+    @GetMapping("/buyer/{buyerId}")
     public ResponseEntity<?> getBuyerOrderSheet(@PathVariable(name = "buyerId") Long buyerId) {
         System.out.println("ordersheet get buyerId test");
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{sellerId}")
+    @GetMapping("/seller/{sellerId}")
     public ResponseEntity<?> getSellerOrderSheet(@PathVariable(name = "sellerId") Long sellerId) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);

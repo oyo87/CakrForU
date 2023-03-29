@@ -106,7 +106,7 @@ function SignUpSeller() {
     const birthDate = `${formData.year}-${formData.month}-${formData.day}`;
     const businessLocation = `${formData.roadAddress} ${formData.detailedAddress}`;
     axios
-      .post("/seller/signup", {
+      .post("https://j8a604.p.ssafy.io/api/seller/signup", {
         email: formData.email,
         password: formData.password,
         gender: formData.gender,

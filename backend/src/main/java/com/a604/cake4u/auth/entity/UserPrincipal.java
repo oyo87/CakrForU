@@ -1,6 +1,7 @@
 package com.a604.cake4u.auth.entity;
 
 import com.a604.cake4u.buyer.entity.Buyer;
+import com.a604.cake4u.seller.entity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -97,6 +98,23 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
 
     public static UserPrincipal createBuyerPrincipal(Buyer buyer, Map<String, Object> attributes) {
         UserPrincipal userPrincipal = createBuyerPrincipal(buyer);
+        userPrincipal.setAttributes(attributes);
+
+        return userPrincipal;
+    }
+
+    public static UserPrincipal createSellerPrincipal(Seller seller) {
+        return new UserPrincipal(
+                seller.getEmail(),
+                seller.getPassword(),
+                null,
+                RoleType.BUYER,
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.BUYER.getCode()))
+        );
+    }
+
+    public static UserPrincipal createSellerPrincipal(Seller seller, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = createSellerPrincipal(seller);
         userPrincipal.setAttributes(attributes);
 
         return userPrincipal;
