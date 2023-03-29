@@ -7,10 +7,12 @@ import com.a604.cake4u.recommendation.dto.RecommendationFilter;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 @RequiredArgsConstructor
 public class RecommPortfolioRepositoryImpl implements RecommPortfolioRepository {
     private final JPAQueryFactory queryFactory;
