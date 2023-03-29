@@ -28,7 +28,7 @@ function MakeOrder() {
     cursor: pointer;
   `;
 
-  const [imageSrc, setImageSrc] = useState(null);
+  const [imageSrcs, setImageSrcs] = useState([]);
   const [sheetShape, setSheetShape] = useState(null);
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
@@ -48,16 +48,29 @@ function MakeOrder() {
   };
 
   const handleDiffusion = () => {
+    const promptParts = ["LETTERING CAKE"];
+    if (sheetShape) {
+      promptParts.push(sheetShape.toUpperCase());
+    }
+    if (sheetTaste) {
+      promptParts.push(sheetTaste.toUpperCase());
+    }
+    if (creamTaste) {
+      promptParts.push(creamTaste.toUpperCase());
+    }
+    const finalPrompt = promptParts.join(", ");
+
+    // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
     axios
       .post("/sdapi/v1/txt2img", {
-        prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
+        prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
       })
       .then((res) => {
         const imageData = res.data.images[0];
         const imageUrl = `data:image/png;base64,${imageData}`;
-        setImageSrc(imageUrl);
+        setImageSrcs((prevImageSrcs) => [...prevImageSrcs, imageUrl]);
       });
   };
 
@@ -413,17 +426,21 @@ function MakeOrder() {
                 Fleuve cake
               </Large>
               <GapH height="47px" />
-              {imageSrc && (
-                <img
-                  src={imageSrc}
-                  alt="Generated"
-                  style={{
-                    width: "242px",
-                    height: "185px",
-                    objectFit: "cover",
-                  }}
-                />
-              )}
+              <ColContainer height="700px" overflowY="auto" justify="start">
+                {imageSrcs.map((src, index) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`Generated ${index + 1}`}
+                    style={{
+                      width: "242px",
+                      height: "242px",
+                      objectFit: "cover",
+                    }}
+                  />
+                ))}
+              </ColContainer>
+
               <div
                 style={{
                   flexGrow: 1,
