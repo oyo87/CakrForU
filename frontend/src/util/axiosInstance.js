@@ -1,6 +1,10 @@
 import axios from "axios";
 
-axios.interceptors.request.use(
+const axiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+});
+
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access-token");
     const newConfig = config;
@@ -14,4 +18,4 @@ axios.interceptors.request.use(
   }
 );
 
-export default axios;
+export default axiosInstance;

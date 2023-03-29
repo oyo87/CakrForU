@@ -8,12 +8,4 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
-
-  // app.use(
-  //   "/seller",
-  //   createProxyMiddleware({
-  //     target: "http://j8a604.p.ssafy.io:8080",
-  //     changeOrigin: true,
-  //   })
-  // );
 };
