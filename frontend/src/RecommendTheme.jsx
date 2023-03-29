@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
@@ -13,16 +13,26 @@ import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
 
-function RecommendPersonal() {
-  const loginUser = useSelector((state) => state.login.user);
+function RecommendSituation() {
+  const [option, setOption] = useState("생일");
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
-  const user = useSelector((state) => state.login.user);
-  function fetchPortfolios() {
+  const situationDict = {
+    아이돌: "IDOL",
+    "입/퇴사": "COMPANY",
+    환갑: "SIXTIETH",
+    생일: "BIRTHDAY",
+    기념일: "ANNIVERSARY",
+    "결혼 케이크": "MARRIAGE",
+    전역: "DISCHARGE",
+    크리스마스: "CHRISTMAS",
+    기타: "ETC",
+  };
+  function fetchPortfolios(situation) {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?email=${user.email}&page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/recommendation/situation?situation=${situationDict[situation]}&page=${page}`
       )
       .then((res) => {
         const answer = [];
@@ -39,11 +49,11 @@ function RecommendPersonal() {
   }
 
   useEffect(() => {
-    fetchPortfolios();
-  }, []);
+    fetchPortfolios(option);
+  }, [page, option]);
 
   const load = () => {
-    fetchPortfolios();
+    fetchPortfolios(option);
     window.scrollTo({
       top: 100,
       left: 100,
@@ -52,13 +62,18 @@ function RecommendPersonal() {
   };
 
   const loadMore = () => {
-    setPage(page + 1);
+    const nextpage = page + 1;
+    setPage(nextpage);
     load();
   };
 
   const loadPrev = () => {
     setPage(page - 1);
     load();
+  };
+
+  const handleChange = (event) => {
+    setOption(event.value);
   };
 
   return (
@@ -72,20 +87,24 @@ function RecommendPersonal() {
             <Select
               width="183px"
               height="55px"
-              options={["여성", "남성"]}
-              placeholder="성별"
-            />
-            <GapW width="15px" />
-            <Select
-              width="183px"
-              height="55px"
-              options={["여성", "남성"]}
-              placeholder="연령"
+              options={[
+                "아이돌",
+                "입/퇴사",
+                "환갑",
+                "생일",
+                "기념일",
+                "결혼 케이크",
+                "전역",
+                "크리스마스",
+                "기타",
+              ]}
+              value={option}
+              onChange={handleChange}
             />
           </RowContainer>
           <GapH height="57px" />
           <RowContainer justify="start">
-            <Medium># {loginUser.age}대</Medium>
+            <Medium># {option}</Medium>
             <GapW />
           </RowContainer>
           <GapH height="58px" />
@@ -137,4 +156,4 @@ function RecommendPersonal() {
   );
 }
 
-export default RecommendPersonal;
+export default RecommendSituation;

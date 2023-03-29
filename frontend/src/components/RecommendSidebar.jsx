@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import ColContainer from "./layout/ColContainer";
 import Medium from "./text/Medium";
 
+const SideBar = styled.div`
+  width: 440px;
+  height: 100vh;
+  top: 100;
+  left: 0;
+  z-index: 1;
+`;
+
 function RecommendSidebar() {
-  const SideBar = styled.div`
-    width: 440px;
-    height: 100vh;
-    top: 100;
-    left: 0;
-    z-index: 1;
-  `;
   return (
     <div>
       <SideBar>
@@ -36,7 +37,7 @@ function RecommendSidebar() {
           >
             <Medium>테마</Medium>
           </Link>
-          <Link
+          {/* <Link
             to="/recommend/combination"
             style={{
               textDecoration: "none",
@@ -45,7 +46,7 @@ function RecommendSidebar() {
             }}
           >
             <Medium>조합</Medium>
-          </Link>
+          </Link> */}
           <Link
             to="/recommend/wishlist"
             style={{

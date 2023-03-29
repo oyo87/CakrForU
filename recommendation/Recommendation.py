@@ -13,7 +13,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-mysql_url = "mysql+pymysql://a604:a604ssafy@localhost:3306/C4U?charset=utf8"
+mysql_url = "mysql+pymysql://root:root@localhost:3306/C4U?charset=utf8"
 engine = create_engine(mysql_url, echo=True)
 
 # Declare & create Session
@@ -71,7 +71,7 @@ def db_conn(tid):
     df_predicted = pd.DataFrame(svd_predicted_ratings, index=pivot.index, columns=pivot.columns)
     sorted_predictions = df_predicted.loc[tid].sort_values(ascending=False)
     user_data = df_ratings[df_ratings.buyer_id == tid]['portfolio_id']
-    return jsonify(list(set(sorted_predictions.index) - set(user_data)))
+    return jsonify([ele for ele in sorted_predictions.index if ele not in user_data.index])
 
 if __name__ == "__main__" :
     # app.run(host='127.0.0.1', port=8080, debug=True)

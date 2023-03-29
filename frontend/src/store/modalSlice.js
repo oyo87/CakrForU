@@ -4,6 +4,7 @@ const modalSlice = createSlice({
   name: "modal",
   initialState: {
     portfolioOpen: false,
+    addressOpen: false,
   },
   reducers: {
     openPortfolio: (state) => {
@@ -12,9 +13,16 @@ const modalSlice = createSlice({
     closePortfolio: (state) => {
       state.portfolioOpen = false;
     },
+    openAddress: (state) => {
+      state.addressOpen = true;
+    },
+    closeAddress: (state) => {
+      state.addressOpen = false;
+    },
   },
 });
 
-export const { openPortfolio, closePortfolio } = modalSlice.actions;
+export const { openPortfolio, closePortfolio, openAddress, closeAddress } =
+  modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "SheetSizeConroller")
 @RequiredArgsConstructor
 public class SheetSizeController {
-    @Autowired
+
     private final SheetSizeService sheetSizeService;
 
     @ApiOperation(value = "시트사이즈 폼 수정")

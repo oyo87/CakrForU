@@ -9,6 +9,9 @@ import com.a604.cake4u.portfolio.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +32,9 @@ public class RecommendationService {
     @Autowired
     private PortfolioService portfolioService;
 
-    public List<PortfolioResponseDto> getPortfolioRecommendationByAgeAndGender(int age, EGender gender){
-        List<Portfolio> portfolios = portfolioRepository.findPortfolioByAgeGroupAndGenderOrderByHitDesc(age, gender);
+    public List<PortfolioResponseDto> getPortfolioRecommendationByAgeAndGender(int page, int age, EGender gender){
+        Page<Portfolio> portfolioList = portfolioRepository.findPortfolioByAgeGroupAndGenderOrderByHitDesc(PageRequest.of(page, 20, Sort.by("hit").descending()),age, gender);
+        List<Portfolio> portfolios = portfolioList.getContent();
         List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
 
         for (Portfolio p : portfolios) {
@@ -39,8 +43,9 @@ public class RecommendationService {
         return portfolioDtos;
     };
 
-    public List<PortfolioResponseDto> getPortfolioRecommendationBySituation(ESituation situation){
-        List<Portfolio> portfolios = portfolioRepository.findPortfolioBySituationOrderByHitDesc(situation);
+    public List<PortfolioResponseDto> getPortfolioRecommendationBySituation(int page, ESituation situation){
+        Page<Portfolio> portfolioList = portfolioRepository.findPortfolioBySituationOrderByHitDesc(PageRequest.of(page, 20, Sort.by("hit").descending()), situation);
+        List<Portfolio> portfolios = portfolioList.getContent();
         List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
         for (Portfolio p : portfolios){
             portfolioDtos.add(portfolioService.portfolioEntityToPortfolioResponseDTO(p));

@@ -9,23 +9,23 @@ import RowContainer from "./layout/RowContainer";
 import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
 
+const Contain = styled.div`
+  width: 521px;
+  height: 354px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const ItemsContain = styled.div`
+  width: 521px;
+  height: 354px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function BuyerCarousel() {
-  const Contain = styled.div`
-    width: 521px;
-    height: 354px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  `;
-
-  const ItemsContain = styled.div`
-    width: 521px;
-    height: 354px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `;
-
   const responsive = {
     0: {
       items: 1,

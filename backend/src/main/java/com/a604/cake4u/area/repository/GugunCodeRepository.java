@@ -5,9 +5,11 @@ import com.a604.cake4u.area.entity.GugunCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GugunCodeRepository extends JpaRepository<GugunCode, String> {
     //Dto에서 getGugunName() 하기 때문에 카멜케이스 맞춰야 인식해서 가져옴, 그래서 as로 별칭줘야 인식할 수 있음
     @Query(value = "select left(g.gugun_code,5) as gugunCode, g.gugun_name as gugunName " +

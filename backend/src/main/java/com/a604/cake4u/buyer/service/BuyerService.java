@@ -38,26 +38,6 @@ public class BuyerService {
         return 1;
     }
 
-    public Map<String, Object> login(BuyerLoginDto loginDto) throws Exception {
-
-        Buyer buyer = buyerRepository.findByEmail(loginDto.getEmail())
-                .orElseThrow(() -> new BaseException(ErrorMessage.NOT_EXIST_EMAIL));
-
-        BuyerLoginDto buyerLoginDto = BuyerLoginDto.builder()
-                .email(buyer.getEmail())
-                .password(buyer.getPassword())
-                .build();
-
-        if(!loginDto.getPassword().equals(buyerLoginDto.getPassword())) { //Todo; Security 적용 이후 PasswordEncoder.matches로 변경해야 함
-            throw new BaseException(ErrorMessage.NOT_PASSWORD);
-        }
-
-        return new HashMap<String, Object>(){{
-            //Todo; 토큰, buyerReponseDto 추가
-        }
-        };
-    }
-
     public void updatePassword(BuyerUpdatePasswordDto buyerUpdatePasswordDto){
 
         Optional<Buyer> buyer = buyerRepository.findByEmail(buyerUpdatePasswordDto.getEmail());
@@ -78,9 +58,12 @@ public class BuyerService {
         Optional<Buyer> buyer = buyerRepository.findById(id);
 
         BuyerInfoDto buyerResponseDto = BuyerInfoDto.builder()
+                .id(buyer.get().getId())
                 .nickname(buyer.get().getNickname())
                 .phoneNumber(buyer.get().getPhoneNumber())
                 .age(buyer.get().getAge())
+                .gender(buyer.get().getGender())
+                .providerType(buyer.get().getProviderType())
                 .build();
 
         return buyerResponseDto;
