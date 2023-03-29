@@ -19,6 +19,47 @@ import Welcome2d from "./assets/img/welcome_2d.png";
 import LeftButton from "./assets/img/left_button.png";
 import RightButton from "./assets/img/right_button.png";
 
+const ContentContainer = styled.div`
+  position: relative;
+  flex-grow: 1;
+`;
+const ImageContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+const MainContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 55%;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  z-index: 2;
+  ${(props) => (props.left ? "left: -45px;" : "right: -45px;")}
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
 function Welcome() {
   const navigate = useNavigate();
   const [activeCard, setActiveCard] = useState(0);
@@ -147,47 +188,6 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
     }
     return "0";
   };
-
-  const ContentContainer = styled.div`
-    position: relative;
-    flex-grow: 1;
-  `;
-  const ImageContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  `;
-  const MainContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  `;
-  const StyledImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  `;
-  const CardContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 55%;
-  `;
-
-  const Button = styled.button`
-    position: absolute;
-    z-index: 2;
-    ${(props) => (props.left ? "left: -45px;" : "right: -45px;")}
-    background-color: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-  `;
 
   return (
     <UpDownContainer>

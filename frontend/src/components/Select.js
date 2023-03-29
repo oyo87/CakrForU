@@ -47,7 +47,7 @@ function Select({
     <ReactSelect
       styles={customStyles}
       options={formattedOptions}
-      placeholder={placeholder || "생일"}
+      placeholder={placeholder || "선택"}
       onChange={onChange}
     />
   );
