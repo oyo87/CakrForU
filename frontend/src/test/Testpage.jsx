@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import UpDownContainer from "./components/UpDownContainer";
-import RowContainer from "./components/RowContainer";
-import ColContainer from "./components/ColContainer";
-import BoldMedium from "./components/text/BoldMedium";
-import BoldLarge from "./components/text/BoldLarge";
-import Button4 from "./components/button/Button4";
-import GapW from "./components/GapW";
-import GapH from "./components/GapH";
-import Burger from "./assets/img/burger.png";
-import Header from "./components/Header";
+import UpDownContainer from "../components/layout/UpDownContainer";
+import RowContainer from "../components/layout/RowContainer";
+import ColContainer from "../components/layout/ColContainer";
+import BoldMedium from "../components/text/BoldMedium";
+import BoldLarge from "../components/text/BoldLarge";
+import Button4 from "../components/button/Button4";
+import GapW from "../components/layout/GapW";
+import GapH from "../components/layout/GapH";
+import Burger from "../assets/img/burger.png";
+import Header from "../components/Header";
 
 function Testpage() {
   const [isActive, setIsActive] = useState(false);

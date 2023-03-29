@@ -94,7 +94,8 @@ public class OrderSheet {
     @Column(name = "review_created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp reviewCreatedAt;
 
-    @Column(name = "review_rating")
+    @Column(name = "review_rating", nullable = false)
+    @ColumnDefault("0")
     private int reviewRating;
 
     public void addOrderSheetImageFile(ImageFile imageFile) {

@@ -5,9 +5,9 @@ import AliceCarousel from "react-alice-carousel";
 import Medium from "./text/Medium";
 import MediumSmall from "./text/MediumSmall";
 import Notebook from "../assets/img/notebook.png";
-import RowContainer from "./RowContainer";
-import ColContainer from "./ColContainer";
-import GapH from "./GapH";
+import RowContainer from "./layout/RowContainer";
+import ColContainer from "./layout/ColContainer";
+import GapH from "./layout/GapH";
 
 function BuyerCarousel() {
   const Contain = styled.div`

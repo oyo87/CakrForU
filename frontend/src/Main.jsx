@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import UpDownContainer from "./components/UpDownContainer";
-import RowContainer from "./components/RowContainer";
+import UpDownContainer from "./components/layout/UpDownContainer";
+import RowContainer from "./components/layout/RowContainer";
 import Header from "./components/Header";
-import ColContainer from "./components/ColContainer";
+import ColContainer from "./components/layout/ColContainer";
 import BoldLarge from "./components/text/BoldLarge";
 import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import Small from "./components/text/Small";
 import Button1 from "./components/button/Button1";
-import GapH from "./components/GapH";
+import GapH from "./components/layout/GapH";
 import Pick1 from "./assets/img/pick1.png";
 import Pick2 from "./assets/img/pick2.png";
 import Pick3 from "./assets/img/pick3.png";
@@ -18,7 +18,7 @@ import Mask3 from "./assets/img/mask3.png";
 import Mask4 from "./assets/img/mask4.png";
 import BoldMedium from "./components/text/BoldMedium";
 import MediumSmall from "./components/text/MediumSmall";
-import GapW from "./components/GapW";
+import GapW from "./components/layout/GapW";
 
 function Main() {
   const ImageContainer = styled.div`

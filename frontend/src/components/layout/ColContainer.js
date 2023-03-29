@@ -10,6 +10,15 @@ const ColContainer = styled.div`
   background-color: ${(props) => props.background || "transparent"};
   position: ${(props) => props.position || "static"};
   gap: ${(props) => props.gap || "0"};
+  border: ${(props) => props.border || "none"};
+  border-radius: ${(props) => props.borderRadius || "0"};
+  border-color: ${(props) => props.borderColor || "transparent"};
+  border-top: ${(props) => props.borderTop || "none"};
+  border-top-color: ${(props) => props.borderTopColor || "transparent"};
+  padding-left: ${(props) => props.paddingLeft || "0"};
+  padding-right: ${(props) => props.paddingRight || "0"};
+  cursor: ${(props) => props.cursor || "default"};
+  overflow-y: ${(props) => props.overflowY || "none"};
 `;
 
 export default ColContainer;

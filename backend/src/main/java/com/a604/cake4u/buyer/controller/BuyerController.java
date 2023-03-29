@@ -8,6 +8,7 @@ import com.a604.cake4u.auth.service.AuthTokenProvider;
 import com.a604.cake4u.auth.service.CustomUserDetailsService;
 import com.a604.cake4u.auth.util.CookieUtil;
 import com.a604.cake4u.buyer.dto.BuyerInfoDto;
+import com.a604.cake4u.buyer.dto.BuyerLoginDto;
 import com.a604.cake4u.buyer.dto.BuyerSaveRequestDto;
 import com.a604.cake4u.buyer.dto.BuyerUpdatePasswordDto;
 import com.a604.cake4u.buyer.entity.Buyer;
@@ -25,6 +26,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +69,16 @@ public class BuyerController {
         }
 
         return ResponseEntity.status(sts).body(resultMsg);
+    }
+
+    @ApiOperation(value="토큰정보얻기")
+    @GetMapping("/")
+    public ResponseEntity getUser() {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Buyer buyer = buyerRepository.findByEmail(principal.getUsername()).get();
+        BuyerInfoDto dto = new BuyerInfoDto(buyer.getId(), buyer.getEmail(), buyer.getNickname(), buyer.getPhoneNumber(), buyer.getAge(), buyer.getGender());
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @ApiOperation(value = "로그인", notes = "req_data : [email, password]")

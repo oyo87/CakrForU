@@ -1,10 +1,10 @@
 import React from "react";
-import ColContainer from "./ColContainer";
-import RowContainer from "./RowContainer";
+import ColContainer from "./layout/ColContainer";
+import RowContainer from "./layout/RowContainer";
 import Small from "./text/Small";
 import Large from "./text/Large";
-import GapH from "./GapH";
-import GapW from "./GapW";
+import GapH from "./layout/GapH";
+import GapW from "./layout/GapW";
 
 function RecommendHeader() {
   return (

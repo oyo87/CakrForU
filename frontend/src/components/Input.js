@@ -9,7 +9,9 @@ const Input = styled.input.attrs((props) => ({
   text-indent: ${(props) => (props.centerPlaceholder ? "0" : "20px")};
   border: ${(props) => props.border || "1px solid #cccccc"};
   border-radius: ${(props) => props.borderRadius || "0"};
+  border-color: ${(props) => props.borderColor || "black"};
   text-align: ${(props) => (props.centerPlaceholder ? "center" : "inherit")};
+  text-justify: ${(props) => (props.justify ? props.justify : "inherit")};
 
   &::placeholder {
     color: ${(props) =>
