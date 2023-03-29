@@ -134,7 +134,7 @@ function SignUpSeller() {
       .then((res) => {
         console.log(res);
       });
-    axios.get("seller/seller/search/all").then((res) => {
+    axios.get("/seller/seller/search/all").then((res) => {
       console.log(res);
     });
   };
