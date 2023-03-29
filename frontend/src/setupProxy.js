@@ -8,4 +8,12 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    "/seller",
+    createProxyMiddleware({
+      target: "http://3.34.141.245:8080",
+      changeOrigin: true,
+    })
+  );
 };

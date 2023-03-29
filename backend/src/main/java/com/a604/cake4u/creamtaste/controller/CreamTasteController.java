@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "CreamTasteConroller")
 @RequiredArgsConstructor
 public class CreamTasteController {
-    @Autowired
+
     private final CreamTasteService creamTasteService;
 
     @ApiOperation(value = "크림맛폼 수정")

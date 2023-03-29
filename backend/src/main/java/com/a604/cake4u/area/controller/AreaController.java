@@ -20,7 +20,6 @@ import java.util.List;
 @ApiOperation(value = "AreaController")
 @RequiredArgsConstructor
 public class AreaController {
-    @Autowired
     private final AreaService areaService;
 
     @ApiOperation(value="시,도 가져오기")

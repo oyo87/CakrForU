@@ -6,17 +6,19 @@ import com.a604.cake4u.sheetshape.dto.SheetShapeResponseDto;
 import com.a604.cake4u.sheetshape.dto.SheetShapeSaveRequestDto;
 import com.a604.cake4u.sheetshape.dto.SheetShapeUpdateRequestDto;
 import com.a604.cake4u.sheetshape.repository.SheetShapeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SheetShapeService {
-    @Autowired
-    SheetShapeRepository sheetShapeRepository;
-    @Autowired
-    private SellerRepository sellerRepository;
+
+    private final SheetShapeRepository sheetShapeRepository;
+
+    private final SellerRepository sellerRepository;
 
     public void saveSheetShape(SheetShapeSaveRequestDto shape) {
         sheetShapeRepository.save(shape.toEntity());
