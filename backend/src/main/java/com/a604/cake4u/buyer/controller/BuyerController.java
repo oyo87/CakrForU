@@ -77,7 +77,7 @@ public class BuyerController {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Buyer buyer = buyerRepository.findByEmail(principal.getUsername()).get();
-        BuyerInfoDto dto = new BuyerInfoDto(buyer.getId(), buyer.getEmail(), buyer.getNickname(), buyer.getPhoneNumber(), buyer.getAge(), buyer.getGender());
+        BuyerInfoDto dto = new BuyerInfoDto(buyer.getId(), buyer.getEmail(), buyer.getNickname(), buyer.getPhoneNumber(), buyer.getAge(), buyer.getGender(), buyer.getProviderType());
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
