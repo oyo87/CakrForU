@@ -12,10 +12,11 @@ import RecommendPersonal from "./RecommendPersonal";
 import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
-import MyPage from "./MyPage";
+import MyPage from "./Mypage";
 import PortfolioModal from "./components/PortfolioModal";
 import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
+import RecommendWishList from "./RecommendWishlist";
 
 function App() {
   const AppContainer = styled.div`
@@ -42,6 +43,7 @@ function App() {
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
+        <Route path="/recommend/wishlist" element={<RecommendWishList />} />
       </Routes>
     </AppContainer>
   );

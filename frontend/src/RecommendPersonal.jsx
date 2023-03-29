@@ -15,7 +15,6 @@ import Button1 from "./components/button/Button1";
 
 function RecommendPersonal() {
   const loginUser = useSelector((state) => state.login.user);
-  const [recommendList, setRecommendList] = useState([]);
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
@@ -26,19 +25,14 @@ function RecommendPersonal() {
         `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?email=${user.email}&page=${page}`
       )
       .then((res) => {
-        setRecommendList(res.data);
         const answer = [];
-        const row = Math.floor(recommendList.length / cardPerRow);
-        const r = recommendList.length % cardPerRow;
+        const row = Math.floor(res.data.length / cardPerRow);
+        const r = res.data.length % cardPerRow;
         for (let i = 0; i < row; i += 1) {
-          answer.push(
-            recommendList.slice(i * cardPerRow, (i + 1) * cardPerRow)
-          );
+          answer.push(res.data.slice(i * cardPerRow, (i + 1) * cardPerRow));
         }
         if (r > 0) {
-          answer.push(
-            recommendList.slice(row * cardPerRow, row * cardPerRow + r)
-          );
+          answer.push(res.data.slice(row * cardPerRow, row * cardPerRow + r));
         }
         setRecommendMatrix(answer);
       });
@@ -46,7 +40,7 @@ function RecommendPersonal() {
 
   useEffect(() => {
     fetchPortfolios();
-  });
+  }, []);
 
   const load = () => {
     fetchPortfolios();

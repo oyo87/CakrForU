@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
-import Select from "./components/Select";
 import GapW from "./components/layout/GapW";
 import GapH from "./components/layout/GapH";
 import RecommendHeader from "./components/RecommendHeader";
@@ -13,26 +12,15 @@ import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
 
-function RecommendSituation() {
-  const [option, setOption] = useState("생일");
+function RecommendWishlist() {
+  const loginUser = useSelector((state) => state.login.user);
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
-  const situationDict = {
-    아이돌: "IDOL",
-    "입/퇴사": "COMPANY",
-    환갑: "SIXTIETH",
-    생일: "BIRTHDAY",
-    기념일: "ANNIVERSARY",
-    "결혼 케이크": "MARRIAGE",
-    전역: "DISCHARGE",
-    크리스마스: "CHRISTMAS",
-    기타: "ETC",
-  };
-  function fetchPortfolios(situation) {
+  function fetchPortfolios() {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/recommendation/situation?situation=${situationDict[situation]}&page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/recommendation/wishlist?user-id=${loginUser.id}&page=${page}`
       )
       .then((res) => {
         const answer = [];
@@ -49,11 +37,11 @@ function RecommendSituation() {
   }
 
   useEffect(() => {
-    fetchPortfolios(option);
-  }, [page, option]);
+    fetchPortfolios();
+  }, [page]);
 
   const load = () => {
-    fetchPortfolios(option);
+    fetchPortfolios();
     window.scrollTo({
       top: 100,
       left: 100,
@@ -72,10 +60,6 @@ function RecommendSituation() {
     load();
   };
 
-  const handleChange = (event) => {
-    setOption(event.value);
-  };
-
   return (
     <div>
       <Header />
@@ -83,49 +67,32 @@ function RecommendSituation() {
       <RowContainer justify="start" align="start">
         <RecommendSidebar />
         <ColContainer>
-          <RowContainer justify="start">
-            <Select
-              width="183px"
-              height="55px"
-              options={[
-                "아이돌",
-                "입/퇴사",
-                "환갑",
-                "생일",
-                "기념일",
-                "결혼 케이크",
-                "전역",
-                "크리스마스",
-                "기타",
-              ]}
-              value={option}
-              onChange={handleChange}
-            />
-          </RowContainer>
           <GapH height="57px" />
           <RowContainer justify="start">
-            <Medium># {option}</Medium>
+            <Medium># {loginUser.nickname}님의 위시리스트 기반</Medium>
             <GapW />
           </RowContainer>
           <GapH height="58px" />
           <ColContainer gap="50px">
-            {recommendMatrix.map((recommendRow) => (
-              <RowContainer>
-                {recommendRow.map((recommend) => (
-                  <RowContainer>
-                    <Card
-                      title={recommend.detail}
-                      shape={recommend.shape}
-                      sheetTaste={recommend.sheetTaste}
-                      creamTaste={recommend.creamTaste}
-                      situation={recommend.situation}
-                      sellerId={recommend.sellerId}
-                    />
-                    <GapW width="20px" />
-                  </RowContainer>
-                ))}
-              </RowContainer>
-            ))}
+            {recommendMatrix
+              .slice(page * 2, page * 2 + 2)
+              .map((recommendRow) => (
+                <RowContainer>
+                  {recommendRow.map((recommend) => (
+                    <RowContainer>
+                      <Card
+                        title={recommend.detail}
+                        shape={recommend.shape}
+                        sheetTaste={recommend.sheetTaste}
+                        creamTaste={recommend.creamTaste}
+                        situation={recommend.situation}
+                        sellerId={recommend.sellerId}
+                      />
+                      <GapW width="20px" />
+                    </RowContainer>
+                  ))}
+                </RowContainer>
+              ))}
           </ColContainer>
           <GapH height="50px" />
           <RowContainer>
@@ -156,4 +123,4 @@ function RecommendSituation() {
   );
 }
 
-export default RecommendSituation;
+export default RecommendWishlist;
