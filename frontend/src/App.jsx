@@ -12,7 +12,7 @@ import RecommendPersonal from "./RecommendPersonal";
 import RecommendTheme from "./RecommendTheme";
 import Testpage from "./test/Testpage";
 import Popular from "./Popular";
-import MyPage from "./Mypage";
+import MyPage from "./MyPage";
 import PortfolioModal from "./components/PortfolioModal";
 import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";

@@ -9,11 +9,11 @@ module.exports = function (app) {
     })
   );
 
-  app.use(
-    "/seller",
-    createProxyMiddleware({
-      target: "http://3.34.141.245:8080",
-      changeOrigin: true,
-    })
-  );
+  // app.use(
+  //   "/seller",
+  //   createProxyMiddleware({
+  //     target: "http://j8a604.p.ssafy.io:8080",
+  //     changeOrigin: true,
+  //   })
+  // );
 };
