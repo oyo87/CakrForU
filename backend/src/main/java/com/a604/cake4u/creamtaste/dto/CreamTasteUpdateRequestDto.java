@@ -40,7 +40,7 @@ public class CreamTasteUpdateRequestDto {
                 .chocolateCream(chocolateCream)
                 .oreoCream(oreoCream)
                 .matchaCream(matchaCream)
-                .blackSeasameCream(blackSesameCream)
+                .blackSesameCream(blackSesameCream)
                 .sweetPotatoCream(sweetPotatoCream)
                 .earlGrayCream(earlGrayCream)
                 .build();
