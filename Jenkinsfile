@@ -28,6 +28,16 @@ pipeline {
             }
         }
 
+        stage('Set up .env') {
+            steps {
+                dir('frontend') {
+                    withCredentials([file(credentialsId: 'env-production', variable: 'ENV_FILE')]) {
+                        sh 'cp $ENV_FILE .env'
+                    }
+                }
+            }
+        }
+
         stage('Copy application.yml') {
             steps {
                 sh 'cp /home/ubuntu/S08P22A604/backend/src/main/resources/application.yml ${WORKSPACE}/backend/src/main/resources/'
@@ -84,6 +94,7 @@ pipeline {
                             docker-compose pull
                             docker-compose down
                             docker-compose up -d
+                            docker-compose restart nginx
 EOF
                     """
                 }
