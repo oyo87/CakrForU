@@ -61,14 +61,7 @@ const Button = styled.button`
 
 const CreatedAt = styled.div``;
 const PickUpDate = styled.div``;
-// const SheetSize = styled.div``;
-// const SheetTaste = styled.div``;
-// const SheetShape = styled.div``;
-// const CreamTaste = styled.div``;
 
-// props;
-//
-// props.order.id;
 function OrderListCard({
   createdAt,
   pickUpDate,
@@ -76,22 +69,53 @@ function OrderListCard({
   sheetTaste,
   sheetShape,
   creamTaste,
-  sellerId,
+  businessName,
 }) {
-  const businessName
-  // businessName, // sellerId이용해서 가져옴
-  // const navigate = useNavigate();
-
   // createdAt, pickUpDate format 변경
-  const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD HH:mm:ss");
-  const formattedPickUpDate = moment(pickUpDate).format("YYYY-MM-DD HH:mm:ss");
+  const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD HH:mm");
+  const formattedPickUpDate = moment(pickUpDate).format("YYYY-MM-DD HH:mm");
+
+  // NO1, NO2, NO3, MINI;
+  if (sheetSize === "MINI") sheetSize = "미니";
+  else sheetSize = sheetSize.slice(-1).concat("호");
+
+  // VANILLA, CHOCOLATE, EARL_GRAY, RED_VELVET, MATCHA,
+  // MOCHA, CHEESE, CARROT, SWEET_POTATO;
+  if (sheetTaste === "VANILLA") sheetTaste = "바닐라";
+  else if (sheetTaste === "CHOCOLATE") sheetTaste = "초콜릿";
+  else if (sheetTaste === "EARL_GRAY") sheetTaste = "얼그레이";
+  else if (sheetTaste === "RED_VELVET") sheetTaste = "레드벨벳";
+  else if (sheetTaste === "MATCHA") sheetTaste = "말차";
+  else if (sheetTaste === "MOCHA") sheetTaste = "모카";
+  else if (sheetTaste === "CHEESE") sheetTaste = "치즈";
+  else if (sheetTaste === "CARROT") sheetTaste = "당근";
+  else if (sheetTaste === "SWEET_POTATO") sheetTaste = "고구마";
+
+  // CIRCLE, HEART, RECTANGLE, OTHERS;
+  if (sheetShape === "CIRCLE") sheetShape = "원형";
+  else if (sheetShape === "HEART") sheetShape = "하트";
+  else if (sheetShape === "RECTANGLE") sheetShape = "사각";
+  else if (sheetShape === "OTHERS") sheetShape = "기타";
+
+  // CREAM_CHEESE, WHIPPING_CREAM, CHOCOLATE_CREAM, OREO_CREAM, MATCHA_CREAM,
+  // BLACK_SESAME_CREAM, SWEET_POTATO_CREAM, EARL_GRAY_CREAM, STRAWBERRY_CREAM;
+  if (creamTaste === "CREAM_CHEESE") creamTaste = "크림치즈크림";
+  else if (creamTaste === "WHIPPING_CREAM") creamTaste = "생크림";
+  else if (creamTaste === "CHOCOLATE_CREAM") creamTaste = "초콜릿크림";
+  else if (creamTaste === "OREO_CREAM") creamTaste = "오레오크림";
+  else if (creamTaste === "MATCHA_CREAM") creamTaste = "말차크림";
+  else if (creamTaste === "BLACK_SESAME_CREAM") creamTaste = "흑임자크림";
+  else if (creamTaste === "SWEET_POTATO_CREAM") creamTaste = "고구마크림";
+  else if (creamTaste === "EARL_GRAY_CREAM") creamTaste = "얼그레이크림";
+  else if (creamTaste === "STRAWBERRY_CREAM") creamTaste = "딸기크림";
+
   return (
     <div>
       <Box>
         <CardImage src={임시케이크사진} alt="orderThumbnail" />
         <CardDetail>
           <BoldMedium style={{ marginTop: "1.7rem", marginBottom: "0.5rem" }}>
-            신라케이크
+            {businessName}
           </BoldMedium>
           <CardDate>
             <CreatedAt style={{ marginRight: "9.688rem" }}>

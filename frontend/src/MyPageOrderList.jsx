@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import OrderListCard from "./components/OrderListCard";
@@ -11,9 +12,10 @@ import axios from "./util/axiosInstance";
 function MyPageOrderList() {
   // const URL = ${process.env.REACT_APP_BACKEND_URL};
   const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
-  // const loginUser = useSelector((state) => state.login.user);
+  const loginUser = useSelector((state) => state.login.user);
   const [orderList, setOrderList] = useState([]);
   const [visibleOrders, setVisibleOrders] = useState(2);
+  const navigate = useNavigate();
   const loadMoreOrders = () => {
     setVisibleOrders(visibleOrders + 2);
   };
@@ -35,6 +37,10 @@ function MyPageOrderList() {
   useEffect(() => {
     getOrderList();
   }, []);
+
+  if (!loginUser) {
+    navigate(`/login`);
+  }
 
   const PickupDiv = styled.div`
     display: flex;
