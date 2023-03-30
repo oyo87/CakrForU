@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "./util/axiosInstance";
 import BoldLarge from "./components/text/BoldLarge";
@@ -15,6 +16,7 @@ import Small from "./components/text/Small";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
+import { userType } from "./store/loginSlice";
 
 const HorizonBox = styled.div`
   display: flex;
@@ -33,6 +35,7 @@ const FlexBox = styled.div`
 `;
 
 function Login() {
+  const dispatch = useDispatch();
   const [selectedUserType, setSelectedUserType] = useState("buyer");
   const [formData, setFormData] = useState({
     email: "",
@@ -77,14 +80,20 @@ function Login() {
             <div style={{ flexGrow: 1 }} />
             <RadioButton
               name="userType"
-              onChange={() => setSelectedUserType("buyer")}
+              onChange={() => {
+                dispatch(userType("buyer"));
+                setSelectedUserType("buyer");
+              }}
               checked={selectedUserType === "buyer"}
             />
             <Small>구매자</Small>
             <GapW width="5px" />
             <RadioButton
               name="userType"
-              onChange={() => setSelectedUserType("seller")}
+              onChange={() => {
+                setSelectedUserType("seller");
+                dispatch(userType("seller"));
+              }}
               checked={selectedUserType === "seller"}
             />
             <Small>판매자</Small>
