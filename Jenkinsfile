@@ -96,7 +96,7 @@ pipeline {
                             export DOCKER_HUB_REPO_FRONTEND=${DOCKER_HUB_REPO_FRONTEND}
                             export DOCKER_HUB_REPO_BACKEND=${DOCKER_HUB_REPO_BACKEND}
                             docker-compose pull
-                            docker-compose down
+                            docker-compose down -v
                             docker-compose up -d
 EOF
                     """
