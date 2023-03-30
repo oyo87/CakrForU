@@ -18,6 +18,7 @@ import PortfolioModal from "./components/PortfolioModal";
 import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 import RecommendWishList from "./RecommendWishlist";
+import MyWishList from "./MyWishList";
 
 const AppContainer = styled.div`
   &,
@@ -47,6 +48,7 @@ function App() {
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
+        <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>
     </AppContainer>
   );
