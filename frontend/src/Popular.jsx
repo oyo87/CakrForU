@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
@@ -10,6 +10,7 @@ import Card from "./components/Card";
 import PinkSearch from "./assets/img/pink_search.png";
 import { closePortfolio } from "./store/modalSlice";
 import PortfolioModal from "./components/PortfolioModal";
+import axios from "./util/axiosInstance";
 
 function Popular() {
   const modal = useSelector((state) => state.modal);
@@ -19,6 +20,12 @@ function Popular() {
       dispatch(closePortfolio());
     }
   };
+
+  useEffect(() => {
+    axios.get("/portfolio/popular").then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   return (
     <div>

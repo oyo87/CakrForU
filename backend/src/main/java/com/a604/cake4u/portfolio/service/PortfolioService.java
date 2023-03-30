@@ -148,6 +148,19 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         return portfolioDtos;
     }
 
+    public List<PortfolioResponseDto> getPortfoliosByOrderByHitDesc() {
+
+        List<Portfolio> portfolioList = portfolioRepository.findAllByOrderByHitDesc();
+
+        List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
+
+        for(int i=0;i<5;i++) {
+            portfolioDtos.add(portfolioEntityToPortfolioResponseDTO(portfolioList.get(i)));
+        }
+
+        return portfolioDtos;
+    }
+
     public List<PortfolioResponseDto> getPortfoliosBySellerId(Long sellerId) {
 
         List<Portfolio> portfolioList = portfolioRepository.findBySellerId(sellerId);
