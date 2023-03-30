@@ -68,6 +68,7 @@ const Menu = styled.div`
 function Header({ handleClickOutModal }) {
   const dispatch = useDispatch();
   const loginUser = useSelector((state) => state.login.user);
+  const uType = useSelector((state) => state.login.userType);
 
   const headerRef = useRef();
   const buttonRef = useRef();
@@ -101,18 +102,31 @@ function Header({ handleClickOutModal }) {
     if (!user) {
       const token = localStorage.getItem("access-token");
       if (token) {
-        axios
-          .get(`${process.env.REACT_APP_BACKEND_URL}/buyer/`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-            },
-          })
-          .then((response) => {
-            dispatch(login(response.data));
-            localStorage.setItem("user", JSON.stringify(response.data));
-            navigate("/");
-          })
-          .catch(() => {});
+        if (uType === "buyer") {
+          axios
+            .get(`${process.env.REACT_APP_BACKEND_URL}/buyer/`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+              },
+            })
+            .then((response) => {
+              dispatch(login(response.data));
+              localStorage.setItem("user", JSON.stringify(response.data));
+              navigate("/");
+            });
+        } else if (uType === "seller") {
+          axios
+            .get(`${process.env.REACT_APP_BACKEND_URL}/seller/`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+              },
+            })
+            .then((response) => {
+              dispatch(login(response.data));
+              localStorage.setItem("user", JSON.stringify(response.data));
+              navigate("/");
+            });
+        }
       }
     }
 
@@ -170,11 +184,23 @@ function Header({ handleClickOutModal }) {
   }
 
   function loginTrue() {
+    if (uType === "buyer") {
+      return (
+        <LoginSection>
+          <Link
+            to="/mylist"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Small cursor="pointer">마이리스트</Small>
+          </Link>
+          <Small onClick={handleLogout} cursor="pointer">
+            로그아웃
+          </Small>
+        </LoginSection>
+      );
+    }
     return (
       <LoginSection>
-        <Link to="/mylist" style={{ textDecoration: "none", color: "inherit" }}>
-          <Small cursor="pointer">마이리스트</Small>
-        </Link>
         <Small onClick={handleLogout} cursor="pointer">
           로그아웃
         </Small>

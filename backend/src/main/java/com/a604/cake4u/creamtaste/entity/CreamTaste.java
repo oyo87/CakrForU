@@ -1,6 +1,5 @@
 package com.a604.cake4u.creamtaste.entity;
 
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -61,7 +60,7 @@ public class CreamTaste {
     @Builder.Default
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
-    private boolean blackSeasameCream = false;
+    private boolean blackSesameCream = false;
 
     @Builder.Default
     @ColumnDefault("0")

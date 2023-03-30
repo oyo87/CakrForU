@@ -47,6 +47,7 @@ function App() {
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/infodetail" element={<InfoDetail />} />
+        <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
       </Routes>

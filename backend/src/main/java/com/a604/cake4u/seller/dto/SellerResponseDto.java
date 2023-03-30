@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class SellerResponseDto {
+    private Long id;
     private String email;
     private String roadAddress;
     private String detailedAddress;
@@ -18,7 +19,8 @@ public class SellerResponseDto {
     private String account;
     private String businessDescription;
 
-    public SellerResponseDto(String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription) {
+    public SellerResponseDto(Long id, String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription) {
+        this.id = id;
         this.email = email;
         this.roadAddress = roadAddress;
         this.detailedAddress = detailedAddress;
@@ -34,6 +36,7 @@ public class SellerResponseDto {
     }
 
     public SellerResponseDto(Seller seller) {
+        this.id = seller.getId();
         this.email = seller.getEmail();
         this.roadAddress = seller.getRoadAddress();
         this.detailedAddress = seller.getDetailedAddress();

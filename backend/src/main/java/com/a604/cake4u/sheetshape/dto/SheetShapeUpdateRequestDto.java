@@ -2,10 +2,14 @@ package com.a604.cake4u.sheetshape.dto;
 
 import com.a604.cake4u.sheetshape.entity.SheetShape;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@ToString
 public class SheetShapeUpdateRequestDto {
     private Long id;
     private Long sellerId;

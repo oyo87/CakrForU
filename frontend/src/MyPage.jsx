@@ -1,56 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
 import ColContainer from "./components/layout/ColContainer";
 import MyPageCard from "./components/MyPageCard";
-import Burger from "./assets/img/burger.png";
+import MyPageTitle from "./components/MyPageTitle";
+import Card from "./components/Card";
 import GapH from "./components/layout/GapH";
-import GapW from "./components/layout/GapW";
+import MediumSmall from "./components/text/MediumSmall";
 import BoldMedium from "./components/text/BoldMedium";
 import BoldLarge from "./components/text/BoldLarge";
-import Button4 from "./components/button/Button4";
+import Button1 from "./components/button/Button1";
+import Button2 from "./components/button/Button2";
 
 function MyPage() {
+  const loginUser = useSelector((state) => state.login.user);
+  const [myOrderList, setMyOrderList] = useState([]);
+  const [myWishList, setMyWishList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/buyer/${loginUser.id}`
+      )
+      .then((res) => {
+        setMyOrderList(res.data);
+      });
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/b/${loginUser.id}`)
+      .then((res) => {
+        setMyWishList(res.data.wishlist.slice(0, 5));
+      });
+  }, []);
+
   return (
     <div>
       <Header />
       <UpDownContainer>
-        <RowContainer
-          justify="start"
-          height="calc(100vh * 29.8 / 100)"
-          background="#F0F0E8"
-        >
-          <ColContainer width="18.3%" justify="start">
-            <GapH height="30.8%" />
-            <img
-              src={Burger}
-              alt="burger"
-              style={{
-                width: "79px",
-              }}
-            />
-          </ColContainer>
-          <ColContainer
-            width="81.7%"
-            height="100%"
-            justify="start"
-            align="start"
-          >
-            <GapH height="22.3%" />
-            <BoldMedium>MY PAGE</BoldMedium>
-            <GapH height="15.4%" />
-            <RowContainer justify="start">
-              <BoldLarge>배진호 님의 마이페이지입니다</BoldLarge>
-              <GapW width="10.1%" />
-              <Button4>
-                <BoldMedium color="white">회원정보</BoldMedium>
-              </Button4>
-            </RowContainer>
-          </ColContainer>
-        </RowContainer>
+        <MyPageTitle />
         <ColContainer
-          height="calc(100vh * 70.2 / 100 - 60px)"
+          height="614px"
           align="start"
           width="1170px"
           style={{ alignSelf: "center" }}
@@ -61,9 +52,48 @@ function MyPage() {
             width="100%"
             style={{ justifyContent: "space-between" }}
           >
-            <MyPageCard title="title1" />
-            <MyPageCard title="title2" />
+            {myOrderList.map((myOrder) => (
+              <MyPageCard
+                sellerId={myOrder.businessName}
+                createdAt={myOrder.createdAt.split("T")[0]}
+                pickUpDate={myOrder.pickUpDate}
+                sheetShape={myOrder.sheetShape}
+                creamTaste={myOrder.creamTaste}
+                sheetTaste={myOrder.sheetTaste}
+                sheetSize={myOrder.sheetSize}
+              />
+            ))}
+            <Button1>~~</Button1>
           </RowContainer>
+        </ColContainer>
+        <ColContainer background="#F0F0E8" height="400px">
+          <BoldLarge>WISH LIST</BoldLarge>
+          <GapH />
+          <MediumSmall>내 마음을 설레게 한 케이크들은?</MediumSmall>
+        </ColContainer>
+        <ColContainer height="500px">
+          <RowContainer
+            width="1192px"
+            style={{ justifyContent: "space-between", marginTop: "-200px" }}
+          >
+            {myWishList.map((myWish) => (
+              <Card
+                title={myWish.detail}
+                shape={myWish.shape}
+                sheetTaste={myWish.sheetTaste}
+                creamTaste={myWish.creamTaste}
+                situation={myWish.situation}
+                sellerId={myWish.sellerId}
+              />
+            ))}
+          </RowContainer>
+          <GapH height="76px" />
+          <Button2>전체위시리스트</Button2>
+        </ColContainer>
+        <ColContainer background="#F0F0E8" height="400px">
+          <BoldLarge>WISH LIST</BoldLarge>
+          <GapH />
+          <MediumSmall>내 마음을 설레게 한 케이크들은?</MediumSmall>
         </ColContainer>
       </UpDownContainer>
     </div>

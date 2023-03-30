@@ -8,7 +8,7 @@ import lombok.*;
 public class SheetTasteResponseDto {
     private Long id;
     private Long sellerId;
-    private boolean vanila;
+    private boolean vanilla;
     private boolean chocolate;
     private boolean earlGray;
     private boolean redVelvet;
@@ -21,7 +21,7 @@ public class SheetTasteResponseDto {
     public SheetTasteResponseDto(SheetTaste entity) {
         this.id = entity.getId();
         this.sellerId = entity.getSellerId();
-        this.vanila = entity.isVanila();
+        this.vanilla = entity.isVanilla();
         this.chocolate = entity.isChocolate();
         this.earlGray = entity.isEarlGray();
         this.redVelvet = entity.isRedVelvet();

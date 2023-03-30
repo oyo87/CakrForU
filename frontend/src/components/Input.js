@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Input = styled.input.attrs((props) => ({
-  type: "text",
+  type: props.type || "text",
   placeholder: props.placeholder || "",
   name: props.name || "",
 }))`

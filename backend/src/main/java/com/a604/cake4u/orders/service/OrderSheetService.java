@@ -260,6 +260,7 @@ public class OrderSheetService {
                 .id(orderSheet.getId())
                 .buyerId(orderSheet.getBuyer().getId())
                 .sellerId(orderSheet.getSeller().getId())
+                .businessName(orderSheet.getSeller().getBusinessName())
                 .imageFileDtoList(getImageFileDtoListByOrderSheetId(orderSheet.getId()))
                 .status(orderSheet.getStatus())
                 .createdAt(orderSheet.getCreatedAt())

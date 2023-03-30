@@ -28,7 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<Buyer> buyer = buyerRepository.findByEmail(email);
         Optional<Seller> seller = sellerRepository.findByEmail(email);
 
-
         if(buyer.isPresent()){
             return UserPrincipal.createBuyerPrincipal(buyer.get());
         }

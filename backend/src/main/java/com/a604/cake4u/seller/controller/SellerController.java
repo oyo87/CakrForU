@@ -7,23 +7,37 @@ import com.a604.cake4u.auth.service.AuthToken;
 import com.a604.cake4u.auth.service.AuthTokenProvider;
 import com.a604.cake4u.auth.service.CustomUserDetailsService;
 import com.a604.cake4u.auth.util.CookieUtil;
+import com.a604.cake4u.buyer.dto.BuyerInfoDto;
+import com.a604.cake4u.buyer.entity.Buyer;
+import com.a604.cake4u.creamtaste.dto.CreamTasteResponseDto;
 import com.a604.cake4u.creamtaste.dto.CreamTasteSaveRequestDto;
+import com.a604.cake4u.creamtaste.dto.CreamTasteUpdateRequestDto;
 import com.a604.cake4u.creamtaste.service.CreamTasteService;
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.exception.BaseException;
+import com.a604.cake4u.seller.dto.CustomDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
 import com.a604.cake4u.seller.dto.SellerUpdateDto;
 import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import com.a604.cake4u.seller.service.SellerService;
+import com.a604.cake4u.sheetshape.dto.SheetShapeResponseDto;
 import com.a604.cake4u.sheetshape.dto.SheetShapeSaveRequestDto;
+import com.a604.cake4u.sheetshape.dto.SheetShapeUpdateRequestDto;
 import com.a604.cake4u.sheetshape.service.SheetShapeService;
+import com.a604.cake4u.sheetsize.dto.SheetSizeResponseDto;
 import com.a604.cake4u.sheetsize.dto.SheetSizeSaveRequestDto;
+import com.a604.cake4u.sheetsize.dto.SheetSizeUpdateRequestDto;
 import com.a604.cake4u.sheetsize.service.SheetSizeService;
+import com.a604.cake4u.sheettaste.dto.SheetTasteResponseDto;
 import com.a604.cake4u.sheettaste.dto.SheetTasteSaveRequestDto;
+import com.a604.cake4u.sheettaste.dto.SheetTasteUpdateRequestDto;
+import com.a604.cake4u.sheettaste.entity.SheetTaste;
 import com.a604.cake4u.sheettaste.service.SheetTasteService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +51,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -123,6 +138,16 @@ public class SellerController {
         }
     }
 
+    @ApiOperation(value="토큰정보얻기")
+    @GetMapping("/")
+    public ResponseEntity getUser() {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Seller seller = sellerRepository.findByEmail(principal.getUsername()).get();
+        SellerResponseDto dto = new SellerResponseDto(seller.getId(), seller.getEmail(), seller.getRoadAddress(), seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(), seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(), seller.getAccount(), seller.getBusinessDescription());
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
     @ApiOperation(value = "판매자 로그인")
     @PostMapping("/login")
     public ResponseEntity<?> loginSeller
@@ -130,7 +155,7 @@ public class SellerController {
              HttpServletResponse response,
              @RequestBody AuthReqModel authReqModel) {
         try{
-            customUserDetailsService.loadUserByUsername(authReqModel.getId());
+            customUserDetailsService.loadUserByUsername(authReqModel.getEmail());
         } catch(BaseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
         }
@@ -138,7 +163,7 @@ public class SellerController {
         try{
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            authReqModel.getId(),
+                            authReqModel.getEmail(),
                             authReqModel.getPassword()
                     )
             );
@@ -148,7 +173,7 @@ public class SellerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
 
-        String userId = authReqModel.getId();
+        String userId = authReqModel.getEmail();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();
@@ -205,7 +230,7 @@ public class SellerController {
     }
 
     @ApiOperation(value = "모든 가게 조회(리뷰 별점순)")
-    @GetMapping("/seller/search/all")
+    @GetMapping("/search/all")
     public ResponseEntity<?> searchAll() {
         List<SellerResponseDto> list = sellerService.allSeller();
         if (list != null)
@@ -215,13 +240,42 @@ public class SellerController {
     }
 
     @ApiOperation(value = "지역 기반으로 가게 검색(리뷰 별점순)")
-    @GetMapping("/seller/search/{dongCode}")
+    @GetMapping("/search/{dongCode}")
     public ResponseEntity<?> searchStore(@PathVariable String dongCode) {
         List<SellerResponseDto> list = sellerService.searchSeller(dongCode);
         if (list != null)
             return new ResponseEntity<List<SellerResponseDto>>(list, HttpStatus.OK);
         else
             return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @ApiOperation(value = "커스텀 폼 수정")
+    @PutMapping("/custom/update")
+    public ResponseEntity<?> updateCustom(@RequestBody ObjectNode custom) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        SheetShapeUpdateRequestDto shape = mapper.treeToValue(custom.get("sheetShape"), SheetShapeUpdateRequestDto.class);
+        SheetSizeUpdateRequestDto size = mapper.treeToValue(custom.get("sheetSize"), SheetSizeUpdateRequestDto.class);
+        SheetTasteUpdateRequestDto taste = mapper.treeToValue(custom.get("sheetTaste"), SheetTasteUpdateRequestDto.class);
+        CreamTasteUpdateRequestDto cream = mapper.treeToValue(custom.get("creamTaste"), CreamTasteUpdateRequestDto.class);
+
+        sheetShapeService.updateSheetShape(shape);
+        sheetSizeService.updateSheetSize(size);
+        sheetTasteService.updateSheetTaste(taste);
+        creamTasteService.updateCreamTaste(cream);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "커스텀폼 조회")
+    @GetMapping("/form/{sellerId}")
+    public ResponseEntity<?> showCustomForm(@PathVariable Long sellerId) {
+        SheetShapeResponseDto shape = sheetShapeService.showSheetShape(sellerId);
+        SheetSizeResponseDto size = sheetSizeService.showSheetSize(sellerId);
+        SheetTasteResponseDto taste = sheetTasteService.showSheetTaste(sellerId);
+        CreamTasteResponseDto cream = creamTasteService.showCreamTaste(sellerId);
+
+        CustomDto custom = new CustomDto(shape, size, taste, cream);
+
+        return new ResponseEntity<>(custom, HttpStatus.OK);
     }
 
     private SellerSaveRequestDto createSaveRequestDto(Map<String, Object> map) {

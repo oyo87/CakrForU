@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://j8a604.p.ssafy.io:8080",
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 axiosInstance.interceptors.request.use(
