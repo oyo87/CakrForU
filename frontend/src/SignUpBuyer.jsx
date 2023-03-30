@@ -60,7 +60,12 @@ function SignUpBuyer() {
               <MediumSmall>비밀번호</MediumSmall>
             </HorizonBox>
             <GapH height="10px" />
-            <Input width="539px" height="55px" borderRadius="10px" />
+            <Input
+              width="539px"
+              height="55px"
+              borderRadius="10px"
+              type="password"
+            />
             <GapH height="25px" />
             <HorizonBox>
               <ColContainer width="64%" align="start">
