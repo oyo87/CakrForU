@@ -30,39 +30,56 @@ const FileButton = styled.img`
 function MakeOrder() {
   const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
 
+  const [sellerSheetShape, setSellerSheetShape] = useState(new Map()); //  가게에서 다루는 케이크 재료 정보들
+  const [sellerSheetSize, setSellerSheetSize] = useState(new Map());
+  const [sellerSheetTaste, setSellerSheetTaste] = useState(new Map());
+  const [sellerCreamTaste, setSellerCreamTaste] = useState(new Map());
+
   const [imageSrcs, setImageSrcs] = useState([]);
-  const [sheetShape, setSheetShape] = useState(null);
+  const [sheetShape, setSheetShape] = useState(null); //  선택된 것들 저장
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
   const [creamTaste, setCreamTaste] = useState(null);
 
   useEffect(() => {
-    console.log("렌더링됨!!");
-    console.log("가게 이름", SELLER_ID);
+    // console.log("렌더링됨!!");
+    // console.log("가게 이름", SELLER_ID);
 
     axios
-      .get(`/seller/info/${SELLER_ID}`)
+      .get(`/seller/form/${SELLER_ID}`)
       .then((response) => {
-        console.log("ok!!!!");
-        console.log("response.data = ", response.data);
+        // console.log("ok!!!!");
+        // console.log("response.data = ", response.data);
+        const tmp1 = Object.entries(response.data.sheetShape);
+        const filtered1 = tmp1.filter(([, ok]) => ok === true);
+        const tmp2 = Object.entries(response.data.sheetSize);
+        const filtered2 = tmp2.filter(([, ok]) => ok === true);
+        const tmp3 = Object.entries(response.data.sheetTaste);
+        const filtered3 = tmp3.filter(([, ok]) => ok === true);
+        const tmp4 = Object.entries(response.data.creamTaste);
+        const filtered4 = tmp4.filter(([, ok]) => ok === true);
+
+        // console.log("response.data.creamTaste : ", response.data.creamTaste);
+        // setSellerCreamTaste(
+        //   Object.entries(response.data.creamTaste).filter(
+        //     ([, ok]) => ok === true
+        //   )
+        // );
+
+        // console.log("filtered = ", filtered1);
+
+        setSellerSheetShape(Object.entries(filtered1));
+        setSellerSheetSize(Object.entries(filtered2));
+        setSellerSheetTaste(Object.entries(filtered3));
+        setSellerCreamTaste(Object.entries(filtered4));
       })
       .catch((error) => {
         console.log("Error!!!!!!");
         console.log(error);
       });
+  }, []);
 
-    axios
-      .get(`/sheetsize/${SELLER_ID}`)
-      .then((response) => {
-        console.log("ok!!!!");
-        console.log("response.data = ", response.data);
-      })
-      .catch((error) => {
-        console.log("Error!!!!!!");
-        console.log(error);
-      });
-  });
-
+  //  버튼 클릭으로 선택 저장
   const handleShape = (shape) => {
     setSheetShape(shape);
   };
@@ -106,6 +123,79 @@ function MakeOrder() {
   return (
     <div>
       <Header />
+      <div>
+        <Button1
+          width="124px"
+          background={sheetShape === "CIRCLE" ? "#FFACAC" : "grey"}
+          onClick={() => {
+            handleShape("CIRCLE");
+            console.log("클릭");
+          }}
+        >
+          <Small color="white">원형</Small>
+        </Button1>
+        <Button1
+          width="124px"
+          background={sheetShape === "HEART" ? "#FFACAC" : "grey"}
+          onClick={() => {
+            handleShape("HEART");
+            console.log("클릭");
+          }}
+        >
+          <Small color="white">하트</Small>
+        </Button1>
+        <Button1
+          width="124px"
+          background={sheetShape === "RECTANGLE" ? "#FFACAC" : "grey"}
+          onClick={() => {
+            handleShape("RECTANGLE");
+            console.log("클릭");
+          }}
+        >
+          <Small color="white">사각</Small>
+        </Button1>
+        <Button1
+          width="124px"
+          background={sheetShape === "OTHERS" ? "#FFACAC" : "grey"}
+          onClick={() => {
+            handleShape("OTHERS");
+            console.log("클릭");
+          }}
+        >
+          <Small color="white">입체</Small>
+        </Button1>
+      </div>
+      <Button1
+        width="124px"
+        background={sheetShape === "CIRCLE" ? "#FFACAC" : "grey"}
+        onClick={() => {
+          console.log("sellerSheetShape = ", sellerSheetShape);
+          console.log("sellerSheetSize = ", sellerSheetSize);
+          console.log("sellerSheetTaste = ", sellerSheetTaste);
+          console.log("sellerCreamTaste = ", sellerCreamTaste);
+
+          // for (const key in sellerSheetShape) {
+          //   console.log(key, sellerSheetShape[key]);
+          // }
+          // console.log()
+          // console.log("forEach");
+          sellerSheetShape.forEach((element) => {
+            console.log(element[1][0]);
+          });
+          sellerSheetSize.forEach((element) => {
+            console.log(element[1][0]);
+          });
+          sellerSheetTaste.forEach((element) => {
+            console.log(element[1][0]);
+          });
+          sellerCreamTaste.forEach((element) => {
+            console.log(element[1][0]);
+          });
+        }}
+      >
+        <Small color="white">원형</Small>
+      </Button1>
+      {/* 임시 버튼 */}
       <LeftRightContainer background="#F5F2EF">
         <ColContainer width="468px">
           <GapH height="140px" />
@@ -139,7 +229,21 @@ function MakeOrder() {
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              <Button1
+              {sellerSheetShape.forEach((element) => {
+                // console.log(element);
+
+                <Button1
+                  width="124px"
+                  background={sheetShape === "CIRCLE" ? "#FFACAC" : "grey"}
+                  onClick={() => {
+                    handleShape("CIRCLE");
+                    console.log("클릭");
+                  }}
+                >
+                  <Small color="white">{element[1][0]}</Small>
+                </Button1>;
+              })}
+              {/* <Button1
                 width="124px"
                 background={sheetShape === "CIRCLE" ? "#FFACAC" : "grey"}
                 onClick={() => {
@@ -178,7 +282,7 @@ function MakeOrder() {
                 }}
               >
                 <Small color="white">입체</Small>
-              </Button1>
+              </Button1> */}
             </RowContainer>
           </ColContainer>
           <GapH height="18px" />
