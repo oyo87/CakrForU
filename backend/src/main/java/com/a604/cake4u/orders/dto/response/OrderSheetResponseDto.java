@@ -18,6 +18,7 @@ public class OrderSheetResponseDto {
     private Long id;
     private Long buyerId;
     private Long sellerId;
+    private String businessName;
     private List<ImageFileDto> imageFileDtoList;
     private EStatus status;
     private Timestamp createdAt;
