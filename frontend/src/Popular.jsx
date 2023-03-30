@@ -14,7 +14,6 @@ import PortfolioModal from "./components/PortfolioModal";
 function Popular() {
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-
   const handleClickOutModal = () => {
     if (modal.portfolioOpen) {
       dispatch(closePortfolio());

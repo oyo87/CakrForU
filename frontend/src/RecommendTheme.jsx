@@ -29,6 +29,7 @@ function RecommendSituation() {
     크리스마스: "CHRISTMAS",
     기타: "ETC",
   };
+
   function fetchPortfolios(situation) {
     axios
       .get(
