@@ -146,7 +146,7 @@ function MyWishList() {
         <GapW width="1%" />
         {wishlistMatrix.map((wish) => (
           <MyWishListCards
-            businessName={wish.sellerId}
+            businessName={wish.businessName}
             detail={wish.detail}
             color={wish.color}
             shape={wish.shape}
