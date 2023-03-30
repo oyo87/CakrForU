@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api(value = "SheetSizeConroller")
+@Api(value = "SheetSizeController")
 @RequiredArgsConstructor
 public class SheetSizeController {
 

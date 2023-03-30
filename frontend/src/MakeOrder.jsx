@@ -28,7 +28,7 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
-  const SELLER_ID = 100; //  임시 가게 id
+  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
 
   const [imageSrcs, setImageSrcs] = useState([]);
   const [sheetShape, setSheetShape] = useState(null);
@@ -39,6 +39,28 @@ function MakeOrder() {
   useEffect(() => {
     console.log("렌더링됨!!");
     console.log("가게 이름", SELLER_ID);
+
+    axios
+      .get(`/seller/info/${SELLER_ID}`)
+      .then((response) => {
+        console.log("ok!!!!");
+        console.log("response.data = ", response.data);
+      })
+      .catch((error) => {
+        console.log("Error!!!!!!");
+        console.log(error);
+      });
+
+    axios
+      .get(`/sheetsize/${SELLER_ID}`)
+      .then((response) => {
+        console.log("ok!!!!");
+        console.log("response.data = ", response.data);
+      })
+      .catch((error) => {
+        console.log("Error!!!!!!");
+        console.log(error);
+      });
   });
 
   const handleShape = (shape) => {
