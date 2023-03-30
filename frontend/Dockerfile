@@ -1,3 +1,5 @@
+ARG ENV_CONTENT
+
 # Use an official Node runtime as a parent image
 FROM node:16.19.1 AS build
 
@@ -6,6 +8,9 @@ WORKDIR /usr/src/app
 
 # Copy the entire frontend directory
 COPY . ./
+
+# Create .env file using passed ENV_CONTENT
+RUN echo "${ENV_CONTENT}" > .env
 
 # Install any needed packages
 RUN npm ci

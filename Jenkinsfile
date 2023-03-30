@@ -49,7 +49,11 @@ pipeline {
                 script {
                     // Build frontend image
                     dir('frontend') {
-                        sh "docker build -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
+                        withCredentials([file(credentialsId: 'env-production', variable: 'ENV_FILE')]) {
+                            // Read the content of the .env file and pass it as a build argument
+                            def envContent = readFile file: env.ENV_FILE
+                            sh "docker build --build-arg ENV_CONTENT='${envContent}' -t ${DOCKER_HUB_REPO_FRONTEND}:latest ."
+                        }
                     }
                     // Build backend image
                     dir('backend') {
