@@ -2,9 +2,13 @@ package com.a604.cake4u.creamtaste.dto;
 
 import com.a604.cake4u.creamtaste.entity.CreamTaste;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @ToString
 public class CreamTasteUpdateRequestDto {
     private Long id;
