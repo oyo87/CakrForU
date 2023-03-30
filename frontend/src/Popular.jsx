@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
