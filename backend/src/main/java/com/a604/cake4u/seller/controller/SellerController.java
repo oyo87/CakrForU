@@ -132,7 +132,7 @@ public class SellerController {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Seller seller = sellerRepository.findByEmail(principal.getUsername()).get();
-        SellerResponseDto dto = new SellerResponseDto(seller.getEmail(), seller.getRoadAddress(), seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(), seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(), seller.getAccount(), seller.getBusinessDescription());
+        SellerResponseDto dto = new SellerResponseDto(seller.getId(), seller.getEmail(), seller.getRoadAddress(), seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(), seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(), seller.getAccount(), seller.getBusinessDescription());
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
