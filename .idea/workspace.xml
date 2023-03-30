@@ -15,7 +15,6 @@
       <change beforePath="$PROJECT_DIR$/frontend/src/RecommendTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/RecommendTheme.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Card.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Select.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Select.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recommendation/Recommendation.py" beforeDir="false" afterPath="$PROJECT_DIR$/recommendation/Recommendation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/recommendation/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/recommendation/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

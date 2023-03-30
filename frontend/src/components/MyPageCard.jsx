@@ -4,13 +4,15 @@ import ColContainer from "./layout/ColContainer";
 import Tmp from "../assets/img/login_image.png";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
-import MediumSmall from "./text/MediumSmall";
+import Medium from "./text/Medium";
+// import MediumSmall from "./text/MediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
 import { openPortfolio } from "../store/modalSlice";
 
 function MyPageCard({
-  title,
   sellerId,
+  createdAt,
+  pickUpDate,
   color,
   shape,
   sheetTaste,
@@ -71,11 +73,12 @@ function MyPageCard({
         justify="start"
       >
         <GapH height="14px" />
-        <Small color="#A5A6A6" cursor="pointer">
+        <Medium color="#A5A6A6" cursor="pointer">
           {sellerId}
-        </Small>
+        </Medium>
+        <Small>{createdAt}</Small>
+        <Small>{pickUpDate}</Small>
         <GapH height="1px" />
-        <MediumSmall cursor="pointer">{title}</MediumSmall>
       </ColContainer>
       <ColContainer
         height="62px"

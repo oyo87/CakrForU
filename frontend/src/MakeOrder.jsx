@@ -209,7 +209,7 @@ function MakeOrder() {
           <ColContainer height="246px" width="581px" background="white">
             <RowContainer justify="start">
               <GapW width="16px" />
-              <BoldMediumSmall>시트 맛 선택</BoldMediumSmall>
+              <BoldMediumSmall>시트 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
@@ -309,7 +309,7 @@ function MakeOrder() {
           <ColContainer height="193px" width="581px" background="white">
             <RowContainer justify="start">
               <GapW width="16px" />
-              <BoldMediumSmall>크림 맛 선택</BoldMediumSmall>
+              <BoldMediumSmall>크림 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">

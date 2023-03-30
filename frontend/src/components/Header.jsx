@@ -112,7 +112,21 @@ function Header({ handleClickOutModal }) {
             localStorage.setItem("user", JSON.stringify(response.data));
             navigate("/");
           })
-          .catch(() => {});
+          .catch(() => {
+            axios
+              .get(`${process.env.REACT_APP_BACKEND_URL}/seller/`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "access-token"
+                  )}`,
+                },
+              })
+              .then((response) => {
+                dispatch(login(response.data));
+                localStorage.setItem("user", JSON.stringify(response.data));
+                navigate("/");
+              });
+          });
       }
     }
 

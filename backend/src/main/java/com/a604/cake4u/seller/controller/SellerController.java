@@ -7,6 +7,8 @@ import com.a604.cake4u.auth.service.AuthToken;
 import com.a604.cake4u.auth.service.AuthTokenProvider;
 import com.a604.cake4u.auth.service.CustomUserDetailsService;
 import com.a604.cake4u.auth.util.CookieUtil;
+import com.a604.cake4u.buyer.dto.BuyerInfoDto;
+import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.creamtaste.dto.CreamTasteSaveRequestDto;
 import com.a604.cake4u.creamtaste.service.CreamTasteService;
 import com.a604.cake4u.enums.EGender;
@@ -37,6 +39,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -121,6 +124,16 @@ public class SellerController {
         } finally {
             return ResponseEntity.status(status).body(message);
         }
+    }
+
+    @ApiOperation(value="토큰정보얻기")
+    @GetMapping("/")
+    public ResponseEntity getUser() {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Seller seller = sellerRepository.findByEmail(principal.getUsername()).get();
+        SellerResponseDto dto = new SellerResponseDto(seller.getEmail(), seller.getRoadAddress(), seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(), seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(), seller.getAccount(), seller.getBusinessDescription());
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @ApiOperation(value = "판매자 로그인")
