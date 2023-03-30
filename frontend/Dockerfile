@@ -9,6 +9,9 @@ WORKDIR /usr/src/app
 # Copy the entire frontend directory
 COPY . ./
 
+# Create .env file using passed ENV_CONTENT
+RUN echo "${ENV_CONTENT}" > .env
+
 # Install any needed packages
 RUN npm ci
 
