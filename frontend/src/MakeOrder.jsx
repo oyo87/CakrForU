@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "./util/axiosInstance";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -28,11 +28,18 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
+  const SELLER_ID = 100; //  임시 가게 id
+
   const [imageSrcs, setImageSrcs] = useState([]);
   const [sheetShape, setSheetShape] = useState(null);
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
   const [creamTaste, setCreamTaste] = useState(null);
+
+  useEffect(() => {
+    console.log("렌더링됨!!");
+    console.log("가게 이름", SELLER_ID);
+  });
 
   const handleShape = (shape) => {
     setSheetShape(shape);
@@ -202,7 +209,7 @@ function MakeOrder() {
           <ColContainer height="246px" width="581px" background="white">
             <RowContainer justify="start">
               <GapW width="16px" />
-              <BoldMediumSmall>시트 맛 선택</BoldMediumSmall>
+              <BoldMediumSmall>시트 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
@@ -302,7 +309,7 @@ function MakeOrder() {
           <ColContainer height="193px" width="581px" background="white">
             <RowContainer justify="start">
               <GapW width="16px" />
-              <BoldMediumSmall>크림 맛 선택</BoldMediumSmall>
+              <BoldMediumSmall>크림 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">

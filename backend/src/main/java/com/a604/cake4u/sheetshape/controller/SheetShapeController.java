@@ -19,7 +19,7 @@ public class SheetShapeController {
     private final SheetShapeService sheetShapeService;
 
     @ApiOperation(value = "시트모양 폼 수정")
-    @PostMapping("/sheetshape/update")
+    @PutMapping("/sheetshape/update")
     public ResponseEntity<?> updateSheetShape(@RequestBody SheetShapeUpdateRequestDto sheet) {
         sheetShapeService.updateSheetShape(sheet);
         return new ResponseEntity(HttpStatus.OK);

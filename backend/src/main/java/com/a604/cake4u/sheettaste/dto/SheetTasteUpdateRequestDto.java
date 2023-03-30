@@ -5,10 +5,11 @@ import lombok.*;
 
 @Getter
 @Setter
+@ToString
 public class SheetTasteUpdateRequestDto {
     private Long id;
     private Long sellerId;
-    private boolean vanila;
+    private boolean vanilla;
     private boolean chocolate;
     private boolean earlGray;
     private boolean redVelvet;
@@ -18,10 +19,10 @@ public class SheetTasteUpdateRequestDto {
     private boolean carrot;
     private boolean sweetPotato;
 
-    public SheetTasteUpdateRequestDto(Long id, Long sellerId, boolean vanila, boolean chocolate, boolean earlGray, boolean redVelvet, boolean matcha, boolean mocha, boolean cheese, boolean carrot, boolean sweetPotato) {
+    public SheetTasteUpdateRequestDto(Long id, Long sellerId, boolean vanilla, boolean chocolate, boolean earlGray, boolean redVelvet, boolean matcha, boolean mocha, boolean cheese, boolean carrot, boolean sweetPotato) {
         this.id = id;
         this.sellerId = sellerId;
-        this.vanila = vanila;
+        this.vanilla = vanilla;
         this.chocolate = chocolate;
         this.earlGray = earlGray;
         this.redVelvet = redVelvet;
@@ -36,7 +37,7 @@ public class SheetTasteUpdateRequestDto {
         return SheetTaste.builder()
                 .id(id)
                 .sellerId(sellerId)
-                .vanila(vanila)
+                .vanilla(vanilla)
                 .chocolate(chocolate)
                 .earlGray(earlGray)
                 .redVelvet(redVelvet)
