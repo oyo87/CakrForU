@@ -4,6 +4,7 @@ const loginSlice = createSlice({
   name: "login",
   initialState: {
     user: null,
+    userType: "buyer",
   },
   reducers: {
     login: (state, action) => {
@@ -14,8 +15,11 @@ const loginSlice = createSlice({
       localStorage.removeItem("access-token");
       localStorage.removeItem("user");
     },
+    userType: (state, action) => {
+      state.userType = action.payload;
+    },
   },
 });
 
-export const { login, logout } = loginSlice.actions;
+export const { login, logout, userType } = loginSlice.actions;
 export default loginSlice.reducer;
