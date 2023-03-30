@@ -2,11 +2,13 @@ package com.a604.cake4u.sheetsize.dto;
 
 import com.a604.cake4u.sheetsize.entity.SheetSize;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class SheetSizeUpdateRequestDto {
     private Long id;

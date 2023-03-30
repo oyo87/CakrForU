@@ -196,6 +196,7 @@ function SignUpSeller() {
             borderRadius="10px"
             name="password"
             onChange={handleChange}
+            type="password"
           />
           <GapH height="25px" />
           <HorizonBox>
