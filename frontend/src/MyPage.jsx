@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
@@ -12,6 +14,20 @@ import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
 
 function MyPage() {
+  const loginUser = useSelector((state) => state.login.user);
+  const [myOrderList, setMyOrderList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/buyer/${loginUser.id}`
+      )
+      .then((res) => {
+        setMyOrderList(res.data);
+        console.log(res);
+      });
+  }, []);
+
   return (
     <div>
       <Header />
@@ -41,7 +57,7 @@ function MyPage() {
             <BoldMedium>MY PAGE</BoldMedium>
             <GapH height="15.4%" />
             <RowContainer justify="start">
-              <BoldLarge>배진호 님의 마이페이지입니다</BoldLarge>
+              <BoldLarge>{loginUser.nickname} 님의 마이페이지입니다</BoldLarge>
               <GapW width="10.1%" />
               <Button4>
                 <BoldMedium color="white">회원정보</BoldMedium>
@@ -61,8 +77,13 @@ function MyPage() {
             width="100%"
             style={{ justifyContent: "space-between" }}
           >
-            <MyPageCard title="title1" />
-            <MyPageCard title="title2" />
+            {myOrderList.map((myOrder) => (
+              <MyPageCard
+                sellerId={myOrder.sellerId}
+                createdAt={myOrder.createdAt.split("T")[0]}
+                pickUpDate={myOrder.pickUpDate}
+              />
+            ))}
           </RowContainer>
         </ColContainer>
       </UpDownContainer>
