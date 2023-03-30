@@ -130,7 +130,7 @@ public class SellerController {
              HttpServletResponse response,
              @RequestBody AuthReqModel authReqModel) {
         try{
-            customUserDetailsService.loadUserByUsername(authReqModel.getId());
+            customUserDetailsService.loadUserByUsername(authReqModel.getEmail());
         } catch(BaseException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getErrorMessage());
         }
@@ -138,7 +138,7 @@ public class SellerController {
         try{
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            authReqModel.getId(),
+                            authReqModel.getEmail(),
                             authReqModel.getPassword()
                     )
             );
@@ -148,7 +148,7 @@ public class SellerController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
 
-        String userId = authReqModel.getId();
+        String userId = authReqModel.getEmail();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();

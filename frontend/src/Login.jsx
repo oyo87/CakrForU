@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "./util/axiosInstance";
 import BoldLarge from "./components/text/BoldLarge";
 import Button4 from "./components/button/Button4";
 import Input from "./components/Input";
@@ -33,6 +34,31 @@ const FlexBox = styled.div`
 
 function Login() {
   const [selectedUserType, setSelectedUserType] = useState("buyer");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/${selectedUserType}/login`, {
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((res) => {
+        localStorage.setItem("access-token", res.data);
+
+        navigate("/");
+      });
+  };
 
   return (
     <div>
@@ -62,14 +88,26 @@ function Login() {
             />
             <Small>판매자</Small>
           </HorizonBox>
-          <Input width="100%" height="64px" />
+          <Input
+            width="100%"
+            height="64px"
+            placeholder="이메일"
+            onChange={handleChange}
+            name="email"
+          />
           <GapH height="15px" />
           <HorizonBox>
             <SmallMedium fontsize="30px">Password</SmallMedium>
           </HorizonBox>
-          <Input width="100%" height="64px" />
+          <Input
+            width="100%"
+            height="64px"
+            placeholder="비밀번호"
+            onChange={handleChange}
+            name="password"
+          />
           <GapH height="40px" />
-          <Button4 width="100%" background="#FF9494">
+          <Button4 width="100%" background="#FF9494" onClick={handleSubmit}>
             <SmallMedium color="white">로그인</SmallMedium>
           </Button4>
           {selectedUserType === "buyer" && (
