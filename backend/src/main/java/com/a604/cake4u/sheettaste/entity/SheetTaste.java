@@ -1,6 +1,5 @@
 package com.a604.cake4u.sheettaste.entity;
 
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -35,7 +34,7 @@ public class SheetTaste {
     @Builder.Default
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
-    private boolean vanila = false;
+    private boolean vanilla = false;
 
     @Builder.Default
     @ColumnDefault("0")

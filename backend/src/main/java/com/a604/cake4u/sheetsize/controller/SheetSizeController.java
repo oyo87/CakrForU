@@ -19,7 +19,7 @@ public class SheetSizeController {
     private final SheetSizeService sheetSizeService;
 
     @ApiOperation(value = "시트사이즈 폼 수정")
-    @PostMapping("/sheetsize/update")
+    @PutMapping("/sheetsize/update")
     public ResponseEntity<?> updateSheetSize(@RequestBody SheetSizeUpdateRequestDto size) {
         sheetSizeService.updateSheetSize(size);
         return new ResponseEntity(HttpStatus.OK);

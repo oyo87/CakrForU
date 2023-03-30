@@ -4,22 +4,21 @@ import ColContainer from "./layout/ColContainer";
 import Tmp from "../assets/img/login_image.png";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
-import Medium from "./text/Medium";
-// import MediumSmall from "./text/MediumSmall";
+import BoldMedium from "./text/BoldMedium";
 import EmptyHeart from "../assets/img/empty_heart.png";
 import { openPortfolio } from "../store/modalSlice";
+import Button1 from "./button/Button1";
 
 function MyPageCard({
   sellerId,
   createdAt,
   pickUpDate,
-  color,
-  shape,
+  sheetShape,
   sheetTaste,
   creamTaste,
-  situation,
+  sheetSize,
 }) {
-  const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
+  const desc = [" ", sheetShape, sheetTaste, creamTaste, sheetSize].join(" #");
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -28,8 +27,8 @@ function MyPageCard({
 
   return (
     <ColContainer
-      width="300px"
-      height="500px"
+      width="370px"
+      height="480px"
       border="1px solid"
       borderColor="#D9D9D9"
       borderTop="1px solid"
@@ -67,17 +66,20 @@ function MyPageCard({
       </div>
       <ColContainer
         height="110px"
-        align="start"
+        align="center"
         paddingLeft="10px"
         paddingRight="10px"
-        justify="start"
+        justify="center"
       >
-        <GapH height="14px" />
-        <Medium color="#A5A6A6" cursor="pointer">
+        <GapH height="20px" />
+        <BoldMedium color="black" cursor="pointer">
           {sellerId}
-        </Medium>
-        <Small>{createdAt}</Small>
-        <Small>{pickUpDate}</Small>
+        </BoldMedium>
+        <GapH height="20px" />
+        <Small>주문일자 {createdAt}</Small>
+        <GapH height="20px" />
+        <Small>수정일자 {pickUpDate}</Small>
+        <GapH height="20px" />
         <GapH height="1px" />
       </ColContainer>
       <ColContainer
@@ -89,11 +91,15 @@ function MyPageCard({
         paddingRight="10px"
         justify="start"
       >
-        <GapH height="10px" />
         <Small color="#A5A6A6" cursor="pointer">
+          <GapH height="10px" />
           {desc}
+          <GapH />
         </Small>
+        <GapH height="20px" />
+        <Button1>상세보기</Button1>
       </ColContainer>
+      <GapH height="20px" />
     </ColContainer>
   );
 }

@@ -21,7 +21,7 @@ public class SheetTasteResponseDto {
     public SheetTasteResponseDto(SheetTaste entity) {
         this.id = entity.getId();
         this.sellerId = entity.getSellerId();
-        this.vanila = entity.isVanila();
+        this.vanila = entity.isVanilla();
         this.chocolate = entity.isChocolate();
         this.earlGray = entity.isEarlGray();
         this.redVelvet = entity.isRedVelvet();

@@ -23,7 +23,7 @@ public class SheetTasteController {
     private final SheetTasteService sheetTasteService;
 
     @ApiOperation(value = "시트맛 폼 수정")
-    @PostMapping("/sheettaste/update")
+    @PutMapping("/sheettaste/update")
     public ResponseEntity<?> updateSheetTaste(@RequestBody SheetTasteUpdateRequestDto taste) {
         sheetTasteService.updateSheetTaste(taste);
         return new ResponseEntity(HttpStatus.OK);
