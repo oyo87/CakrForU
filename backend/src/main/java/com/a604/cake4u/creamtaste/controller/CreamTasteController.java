@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value = "CreamTasteConroller")
@@ -23,7 +20,7 @@ public class CreamTasteController {
     private final CreamTasteService creamTasteService;
 
     @ApiOperation(value = "크림맛폼 수정")
-    @PostMapping("/creamtaste/update")
+    @PutMapping("/creamtaste/update")
     public ResponseEntity<?> updateCreamTaste(CreamTasteUpdateRequestDto cream) {
         creamTasteService.updateCreamTaste(cream);
         return new ResponseEntity(HttpStatus.OK);

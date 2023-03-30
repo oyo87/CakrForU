@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 public class SheetTasteSaveRequestDto {
     private Long sellerId;
-    private boolean vanila;
+    private boolean vanilla;
     private boolean chocolate;
     private boolean earlGray;
     private boolean redVelvet;
@@ -17,9 +17,9 @@ public class SheetTasteSaveRequestDto {
     private boolean carrot;
     private boolean sweetPotato;
 
-    public SheetTasteSaveRequestDto(Long sellerId, boolean vanila, boolean chocolate, boolean earlGray, boolean redVelvet, boolean matcha, boolean mocha, boolean cheese, boolean carrot, boolean sweetPotato) {
+    public SheetTasteSaveRequestDto(Long sellerId, boolean vanilla, boolean chocolate, boolean earlGray, boolean redVelvet, boolean matcha, boolean mocha, boolean cheese, boolean carrot, boolean sweetPotato) {
         this.sellerId = sellerId;
-        this.vanila = vanila;
+        this.vanilla = vanilla;
         this.chocolate = chocolate;
         this.earlGray = earlGray;
         this.redVelvet = redVelvet;
@@ -33,7 +33,7 @@ public class SheetTasteSaveRequestDto {
     public SheetTaste toEntity() {
         return SheetTaste.builder()
                 .sellerId(sellerId)
-                .vanila(vanila)
+                .vanilla(vanilla)
                 .chocolate(chocolate)
                 .earlGray(earlGray)
                 .redVelvet(redVelvet)
