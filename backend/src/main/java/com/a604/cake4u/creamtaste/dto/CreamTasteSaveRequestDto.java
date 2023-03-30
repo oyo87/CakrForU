@@ -12,18 +12,18 @@ public class CreamTasteSaveRequestDto {
     private boolean chocolateCream;
     private boolean oreoCream;
     private boolean matchaCream;
-    private boolean blackSeasameCream;
+    private boolean blackSesameCream;
     private boolean sweetPotatoCream;
     private boolean earlGrayCream;
 
-    public CreamTasteSaveRequestDto(Long sellerId, boolean creamCheese, boolean whippingCream, boolean chocolateCream, boolean oreoCream, boolean matchaCream, boolean blackSeasameCream, boolean sweetPotatoCream, boolean earlGrayCream) {
+    public CreamTasteSaveRequestDto(Long sellerId, boolean creamCheese, boolean whippingCream, boolean chocolateCream, boolean oreoCream, boolean matchaCream, boolean blackSesameCream, boolean sweetPotatoCream, boolean earlGrayCream) {
         this.sellerId = sellerId;
         this.creamCheese = creamCheese;
         this.whippingCream = whippingCream;
         this.chocolateCream = chocolateCream;
         this.oreoCream = oreoCream;
         this.matchaCream = matchaCream;
-        this.blackSeasameCream = blackSeasameCream;
+        this.blackSesameCream = blackSesameCream;
         this.sweetPotatoCream = sweetPotatoCream;
         this.earlGrayCream = earlGrayCream;
     }
@@ -36,7 +36,7 @@ public class CreamTasteSaveRequestDto {
                 .chocolateCream(chocolateCream)
                 .oreoCream(oreoCream)
                 .matchaCream(matchaCream)
-                .blackSeasameCream(blackSeasameCream)
+                .blackSeasameCream(blackSesameCream)
                 .sweetPotatoCream(sweetPotatoCream)
                 .earlGrayCream(earlGrayCream)
                 .build();
