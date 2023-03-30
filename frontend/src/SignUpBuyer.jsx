@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -35,6 +35,7 @@ const FlexBox = styled.div`
 `;
 
 function SignUpBuyer() {
+  const navigate = useNavigate();
   const genderDict = { 남성: "M", 여성: "F" };
 
   const [selectedGender, setSelectedGender] = useState(null);
@@ -84,6 +85,17 @@ function SignUpBuyer() {
     };
     axios.post("/buyer/signup", buyerSaveRequestDto).then((res) => {
       console.log(res);
+      axios
+        .post("buyer/login", {
+          email: buyerSaveRequestDto.email,
+          password: buyerSaveRequestDto.password,
+        })
+        .then((res2) => {
+          if (res2.status === 200) {
+            localStorage.setItem("access-token", res2.data);
+            navigate("/");
+          }
+        });
     });
   };
 
@@ -182,7 +194,13 @@ function SignUpBuyer() {
               </HorizonBox>
               <GapH height="35px" />
               <HorizonBox justify="end" gap="6px">
-                <Button1>메인으로</Button1>
+                <Button1
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  메인으로
+                </Button1>
                 <Button1 type="submit">회원가입</Button1>
               </HorizonBox>
             </ColContainer>
