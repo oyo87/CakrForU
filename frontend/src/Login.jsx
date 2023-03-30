@@ -55,7 +55,6 @@ function Login() {
       })
       .then((res) => {
         localStorage.setItem("access-token", res.data);
-
         navigate("/");
       });
   };
@@ -102,6 +101,7 @@ function Login() {
           <Input
             width="100%"
             height="64px"
+            type="password"
             placeholder="비밀번호"
             onChange={handleChange}
             name="password"
