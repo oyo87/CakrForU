@@ -1,3 +1,5 @@
+ARG ENV_CONTENT
+
 # Use an official Node runtime as a parent image
 FROM node:16.19.1 AS build
 
