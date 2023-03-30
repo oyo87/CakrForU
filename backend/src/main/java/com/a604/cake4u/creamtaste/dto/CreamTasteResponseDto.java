@@ -13,7 +13,7 @@ public class CreamTasteResponseDto {
     private boolean chocolateCream;
     private boolean oreoCream;
     private boolean matchaCream;
-    private boolean blackSeasameCream;
+    private boolean blackSesameCream;
     private boolean sweetPotatoCream;
     private boolean earlGrayCream;
 
@@ -25,7 +25,7 @@ public class CreamTasteResponseDto {
         this.chocolateCream = entity.isChocolateCream();
         this.oreoCream = entity.isOreoCream();
         this.matchaCream = entity.isMatchaCream();
-        this.blackSeasameCream = entity.isBlackSeasameCream();
+        this.blackSesameCream = entity.isBlackSesameCream();
         this.sweetPotatoCream = entity.isSweetPotatoCream();
         this.earlGrayCream = entity.isEarlGrayCream();
     }
