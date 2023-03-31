@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class PortfolioResponseDto {
     private Long id;
     private Long sellerId;
+    private String businessName;
     private int hit;
     private LocalDate createdAt;
     private EGender gender;

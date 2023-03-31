@@ -6,22 +6,27 @@ import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import MediumSmall from "./text/MediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
-import { openPortfolio } from "../store/modalSlice";
+import { setPortfolio, openPortfolio } from "../store/modalSlice";
 
 function Card({
   title,
   sellerId,
-  color,
+  situation,
+  size,
   shape,
+  color,
   sheetTaste,
   creamTaste,
-  situation,
+  detail,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
 
   const handleClick = () => {
     dispatch(openPortfolio());
+    dispatch(
+      setPortfolio({ size, shape, color, sheetTaste, creamTaste, detail })
+    );
   };
 
   return (

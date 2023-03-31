@@ -122,6 +122,20 @@ public class PortfolioController {
         }
     }
 
+    //인기 순으로 5개의 포트폴리오 가져오기
+    @GetMapping("/popular")
+    @ApiOperation(value = "인기 포트폴리오 조회")
+    public ResponseEntity<?> getPortfoliosByOrderByHitDesc() {
+        try {
+            log.info("In getPortfolioByHitDesc");
+            List<PortfolioResponseDto> portfolios = portfolioService.getPortfoliosByOrderByHitDesc();
+            return new ResponseEntity<>(portfolios, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting portfolios by hit desc: " + e.getMessage());
+            return new ResponseEntity<>("Error getting portfolios by hit desc: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     //특정 판매자의 모든 포트폴리오 가져오기
     @GetMapping("/seller/{sellerId}")
     @ApiOperation(value = "특정 판매자의 모든 포트폴리오 조회", notes = "req_data : [long sellerId]")
