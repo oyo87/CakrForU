@@ -1,6 +1,7 @@
 package com.a604.cake4u.wishlist.controller;
 
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.service.PortfolioService;
 import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.service.WishListService;
@@ -87,6 +88,17 @@ public class WishListController {
             put("result", true);
             put("msg", "상위 5개 조회 성공");
             put("wishlistCnt", portfoliotop5);
+        }});
+    }
+
+    @ApiOperation(value = "마이페이지 찜목록 페이지네이션", notes = "req_data=[int page, Long id]")
+    @GetMapping("/mylist/{id}")
+    public ResponseEntity<?> showPageList(@PathVariable Long id, @RequestParam int page){
+        List<Portfolio> res = wishListService.getPortfoliosByBuyerId(id, page);
+        return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
+            put("result", true);
+            put("msg", "찜목록 리스트입니다");
+            put("wishlist", res);
         }});
     }
 

@@ -8,10 +8,13 @@ import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.entity.Wishlist;
 import com.a604.cake4u.wishlist.repository.WishListRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +55,8 @@ public class WishListService {
 
         Optional<Buyer> buyer = buyerRepository.findById(buyerId);
 
+        System.out.println(buyer.toString());
+
         List<Long> wishPortfolioIdList = wishListRepository.findAllByBuyer(buyer.get());
 
         return wishPortfolioIdList;
@@ -74,5 +79,14 @@ public class WishListService {
         return wishPortfolioIdTop5;
     }
 
+    public List<Portfolio> getPortfoliosByBuyerId(Long id, int page){
+        Buyer buyer = buyerRepository.findById(id).get();
+        Page<Wishlist> wishlists = wishListRepository.findWishlistByBuyerOrderByBuyerDesc(PageRequest.of(page, 5, Sort.by("id").descending()), buyer);
+        List<Portfolio> res = new ArrayList<>();
+        for(Wishlist wishlist : wishlists){
+            res.add(wishlist.getPortfolio());
+        }
+        return res;
+    }
 
 }
