@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -59,6 +60,7 @@ const Text = styled.textarea`
 `;
 
 function SignUpSeller() {
+  const navigate = useNavigate();
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const [selectedUserGender, setSelectedUserGender] = useState("F");
@@ -98,29 +100,50 @@ function SignUpSeller() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const phoneNumber = `${formData.phonePrefix}-${formData.phoneNumberPart1}-${formData.phoneNumberPart2}`;
+    const phoneNumber = `${formData.phonePrefix}${formData.phoneNumberPart1}${formData.phoneNumberPart2}`;
     const birthDate = `${formData.year}-${formData.month}-${formData.day}`;
     const businessLocation = `${formData.roadAddress} ${formData.detailedAddress}`;
+    const sellerSaveRequestDto = {
+      email: formData.email,
+      password: formData.password,
+      gender: formData.gender,
+      birthDate,
+      roadAddress: formData.roadAddress,
+      detailedAddress: formData.detailedAddress,
+      dongCode: formData.dongCode,
+      buildingName: formData.buildingName,
+      phoneNumber,
+      name: formData.name,
+      businessNumber: formData.businessNumber,
+      businessLocation,
+      businessName: formData.businessName,
+      contact: formData.contact,
+      account: `${formData.bankName} ${formData.bankAccount}`,
+      businessDescription: formData.businessDescription,
+    };
+    const strDto = JSON.stringify(sellerSaveRequestDto);
     axios
-      .post("https://j8a604.p.ssafy.io/api/seller/signup", {
-        email: formData.email,
-        password: formData.password,
-        gender: formData.gender,
-        birthDate,
-        roadAddress: formData.roadAddress,
-        detailedAddress: formData.detailedAddress,
-        dongCode: formData.dongCode,
-        buildingName: formData.buildingName,
-        phoneNumber,
-        name: formData.name,
-        businessNumber: formData.businessNumber,
-        businessLocation,
-        businessName: formData.businessName,
-        contact: formData.contact,
-        account: `${formData.bankName} ${formData.bankAccount}`,
-        businessDescription: formData.businessDescription,
+      .post("https://j8a604.p.ssafy.io/api/seller/signup", null, {
+        params: {
+          sellerSaveRequestDtoString: strDto,
+        },
       })
-      .then(() => {});
+      .then(() => {
+        axios
+          .post("https://j8a604.p.ssafy.io/api/seller/login", {
+            email: formData.email,
+            password: formData.password,
+          })
+          .then((res) => {
+            localStorage.setItem("access-token", res.data);
+            console.log("success");
+            navigate("/");
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("catch");
+          });
+      });
   };
 
   return (
