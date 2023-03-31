@@ -2,7 +2,6 @@ package com.a604.cake4u.imagefile.service;
 
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SH
 @Slf4j
 public class ImageFileService {
     private final ImageFileRepository imageFileRepository;
-    private final LocalFileHandler localFileHandler;
     private final S3ImageFileHandler s3ImageFileHandler;
 
     /**

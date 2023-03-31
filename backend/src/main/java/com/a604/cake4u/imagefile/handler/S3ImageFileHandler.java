@@ -57,7 +57,7 @@ public class S3ImageFileHandler {
 
                 try {
                     //  파일 확장자를 찾기 위한 코드
-                    final String extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+                    final String extension = originalFileName.substring(originalFileName.lastIndexOf('.')).toLowerCase();
                     //  파일 이름 암호화
                     final String saveFileName = getUuid() + extension;
 

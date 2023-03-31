@@ -7,7 +7,6 @@ import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.imagefile.dto.ImageFileDto;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.mail.service.MailService;
 import com.a604.cake4u.orders.dto.request.OrderSheetMailVO;
@@ -41,8 +40,6 @@ import static com.a604.cake4u.exception.ErrorMessage.*;
 public class OrderSheetService {
     private final MailService mailService;
     private final OrderSheetRepository orderSheetRepository;
-    private final LocalFileHandler localFileHandler;
-
     private final S3ImageFileHandler s3ImageFileHandler;
     private final ImageFileRepository imageFileRepository;
     private final BuyerRepository buyerRepository;      //  주문 등록 때 PK로 구매자 찾아야 함
@@ -85,8 +82,13 @@ public class OrderSheetService {
 
         return ret;
     }
-    public List<OrderSheetResponseDto> getBuyerOrderSheetsByStatus(Long buyerId, EStatus status) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsByBuyer_IdAndStatus(buyerId, status).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
+    public List<OrderSheetResponseDto> getBuyerOrderSheetsByStatus(Long buyerId, String status) throws BaseException {
+        List<OrderSheet> orderSheetList;
+
+        if(status.equalsIgnoreCase("all"))
+            orderSheetList = orderSheetRepository.findAllOrderSheetByBuyerId(buyerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_BUYER_ID_ERROR));
+        else
+            orderSheetList = orderSheetRepository.findOrderSheetsByBuyer_IdAndStatusOrderById_IdDesc(buyerId, EStatus.valueOf(status)).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -96,7 +98,7 @@ public class OrderSheetService {
     }
 
     public List<OrderSheetResponseDto> getSellerOrderSheetsByStatus(Long sellerId, EStatus status) throws BaseException {
-        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsBySeller_IdAndStatus(sellerId, status).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
+        List<OrderSheet> orderSheetList = orderSheetRepository.findOrderSheetsBySeller_IdAndStatusOrderById_IdDesc(sellerId, status).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_STATUS_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
 
         for(OrderSheet orderSheet : orderSheetList)
@@ -272,11 +274,12 @@ public class OrderSheetService {
         return OrderSheetResponseDto.builder()
                 .id(orderSheet.getId())
                 .buyerId(orderSheet.getBuyer().getId())
+                .buyerNickName(orderSheet.getBuyer().getNickname())
                 .sellerId(orderSheet.getSeller().getId())
                 .businessName(orderSheet.getSeller().getBusinessName())
                 .imageFileDtoList(getImageFileDtoListByOrderSheetId(orderSheet.getId()))
                 .status(orderSheet.getStatus())
-                .createdAt(orderSheet.getCreatedAt())
+                .createdAt(orderSheet.getCreatedAt().toLocalDateTime().toLocalDate())
                 .price(orderSheet.getPrice())
                 .dueDate(orderSheet.getDueDate())
                 .pickUpDate(orderSheet.getPickUpDate())
@@ -286,7 +289,7 @@ public class OrderSheetService {
                 .creamTaste(orderSheet.getCreamTaste())
                 .buyerMessage(orderSheet.getBuyerMessage())
                 .reviewContent(orderSheet.getReviewContent())
-                .reviewCreatedAt(orderSheet.getReviewCreatedAt())
+                .reviewCreatedAt(orderSheet.getReviewCreatedAt().toLocalDateTime())
                 .reviewRating(orderSheet.getReviewRating())
                 .build();
     }
