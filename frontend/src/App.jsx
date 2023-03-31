@@ -19,6 +19,10 @@ import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 import RecommendWishList from "./RecommendWishlist";
 import MyPageOrderList from "./MyPageOrderList";
+import SellerInfo from "./SellerInfo";
+import SellerCustom from "./SellerCustom";
+import SellerOrder from "./SellerOrder";
+import OrderModal from "./components/OrderModal";
 
 const AppContainer = styled.div`
   &,
@@ -50,6 +54,10 @@ function App() {
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
+        <Route path="/seller/info" element={<SellerInfo />} />
+        <Route path="/seller/custom" element={<SellerCustom />} />
+        <Route path="/seller/order" element={<SellerOrder />} />
+        <Route path="/orderModal" element={<OrderModal />} />
       </Routes>
     </AppContainer>
   );
