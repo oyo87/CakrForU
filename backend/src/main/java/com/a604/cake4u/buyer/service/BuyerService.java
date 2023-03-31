@@ -64,6 +64,7 @@ public class BuyerService {
                 .age(buyer.get().getAge())
                 .gender(buyer.get().getGender())
                 .providerType(buyer.get().getProviderType())
+                .userType("buyer")
                 .build();
 
         return buyerResponseDto;

@@ -30,7 +30,6 @@ import java.util.Map;
 public class SellerService {
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
-    private final LocalFileHandler localFileHandler;
     private final S3ImageFileHandler s3ImageFileHandler;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -44,7 +43,6 @@ public class SellerService {
         Seller seller = sellerSaveRequestDto.toEntity();
 
         try {
-//            List<ImageFile> imageFileList = localFileHandler.parseFileInfo(files);
             List<ImageFile> imageFileList = s3ImageFileHandler.parseFileInfo(files);
             seller.setPassword(passwordEncoder.encode(sellerSaveRequestDto.getPassword()));
             ret = sellerRepository.save(seller).getId();
@@ -66,15 +64,6 @@ public class SellerService {
         }
     }
 
-    public Map<String, Object> sellerLogin(SellerLoginDto login) throws Exception {
-        Seller seller = sellerRepository.findByEmail(login.getEmail())
-                .orElseThrow(() -> new BaseException(ErrorMessage.NOT_EXIST_EMAIL));
-
-        if (!login.getPassword().equals(seller.getPassword()))
-            throw new BaseException(ErrorMessage.NOT_PASSWORD);
-        return new HashMap<String, Object>() {{
-        }};
-    }
 
     public SellerResponseDto showSellerInfo(Long sellerId) {
         SellerResponseDto seller = sellerRepository.findSellerInfo(sellerId);
