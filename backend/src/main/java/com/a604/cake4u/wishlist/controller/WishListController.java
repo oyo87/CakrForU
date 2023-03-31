@@ -7,7 +7,6 @@ import com.a604.cake4u.wishlist.service.WishListService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,8 @@ import java.util.List;
 
 @Api("WishList Controller")
 @RequiredArgsConstructor
-@RestController("/wish")
+@RestController
+@RequestMapping(("/wish"))
 public class WishListController {
 
 
