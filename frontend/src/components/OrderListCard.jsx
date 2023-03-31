@@ -29,6 +29,7 @@ const CardDetail = styled.div`
 
 const CardDate = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 3rem;
 `;
 
@@ -61,6 +62,7 @@ const Button = styled.button`
 
 const CreatedAt = styled.div``;
 const PickUpDate = styled.div``;
+const OrderStatus = styled.div``;
 
 function OrderListCard({
   createdAt,
@@ -70,6 +72,7 @@ function OrderListCard({
   sheetShape,
   creamTaste,
   businessName,
+  status,
 }) {
   // createdAt, pickUpDate format 변경
   const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD HH:mm");
@@ -109,6 +112,11 @@ function OrderListCard({
   else if (creamTaste === "EARL_GRAY_CREAM") creamTaste = "얼그레이크림";
   else if (creamTaste === "STRAWBERRY_CREAM") creamTaste = "딸기크림";
 
+  if (status === "REGISTRATION") status = "판매자 확인중";
+  else if (status === "SEND") status = "입금 대기중";
+  else if (status === "DEPOSIT_COMPLETE") status = "픽업 대기중";
+  else if (status === "FINISH_PICK_UP") status = "픽업 완료";
+
   return (
     <div>
       <Box>
@@ -118,7 +126,7 @@ function OrderListCard({
             {businessName}
           </BoldMedium>
           <CardDate>
-            <CreatedAt style={{ marginRight: "9.688rem" }}>
+            <CreatedAt>
               <BoldSmall style={{ display: "inline", marginRight: "0.5rem" }}>
                 주문일자
               </BoldSmall>
@@ -134,6 +142,12 @@ function OrderListCard({
                 {formattedPickUpDate}
               </MediumSmall>
             </PickUpDate>
+            <OrderStatus style={{ marginRight: "10rem" }}>
+              <BoldSmall style={{ display: "inline", marginRight: "0.5rem" }}>
+                주문 상태
+              </BoldSmall>
+              {status}
+            </OrderStatus>
           </CardDate>
           <CakeInfo>
             <div style={{ display: "flex", width: "60%" }}>
@@ -151,13 +165,19 @@ function OrderListCard({
               </CakeInfoCircle>
               <div style={{ marginRight: "2.375rem" }} />
               {/* 클릭시 모달띄우고 주문상세 보여주기 or 주문 상세 페이지 이동 */}
-              <Button type="button">
+              {/* <Button onClick={모달띄우기 해야함}> */}
+              <Button>
                 <MediumSmall color="white">주문 상세</MediumSmall>
               </Button>
               {/* 픽업 완료되었을때만 보여주기 */}
-              <Button type="button">
-                <MediumSmall color="white">리뷰 작성</MediumSmall>
-              </Button>
+              {status === "픽업 완료" ? (
+                // <Button onClick={해당하는것 리뷰 작성으로 이동하기 해야함}>
+                <Button>
+                  <MediumSmall color="white">리뷰 작성</MediumSmall>
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           </CakeInfo>
         </CardDetail>

@@ -14,19 +14,34 @@ function MyPageOrderList() {
   const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
   const loginUser = useSelector((state) => state.login.user);
   const [orderList, setOrderList] = useState([]);
-  const [visibleOrders, setVisibleOrders] = useState(2);
+  const [visibleOrders, setVisibleOrders] = useState(3);
   const navigate = useNavigate();
+  const [isPickUpReady, setIsPickUpReady] = useState(false);
+
+  useEffect(() => {
+    if (!loginUser) {
+      alert("로그인이 필요합니다.");
+      navigate(`/login`);
+    }
+  }, []);
   const loadMoreOrders = () => {
-    setVisibleOrders(visibleOrders + 2);
+    setVisibleOrders(visibleOrders + 3);
   };
+
   function getOrderList() {
     // .get(`${URL}/order-sheet-buyer/${loginUser.id}`)
     console.log(process.env.REACT_APP_BACKEND_URL);
     console.log(`${URL}/order-sheet/buyer/0`);
+    const todayDate = new Date();
     axios
       .get(`${URL}/order-sheet/buyer/0`)
       .then((response) => {
         setOrderList(response.data);
+
+        const hasPickUpReady = response.data.some(
+          (order) => order.pickUpDate === todayDate
+        );
+        setIsPickUpReady(hasPickUpReady); // 오늘 픽업예정인 케이크가 있으면 위에 픽업하라고 창 표시
         console.log("getOrderList : ", response.data);
       })
       .catch((error) => {
@@ -36,11 +51,7 @@ function MyPageOrderList() {
 
   useEffect(() => {
     getOrderList();
-  }, []);
-
-  if (!loginUser) {
-    navigate(`/login`);
-  }
+  }, [loginUser]);
 
   const PickupDiv = styled.div`
     display: flex;
@@ -52,11 +63,15 @@ function MyPageOrderList() {
   `;
   const MainContent = styled.div`
     margin-top: 3.56rem;
-    margin-right: 100px;
-    margin-left: 180px;
+    margin-right: 11rem;
+    margin-left: 11rem;
+    padding-bottom: 3rem;
   `;
   const Line = styled.hr`
     margin-bottom: 2.75rem;
+    background: #ececec;
+    height: 1px;
+    border: 0;
   `;
 
   const MoreButton = styled.button`
@@ -69,9 +84,13 @@ function MyPageOrderList() {
   return (
     <div>
       <Header />
-      <PickupDiv>
-        <BoldMedium color="white">픽업 준비가 완료되었습니다.</BoldMedium>
-      </PickupDiv>
+      {isPickUpReady === true ? (
+        <PickupDiv>
+          <BoldMedium color="white">픽업 준비가 완료되었습니다.</BoldMedium>
+        </PickupDiv>
+      ) : (
+        ""
+      )}
       <MainContent>
         <Medium>주문 목록</Medium>
         <Line />
@@ -80,11 +99,11 @@ function MyPageOrderList() {
             .slice(0, visibleOrders)
             .map((order) => <OrderListCard key={order.id} {...order} />)
         ) : (
-          <p>주문 내역이 존재하지 않습니다.</p>
+          <BoldMedium>주문 내역이 존재하지 않습니다.</BoldMedium>
         )}
         {/* axios가져온다음에 5개정도씩만 보여줌. 더보기 하면 5개씩 추가 */}
         {/* 만약 데이터를 모두 보여줬으면 더보기 제거 데이터가 남아있으면 더보기 남겨두기 */}
-        {visibleOrders <= orderList.length ? (
+        {visibleOrders < orderList.length ? (
           <MoreButton onClick={loadMoreOrders}>
             <MoreInfo />
           </MoreButton>
