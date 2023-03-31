@@ -4,7 +4,6 @@ import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.seller.dto.SellerLoginDto;
