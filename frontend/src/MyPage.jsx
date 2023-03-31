@@ -8,17 +8,22 @@ import ColContainer from "./components/layout/ColContainer";
 import MyPageCard from "./components/MyPageCard";
 import MyPageTitle from "./components/MyPageTitle";
 import Card from "./components/Card";
+import GapW from "./components/layout/GapW";
 import GapH from "./components/layout/GapH";
 import MediumSmall from "./components/text/MediumSmall";
+
 import BoldMedium from "./components/text/BoldMedium";
 import BoldLarge from "./components/text/BoldLarge";
 import Button1 from "./components/button/Button1";
 import Button2 from "./components/button/Button2";
+import Review from "./components/Review";
 
 function MyPage() {
   const loginUser = useSelector((state) => state.login.user);
   const [myOrderList, setMyOrderList] = useState([]);
   const [myWishList, setMyWishList] = useState([]);
+  const [wishlistButtonColor, setWishlistButtonColor] = useState([]);
+  const [wishlistTextColor, setWishlistTextColor] = useState([]);
 
   useEffect(() => {
     axios
@@ -34,6 +39,16 @@ function MyPage() {
         setMyWishList(res.data.wishlist.slice(0, 5));
       });
   }, []);
+
+  const hoverOnColor = () => {
+    setWishlistButtonColor("#FF9494");
+    setWishlistTextColor("white");
+  };
+
+  const hoverOutColor = () => {
+    setWishlistButtonColor("#F6F1EE");
+    setWishlistTextColor("black");
+  };
 
   return (
     <div>
@@ -88,13 +103,30 @@ function MyPage() {
             ))}
           </RowContainer>
           <GapH height="76px" />
-          <Button2>전체위시리스트</Button2>
+          <Button2
+            background={wishlistButtonColor}
+            color={wishlistTextColor}
+            onMouseEnter={hoverOnColor}
+            onMouseLeave={hoverOutColor}
+          >
+            전체위시리스트
+          </Button2>
         </ColContainer>
-        <ColContainer background="#F0F0E8" height="400px">
-          <BoldLarge>WISH LIST</BoldLarge>
-          <GapH />
-          <MediumSmall>내 마음을 설레게 한 케이크들은?</MediumSmall>
-        </ColContainer>
+        <RowContainer background="#8C8279" height="300px" justify="end">
+          <ColContainer align="end">
+            <BoldLarge color="white">Review</BoldLarge>
+            <GapH />
+            <MediumSmall color="white">
+              최근 주문한 내역 순서대로 보여집니다.
+            </MediumSmall>
+          </ColContainer>
+          <GapW width="360px" />
+        </RowContainer>
+        <RowContainer background="#F0F0E8" height="600px">
+          {/* <!-- asdf --> */}
+          <Review />
+          {/* <!-- asdf --> */}
+        </RowContainer>
       </UpDownContainer>
     </div>
   );

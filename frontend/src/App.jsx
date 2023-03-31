@@ -19,6 +19,7 @@ import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 import RecommendWishList from "./RecommendWishlist";
 import MyWishList from "./MyWishList";
+import MyPageOrderList from "./MyPageOrderList";
 
 const AppContainer = styled.div`
   &,
@@ -45,6 +46,8 @@ function App() {
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
+        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
+        <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
