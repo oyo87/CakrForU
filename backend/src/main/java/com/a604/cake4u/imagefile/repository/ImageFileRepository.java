@@ -12,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface ImageFileRepository extends JpaRepository<ImageFile, Long> {
     ImageFile save(ImageFile imageFile);
+    @Query(value="select imageFileUri from ImageFile where portfolio.id = :portfolioId")
+    Optional<List<String>> findURLsByPortfolioId(@Param("portfolioId") Long portfolioId);
 
     //  주문서 id에 해당하는 이미지 파일을 모두 찾음
     @Query(value = "select imageFile from ImageFile imageFile where imageFile.orderSheet.id = :orderSheetId")

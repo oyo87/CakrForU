@@ -43,7 +43,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
-    private final LocalFileHandler localFileHandler;
     private final S3ImageFileHandler s3ImageFileHandler;
     private final JPAQueryFactory queryFactory;
 
@@ -255,6 +254,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 sheetTaste(portfolio.getSheetTaste()).
                 creamTaste(portfolio.getCreamTaste()).
                 detail(portfolio.getDetail()).
+                imageUrl(imageFileRepository.findURLsByPortfolioId(portfolio.getId()).get()).
                 build();
 
     }
