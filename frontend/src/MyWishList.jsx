@@ -12,7 +12,7 @@ import SmallMedium from "./components/text/SmallMedium";
 import axios from "./util/axiosInstance";
 
 const InfoBox = styled.div`
-  width: 30%;
+  width: 30vh;
   height: 80vh;
   background-color: #8c8279;
   display: flex;
@@ -22,7 +22,7 @@ const InfoBox = styled.div`
   color: white;
 `;
 const WishBox = styled.div`
-  width: 60%;
+  width: 60vh;
   height: 80vh;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@ const WishBox = styled.div`
   justify-content: center;
 `;
 const NextBox = styled.div`
-  width: 10%;
+  width: 10vh;
   height: 80vh;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ const ThreeCardBox = styled.div`
   justify-content: center;
 `;
 const Card = styled.div`
-  width: 30%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -96,6 +96,7 @@ function MyWishListCards({
 }) {
   let desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
   desc = desc.slice(0, desc.length - 2);
+  console.log(businessName);
   return (
     <WishBox>
       <ThreeCardBox>
@@ -119,20 +120,16 @@ function MyWishListCards({
 function MyWishList() {
   const loginUser = useSelector((state) => state.login.user);
   const [wishlistMatrix, setWishlistMatrix] = useState([]);
-  // const [page, setPage] = useState(0);
-  // const cardPerRow = 3;
-
+  const [page, setPage] = useState(0);
   useEffect(() => {
-    console.log(137);
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/wish/b/${loginUser.id}`)
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/wish/mypage/${loginUser.id}?page=${page}`
+      )
       .then((res) => {
-        console.log(res.data.wishlist);
-        setWishlistMatrix(res.data.wishlist);
-        console.log(wishlistMatrix);
+        setWishlistMatrix(res);
       });
-  }, []);
-
+  }, page);
   return (
     <>
       <Header />
@@ -144,8 +141,9 @@ function MyWishList() {
       >
         <InformationBox />
         <GapW width="1%" />
-        {wishlistMatrix.map((wish) => (
+        {wishlistMatrix.slice(page, page + 1).map((wish, index) => (
           <MyWishListCards
+            key={index}
             businessName={wish.businessName}
             detail={wish.detail}
             color={wish.color}
