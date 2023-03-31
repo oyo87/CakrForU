@@ -3,10 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const modalSlice = createSlice({
   name: "modal",
   initialState: {
+    portfolio: null,
     portfolioOpen: false,
     addressOpen: false,
   },
   reducers: {
+    setPortfolio: (state, action) => {
+      state.portfolio = action.payload;
+    },
     openPortfolio: (state) => {
       state.portfolioOpen = true;
     },
@@ -22,7 +26,12 @@ const modalSlice = createSlice({
   },
 });
 
-export const { openPortfolio, closePortfolio, openAddress, closeAddress } =
-  modalSlice.actions;
+export const {
+  setPortfolio,
+  openPortfolio,
+  closePortfolio,
+  openAddress,
+  closeAddress,
+} = modalSlice.actions;
 
 export default modalSlice.reducer;

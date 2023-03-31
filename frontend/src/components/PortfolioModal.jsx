@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
 import RowContainer from "./layout/RowContainer";
 import GapH from "./layout/GapH";
@@ -14,6 +14,10 @@ import Button1 from "./button/Button1";
 import { closePortfolio } from "../store/modalSlice";
 
 function PortfolioModal() {
+  const portfolio = useSelector((state) => state.modal.portfolio);
+  useEffect(() => {
+    console.log(portfolio);
+  }, [portfolio]);
   const dispatch = useDispatch();
   return (
     <UpDownContainer
