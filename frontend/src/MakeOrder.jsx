@@ -28,19 +28,79 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
-  const SELLER_ID = 100; //  임시 가게 id
+  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+
+  const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들
+  const [sellerSheetSize, setSellerSheetSize] = useState([]);
+  const [sellerSheetTaste, setSellerSheetTaste] = useState([]);
+  const [sellerCreamTaste, setSellerCreamTaste] = useState([]);
 
   const [imageSrcs, setImageSrcs] = useState([]);
-  const [sheetShape, setSheetShape] = useState(null);
+  const [sheetShape, setSheetShape] = useState(null); //  선택된 것들 저장
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
   const [creamTaste, setCreamTaste] = useState(null);
 
-  useEffect(() => {
-    console.log("렌더링됨!!");
-    console.log("가게 이름", SELLER_ID);
-  });
+  const [dict, setDict] = useState({});
 
+  useEffect(() => {
+    setDict({
+      CIRCLE: "원형",
+      HEART: "하트",
+      RECTANGLE: "사각",
+      OTHERS: "입체",
+      MINI: "미니",
+      NO1: "1호",
+      NO2: "2호",
+      NO3: "3호",
+      VANILLA: "바닐라",
+      CHOCOLATE: "초코",
+      EARL_GRAY: "얼그레이",
+      RED_VELVET: "레드벨벳",
+      MATCHA: "말차",
+      MOCHA: "모카",
+      CHEESE: "치즈",
+      CARROT: "당근",
+      SWEET_POTATO: "고구마",
+      CREAM_CHEESE: "크림치즈",
+      WHIPPING_CREAM: "휘핑크림",
+      CHOCOLATE_CREAM: "초코크림",
+      OREO_CREAM: "오레오크림",
+      MATCHA_CREAM: "말차크림",
+      BLACK_SESAME_CREAM: "흑임자크림",
+      SWEET_POTATO_CREAM: "고구마무스",
+      EARL_GRAY_CREAM: "얼그레이크림",
+      STRAWBERRY_CREAM: "딸기크림",
+    });
+
+    console.log("dict = ", dict);
+
+    axios
+      .get(`/seller/form/${SELLER_ID}`)
+      .then((response) => {
+        console.log("ok!!!!");
+        console.log("response.data = ", response.data);
+        const tmp1 = Object.entries(response.data.sheetShape);
+        const filtered1 = tmp1.filter(([, ok]) => ok === true);
+        const tmp2 = Object.entries(response.data.sheetSize);
+        const filtered2 = tmp2.filter(([, ok]) => ok === true);
+        const tmp3 = Object.entries(response.data.sheetTaste);
+        const filtered3 = tmp3.filter(([, ok]) => ok === true);
+        const tmp4 = Object.entries(response.data.creamTaste);
+        const filtered4 = tmp4.filter(([, ok]) => ok === true);
+
+        setSellerSheetShape(Object.entries(filtered1));
+        setSellerSheetSize(Object.entries(filtered2));
+        setSellerSheetTaste(Object.entries(filtered3));
+        setSellerCreamTaste(Object.entries(filtered4));
+      })
+      .catch((error) => {
+        console.log("Error!!!!!!");
+        console.log(error);
+      });
+  }, []);
+
+  //  버튼 클릭으로 선택 저장
   const handleShape = (shape) => {
     setSheetShape(shape);
   };
@@ -117,46 +177,20 @@ function MakeOrder() {
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={sheetShape === "CIRCLE" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleShape("CIRCLE");
-                  console.log("클릭");
-                }}
-              >
-                <Small color="white">원형</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetShape === "HEART" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleShape("HEART");
-                  console.log("클릭");
-                }}
-              >
-                <Small color="white">하트</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetShape === "RECTANGLE" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleShape("RECTANGLE");
-                  console.log("클릭");
-                }}
-              >
-                <Small color="white">사각</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetShape === "OTHERS" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleShape("OTHERS");
-                  console.log("클릭");
-                }}
-              >
-                <Small color="white">입체</Small>
-              </Button1>
+              {sellerSheetShape.map((element) => (
+                <Button1
+                  background={
+                    sheetShape === element[1][0].toUpperCase()
+                      ? "#FFACAC"
+                      : "grey"
+                  }
+                  onClick={() => {
+                    handleShape(element[1][0].toUpperCase());
+                  }}
+                >
+                  {dict[element[1][0].toUpperCase()]}
+                </Button1>
+              ))}
             </RowContainer>
           </ColContainer>
           <GapH height="18px" />
@@ -167,42 +201,21 @@ function MakeOrder() {
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={sheetSize === "MINI" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleSize("MINI");
-                }}
-              >
-                <Small color="white">미니</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetSize === "NO1" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleSize("NO1");
-                }}
-              >
-                <Small color="white">1호</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetSize === "NO2" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleSize("NO2");
-                }}
-              >
-                <Small color="white">2호</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetSize === "NO3" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleSize("NO3");
-                }}
-              >
-                <Small color="white">3호</Small>
-              </Button1>
+              {sellerSheetSize.map((element) => (
+                <Button1
+                  background={
+                    sheetSize === element[1][0].toUpperCase()
+                      ? "#FFACAC"
+                      : "grey"
+                  }
+                  onClick={() => {
+                    handleSize(element[1][0].toUpperCase());
+                    console.log("클릭");
+                  }}
+                >
+                  {dict[element[1][0].toUpperCase()]}
+                </Button1>
+              ))}
             </RowContainer>
           </ColContainer>
           <GapH height="18px" />
@@ -213,193 +226,52 @@ function MakeOrder() {
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={sheetTaste === "VANILLA" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("VANILLA");
-                }}
-              >
-                <Small color="white">바닐라</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "CHOCOLATE" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("CHOCOLATE");
-                }}
-              >
-                <Small color="white">초코</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "EARL_GRAY" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("EARL_GRAY");
-                }}
-              >
-                <Small color="white">얼그레이</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "RED_VELVET" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("RED_VELVET");
-                }}
-              >
-                <Small color="white">레드벨벳</Small>
-              </Button1>
+              {sellerSheetTaste.map((element) => (
+                <Button1
+                  background={
+                    sheetTaste === element[1][0].toUpperCase()
+                      ? "#FFACAC"
+                      : "grey"
+                  }
+                  onClick={() => {
+                    handleTaste(element[1][0].toUpperCase());
+                    console.log(element[1][0].toUpperCase());
+                  }}
+                >
+                  {dict[element[1][0].toUpperCase()]}
+                </Button1>
+              ))}
             </RowContainer>
             <GapH height="18px" />
-            <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={sheetTaste === "MATCHA" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("MATCHA");
-                }}
-              >
-                <Small color="white">말차</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "MOCHA" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("MOCHA");
-                }}
-              >
-                <Small color="white">모카</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "CHEESE" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("CHEESE");
-                }}
-              >
-                <Small color="white">치즈</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={sheetTaste === "CARROT" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("CARROT");
-                }}
-              >
-                <Small color="white">당근</Small>
-              </Button1>
-            </RowContainer>
-            <GapH height="18px" />
-            <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={sheetTaste === "SWEET_POTATO" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleTaste("SWEET_POTATO");
-                }}
-              >
-                <Small color="white">고구마</Small>
-              </Button1>
-              <GapW width="124px" />
-              <GapW width="124px" />
-              <GapW width="124px" />
-            </RowContainer>
           </ColContainer>
+
           <GapH height="18px" />
-          <ColContainer height="193px" width="581px" background="white">
+          <ColContainer height="246px" width="581px" background="white">
             <RowContainer justify="start">
               <GapW width="16px" />
               <BoldMediumSmall>크림 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={creamTaste === "CREAM_CHEESE" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleCream("CREAM_CHEESE");
-                }}
-              >
-                <Small color="white">크림치즈</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={
-                  creamTaste === "CHOCOLATE_CREAM" ? "#FFACAC" : "grey"
-                }
-                onClick={() => {
-                  handleCream("CHOCOLATE_CREAM");
-                }}
-              >
-                <Small color="white">초코크림</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={creamTaste === "OREO_CREAM" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleCream("OREO_CREAM");
-                }}
-              >
-                <Small color="white">오레오크림</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={creamTaste === "MATCHA_CREAM" ? "#FFACAC" : "grey"}
-                onClick={() => {
-                  handleCream("MATCHA_CREAM");
-                }}
-              >
-                <Small color="white">말차크림</Small>
-              </Button1>
+              {sellerCreamTaste.map((element) => (
+                <Button1
+                  background={
+                    creamTaste === element[1][0].toUpperCase()
+                      ? "#FFACAC"
+                      : "grey"
+                  }
+                  onClick={() => {
+                    handleCream(element[1][0].toUpperCase());
+                    console.log("클릭 ", element[1][0].toUpperCase());
+                  }}
+                >
+                  {dict[element[1][0].toUpperCase()]}
+                </Button1>
+              ))}
             </RowContainer>
             <GapH height="18px" />
-            <RowContainer gap="19px">
-              <Button1
-                width="124px"
-                background={
-                  creamTaste === "BLACK_SESAME_CREAM" ? "#FFACAC" : "grey"
-                }
-                onClick={() => {
-                  handleCream("BLACK_SESAME_CREAM");
-                }}
-              >
-                <Small color="white">흑임자크림</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={
-                  creamTaste === "SWEET_POPATO_CREAM" ? "#FFACAC" : "grey"
-                }
-                onClick={() => {
-                  handleCream("SWEET_POPATO_CREAM");
-                }}
-              >
-                <Small color="white">고구마무스</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={
-                  creamTaste === "EARL_GRAY_CREAM" ? "#FFACAC" : "grey"
-                }
-                onClick={() => {
-                  handleCream("EARL_GRAY_CREAM");
-                }}
-              >
-                <Small color="white">얼그레이</Small>
-              </Button1>
-              <Button1
-                width="124px"
-                background={
-                  creamTaste === "STRAWBERRY_CREAM" ? "#FFACAC" : "grey"
-                }
-                onClick={() => {
-                  handleCream("STRAWBERRY_CREAM");
-                }}
-              >
-                <Small color="white">딸기크림</Small>
-              </Button1>
-            </RowContainer>
           </ColContainer>
+
           <GapH height="18px" />
           <ColContainer height="246px" width="581px" background="white">
             <GapH height="38px" />

@@ -15,6 +15,7 @@ const UpDownContainer = styled.div`
   left: ${(props) => props.left || "auto"};
   transform: ${(props) => props.transform || "none"};
   box-shadow: ${(props) => props.boxShadow || "none"};
+  border: ${(props) => props.border || "none"};
 `;
 
 export default UpDownContainer;

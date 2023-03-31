@@ -11,6 +11,7 @@ const initialState = {
     portfolio: null,
     portfolioOpen: false,
     addressOpen: false,
+    orderOpen: false,
   },
 };
 
