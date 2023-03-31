@@ -23,8 +23,10 @@ public interface OrderSheetRepository extends JpaRepository<OrderSheet, Long> {
     Optional<List<OrderSheet>> findAllOrderSheetBySellerId(@Param("sellerId") Long sellerId);
 
     //  구매자의 주문 상태에 따른 검색
+    @Query(value = "select o from OrderSheet o where o.buyer.id = :buyerId and o.status = :status order by o.id desc")
     Optional<List<OrderSheet>> findOrderSheetsByBuyer_IdAndStatusOrderById_IdDesc(Long buyerId, EStatus status);
 
     //  판매자의 주문 상태에 따른 검색
+    @Query(value = "select o from OrderSheet o where o.seller.id = :sellerId and o.status = :status order by o.id desc")
     Optional<List<OrderSheet>> findOrderSheetsBySeller_IdAndStatusOrderById_IdDesc(Long sellerId, EStatus status);
 }
