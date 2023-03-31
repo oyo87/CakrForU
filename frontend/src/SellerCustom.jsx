@@ -78,7 +78,7 @@ function SellerCustom() {
       <Header />
       <UpDownContainer>
         <LeftRightContainer>
-          <GapW width="160px" />
+          <GapW width="58px" />
           <SellerSide />
           <GapW width="99px" />
           <ColContainer>
@@ -387,6 +387,7 @@ function SellerCustom() {
                     <Button1 onClick={handleSubmit}>
                       <Small color="white">등록</Small>
                     </Button1>
+                    <GapW width="13px" />
                   </RowContainer>
                 </ColContainer>
                 <ColContainer>

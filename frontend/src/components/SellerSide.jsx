@@ -30,7 +30,7 @@ function SellerSide() {
 
   return (
     <ColContainer align="start">
-      <GapH height="160px" />
+      <GapH height="85px" />
       <button
         type="button"
         style={{ border: "none", backgroundColor: "white" }}
@@ -49,7 +49,7 @@ function SellerSide() {
           가게 정보
         </SmallMedium>
       </button>
-      <GapH height="62px" />
+      <GapH height="30px" />
       <button
         type="button"
         style={{ border: "none", backgroundColor: "white" }}
@@ -68,7 +68,7 @@ function SellerSide() {
           주문 관리
         </SmallMedium>
       </button>
-      <GapH height="62px" />
+      <GapH height="30px" />
       <button
         type="button"
         style={{ border: "none", backgroundColor: "white" }}
@@ -86,7 +86,7 @@ function SellerSide() {
           포트폴리오
         </SmallMedium>
       </button>
-      <GapH height="62px" />
+      <GapH height="30px" />
       <button
         type="button"
         style={{ border: "none", backgroundColor: "white" }}
