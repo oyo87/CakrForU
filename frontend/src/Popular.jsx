@@ -47,11 +47,12 @@ function Popular() {
       }
       console.log("b", orderOptions);
     });
+    console.log(popularSeller);
   }, []);
 
-  useEffect(() => {
-    console.log("c", orderOptions[0].sheetTaste);
-  }, [orderOptions]);
+  // useEffect(() => {
+  //   console.log("c", orderOptions[0].sheetTaste);
+  // }, [orderOptions]);
 
   return (
     <div>
@@ -105,13 +106,19 @@ function Popular() {
         </RowContainer>
         <GapH height="24px" />
         <RowContainer width="1194px" gap="21px">
-          {popularSeller.map((item) => {
+          {popularSeller.map((item, index) => {
             return (
               <Card
                 title={item.businessDescription}
-                // shape={orderOptions[index].sheetShape}
-                // sheetTaste={orderOptions[index].sheetTaste}
-                // creamTaste={orderOptions[index].creamTaste}
+                shape={
+                  orderOptions[index] ? orderOptions[index].sheetShape : null
+                }
+                sheetTaste={
+                  orderOptions[index] ? orderOptions[index].sheetTaste : null
+                }
+                creamTaste={
+                  orderOptions[index] ? orderOptions[index].creamTaste : null
+                }
                 situation={item.situation}
                 sellerId={item.businessName}
               />
