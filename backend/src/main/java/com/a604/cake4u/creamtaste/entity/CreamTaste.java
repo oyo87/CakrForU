@@ -71,4 +71,9 @@ public class CreamTaste {
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
     private boolean earlGrayCream = false;
+
+    @Builder.Default
+    @ColumnDefault("0")
+//    @Enumerated(EnumType.STRING)
+    private boolean strawberryCream = false;
 }

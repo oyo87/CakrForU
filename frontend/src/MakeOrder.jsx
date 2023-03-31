@@ -41,40 +41,39 @@ function MakeOrder() {
   const [sheetTaste, setSheetTaste] = useState(null);
   const [creamTaste, setCreamTaste] = useState(null);
 
-  const dict = {};
+  const [dict, setDict] = useState({});
 
   useEffect(() => {
-    // console.log("렌더링됨!!");
-    // console.log("가게 이름", SELLER_ID);
+    setDict({
+      CIRCLE: "원형",
+      HEART: "하트",
+      RECTANGLE: "사각",
+      OTHERS: "입체",
+      MINI: "미니",
+      NO1: "1호",
+      NO2: "2호",
+      NO3: "3호",
+      VANILLA: "바닐라",
+      CHOCOLATE: "초코",
+      EARL_GRAY: "얼그레이",
+      RED_VELVET: "레드벨벳",
+      MATCHA: "말차",
+      MOCHA: "모카",
+      CHEESE: "치즈",
+      CARROT: "당근",
+      SWEET_POTATO: "고구마",
+      CREAM_CHEESE: "크림치즈",
+      WHIPPING_CREAM: "휘핑크림",
+      CHOCOLATE_CREAM: "초코크림",
+      OREO_CREAM: "오레오크림",
+      MATCHA_CREAM: "말차크림",
+      BLACK_SESAME_CREAM: "흑임자크림",
+      SWEET_POTATO_CREAM: "고구마무스",
+      EARL_GRAY_CREAM: "얼그레이크림",
+      STRAWBERRY_CREAM: "딸기크림",
+    });
 
-    dict.CIRCLE = "원형";
-    dict.HEART = "하트";
-    dict.RECTANGLE = "사각";
-    dict.OTHERS = "입체";
-
-    dict.MINI = "미니";
-    dict.NO1 = "1호";
-    dict.NO2 = "2호";
-    dict.NO3 = "3호";
-
-    dict.VANILLA = "바닐라";
-    dict.CHOCOLATE = "초코";
-    dict.EARL_GRAY = "얼그레이";
-    dict.RED_VELVET = "레드벨벳";
-    dict.MATCHA = "말차";
-    dict.MOCHA = "모카";
-    dict.CHEESE = "치즈";
-    dict.CARROT = "당근";
-    dict.SWEET_POTATO = "고구마";
-
-    dict.CREAM_CHEESE = "크림치즈";
-    dict.CHOCOLATE_CREAM = "초코크림";
-    dict.OREO_CREAM = "오레오크림";
-    dict.MATCH_CREAM = "말차크림";
-    dict.BLACK_SESAME_CREAM = "흑임자크림";
-    dict.SWEET_POTATO_CREAM = "고구마무스";
-    dict.EARL_GRAY_CREAM = "얼그레이크림";
-    dict.STRAWBERRY_CREAM = "딸기크림";
+    console.log("dict = ", dict);
 
     axios
       .get(`/seller/form/${SELLER_ID}`)
@@ -94,7 +93,6 @@ function MakeOrder() {
         setSellerSheetSize(Object.entries(filtered2));
         setSellerSheetTaste(Object.entries(filtered3));
         setSellerCreamTaste(Object.entries(filtered4));
-        console.log(sheetSize);
       })
       .catch((error) => {
         console.log("Error!!!!!!");
@@ -188,11 +186,9 @@ function MakeOrder() {
                   }
                   onClick={() => {
                     handleShape(element[1][0].toUpperCase());
-                    console.log("클릭 ", element[1][0]);
-                    console.log("dict = ", dict[element[1][0].toUpperCase()]);
                   }}
                 >
-                  {dict[element[1][0]]}
+                  {dict[element[1][0].toUpperCase()]}
                 </Button1>
               ))}
             </RowContainer>
@@ -217,7 +213,7 @@ function MakeOrder() {
                     console.log("클릭");
                   }}
                 >
-                  {element[1][0]}
+                  {dict[element[1][0].toUpperCase()]}
                 </Button1>
               ))}
             </RowContainer>
@@ -239,28 +235,10 @@ function MakeOrder() {
                   }
                   onClick={() => {
                     handleTaste(element[1][0].toUpperCase());
-                    console.log("클릭");
+                    console.log(element[1][0].toUpperCase());
                   }}
                 >
-                  {element[1][0]}
-                </Button1>
-              ))}
-            </RowContainer>
-            <GapH height="18px" />
-            <RowContainer gap="19px">
-              {sellerCreamTaste.map((element) => (
-                <Button1
-                  background={
-                    sheetTaste === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleTaste(element[1][0].toUpperCase());
-                    console.log("클릭");
-                  }}
-                >
-                  {element[1][0]}
+                  {dict[element[1][0].toUpperCase()]}
                 </Button1>
               ))}
             </RowContainer>
@@ -284,10 +262,10 @@ function MakeOrder() {
                   }
                   onClick={() => {
                     handleCream(element[1][0].toUpperCase());
-                    console.log("클릭");
+                    console.log("클릭 ", element[1][0].toUpperCase());
                   }}
                 >
-                  {element[1][0]}
+                  {dict[element[1][0].toUpperCase()]}
                 </Button1>
               ))}
             </RowContainer>
