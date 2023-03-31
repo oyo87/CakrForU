@@ -27,8 +27,8 @@ function MyPageCard({
 
   return (
     <ColContainer
-      width="370px"
-      height="480px"
+      width="450px"
+      height="750px"
       border="1px solid"
       borderColor="#D9D9D9"
       borderTop="1px solid"
@@ -36,19 +36,20 @@ function MyPageCard({
       onClick={handleClick}
       cursor="pointer"
       align="center"
+      justify="space-evenly"
     >
-      <GapH />
       <div
         style={{
           position: "relative",
         }}
       >
+        <GapH height="20px" />
         <img
           src={Tmp}
           alt="img"
           style={{
-            width: "250px",
-            height: "250px",
+            width: "400px",
+            height: "400px",
             objectFit: "cover",
           }}
         />
@@ -65,7 +66,6 @@ function MyPageCard({
         />
       </div>
       <ColContainer
-        height="110px"
         align="center"
         paddingLeft="10px"
         paddingRight="10px"
@@ -80,26 +80,21 @@ function MyPageCard({
         <GapH height="20px" />
         <Small>수정일자 {pickUpDate}</Small>
         <GapH height="20px" />
-        <GapH height="1px" />
       </ColContainer>
       <ColContainer
-        height="62px"
         borderTop="1px solid"
         borderColor="#D9D9D9"
         borderTopColor="#D9D9D9"
         paddingLeft="10px"
         paddingRight="10px"
-        justify="start"
+        justify="center"
       >
         <Small color="#A5A6A6" cursor="pointer">
-          <GapH height="10px" />
           {desc}
-          <GapH />
         </Small>
-        <GapH height="20px" />
+        <GapH height="30px" />
         <Button1>상세보기</Button1>
       </ColContainer>
-      <GapH height="20px" />
     </ColContainer>
   );
 }

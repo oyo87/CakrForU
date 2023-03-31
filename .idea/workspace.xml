@@ -9,13 +9,17 @@
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/controller/BuyerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/controller/BuyerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/dto/BuyerInfoDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/dto/BuyerInfoDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/service/BuyerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/buyer/service/BuyerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/import.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/RecommendPersonal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/RecommendPersonal.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/RecommendTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/RecommendTheme.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Card.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Select.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Select.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recommendation/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/recommendation/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/controller/OrderSheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/controller/OrderSheetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/service/OrderSheetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/service/OrderSheetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/dto/SellerResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/dto/SellerResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/service/SellerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/service/SellerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/MyPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/MyPageTitle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MyPageTitle.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Review.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Review.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/loginSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/loginSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/store.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

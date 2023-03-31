@@ -63,6 +63,19 @@ public class OrderSheetService {
         return ret;
     }
 
+    public List<OrderSheetResponseDto> getOrderReviewByBuyerId(Long buyerId) throws BaseException{
+        List<OrderSheet> orderSheetResponseDtos = orderSheetRepository.findAllOrderSheetByBuyerId(buyerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_BUYER_ID_ERROR));
+        List<OrderSheetResponseDto> ret = new ArrayList<>();
+
+        for (OrderSheet orderSheet : orderSheetResponseDtos){
+            if (orderSheet.getReviewRating() > 0){
+                ret.add(entityToResponse(orderSheet));
+            }
+        }
+
+        return ret;
+    }
+
     public List<OrderSheetResponseDto> getOrderSheetsBySellerId(Long sellerId) throws BaseException {
         List<OrderSheet> orderSheetList = orderSheetRepository.findAllOrderSheetBySellerId(sellerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_SELLER_ID_ERROR));
         List<OrderSheetResponseDto> ret = new ArrayList<>();
