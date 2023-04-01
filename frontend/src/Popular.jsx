@@ -96,6 +96,7 @@ function Popular() {
                 sellerId={item.businessName}
                 size={item.size}
                 detail={item.detail}
+                imgUrl="https://cake-for-you.s3.ap-northeast-2.amazonaws.com/a670a1739003417795486d38be1dbddb.jpg"
               />
             );
           })}
