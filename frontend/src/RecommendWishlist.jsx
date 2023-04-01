@@ -83,6 +83,7 @@ function RecommendWishlist() {
                       <Card
                         title={recommend.detail}
                         shape={recommend.shape}
+                        imgUrl={recommend.imageUrl[0]}
                         sheetTaste={recommend.sheetTaste}
                         creamTaste={recommend.creamTaste}
                         situation={recommend.situation}

@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,11 +18,12 @@ import java.util.List;
 public class OrderSheetResponseDto {
     private Long id;
     private Long buyerId;
+    private String buyerNickName;
     private Long sellerId;
     private String businessName;
     private List<ImageFileDto> imageFileDtoList;
     private EStatus status;
-    private Timestamp createdAt;
+    private LocalDate createdAt;
     private int price = 0;
     private LocalDate dueDate;
     private LocalDate pickUpDate;
@@ -31,6 +33,6 @@ public class OrderSheetResponseDto {
     private ECreamTaste creamTaste;
     private String buyerMessage;
     private String reviewContent;
-    private Timestamp reviewCreatedAt;
+    private LocalDateTime reviewCreatedAt;
     private int reviewRating;
 }

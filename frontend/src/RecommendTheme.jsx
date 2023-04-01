@@ -116,6 +116,7 @@ function RecommendSituation() {
                   <RowContainer>
                     <Card
                       title={recommend.detail}
+                      imgUrl={recommend.imageUrl[0]}
                       shape={recommend.shape}
                       sheetTaste={recommend.sheetTaste}
                       creamTaste={recommend.creamTaste}

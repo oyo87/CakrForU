@@ -10,25 +10,25 @@ public class SheetTasteResponseDto {
     private Long sellerId;
     private boolean vanilla;
     private boolean chocolate;
-    private boolean earlGray;
-    private boolean redVelvet;
+    private boolean earl_gray;
+    private boolean red_velvet;
     private boolean matcha;
     private boolean mocha;
     private boolean cheese;
     private boolean carrot;
-    private boolean sweetPotato;
+    private boolean sweet_potato;
 
     public SheetTasteResponseDto(SheetTaste entity) {
         this.id = entity.getId();
         this.sellerId = entity.getSellerId();
         this.vanilla = entity.isVanilla();
         this.chocolate = entity.isChocolate();
-        this.earlGray = entity.isEarlGray();
-        this.redVelvet = entity.isRedVelvet();
+        this.earl_gray = entity.isEarlGray();
+        this.red_velvet = entity.isRedVelvet();
         this.matcha = entity.isMatcha();
         this.mocha = entity.isMocha();
         this.cheese = entity.isCheese();
         this.carrot = entity.isCarrot();
-        this.sweetPotato = entity.isSweetPotato();
+        this.sweet_potato = entity.isSweetPotato();
     }
 }

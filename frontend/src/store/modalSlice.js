@@ -6,6 +6,7 @@ const modalSlice = createSlice({
     portfolio: null,
     portfolioOpen: false,
     addressOpen: false,
+    orderOpen: false,
   },
   reducers: {
     setPortfolio: (state, action) => {
@@ -23,6 +24,12 @@ const modalSlice = createSlice({
     closeAddress: (state) => {
       state.addressOpen = false;
     },
+    openOrder: (state) => {
+      state.orderOpen = true;
+    },
+    closeOrder: (state) => {
+      state.orderOpen = false;
+    },
   },
 });
 
@@ -32,6 +39,8 @@ export const {
   closePortfolio,
   openAddress,
   closeAddress,
+  openOrder,
+  closeOrder,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -15,14 +15,28 @@ import Button1 from "./components/button/Button1";
 
 function RecommendPersonal() {
   const loginUser = useSelector((state) => state.login.user);
+  const genderDict = {
+    남성: "M",
+    여성: "F",
+  };
+  const genderDictRev = {
+    M: "남성",
+    F: "여성",
+  };
   const [recommendMatrix, setRecommendMatrix] = useState([]);
+  const [option, setOption] = useState({
+    gender: genderDictRev[loginUser.gender],
+    age: loginUser.age,
+  });
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
-  const user = useSelector((state) => state.login.user);
+
   function fetchPortfolios() {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?email=${user.email}&page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/recommendation/personal?age=${
+          option.age
+        }&gender=${genderDict[option.gender]}&page=${page}`
       )
       .then((res) => {
         const answer = [];
@@ -40,7 +54,7 @@ function RecommendPersonal() {
 
   useEffect(() => {
     fetchPortfolios();
-  }, []);
+  }, [option]);
 
   const load = () => {
     fetchPortfolios();
@@ -61,6 +75,23 @@ function RecommendPersonal() {
     load();
   };
 
+  const handleGenderChange = (event) => {
+    if (event) {
+      setOption({ age: option.age, gender: event.value });
+      setPage(0);
+    }
+  };
+
+  const handleAgeChange = (event) => {
+    if (event) {
+      setOption({
+        age: parseInt(event.value.replace("대", ""), 10),
+        gender: option.gender,
+      });
+      setPage(0);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -72,20 +103,24 @@ function RecommendPersonal() {
             <Select
               width="183px"
               height="55px"
-              options={["여성", "남성"]}
-              placeholder="성별"
+              options={["10대", "20대", "30대", "40대", "50대", "60대"]}
+              placeholder="연령"
+              onChange={handleAgeChange}
             />
             <GapW width="15px" />
             <Select
               width="183px"
               height="55px"
               options={["여성", "남성"]}
-              placeholder="연령"
+              placeholder="성별"
+              onChange={handleGenderChange}
             />
           </RowContainer>
           <GapH height="57px" />
           <RowContainer justify="start">
-            <Medium># {loginUser.age}대</Medium>
+            <Medium>
+              # {option.age}대 # {option.gender}
+            </Medium>
             <GapW />
           </RowContainer>
           <GapH height="58px" />
@@ -96,11 +131,12 @@ function RecommendPersonal() {
                   <RowContainer>
                     <Card
                       title={recommend.detail}
+                      imgUrl={recommend.imageUrl[0]}
                       shape={recommend.shape}
                       sheetTaste={recommend.sheetTaste}
                       creamTaste={recommend.creamTaste}
                       situation={recommend.situation}
-                      sellerId={recommend.sellerId}
+                      sellerId={recommend.businessName}
                     />
                     <GapW width="20px" />
                   </RowContainer>

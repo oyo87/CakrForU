@@ -4,7 +4,6 @@ import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
@@ -43,7 +42,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
-    private final LocalFileHandler localFileHandler;
     private final S3ImageFileHandler s3ImageFileHandler;
     private final JPAQueryFactory queryFactory;
 
@@ -255,6 +253,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 sheetTaste(portfolio.getSheetTaste()).
                 creamTaste(portfolio.getCreamTaste()).
                 detail(portfolio.getDetail()).
+                imageUrl(imageFileRepository.findURLsByPortfolioId(portfolio.getId()).get()).
                 build();
 
     }

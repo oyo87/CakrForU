@@ -1,15 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
-import Tmp from "../assets/img/login_image.png";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
-import MediumSmall from "./text/MediumSmall";
+import BoldMediumSmall from "./text/BoldMediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
 import { setPortfolio, openPortfolio } from "../store/modalSlice";
 
 function Card({
   title,
+  imgUrl,
   sellerId,
   situation,
   size,
@@ -45,7 +45,7 @@ function Card({
         }}
       >
         <img
-          src={Tmp}
+          src={imgUrl}
           alt="img"
           style={{
             width: "222px",
@@ -72,15 +72,15 @@ function Card({
         paddingRight="10px"
         justify="start"
       >
-        <GapH height="14px" />
+        <GapH height="10px" />
         <Small color="#A5A6A6" cursor="pointer">
           {sellerId}
         </Small>
-        <GapH height="1px" />
-        <MediumSmall cursor="pointer">{title}</MediumSmall>
+        <GapH height="5px" />
+        <BoldMediumSmall cursor="pointer">{title}</BoldMediumSmall>
       </ColContainer>
       <ColContainer
-        height="62px"
+        height="70px"
         borderTop="1px solid"
         borderColor="#D9D9D9"
         borderTopColor="#D9D9D9"
@@ -92,6 +92,7 @@ function Card({
         <Small color="#A5A6A6" cursor="pointer">
           {desc}
         </Small>
+        <GapH />
       </ColContainer>
     </ColContainer>
   );
