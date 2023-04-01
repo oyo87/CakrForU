@@ -19,6 +19,7 @@ import SmallMedium from "./components/text/SmallMedium";
 import MediumSmall from "./components/text/MediumSmall";
 import { RadioButton } from "./components/Radio";
 import Plant from "./assets/img/plant.png";
+import { userType } from "./store/loginSlice";
 
 const HorizonBox = styled.div`
   display: flex;
@@ -136,12 +137,8 @@ function SignUpSeller() {
           })
           .then((res) => {
             localStorage.setItem("access-token", res.data);
-            console.log("success");
+            dispatch(userType("seller"));
             navigate("/");
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log("catch");
           });
       });
   };
@@ -167,7 +164,6 @@ function SignUpSeller() {
               zIndex: "2",
             }}
             onComplete={(data) => {
-              console.log(data);
               setFormData((prevData) => ({
                 ...prevData,
                 roadAddress: data.roadAddress,
