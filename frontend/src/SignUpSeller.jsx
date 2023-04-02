@@ -66,6 +66,7 @@ function SignUpSeller() {
   const dispatch = useDispatch();
   const [selectedUserGender, setSelectedUserGender] = useState("F");
   const [address, setAddress] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -88,6 +89,7 @@ function SignUpSeller() {
     bankName: "",
     bankAccount: "",
     businessDescription: "",
+    files: [],
   });
 
   const handleChange = (e) => {
@@ -97,6 +99,10 @@ function SignUpSeller() {
 
   const handleSelect = (e) => {
     setFormData((prevData) => ({ ...prevData, phonePrefix: e.value }));
+  };
+
+  const handleImageFiles = (e) => {
+    setImageFiles(e.target.files);
   };
 
   const handleSubmit = (e) => {
@@ -435,6 +441,16 @@ function SignUpSeller() {
             <MediumSmall color="#616161">추가하기</MediumSmall>
           </HorizonBox>
           <GapH height="35px" />
+          <HorizonBox>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => handleImageFiles(event.target.files)}
+              className="hidden"
+              id="file"
+            />
+          </HorizonBox>
           <Button3 width="539px" onClick={handleSubmit}>
             <MediumSmall color="white">가입하기</MediumSmall>
           </Button3>
