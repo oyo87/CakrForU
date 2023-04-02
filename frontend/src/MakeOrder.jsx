@@ -28,6 +28,7 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
+  const BUYER_ID = 100; //  임시 구매자 id, 구매자 id도 리덕스로 관리할 수 있어야 할터
   const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
 
   const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들
@@ -40,6 +41,9 @@ function MakeOrder() {
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
   const [creamTaste, setCreamTaste] = useState(null);
+  const [details, setDetails] = useState(null);
+
+  const [imageFiles, setImageFiles] = useState([]);
 
   const [dict, setDict] = useState({});
 
@@ -73,8 +77,6 @@ function MakeOrder() {
       STRAWBERRY_CREAM: "딸기크림",
     });
 
-    console.log("dict = ", dict);
-
     axios
       .get(`/seller/form/${SELLER_ID}`)
       .then((response) => {
@@ -95,7 +97,6 @@ function MakeOrder() {
         setSellerCreamTaste(Object.entries(filtered4));
       })
       .catch((error) => {
-        console.log("Error!!!!!!");
         console.log(error);
       });
   }, []);
@@ -112,6 +113,10 @@ function MakeOrder() {
   };
   const handleCream = (cream) => {
     setCreamTaste(cream);
+  };
+
+  const handleDetails = (event) => {
+    setDetails(event.target.value);
   };
 
   const handleDiffusion = () => {
@@ -138,6 +143,38 @@ function MakeOrder() {
         const imageData = res.data.images[0];
         const imageUrl = `data:image/png;base64,${imageData}`;
         setImageSrcs((prevImageSrcs) => [...prevImageSrcs, imageUrl]);
+      });
+  };
+
+  const handleSubmit = async () => {
+    const VO = {
+      buyerId: BUYER_ID,
+      sellerId: SELLER_ID,
+      sheetShape,
+      sheetSize,
+      sheetTaste,
+      creamTaste,
+      buyerMessage: details,
+    };
+
+    const formSendData = new FormData();
+    for (let i = 0; i < imageFiles.length; i += 1)
+      formSendData.append("files", imageFiles[i]);
+    formSendData.append("orderSheetRegistVOString", JSON.stringify(VO));
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
+    await axios
+      .post(`/order-sheet`, formSendData, config)
+      .then((response) => {
+        console.log("response : ", response);
+      })
+      .catch((error) => {
+        console.log("error : ", error);
       });
   };
 
@@ -210,7 +247,6 @@ function MakeOrder() {
                   }
                   onClick={() => {
                     handleSize(element[1][0].toUpperCase());
-                    console.log("클릭");
                   }}
                 >
                   {dict[element[1][0].toUpperCase()]}
@@ -273,6 +309,19 @@ function MakeOrder() {
           </ColContainer>
 
           <GapH height="18px" />
+
+          <RowContainer justify="start">
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => setImageFiles(event.target.files)}
+              className="hidden"
+              id="file"
+            />
+          </RowContainer>
+
+          <GapH height="18px" />
           <ColContainer height="246px" width="581px" background="white">
             <GapH height="38px" />
             <RowContainer justify="start">
@@ -280,7 +329,7 @@ function MakeOrder() {
               <BoldMediumSmall>추가 전달 사항</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
-            <Text />
+            <Text onChange={handleDetails} />
             <GapH height="32px" />
           </ColContainer>
         </ColContainer>
@@ -329,7 +378,13 @@ function MakeOrder() {
               <GapH height="63px" />
             </ColContainer>
             <GapH height="57px" />
-            <Button4 width="378px" height="115px">
+            <Button4
+              width="378px"
+              height="115px"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
               <BoldLarge fontsize="40px" color="white">
                 주문하기
               </BoldLarge>
