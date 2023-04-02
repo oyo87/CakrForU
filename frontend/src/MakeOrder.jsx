@@ -119,6 +119,10 @@ function MakeOrder() {
     setDetails(event.target.value);
   };
 
+  const handleImageFiles = (event) => {
+    setImageFiles(event.target.files);
+  };
+
   const handleDiffusion = () => {
     const promptParts = ["LETTERING CAKE"];
     if (sheetShape) {
@@ -315,7 +319,7 @@ function MakeOrder() {
               type="file"
               accept="image/*"
               multiple
-              onChange={(event) => setImageFiles(event.target.files)}
+              onChange={(event) => handleImageFiles(event)}
               className="hidden"
               id="file"
             />
