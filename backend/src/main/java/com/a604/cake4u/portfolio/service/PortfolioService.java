@@ -253,6 +253,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 sheetTaste(portfolio.getSheetTaste()).
                 creamTaste(portfolio.getCreamTaste()).
                 detail(portfolio.getDetail()).
+                imageUrl(imageFileRepository.findURLsByPortfolioId(portfolio.getId()).get()).
                 build();
 
     }

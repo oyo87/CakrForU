@@ -92,7 +92,7 @@ function SellerOrder() {
                   <Medium>{order.createdAt} 주문</Medium>
                   <Medium>{order.nickname}</Medium>
                   <Medium>{order.dueDate}</Medium>
-                  <Medium color="#F081A4">주문상세></Medium>
+                  <Medium color="#F081A4">주문상세</Medium>
                 </ColContainer>
                 <div
                   style={{

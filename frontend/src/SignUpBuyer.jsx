@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Header from "./components/Header";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -18,6 +19,7 @@ import BoldMedium from "./components/text/BoldMedium";
 import BuyerCarousel from "./components/BuyerCarousel";
 import NaverIcon from "./assets/img/naver_icon.png";
 import axios from "./util/axiosInstance";
+import { userType } from "./store/loginSlice";
 
 const HorizonBox = styled.div`
   display: flex;
@@ -36,6 +38,7 @@ const FlexBox = styled.div`
 
 function SignUpBuyer() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const genderDict = { 남성: "M", 여성: "F" };
 
   const [selectedGender, setSelectedGender] = useState(null);
@@ -93,6 +96,7 @@ function SignUpBuyer() {
         .then((res2) => {
           if (res2.status === 200) {
             localStorage.setItem("access-token", res2.data);
+            dispatch(userType("buyer"));
             navigate("/");
           }
         });

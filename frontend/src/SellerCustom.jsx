@@ -78,9 +78,10 @@ function SellerCustom() {
       <Header />
       <UpDownContainer>
         <LeftRightContainer>
-          <GapW width="58px" />
-          <SellerSide />
-          <GapW width="99px" />
+          <ColContainer width="276px">
+            <SellerSide />
+            <GapH height="89px" />
+          </ColContainer>
           <ColContainer>
             <GapH height="89px" />
             <RowContainer justify="start" height="121px">
