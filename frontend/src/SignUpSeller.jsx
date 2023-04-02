@@ -123,6 +123,7 @@ function SignUpSeller() {
       businessDescription: formData.businessDescription,
     };
     const strDto = JSON.stringify(sellerSaveRequestDto);
+    console.log(strDto);
     axios
       .post("https://j8a604.p.ssafy.io/api/seller/signup", null, {
         params: {
@@ -164,6 +165,7 @@ function SignUpSeller() {
               zIndex: "2",
             }}
             onComplete={(data) => {
+              console.log(data);
               setFormData((prevData) => ({
                 ...prevData,
                 roadAddress: data.roadAddress,
@@ -383,7 +385,7 @@ function SignUpSeller() {
             height="55px"
             borderRadius="10px"
             placeholder="상세주소 입력(동/호)"
-            name="DetailedAddress"
+            name="detailedAddress"
             onChange={handleChange}
           />
           <GapH height="25px" />
