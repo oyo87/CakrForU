@@ -119,7 +119,11 @@ function MyWishList() {
     setPage(page + 1);
   };
   const handlePrevClick = () => {
-    setPage(page - 1);
+    if (page < 0) {
+      setPage(0);
+    } else {
+      setPage(page - 1);
+    }
   };
 
   useEffect(() => {
@@ -130,7 +134,8 @@ function MyWishList() {
       .then((res) => {
         if (res.data.wishlist.length > 0) {
           setWishlistMatrix(res.data.wishlist);
-          console.log(res.data.wishlist);
+        } else {
+          setPage(0);
         }
       });
   }, [page]);
