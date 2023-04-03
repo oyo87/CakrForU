@@ -4,7 +4,6 @@ import ColContainer from "./layout/ColContainer";
 import RowContainer from "./layout/RowContainer";
 import StarOn from "../assets/img/StarOn.png";
 import StarOff from "../assets/img/StarOff.png";
-import SampleImg from "../assets/img/login_image.png";
 import Small from "./text/Small";
 import BoldSmallMedium from "./text/BoldSmallMedium";
 import MediumSmall from "./text/MediumSmall";
@@ -20,6 +19,8 @@ function Review({
   sheetShape,
   sheetTaste,
   creamTaste,
+  imageUrl,
+  imageAlt,
 }) {
   const loginUser = useSelector((state) => state.login.user);
   const onArr = [...Array(reviewRating).keys()];
@@ -44,7 +45,7 @@ function Review({
       </RowContainer>
       <GapH height="10px" />
       <RowContainer justify="start">
-        <img src={SampleImg} alt="sample" width="144px" height="144px" />
+        <img src={imageUrl} alt={imageAlt} width="144px" height="144px" />
         <GapW width="100px" />
         <ColContainer
           align="start"
