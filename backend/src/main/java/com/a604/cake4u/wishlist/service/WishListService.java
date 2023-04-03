@@ -94,4 +94,10 @@ public class WishListService {
         return res;
     }
 
+    public boolean isBuyerContaining(Long buyerId, Long portfolioId){
+        Buyer buyer = buyerRepository.findById(buyerId).get();
+        Portfolio portfolio = portfolioRepository.findById(portfolioId).get();
+        return wishListRepository.existsWishlistByBuyerAndPortfolio(buyer, portfolio);
+    }
+
 }
