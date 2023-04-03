@@ -94,7 +94,7 @@ public class WishListController {
     @ApiOperation(value = "마이페이지 찜목록 페이지네이션", notes = "req_data=[int page, Long id]")
     @GetMapping("/mylist/{id}")
     public ResponseEntity<?> showPageList(@PathVariable Long id, @RequestParam int page){
-        List<Portfolio> res = wishListService.getPortfoliosByBuyerId(id, page);
+        List<PortfolioResponseDto> res = wishListService.getPortfoliosByBuyerId(id, page);
         return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
             put("result", true);
             put("msg", "찜목록 리스트입니다");

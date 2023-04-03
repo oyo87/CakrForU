@@ -2,8 +2,10 @@ package com.a604.cake4u.wishlist.service;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.portfolio.repository.PortfolioRepository;
+import com.a604.cake4u.portfolio.service.PortfolioService;
 import com.a604.cake4u.wishlist.dto.WishListRequestDto;
 import com.a604.cake4u.wishlist.entity.Wishlist;
 import com.a604.cake4u.wishlist.repository.WishListRepository;
@@ -28,6 +30,8 @@ public class WishListService {
     private final PortfolioRepository portfolioRepository;
 
     private final WishListRepository wishListRepository;
+
+    private final PortfolioService portfolioService;
 
     public void saveWish(WishListRequestDto wishListRequestDto){
 
@@ -79,12 +83,13 @@ public class WishListService {
         return wishPortfolioIdTop5;
     }
 
-    public List<Portfolio> getPortfoliosByBuyerId(Long id, int page){
+    public List<PortfolioResponseDto> getPortfoliosByBuyerId(Long id, int page){
         Buyer buyer = buyerRepository.findById(id).get();
-        Page<Wishlist> wishlists = wishListRepository.findWishlistByBuyerOrderByBuyerDesc(PageRequest.of(page, 5, Sort.by("id").descending()), buyer);
-        List<Portfolio> res = new ArrayList<>();
-        for(Wishlist wishlist : wishlists){
-            res.add(wishlist.getPortfolio());
+        Page<Portfolio> portfolios = wishListRepository.findWishlistByBuyer(PageRequest.of(page, 6, Sort.by("id").descending()), buyer);
+        List<PortfolioResponseDto> res = new ArrayList<>();
+        for(Portfolio portfolio : portfolios){
+            res.add(portfolioService.portfolioEntityToPortfolioResponseDTO(portfolio));
+
         }
         return res;
     }

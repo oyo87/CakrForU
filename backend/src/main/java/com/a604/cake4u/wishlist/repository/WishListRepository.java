@@ -31,5 +31,6 @@ public interface WishListRepository extends JpaRepository<Wishlist, Long> {
             ") ntb", nativeQuery = true)
     List<Long> findAllTop5();
 
-    Page<Wishlist> findWishlistByBuyerOrderByBuyerDesc(Pageable pageable, Buyer buyer);
+    @Query(value = "select w.portfolio from Wishlist w where w.buyer = :buyer order by w.id desc")
+    Page<Portfolio> findWishlistByBuyer(Pageable pageable, Buyer buyer);
 }

@@ -39,14 +39,15 @@ const NextBox = styled.div`
 `;
 const ThreeCardBox = styled.div`
   width: 100%;
-  height: 50%;
+  height: 100%;
+  flex-wrap: wrap;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Card = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: 45%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,23 +56,23 @@ const Card = styled.div`
 const Picture = styled.div`
   background-image: url(${(props) => props.imageUrl});
   width: 100%;
-  height: 50%;
+  height: 40%;
   background-size: cover;
   background-repeat: no-repeat;
 `;
 const Text1 = styled.div`
   background-color: white;
   border: #e2e2e2 solid 2px;
-  padding: 5%;
+  padding: 5px;
   width: 100%;
-  height: 30%;
+  height: 35%;
 `;
 const Text2 = styled.div`
   background-color: white;
   border: #e2e2e2 solid 2px;
-  padding: 5%;
+  padding: 5px;
   width: 100%;
-  height: 20%;
+  height: 30%;
 `;
 function InformationBox() {
   return (
@@ -96,40 +97,43 @@ function MyWishListCards({
 }) {
   let desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
   desc = desc.slice(0, desc.length - 2);
-  console.log(businessName);
   return (
-    <WishBox>
-      <ThreeCardBox>
-        <Card>
-          <Picture imageUrl="https://preppykitchen.com/wp-content/uploads/2022/05/Naked-Cake-Recipe-Card.jpg" />
-          <Text1>
-            <Small color="#9e9e9e">{businessName}</Small>
-            <br />
-            <SmallMedium fontsize="18px">{detail}</SmallMedium>
-          </Text1>
-          <Text2>
-            <Small> {desc} </Small>
-          </Text2>
-        </Card>
-        <GapW width="2%" />
-      </ThreeCardBox>
-      <GapH height="5%" />
-    </WishBox>
+    <Card>
+      <Picture imageUrl="https://preppykitchen.com/wp-content/uploads/2022/05/Naked-Cake-Recipe-Card.jpg" />
+      <Text1>
+        <Small color="#9e9e9e">{businessName}</Small>
+        <br />
+        <SmallMedium fontsize="18px">{detail}</SmallMedium>
+      </Text1>
+      <Text2>
+        <Small> {desc} </Small>
+      </Text2>
+    </Card>
   );
 }
+
 function MyWishList() {
   const loginUser = useSelector((state) => state.login.user);
   const [wishlistMatrix, setWishlistMatrix] = useState([]);
   const [page, setPage] = useState(0);
+  const handleNextClick = () => {
+    setPage(page + 1);
+  };
+  const handlePrevClick = () => {
+    setPage(page - 1);
+  };
+
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_BACKEND_URL}/wish/mypage/${loginUser.id}?page=${page}`
+        `${process.env.REACT_APP_BACKEND_URL}/wish/mylist/${loginUser.id}?page=${page}`
       )
       .then((res) => {
-        setWishlistMatrix(res);
+        if (res.data.wishlist.length > 0) {
+          setWishlistMatrix(res.data.wishlist);
+        }
       });
-  }, page);
+  }, [page]);
   return (
     <>
       <Header />
@@ -141,23 +145,26 @@ function MyWishList() {
       >
         <InformationBox />
         <GapW width="1%" />
-        {wishlistMatrix.slice(page, page + 1).map((wish, index) => (
-          <MyWishListCards
-            key={index}
-            businessName={wish.businessName}
-            detail={wish.detail}
-            color={wish.color}
-            shape={wish.shape}
-            sheetTaste={wish.sheetTaste}
-            creamTaste={wish.creamTaste}
-            situation={wish.situation}
-          />
-        ))}
-        <GapW width="1%" />
+        <WishBox>
+          <ThreeCardBox>
+            {wishlistMatrix.map((wish) => (
+              <MyWishListCards
+                businessName={wish.businessName}
+                detail={wish.detail}
+                color={wish.color}
+                shape={wish.shape}
+                sheetTaste={wish.sheetTaste}
+                creamTaste={wish.creamTaste}
+                situation={wish.situation}
+              />
+            ))}
+            <GapH height="1%" />
+          </ThreeCardBox>
+        </WishBox>
         <NextBox>
-          <Button1>NEXT</Button1>
+          <Button1 onClick={handleNextClick}>NEXT</Button1>
           <GapH height="1%" />
-          <Button1>PREV</Button1>
+          <Button1 onClick={handlePrevClick}>PREV</Button1>
         </NextBox>
       </LeftRightContainer>
     </>
