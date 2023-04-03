@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Stage, Layer, Image, Rect, Text, Transformer } from "react-konva";
+import styled from "styled-components";
 import Blue from "./assets/img/blue.png";
 import Pink from "./assets/img/pink.png";
 import CreamBlue from "./assets/img/cream_blue.png";
@@ -15,6 +16,8 @@ import Char5 from "./assets/img/char5.png";
 import Char6 from "./assets/img/char6.png";
 import HappyBirthday from "./assets/img/happy_birthday.png";
 import Sidebar from "./components/Sidebar";
+import Button1 from "./components/button/Button1";
+import GapW from "./components/layout/GapW";
 
 function DragSize() {
   const [items, setItems] = useState([]);
@@ -65,8 +68,8 @@ function DragSize() {
   const happyBirthday = { src: HappyBirthday, width: 100, height: 100 };
 
   const trashZone = {
-    x: 0,
-    y: 0,
+    x: 10,
+    y: 700,
     width: 200,
     height: 200,
   };
@@ -154,9 +157,101 @@ function DragSize() {
       }
     }
   }, [resizingMode, selectedItemId, items]);
-
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function Buttons() {
+    const BtnContainer = styled.div`
+      display: flex;
+    `;
+    return (
+      <BtnContainer>
+        <Button1
+          background="rgb(181 199 211)"
+          type="button"
+          onClick={() => {
+            addItem(Blue, 500, 500);
+          }}
+        >
+          Add Blue
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          type="button"
+          onClick={() => {
+            addItem(Pink, 500, 500);
+          }}
+        >
+          Add Pink
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          type="button"
+          background="rgb(101 141 198)"
+          onClick={() => {
+            addItem(CreamBlue, 50, 50);
+          }}
+        >
+          Add CreamBlue
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          background="rgb(255 111 97)"
+          type="button"
+          onClick={() => {
+            addItem(CreamRed, 50, 50);
+          }}
+        >
+          Add CreamRed
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          type="button"
+          background="rgb(215 210 203)"
+          color="black"
+          onClick={() => {
+            addItem(CreamWhite, 50, 50);
+          }}
+        >
+          Add CreamWhite
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          background="rgb(255 247 224)"
+          color="black"
+          type="button"
+          onClick={() => {
+            addItem(RoundCake, 500, 500);
+          }}
+        >
+          Add RoundCake
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          type="button"
+          background="rgb(247 202 202)"
+          onClick={() => {
+            addItem(HeartCake, 500, 500);
+          }}
+        >
+          Add HeartCake
+        </Button1>
+        <GapW width="1%" />
+        <Button1
+          background="rgb(147 169 209)"
+          type="button"
+          onClick={() => setResizingMode(!resizingMode)}
+        >
+          {resizingMode ? "Disable Resizing" : "Enable Resizing"}
+        </Button1>
+      </BtnContainer>
+    );
+  }
   return (
-    <div style={{ backgroundColor: "#474746" }}>
+    <div
+      style={{
+        background:
+          "linear-gradient(to bottom right, rgb(247 202 202), rgb(147 169 209))",
+      }}
+    >
       <Sidebar
         onImageClick={(src, width, height) => {
           addItem(src, width, height);
@@ -176,65 +271,7 @@ function DragSize() {
         Char6={char6}
         HappyBirthday={happyBirthday}
       />
-      <button
-        type="button"
-        onClick={() => {
-          addItem(Blue, 500, 500);
-        }}
-      >
-        Add Blue
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(Pink, 500, 500);
-        }}
-      >
-        Add Pink
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(CreamBlue, 50, 50);
-        }}
-      >
-        Add CreamBlue
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(CreamRed, 50, 50);
-        }}
-      >
-        Add CreamRed
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(CreamWhite, 50, 50);
-        }}
-      >
-        Add CreamWhite
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(RoundCake, 500, 500);
-        }}
-      >
-        Add RoundCake
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          addItem(HeartCake, 500, 500);
-        }}
-      >
-        Add HeartCake
-      </button>
-      <button type="button" onClick={() => setResizingMode(!resizingMode)}>
-        {resizingMode ? "Disable Resizing" : "Enable Resizing"}
-      </button>
+      <Buttons />
       <Stage
         width={window.innerWidth}
         height={window.innerHeight - 23}
