@@ -95,8 +95,7 @@ function MyWishListCards({
   creamTaste,
   situation,
 }) {
-  let desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
-  desc = desc.slice(0, desc.length - 2);
+  const desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
   return (
     <Card>
       <Picture imageUrl="https://preppykitchen.com/wp-content/uploads/2022/05/Naked-Cake-Recipe-Card.jpg" />
@@ -131,6 +130,7 @@ function MyWishList() {
       .then((res) => {
         if (res.data.wishlist.length > 0) {
           setWishlistMatrix(res.data.wishlist);
+          console.log(res.data.wishlist);
         }
       });
   }, [page]);
