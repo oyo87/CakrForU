@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
@@ -11,6 +13,8 @@ import Logo2 from "../assets/img/logo2.png";
 import axios from "../util/axiosInstance";
 
 function Card({
+  buyerId,
+  portfolioId,
   title,
   imgUrl,
   sellerId,
@@ -26,11 +30,21 @@ function Card({
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
 
-  const addWishList = () => {
-    axios.post("/wish", {
-      buyer_id,
-      portpolio_id,
-    });
+  const addWishlist = (e) => {
+    e.stopPropagation();
+    console.log("start");
+    console.log("buyerId: ", buyerId);
+    console.log("portpolioId: ", portfolioId);
+    if (!buyerId) return;
+    axios
+      .post("/wish", {
+        buyer_id: buyerId,
+        portfolio_id: portfolioId,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+    console.log("end");
   };
 
   const handleClick = () => {
@@ -91,6 +105,7 @@ function Card({
         {!filled && (
           <img
             src={EmptyHeart}
+            onClick={addWishlist}
             alt="img"
             style={{
               position: "absolute",
@@ -99,7 +114,6 @@ function Card({
               right: "10px",
               zIndex: "1",
             }}
-            onClick={addWishlist}
           />
         )}
       </div>

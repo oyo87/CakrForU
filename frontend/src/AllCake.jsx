@@ -133,12 +133,15 @@ function AllCake() {
               return (
                 <Card
                   key={item.imageUrl[0]}
+                  buyerId={user.id}
+                  portfolioId={item.id}
+                  sellerId={item.sellerId}
                   title={item.detail}
                   shape={item.shape}
                   sheetTaste={item.sheetTaste}
                   creamTaste={item.creamTaste}
                   situation={item.situation}
-                  sellerId={item.businessName}
+                  businessName={item.businessName}
                   size={item.size}
                   detail={item.detail}
                   imgUrl={item.imageUrl}
