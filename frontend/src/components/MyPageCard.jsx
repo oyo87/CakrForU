@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
-import Tmp from "../assets/img/login_image.png";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMedium from "./text/BoldMedium";
@@ -17,6 +16,8 @@ function MyPageCard({
   sheetTaste,
   creamTaste,
   sheetSize,
+  imageUrl,
+  imageAlt,
 }) {
   const desc = [" ", sheetShape, sheetTaste, creamTaste, sheetSize].join(" #");
   const dispatch = useDispatch();
@@ -45,8 +46,8 @@ function MyPageCard({
       >
         <GapH height="20px" />
         <img
-          src={Tmp}
-          alt="img"
+          src={imageUrl}
+          alt={imageAlt}
           style={{
             width: "400px",
             height: "400px",

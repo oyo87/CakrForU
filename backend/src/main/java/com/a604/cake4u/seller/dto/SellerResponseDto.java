@@ -2,6 +2,9 @@ package com.a604.cake4u.seller.dto;
 
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 public class SellerResponseDto {
@@ -19,8 +22,9 @@ public class SellerResponseDto {
     private String account;
     private String businessDescription;
     private String userType = "seller";
-
-    public SellerResponseDto(Long id, String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription) {
+    @Setter
+    private List<String> imageUrls;
+    public SellerResponseDto(Long id, String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription, List<String> imageUrls) {
         this.id = id;
         this.email = email;
         this.roadAddress = roadAddress;
@@ -34,6 +38,7 @@ public class SellerResponseDto {
         this.contact = contact;
         this.account = account;
         this.businessDescription = businessDescription;
+        this.imageUrls = imageUrls;
     }
 
     public SellerResponseDto(Seller seller) {
@@ -51,4 +56,5 @@ public class SellerResponseDto {
         this.account = seller.getAccount();
         this.businessDescription = seller.getBusinessDescription();
     }
+
 }

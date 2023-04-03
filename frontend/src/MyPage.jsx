@@ -87,6 +87,8 @@ function MyPage() {
                 creamTaste={myOrder.creamTaste}
                 sheetTaste={myOrder.sheetTaste}
                 sheetSize={myOrder.sheetSize}
+                imageUrl={myOrder.imageFileDtoList[0].imageFileUri}
+                imageAlt={myOrder.imageFileDtoList[0].origImageFileName}
               />
             ))}
             <img src={NextPageImg} alt="nextbtn" />
@@ -110,6 +112,7 @@ function MyPage() {
                 creamTaste={myWish.creamTaste}
                 situation={myWish.situation}
                 sellerId={myWish.sellerId}
+                imgUrl={myWish.imageUrl}
               />
             ))}
           </RowContainer>
@@ -145,6 +148,8 @@ function MyPage() {
               sheetShape={review.sheetShape}
               sheetTaste={review.sheetTaste}
               creamTaste={review.creamTaste}
+              imageUrl={review.imageFileDtoList[0].imageFileUri}
+              imageAlt={review.imageFileDtoList[0].origImageFileName}
             />
           ))}
           <GapH height="80px" />
