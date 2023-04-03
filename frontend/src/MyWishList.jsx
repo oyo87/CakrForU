@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import gsap from "gsap";
 import Header from "./components/Header";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
 import GapW from "./components/layout/GapW";
@@ -8,8 +9,8 @@ import BoldLarge from "./components/text/BoldLarge";
 import Small from "./components/text/Small";
 import GapH from "./components/layout/GapH";
 import Button1 from "./components/button/Button1";
-import SmallMedium from "./components/text/SmallMedium";
 import axios from "./util/axiosInstance";
+import BoldSmall from "./components/text/BoldSmall";
 
 const InfoBox = styled.div`
   width: 30vh;
@@ -47,7 +48,7 @@ const ThreeCardBox = styled.div`
 `;
 const Card = styled.div`
   width: 30%;
-  height: 45%;
+  height: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,7 +57,7 @@ const Card = styled.div`
 const Picture = styled.div`
   background-image: url(${(props) => props.imageUrl});
   width: 100%;
-  height: 40%;
+  height: 30%;
   background-size: cover;
   background-repeat: no-repeat;
 `;
@@ -65,14 +66,14 @@ const Text1 = styled.div`
   border: #e2e2e2 solid 2px;
   padding: 5px;
   width: 100%;
-  height: 35%;
+  height: 30%;
 `;
 const Text2 = styled.div`
   background-color: white;
   border: #e2e2e2 solid 2px;
   padding: 5px;
   width: 100%;
-  height: 30%;
+  height: 40%;
 `;
 function InformationBox() {
   return (
@@ -101,11 +102,10 @@ function MyWishListCards({
       <Picture imageUrl="https://preppykitchen.com/wp-content/uploads/2022/05/Naked-Cake-Recipe-Card.jpg" />
       <Text1>
         <Small color="#9e9e9e">{businessName}</Small>
-        <br />
-        <SmallMedium fontsize="18px">{detail}</SmallMedium>
+        <BoldSmall>{detail}</BoldSmall>
       </Text1>
       <Text2>
-        <Small> {desc} </Small>
+        <Small>{desc}</Small>
       </Text2>
     </Card>
   );
@@ -134,6 +134,13 @@ function MyWishList() {
         }
       });
   }, [page]);
+  useEffect(() => {
+    gsap.fromTo(
+      ".WishBox",
+      { x: "-10%", opacity: 0 },
+      { x: "0%", duration: 1, opacity: 1 }
+    );
+  }, [page]);
   return (
     <>
       <Header />
@@ -145,7 +152,7 @@ function MyWishList() {
       >
         <InformationBox />
         <GapW width="1%" />
-        <WishBox>
+        <WishBox className="WishBox">
           <ThreeCardBox>
             {wishlistMatrix.map((wish) => (
               <MyWishListCards
