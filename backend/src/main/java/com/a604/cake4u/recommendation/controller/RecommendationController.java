@@ -10,6 +10,7 @@ import com.a604.cake4u.recommendation.dto.RecommendationFilter;
 import com.a604.cake4u.recommendation.service.RecommendationService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/recommendation")
+@Slf4j
 public class RecommendationController {
     private final RecommendationService recommendationService;
     private final RecommPortfolioRepository recommPortfolioRepository;
@@ -50,6 +52,8 @@ public class RecommendationController {
     @GetMapping("/filter")
     public ResponseEntity<?> recommendByFilter(RecommendationFilter recommendationFilter) {
         List<PortfolioResponseDto> portfolios = recommPortfolioRepository.findPortfolioRecommended(recommendationFilter);
+
+        log.info("portfolios = ", portfolios);
         return new ResponseEntity<>(portfolios, HttpStatus.OK);
     }
 
