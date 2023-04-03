@@ -57,7 +57,7 @@ const Card = styled.div`
 const Picture = styled.div`
   background-image: url(${(props) => props.imageUrl});
   width: 100%;
-  height: 30%;
+  height: 50%;
   background-size: cover;
   background-repeat: no-repeat;
 `;
@@ -66,14 +66,14 @@ const Text1 = styled.div`
   border: #e2e2e2 solid 2px;
   padding: 5px;
   width: 100%;
-  height: 30%;
+  height: 20%;
 `;
 const Text2 = styled.div`
   background-color: white;
   border: #e2e2e2 solid 2px;
   padding: 5px;
   width: 100%;
-  height: 40%;
+  height: 30%;
 `;
 function InformationBox() {
   return (
@@ -95,11 +95,12 @@ function MyWishListCards({
   sheetTaste,
   creamTaste,
   situation,
+  imageUrl,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
   return (
     <Card>
-      <Picture imageUrl="https://preppykitchen.com/wp-content/uploads/2022/05/Naked-Cake-Recipe-Card.jpg" />
+      <Picture imageUrl={imageUrl} />
       <Text1>
         <Small color="#9e9e9e">{businessName}</Small>
         <BoldSmall>{detail}</BoldSmall>
@@ -168,6 +169,7 @@ function MyWishList() {
                 sheetTaste={wish.sheetTaste}
                 creamTaste={wish.creamTaste}
                 situation={wish.situation}
+                imageUrl={wish.imageUrl[0]}
               />
             ))}
             <GapH height="1%" />

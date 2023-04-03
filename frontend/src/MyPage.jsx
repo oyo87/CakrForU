@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import gsap from "gsap";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
@@ -35,7 +37,7 @@ function MyPage() {
       });
 
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/b/${loginUser.id}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/wish/b/${loginUser.id}`)
       .then((res) => {
         setMyWishList(res.data.wishlist.slice(0, 5));
       });
@@ -47,6 +49,12 @@ function MyPage() {
       .then((res) => {
         setMyReviewList(res.data);
       });
+
+    gsap.fromTo(
+      ".Card",
+      { x: "-10%", opacity: 0 },
+      { x: "0%", duration: 1, opacity: 1 }
+    );
   }, []);
 
   const hoverOnColor = () => {
@@ -106,12 +114,13 @@ function MyPage() {
           >
             {myWishList.map((myWish) => (
               <Card
+                ClassName="Card"
                 title={myWish.detail}
                 shape={myWish.shape}
                 sheetTaste={myWish.sheetTaste}
                 creamTaste={myWish.creamTaste}
                 situation={myWish.situation}
-                sellerId={myWish.sellerId}
+                sellerId={myWish.businessName}
                 imgUrl={myWish.imageUrl}
               />
             ))}
@@ -123,7 +132,12 @@ function MyPage() {
             onMouseEnter={hoverOnColor}
             onMouseLeave={hoverOutColor}
           >
-            전체 위시 리스트
+            <Link
+              to="/mypage/wishlist"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              전체 위시 리스트
+            </Link>
           </Button2>
         </ColContainer>
         <RowContainer background="#8C8279" height="300px" justify="end">

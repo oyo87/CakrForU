@@ -12,26 +12,26 @@ public class SheetTasteUpdateRequestDto {
     private Long sellerId;
     private boolean vanilla;
     private boolean chocolate;
-    private boolean earlGray;
-    private boolean redVelvet;
+    private boolean earl_gray;
+    private boolean red_velvet;
     private boolean matcha;
     private boolean mocha;
     private boolean cheese;
     private boolean carrot;
-    private boolean sweetPotato;
+    private boolean sweet_potato;
 
     public SheetTasteUpdateRequestDto(Long id, Long sellerId, boolean vanilla, boolean chocolate, boolean earlGray, boolean redVelvet, boolean matcha, boolean mocha, boolean cheese, boolean carrot, boolean sweetPotato) {
         this.id = id;
         this.sellerId = sellerId;
         this.vanilla = vanilla;
         this.chocolate = chocolate;
-        this.earlGray = earlGray;
-        this.redVelvet = redVelvet;
+        this.earl_gray = earlGray;
+        this.red_velvet = redVelvet;
         this.matcha = matcha;
         this.mocha = mocha;
         this.cheese = cheese;
         this.carrot = carrot;
-        this.sweetPotato = sweetPotato;
+        this.sweet_potato = sweetPotato;
     }
 
     public SheetTaste toEntity() {
@@ -40,12 +40,12 @@ public class SheetTasteUpdateRequestDto {
                 .sellerId(sellerId)
                 .vanilla(vanilla)
                 .chocolate(chocolate)
-                .earlGray(earlGray)
-                .redVelvet(redVelvet)
+                .earlGray(earl_gray)
+                .redVelvet(red_velvet)
                 .matcha(matcha)
                 .cheese(cheese)
                 .carrot(carrot)
-                .sweetPotato(sweetPotato)
+                .sweetPotato(sweet_potato)
                 .build();
     }
 }

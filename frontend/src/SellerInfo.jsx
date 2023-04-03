@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ColContainer from "./components/layout/ColContainer";
 import GapW from "./components/layout/GapW";
@@ -8,14 +8,13 @@ import RowContainer from "./components/layout/RowContainer";
 import BoldLarge from "./components/text/BoldLarge";
 import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import SmallMedium from "./components/text/SmallMedium";
-import UpDownContainer from "./components/layout/UpDownContainer";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
 import SellerSide from "./components/SellerSide";
 import axios from "./util/axiosInstance";
-import Tmp from "./assets/img/login_image.png";
 
 function SellerInfo() {
   const seller = useSelector((state) => state.login.user);
+  const [images, setImages] = useState([]);
   function fetchSellerInfo() {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/seller/info/${seller.id}`)
@@ -24,8 +23,19 @@ function SellerInfo() {
       });
   }
 
+  function fetchImages() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/image-file/seller/${seller.id}`
+      )
+      .then((res) => {
+        setImages(res.data);
+      });
+  }
+
   useEffect(() => {
     fetchSellerInfo();
+    fetchImages();
   }, []);
 
   return (
@@ -82,7 +92,7 @@ function SellerInfo() {
               <SmallMedium>{seller.phoneNumber}</SmallMedium>
               <SmallMedium>{seller.email}</SmallMedium>
               <img
-                src={Tmp}
+                src={images.at(0)}
                 alt="tmp"
                 style={{
                   width: "455px",
@@ -94,8 +104,6 @@ function SellerInfo() {
           </RowContainer>
         </ColContainer>
       </LeftRightContainer>
-
-      <UpDownContainer>aa</UpDownContainer>
     </div>
   );
 }

@@ -17,7 +17,7 @@ public interface ImageFileRepository extends JpaRepository<ImageFile, Long> {
 
     @Query(value="select imageFileUri from ImageFile where seller.id = :sellerId")
     Optional<List<String>> findURLsBySellerId(@Param("sellerId") Long sellerId);
-    
+
     @Query(value="select imageFileUri from ImageFile where orderSheet.id = :orderSheetId")
     Optional<List<String>> findURLsByOrderSheetId(@Param("orderSheetId") Long orderSheetId);
 

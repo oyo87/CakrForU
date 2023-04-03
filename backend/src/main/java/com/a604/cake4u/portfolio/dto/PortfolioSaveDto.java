@@ -39,6 +39,6 @@ public class PortfolioSaveDto {
 
     private String detail;
 
-    private LocalDate createdAt;
+//    private LocalDate createdAt;
 
 }
