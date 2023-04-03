@@ -214,18 +214,18 @@ function SellerCustom() {
                     </Button1>
                     <Button1
                       width="124px"
-                      background={sheetTaste.earlGray ? "#FFACAC" : "grey"}
+                      background={sheetTaste.earl_gray ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleTaste("earlGray");
+                        handleTaste("earl_gray");
                       }}
                     >
                       <Small color="white">얼그레이</Small>
                     </Button1>
                     <Button1
                       width="124px"
-                      background={sheetTaste.redVelvet ? "#FFACAC" : "grey"}
+                      background={sheetTaste.red_velvet ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleTaste("redVelvet");
+                        handleTaste("red_velvet");
                       }}
                     >
                       <Small color="white">레드벨벳</Small>
@@ -274,9 +274,9 @@ function SellerCustom() {
                   <RowContainer gap="19px">
                     <Button1
                       width="124px"
-                      background={sheetTaste.sweetPotato ? "#FFACAC" : "grey"}
+                      background={sheetTaste.sweet_potato ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleTaste("sweetPotato");
+                        handleTaste("sweet_potato");
                       }}
                     >
                       <Small color="white">고구마</Small>
@@ -296,9 +296,9 @@ function SellerCustom() {
                   <RowContainer gap="19px">
                     <Button1
                       width="124px"
-                      background={creamTaste.creamCheese ? "#FFACAC" : "grey"}
+                      background={creamTaste.cream_cheese ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleCream("creamCheese");
+                        handleCream("cream_cheese");
                       }}
                     >
                       <Small color="white">크림치즈</Small>
@@ -306,28 +306,28 @@ function SellerCustom() {
                     <Button1
                       width="124px"
                       background={
-                        creamTaste.chocolateCream ? "#FFACAC" : "grey"
+                        creamTaste.chocolate_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("chocolateCream");
+                        handleCream("chocolate_cream");
                       }}
                     >
                       <Small color="white">초코크림</Small>
                     </Button1>
                     <Button1
                       width="124px"
-                      background={creamTaste.oreoCream ? "#FFACAC" : "grey"}
+                      background={creamTaste.oreo_cream ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleCream("oreoCream");
+                        handleCream("oreo_cream");
                       }}
                     >
                       <Small color="white">오레오크림</Small>
                     </Button1>
                     <Button1
                       width="124px"
-                      background={creamTaste.matchaCream ? "#FFACAC" : "grey"}
+                      background={creamTaste.matcha_cream ? "#FFACAC" : "grey"}
                       onClick={() => {
-                        handleCream("matchaCream");
+                        handleCream("matcha_cream");
                       }}
                     >
                       <Small color="white">말차크림</Small>
@@ -338,10 +338,10 @@ function SellerCustom() {
                     <Button1
                       width="124px"
                       background={
-                        creamTaste.blackSesameCream ? "#FFACAC" : "grey"
+                        creamTaste.blackSesame_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("blackSesameCream");
+                        handleCream("blackSesame_cream");
                       }}
                     >
                       <Small color="white">흑임자크림</Small>
@@ -349,19 +349,21 @@ function SellerCustom() {
                     <Button1
                       width="124px"
                       background={
-                        creamTaste.sweetPotatoCream ? "#FFACAC" : "grey"
+                        creamTaste.sweet_potato_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("sweetPotatoCream");
+                        handleCream("sweet_potato_cream");
                       }}
                     >
                       <Small color="white">고구마무스</Small>
                     </Button1>
                     <Button1
                       width="124px"
-                      background={creamTaste.earlGrayCream ? "#FFACAC" : "grey"}
+                      background={
+                        creamTaste.earl_gray_cream ? "#FFACAC" : "grey"
+                      }
                       onClick={() => {
-                        handleCream("earlGrayCream");
+                        handleCream("earl_gray_cream");
                       }}
                     >
                       <Small color="white">얼그레이</Small>
@@ -369,10 +371,10 @@ function SellerCustom() {
                     <Button1
                       width="124px"
                       background={
-                        creamTaste.strawberryCream ? "#FFACAC" : "grey"
+                        creamTaste.strawberry_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("strawberryCream");
+                        handleCream("strawberry_cream");
                       }}
                     >
                       <Small color="white">딸기크림</Small>

@@ -7,12 +7,10 @@ import GapH from "./components/layout/GapH";
 import Header from "./components/Header";
 import RowContainer from "./components/layout/RowContainer";
 import BoldLarge from "./components/text/BoldLarge";
-import UpDownContainer from "./components/layout/UpDownContainer";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
 import SellerSide from "./components/SellerSide";
 import axios from "./util/axiosInstance";
 import BoldMedium from "./components/text/BoldMedium";
-import Tmp from "./assets/img/login_image.png";
 import Medium from "./components/text/Medium";
 
 function SellerOrder() {
@@ -25,14 +23,74 @@ function SellerOrder() {
     FINISH_PICK_UP: "픽업 완료",
   };
 
+  function OrderImage({ orderId }) {
+    const [imageURL, setImageURL] = useState("");
+
+    useEffect(() => {
+      axios
+        .get(
+          `${process.env.REACT_APP_BACKEND_URL}/image-file/order-sheet/${orderId}`
+        )
+        .then((response) => {
+          if (response.data.length > 0) {
+            setImageURL(response.data[0]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, [orderId]);
+
+    return (
+      <>
+        {imageURL && (
+          <img
+            src={imageURL}
+            alt={`Order ${orderId}`}
+            style={{
+              width: "455px",
+              height: "355px",
+              objectFit: "cover",
+            }}
+          />
+        )}
+      </>
+    );
+  }
+
+  function formatDate(data) {
+    return data.map((obj) => {
+      const dateObj = new Date(obj.createdAt);
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+
+      if (obj.pickUpDate) {
+        const pickUpDateObj = new Date(obj.pickUpDate);
+        const pickUpYear = pickUpDateObj.getFullYear();
+        const pickUpMonth = String(pickUpDateObj.getMonth() + 1).padStart(
+          2,
+          "0"
+        );
+        const pickUpDay = String(pickUpDateObj.getDate()).padStart(2, "0");
+        const formattedPickUpDate = `${pickUpYear}-${pickUpMonth}-${pickUpDay}`;
+        obj.pickUpDate = formattedPickUpDate;
+      }
+
+      obj.createdAt = formattedDate;
+      return obj;
+    });
+  }
+
   function fetchSellerOrder() {
     axios
       .get(
         `${process.env.REACT_APP_BACKEND_URL}/order-sheet/seller/${seller.id}`
       )
       .then((res) => {
-        console.log(res.data);
-        setOrders(res.data);
+        const formattedData = formatDate(res.data);
+        setOrders(formattedData);
       });
   }
 
@@ -76,23 +134,15 @@ function SellerOrder() {
               <GapH height="28px" />
               <RowContainer justify="start" width="1200px">
                 <GapW width="30px" />
-                <ColContainer align="start">
-                  <img
-                    src={Tmp}
-                    alt="tmp"
-                    style={{
-                      width: "251px",
-                      height: "204px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </ColContainer>
+                <OrderImage orderId={order.id} />
                 <GapW width="50px" />
                 <ColContainer gap="28px" align="start">
                   <Medium>{order.createdAt} 주문</Medium>
-                  <Medium>{order.nickname}</Medium>
-                  <Medium>{order.dueDate}</Medium>
-                  <Medium color="#F081A4">주문상세</Medium>
+                  <Medium>{order.buyerNickName}</Medium>
+                  {order.pickUpDate ? (
+                    <Medium>{order.pickUpDate} 픽업예정</Medium>
+                  ) : null}
+                  <BoldMedium color="#F081A4">주문상세 ></BoldMedium>
                 </ColContainer>
                 <div
                   style={{
@@ -108,8 +158,6 @@ function SellerOrder() {
           ))}
         </ColContainer>
       </LeftRightContainer>
-
-      <UpDownContainer>aa</UpDownContainer>
     </div>
   );
 }
