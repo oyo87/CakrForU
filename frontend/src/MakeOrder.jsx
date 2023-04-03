@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import axios from "./util/axiosInstance";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -27,9 +28,11 @@ const FileButton = styled.img`
   cursor: pointer;
 `;
 
-function MakeOrder() {
-  const BUYER_ID = 100; //  임시 구매자 id, 구매자 id도 리덕스로 관리할 수 있어야 할터
-  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+function MakeOrder({ sellerId }) {
+  const user = useSelector((state) => state.login.user);
+  const BUYER_ID = user.id;
+  // const BUYER_ID = 100; //  임시 구매자 id, 구매자 id도 리덕스로 관리할 수 있어야 할터
+  const SELLER_ID = sellerId; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
 
   const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들
   const [sellerSheetSize, setSellerSheetSize] = useState([]);
