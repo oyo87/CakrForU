@@ -18,6 +18,7 @@ public class SellerResponseDto {
     private String contact;
     private String account;
     private String businessDescription;
+    private String userType = "seller";
 
     public SellerResponseDto(Long id, String email, String roadAddress, String detailedAddress, String buildingName, String phoneNumber, String name, String businessNumber, String businessLocation, String businessName, String contact, String account, String businessDescription) {
         this.id = id;

@@ -4,7 +4,6 @@ import com.a604.cake4u.enums.EImageFileType;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
-import com.a604.cake4u.imagefile.handler.LocalFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.portfolio.dto.CakeFilter;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
@@ -43,20 +42,15 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     private final PortfolioRepository portfolioRepository;
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
-    private final LocalFileHandler localFileHandler;
     private final S3ImageFileHandler s3ImageFileHandler;
     private final JPAQueryFactory queryFactory;
 
-//  querydsl=========================================================================
     @Override
     public List<PortfolioResponseDto> findPortfolioCakeFilter(CakeFilter cakeFilter) {
 
         QPortfolio portfolio = QPortfolio.portfolio;
+        BooleanExpression whereClause = portfolio.isNotNull();
 
-//      null 체크. CakeFilter 클래스의 각 필드에서 null 여부를 확인하고, 해당 필드에 대한 검색 조건이 있으면 whereClause에 추가
-        BooleanExpression whereClause = portfolio.isNotNull(); // where조건절
-
-        //and연산으로 선택한 핉터와 일치하는지 확인하는 조건을 추가
         if (cakeFilter.getSize() != null) {
             whereClause = whereClause.and(portfolio.size.eq(cakeFilter.getSize()));
         }
@@ -90,11 +84,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         return returnList;
     }
 
-//querydsl===============================================================================
-
-    //PortfolioFileDto 생성 필요 uri, name, type만 프론트에서 받으면 될듯
-    //public void uploadPortfolio(PortfolioSaveDto portfolioSaveDto, PortfolioFileDto portfolioFileDto
-
     @Transactional
     public Long uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
         Long ret = -1L;
@@ -118,7 +107,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 .build();
 
         try {
-//            List<ImageFile> imageFileList = localFileHandler.parseFileInfo(files);
             List<ImageFile> imageFileList = s3ImageFileHandler.parseFileInfo(files);
             ret = portfolioRepository.save(portfolio).getId();
 
@@ -140,47 +128,12 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         }
     }
 
-//    @Transactional
-//    public Portfolio uploadPortfolio(PortfolioSaveDto portfolioSaveDto, List<MultipartFile> files) {
-////         dto를 portfolio table에 entity화 하여 저장
-//        Portfolio portfolio = portfolioSaveDtoToEntity(portfolioSaveDto);
-////        Seller seller = sellerRepository.findById(portfolio.getSeller().getId()).orElseThrow(() -> (new NoSuchElementException()));
-////        portfolio.setSeller(seller);
-//
-//        try {
-//            List<ImageFile> imageFileList = fileHandler.parseFileInfo(files);
-//
-//            //  파일이 존재하면 처리
-//            if(!imageFileList.isEmpty()) {
-//                for(ImageFile imageFile : imageFileList) {
-//                    //  파일을 DB에 저장
-//                    imageFile.setPortfolio(portfolio);  //  사진에 포트폴리오 등록
-//                    imageFile.setImageFileType(EImageFileType.PORTFOLIO_CAKE);  //  사진 유형 등록
-//                    portfolio.addPortfolioImageFile(imageFile); //  포트폴리오에 사진 등록
-//                    imageFileRepository.save(imageFile);    //  파일을 DB에 저장
-//                }
-//            }
-//        } catch(IOException e) {
-//            e.printStackTrace();
-//            throw new BaseException(ErrorMessage.NOT_STORE_FILE);
-//        } finally {
-//            return portfolioRepository.save(portfolio);
-//        }
-////         파일을 여기서 처리할지 파일처리하는 로직을 파일패키지에서 따로 할지
-////         방금 저장한 portfolio id를 불러와서
-////        long id = portfolio.getId();
-////         file entity를 만들고 저장
-//
-//    }
-
-    //포트폴리오 하나 얻어오기
     public PortfolioResponseDto getPortfolio(Long id) {
         Portfolio portfolio = portfolioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
 
         return portfolioEntityToPortfolioResponseDTO(portfolio);
     }
 
-    //전체 포트폴리오 가져오기
     public List<PortfolioResponseDto> getAllPortfolios(int page) {
 
         Page<Portfolio> portfolioList = portfolioRepository.findAll(PageRequest.of(page, 20, Sort.by("id").descending()));
@@ -193,7 +146,19 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         return portfolioDtos;
     }
 
-    //특정 가게 전체 포트폴리오 가져오기
+    public List<PortfolioResponseDto> getPortfoliosByOrderByHitDesc() {
+
+        List<Portfolio> portfolioList = portfolioRepository.findAllByOrderByHitDesc();
+
+        List<PortfolioResponseDto> portfolioDtos = new ArrayList<>();
+
+        for(int i=0;i<5;i++) {
+            portfolioDtos.add(portfolioEntityToPortfolioResponseDTO(portfolioList.get(i)));
+        }
+
+        return portfolioDtos;
+    }
+
     public List<PortfolioResponseDto> getPortfoliosBySellerId(Long sellerId) {
 
         List<Portfolio> portfolioList = portfolioRepository.findBySellerId(sellerId);
@@ -207,7 +172,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         return portfolioDtos;
     }
 
-    //포트폴리오 수정
     @Transactional
     public Portfolio modifyPortfolio(PortfolioUpdateDto portfolioUpdateDto) {
         Objects.requireNonNull(portfolioUpdateDto, "PortfolioUpdateDto must not be null");
@@ -225,19 +189,15 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         portfolio.setCreamTaste(portfolioUpdateDto.getCreamTaste());
         portfolio.setDetail(portfolioUpdateDto.getDetail());
 
-        //save없이 자동 저장?
         return portfolio;
     }
 
-    //포트폴리오 삭제
     public void deletePortfolio(Long id) {
         Portfolio portfolio = portfolioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Portfolio not found"));
         portfolioRepository.delete(portfolio);
     }
 
-    // 포트폴리오 id리스트를 받아 해당하는 포트폴리오responsedto리스트 반환
-    // wishList에서 사용될예정
     public List<PortfolioResponseDto> getPortfolioResponseListByBuyerId(List<Long> portfolioIdList) {
 
         List<PortfolioResponseDto> returnList = new ArrayList<>();
@@ -253,7 +213,6 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         return returnList;
     }
 
-    //새로 등록하기 위한 porfolioSaveDto 를 Portfolio Entity로 변환
     public Portfolio portfolioSaveDtoToEntity(PortfolioSaveDto portfolioSaveDto) throws NoSuchElementException {
         Optional<Seller> sellerOptional = sellerRepository.findById(portfolioSaveDto.getSellerId());
         if (sellerOptional.isPresent()) {
@@ -278,12 +237,11 @@ public class PortfolioService implements PortfolioRepositoryCustom{
 
     }
 
-
-    //포트폴리오 엔티티를 포트폴리오DTO로 변환
     public PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {
         return PortfolioResponseDto.builder().
                 id(portfolio.getId()).
                 sellerId(portfolio.getId()).
+                businessName(portfolio.getSeller().getBusinessName()).
                 hit(portfolio.getHit()).
                 createdAt(portfolio.getCreatedAt()).
                 gender(portfolio.getGender()).
@@ -295,6 +253,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 sheetTaste(portfolio.getSheetTaste()).
                 creamTaste(portfolio.getCreamTaste()).
                 detail(portfolio.getDetail()).
+                imageUrl(imageFileRepository.findURLsByPortfolioId(portfolio.getId()).get()).
                 build();
 
     }

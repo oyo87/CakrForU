@@ -7,18 +7,23 @@ import RowContainer from "./components/layout/RowContainer";
 import ColContainer from "./components/layout/ColContainer";
 import MyPageCard from "./components/MyPageCard";
 import MyPageTitle from "./components/MyPageTitle";
-import Card from "./components/Card";
+import GapW from "./components/layout/GapW";
 import GapH from "./components/layout/GapH";
 import MediumSmall from "./components/text/MediumSmall";
-import BoldMedium from "./components/text/BoldMedium";
+import Small from "./components/text/Small";
 import BoldLarge from "./components/text/BoldLarge";
-import Button1 from "./components/button/Button1";
 import Button2 from "./components/button/Button2";
+import Review from "./components/Review";
+import Card from "./components/Card";
+import NextPageImg from "./assets/img/Nextpage.png";
 
 function MyPage() {
   const loginUser = useSelector((state) => state.login.user);
   const [myOrderList, setMyOrderList] = useState([]);
   const [myWishList, setMyWishList] = useState([]);
+  const [myReviewList, setMyReviewList] = useState([]);
+  const [wishlistButtonColor, setWishlistButtonColor] = useState([]);
+  const [wishlistTextColor, setWishlistTextColor] = useState([]);
 
   useEffect(() => {
     axios
@@ -26,14 +31,33 @@ function MyPage() {
         `${process.env.REACT_APP_BACKEND_URL}/order-sheet/buyer/${loginUser.id}`
       )
       .then((res) => {
-        setMyOrderList(res.data);
+        setMyOrderList(res.data.slice(0, 2));
       });
+
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/b/${loginUser.id}`)
       .then((res) => {
         setMyWishList(res.data.wishlist.slice(0, 5));
       });
+
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/buyer/review/${loginUser.id}`
+      )
+      .then((res) => {
+        setMyReviewList(res.data);
+      });
   }, []);
+
+  const hoverOnColor = () => {
+    setWishlistButtonColor("#FF9494");
+    setWishlistTextColor("white");
+  };
+
+  const hoverOutColor = () => {
+    setWishlistButtonColor("#F6F1EE");
+    setWishlistTextColor("black");
+  };
 
   return (
     <div>
@@ -41,13 +65,15 @@ function MyPage() {
       <UpDownContainer>
         <MyPageTitle />
         <ColContainer
-          height="614px"
+          height="1000px"
           align="start"
           width="1170px"
-          style={{ alignSelf: "center" }}
+          style={{ alignSelf: "center", justifyContent: "space-evenly" }}
         >
-          <BoldMedium>MY CAKE</BoldMedium>
-          <GapH />
+          <RowContainer justify="start" align="end">
+            <BoldLarge>나의 케이크</BoldLarge>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Small color="gray">최근 주문한 내역이 보여집니다</Small>
+          </RowContainer>
           <RowContainer
             width="100%"
             style={{ justifyContent: "space-between" }}
@@ -63,7 +89,7 @@ function MyPage() {
                 sheetSize={myOrder.sheetSize}
               />
             ))}
-            <Button1>~~</Button1>
+            <img src={NextPageImg} alt="nextbtn" />
           </RowContainer>
         </ColContainer>
         <ColContainer background="#F0F0E8" height="400px">
@@ -88,12 +114,40 @@ function MyPage() {
             ))}
           </RowContainer>
           <GapH height="76px" />
-          <Button2>전체위시리스트</Button2>
+          <Button2
+            background={wishlistButtonColor}
+            color={wishlistTextColor}
+            onMouseEnter={hoverOnColor}
+            onMouseLeave={hoverOutColor}
+          >
+            전체 위시 리스트
+          </Button2>
         </ColContainer>
-        <ColContainer background="#F0F0E8" height="400px">
-          <BoldLarge>WISH LIST</BoldLarge>
-          <GapH />
-          <MediumSmall>내 마음을 설레게 한 케이크들은?</MediumSmall>
+        <RowContainer background="#8C8279" height="300px" justify="end">
+          <ColContainer align="end">
+            <BoldLarge color="white">Review</BoldLarge>
+            <GapH />
+            <MediumSmall color="white">
+              최근 주문한 내역 순서대로 보여집니다.
+            </MediumSmall>
+          </ColContainer>
+          <GapW width="360px" />
+        </RowContainer>
+        <ColContainer background="#F0F0E8" height="600px">
+          <GapH height="80px" />
+          {myReviewList.map((review) => (
+            <Review
+              businessName={review.businessName}
+              reviewContent={review.reviewContent}
+              reviewCreatedAt={review.reviewCreatedAt}
+              reviewRating={review.reviewRating}
+              sheetSize={review.sheetSize}
+              sheetShape={review.sheetShape}
+              sheetTaste={review.sheetTaste}
+              creamTaste={review.creamTaste}
+            />
+          ))}
+          <GapH height="80px" />
         </ColContainer>
       </UpDownContainer>
     </div>

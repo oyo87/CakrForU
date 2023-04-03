@@ -8,8 +8,10 @@ const initialState = {
     userType: "buyer",
   },
   modal: {
+    portfolio: null,
     portfolioOpen: false,
     addressOpen: false,
+    orderOpen: false,
   },
 };
 

@@ -2,6 +2,7 @@ package com.a604.cake4u.recommendation.controller;
 
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.buyer.repository.BuyerRepository;
+import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.enums.ESituation;
 import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
 import com.a604.cake4u.portfolio.repository.RecommPortfolioRepository;
@@ -29,9 +30,8 @@ public class RecommendationController {
     private final BuyerRepository buyerRepository;
 
     @GetMapping("/personal")
-    public ResponseEntity<?> recommendByGenderAndAge(@RequestParam(value="page") int page, @RequestParam(value="email") String email){
-        Buyer buyer = buyerRepository.findByEmail(email).get();
-        List<PortfolioResponseDto> portfolios = recommendationService.getPortfolioRecommendationByAgeAndGender(page, buyer.getAge(), buyer.getGender());
+    public ResponseEntity<?> recommendByGenderAndAge(@RequestParam(value="page") int page, @RequestParam(value="gender") String gender, @RequestParam(value="age") int age){
+        List<PortfolioResponseDto> portfolios = recommendationService.getPortfolioRecommendationByAgeAndGender(page, age, EGender.valueOf(gender));
         return ResponseEntity.status(HttpStatus.OK).body(portfolios);
     }
 

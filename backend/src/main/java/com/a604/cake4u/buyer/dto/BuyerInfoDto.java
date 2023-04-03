@@ -5,7 +5,6 @@ import com.a604.cake4u.enums.EGender;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -33,5 +32,7 @@ public class BuyerInfoDto {
 
     @ApiParam
     private ProviderType providerType;
+    @ApiParam
+    private String userType;
 
 }

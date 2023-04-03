@@ -5,6 +5,7 @@ import com.a604.cake4u.portfolio.entity.Portfolio;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 public class PortfolioResponseDto {
     private Long id;
     private Long sellerId;
+    private String businessName;
     private int hit;
     private LocalDate createdAt;
     private EGender gender;
@@ -26,6 +28,7 @@ public class PortfolioResponseDto {
     private ESheetTaste sheetTaste;
     private ECreamTaste creamTaste;
     private String detail;
+    private List<String> imageUrl;
 
     PortfolioResponseDto toDto(Portfolio portfolio) {
         return PortfolioResponseDto.builder()

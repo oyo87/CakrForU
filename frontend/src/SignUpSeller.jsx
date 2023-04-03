@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -18,6 +19,7 @@ import SmallMedium from "./components/text/SmallMedium";
 import MediumSmall from "./components/text/MediumSmall";
 import { RadioButton } from "./components/Radio";
 import Plant from "./assets/img/plant.png";
+// import { userType } from "./store/loginSlice";
 
 const HorizonBox = styled.div`
   display: flex;
@@ -59,10 +61,12 @@ const Text = styled.textarea`
 `;
 
 function SignUpSeller() {
+  // const navigate = useNavigate();
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const [selectedUserGender, setSelectedUserGender] = useState("F");
   const [address, setAddress] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -85,6 +89,7 @@ function SignUpSeller() {
     bankName: "",
     bankAccount: "",
     businessDescription: "",
+    files: [],
   });
 
   const handleChange = (e) => {
@@ -96,31 +101,69 @@ function SignUpSeller() {
     setFormData((prevData) => ({ ...prevData, phonePrefix: e.value }));
   };
 
+  const handleImageFiles = (e) => {
+    setImageFiles(e.target.files);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const phoneNumber = `${formData.phonePrefix}-${formData.phoneNumberPart1}-${formData.phoneNumberPart2}`;
+    const phoneNumber = `${formData.phonePrefix}${formData.phoneNumberPart1}${formData.phoneNumberPart2}`;
     const birthDate = `${formData.year}-${formData.month}-${formData.day}`;
     const businessLocation = `${formData.roadAddress} ${formData.detailedAddress}`;
+    const sellerSaveRequestDto = {
+      email: formData.email,
+      password: formData.password,
+      gender: formData.gender,
+      birthDate,
+      roadAddress: formData.roadAddress,
+      detailedAddress: formData.detailedAddress,
+      dongCode: formData.dongCode,
+      buildingName: formData.buildingName,
+      phoneNumber,
+      name: formData.name,
+      businessNumber: formData.businessNumber,
+      businessLocation,
+      businessName: formData.businessName,
+      contact: formData.contact,
+      account: `${formData.bankName} ${formData.bankAccount}`,
+      businessDescription: formData.businessDescription,
+    };
+    const strDto = JSON.stringify(sellerSaveRequestDto);
+    const formSendData = new FormData();
+
+    console.log("imageFiles = ", imageFiles);
+
+    console.log("strDto : ", strDto);
+
+    for (let i = 0; i < imageFiles.length; i += 1)
+      formSendData.append("files", imageFiles[i]);
+    formSendData.append("sellerSaveRequestDtoString", strDto);
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
     axios
-      .post("https://j8a604.p.ssafy.io/api/seller/signup", {
-        email: formData.email,
-        password: formData.password,
-        gender: formData.gender,
-        birthDate,
-        roadAddress: formData.roadAddress,
-        detailedAddress: formData.detailedAddress,
-        dongCode: formData.dongCode,
-        buildingName: formData.buildingName,
-        phoneNumber,
-        name: formData.name,
-        businessNumber: formData.businessNumber,
-        businessLocation,
-        businessName: formData.businessName,
-        contact: formData.contact,
-        account: `${formData.bankName} ${formData.bankAccount}`,
-        businessDescription: formData.businessDescription,
+      // .post("https://j8a604.p.ssafy.io/api/seller/signup", formSendData, config)
+      .post(`/seller/signup`, formSendData, config)
+      .then((response) => {
+        // axios
+        //   .post("https://j8a604.p.ssafy.io/api/seller/login", {
+        //     email: formData.email,
+        //     password: formData.password,
+        //   })
+        //   .then((res) => {
+        //     localStorage.setItem("access-token", res.data);
+        //     dispatch(userType("seller"));
+        //     navigate("/");
+        //   });
+        console.log("response = ", response);
       })
-      .then(() => {});
+      .catch((error) => {
+        console.log("error : ", error);
+      });
   };
 
   return (
@@ -144,7 +187,6 @@ function SignUpSeller() {
               zIndex: "2",
             }}
             onComplete={(data) => {
-              console.log(data);
               setFormData((prevData) => ({
                 ...prevData,
                 roadAddress: data.roadAddress,
@@ -416,6 +458,16 @@ function SignUpSeller() {
             <MediumSmall color="#616161">추가하기</MediumSmall>
           </HorizonBox>
           <GapH height="35px" />
+          <HorizonBox>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => handleImageFiles(event)}
+              className="hidden"
+              id="file"
+            />
+          </HorizonBox>
           <Button3 width="539px" onClick={handleSubmit}>
             <MediumSmall color="white">가입하기</MediumSmall>
           </Button3>

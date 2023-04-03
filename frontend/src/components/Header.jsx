@@ -240,6 +240,12 @@ function Header({ handleClickOutModal }) {
             <Small cursor="pointer">가게</Small>
           </Link>
           <Link
+            to="/popular"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Small cursor="pointer">인기</Small>
+          </Link>
+          <Link
             to="/recommend/personal"
             style={{ textDecoration: "none", color: "inherit" }}
           >

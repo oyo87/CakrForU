@@ -14,9 +14,9 @@ function MyPageTitle() {
 
   return (
     <div>
-      <RowContainer justify="start" height="285px" background="#F0F0E8">
+      <RowContainer justify="start" height="480px" background="#F6F1EE">
         <ColContainer width="18.3%" justify="start">
-          <GapH height="30.8%" />
+          <GapH height="80px" />
           <img
             src={Burger}
             alt="burger"
@@ -31,9 +31,9 @@ function MyPageTitle() {
           <GapH height="15.4%" />
           <RowContainer justify="start">
             <BoldLarge>{loginUser.nickname} 님의 마이페이지입니다</BoldLarge>
-            <GapW width="10.1%" />
-            <Button4>
-              <BoldMedium color="white">회원정보</BoldMedium>
+            <GapW width="257px" />
+            <Button4 width="316px">
+              <BoldMedium color="white">회원 정보 수정</BoldMedium>
             </Button4>
           </RowContainer>
         </ColContainer>

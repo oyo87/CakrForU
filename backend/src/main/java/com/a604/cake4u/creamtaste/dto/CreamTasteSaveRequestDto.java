@@ -15,6 +15,7 @@ public class CreamTasteSaveRequestDto {
     private boolean blackSesameCream;
     private boolean sweetPotatoCream;
     private boolean earlGrayCream;
+    private boolean strawberryCream;
 
     public CreamTasteSaveRequestDto(Long sellerId, boolean creamCheese, boolean whippingCream, boolean chocolateCream, boolean oreoCream, boolean matchaCream, boolean blackSesameCream, boolean sweetPotatoCream, boolean earlGrayCream) {
         this.sellerId = sellerId;
