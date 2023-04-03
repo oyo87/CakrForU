@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Routes, Route } from "react-router-dom";
+import Auth from "./Auth";
 import Welcome from "./Welcome";
 import Login from "./Login";
 import Main from "./Main";
@@ -25,6 +26,7 @@ import SellerCustom from "./SellerCustom";
 import SellerOrder from "./SellerOrder";
 import OrderModal from "./components/OrderModal";
 import SellerPortfolioRegist from "./SellerPortfolioRegist";
+import AllCake from "./AllCake";
 
 const AppContainer = styled.div`
   &,
@@ -32,6 +34,7 @@ const AppContainer = styled.div`
     box-sizing: border-box;
   }
 `;
+const AuthRecommendPersonal = Auth(RecommendPersonal);
 
 function App() {
   return (
@@ -49,6 +52,8 @@ function App() {
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
+        <Route path="/recommend/personal" element={<AuthRecommendPersonal />} />
+        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
@@ -59,6 +64,7 @@ function App() {
         <Route path="/seller/info" element={<SellerInfo />} />
         <Route path="/seller/custom" element={<SellerCustom />} />
         <Route path="/seller/order" element={<SellerOrder />} />
+        <Route path="/allcake" element={<AllCake />} />
         <Route
           path="/seller/portfolio/regist"
           element={<SellerPortfolioRegist />}
