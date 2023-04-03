@@ -87,7 +87,7 @@ function RecommendWishlist() {
                         sheetTaste={recommend.sheetTaste}
                         creamTaste={recommend.creamTaste}
                         situation={recommend.situation}
-                        sellerId={recommend.sellerId}
+                        sellerId={recommend.businessName}
                       />
                       <GapW width="20px" />
                     </RowContainer>

@@ -33,4 +33,6 @@ public interface WishListRepository extends JpaRepository<Wishlist, Long> {
 
     @Query(value = "select w.portfolio from Wishlist w where w.buyer = :buyer order by w.id desc")
     Page<Portfolio> findWishlistByBuyer(Pageable pageable, Buyer buyer);
+
+    boolean existsWishlistByBuyerAndPortfolio(Buyer buyer, Portfolio portfolio);
 }

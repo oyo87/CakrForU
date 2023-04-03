@@ -31,7 +31,6 @@ public class WishListController {
     public ResponseEntity<?> addWish(@RequestBody  WishListRequestDto wishListRequestDto){
         wishListService.saveWish(wishListRequestDto);
 
-
         return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
             put("result", true);
             put("msg", "찜등록 성공");
@@ -102,6 +101,10 @@ public class WishListController {
         }});
     }
 
-
+    @GetMapping("/contains")
+    public ResponseEntity<?> test(@RequestParam(value="buyer-id") Long buyerId, @RequestParam(value="portfolio-id") Long portfolioId){
+        boolean res = wishListService.isBuyerContaining(buyerId, portfolioId);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
 
 }
