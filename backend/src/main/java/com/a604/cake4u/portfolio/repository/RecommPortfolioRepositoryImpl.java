@@ -7,6 +7,7 @@ import com.a604.cake4u.recommendation.dto.RecommendationFilter;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class  RecommPortfolioRepositoryImpl implements RecommPortfolioRepository {
     private final JPAQueryFactory queryFactory;
 
@@ -49,14 +51,21 @@ public class  RecommPortfolioRepositoryImpl implements RecommPortfolioRepository
         if(recommendationFilter.getCreamTaste() != null)
             whereClause = whereClause.and(portfolio.creamTaste.eq(recommendationFilter.getCreamTaste()));
 
+        log.info("whereClause = ", whereClause);
         //  조건에 맞는 Entity List
         List<Portfolio> tmpList = queryFactory.selectFrom(portfolio)
                 .where(whereClause)
                 .fetch();
+
+        log.info("tmpList size = ", tmpList.size());
+        log.info("tmpList = ", tmpList);
         
         List<PortfolioResponseDto> recommPortfolioList = new ArrayList<>();    //  DTO화된 리스트
         for(Portfolio p : tmpList)
             recommPortfolioList.add(p.toDto());
+
+        log.info("recommPortfolioList.size = ", recommPortfolioList.size());
+        log.info("recommPortfolioList = ", recommPortfolioList);
 
         return recommPortfolioList;
     }
