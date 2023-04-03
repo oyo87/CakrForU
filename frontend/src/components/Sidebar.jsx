@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-// src/components/Sidebar.js
 import React from "react";
 import styled from "styled-components";
 
@@ -25,7 +23,6 @@ const StyledImage = styled.img`
   cursor: pointer;
 `;
 
-// eslint-disable-next-line react/prop-types
 function Sidebar({
   onImageClick,
   // Blue,
