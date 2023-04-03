@@ -146,8 +146,8 @@ function SignUpSeller() {
     };
 
     axios
-      // .post("https://j8a604.p.ssafy.io/api/seller/signup", formSendData, config)
-      .post(`/seller/signup`, formSendData, config)
+      .post("https://j8a604.p.ssafy.io/api/seller/signup", formSendData, config)
+      // .post(`/seller/signup`, formSendData, config)
       .then((response) => {
         // axios
         //   .post("https://j8a604.p.ssafy.io/api/seller/login", {
