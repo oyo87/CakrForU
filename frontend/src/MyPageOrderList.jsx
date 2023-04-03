@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./components/Header";
@@ -8,15 +8,25 @@ import BoldMedium from "./components/text/BoldMedium";
 import Medium from "./components/text/Medium";
 import MoreInfo from "./components/MoreInfo";
 import axios from "./util/axiosInstance";
+import { closeBuyerOrder } from "./store/modalSlice";
+import BuyerOrderModal from "./components/BuyerOrderModal";
 
 function MyPageOrderList() {
   // const URL = ${process.env.REACT_APP_BACKEND_URL};
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch;
   const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
   const loginUser = useSelector((state) => state.login.user);
   const [orderList, setOrderList] = useState([]);
   const [visibleOrders, setVisibleOrders] = useState(3);
   const navigate = useNavigate();
   const [isPickUpReady, setIsPickUpReady] = useState(false);
+
+  const handleClickOutModal = () => {
+    if (modal.buyerOrderOpen) {
+      dispatch(closeBuyerOrder());
+    }
+  };
 
   useEffect(() => {
     if (!loginUser) {
@@ -29,8 +39,7 @@ function MyPageOrderList() {
   };
 
   function getOrderList() {
-    // .get(`${URL}/order-sheet-buyer/${loginUser.id}`)
-    console.log(process.env.REACT_APP_BACKEND_URL);
+    // .get(`${URL}/order-sheet/buyer/${loginUser.id}`)
     console.log(`${URL}/order-sheet/buyer/0`);
     const todayDate = new Date();
     axios
@@ -83,7 +92,7 @@ function MyPageOrderList() {
 
   return (
     <div>
-      <Header />
+      <Header handleClickOutModal={handleClickOutModal} />
       {isPickUpReady === true ? (
         <PickupDiv>
           <BoldMedium color="white">픽업 준비가 완료되었습니다.</BoldMedium>
@@ -91,7 +100,8 @@ function MyPageOrderList() {
       ) : (
         ""
       )}
-      <MainContent>
+      {modal.buyerOrderOpen ? <BuyerOrderModal /> : null}
+      <MainContent onClick={handleClickOutModal}>
         <Medium>주문 목록</Medium>
         <Line />
         {orderList.length > 0 ? (
