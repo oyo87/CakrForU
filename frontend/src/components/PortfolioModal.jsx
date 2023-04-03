@@ -8,12 +8,21 @@ import GapW from "./layout/GapW";
 import BoldLarge from "./text/BoldLarge";
 import Small from "./text/Small";
 import ColContainer from "./layout/ColContainer";
-import Tmp from "../assets/img/login_image.png";
 import BoldSmall from "./text/BoldSmall";
 import Button1 from "./button/Button1";
 import { closePortfolio } from "../store/modalSlice";
+import Logo2 from "../assets/img/logo2.png";
 
-function PortfolioModal() {
+function PortfolioModal({
+  shape,
+  sheetTaste,
+  color,
+  creamTaste,
+  size,
+  title,
+  detail,
+  imgUrl,
+}) {
   const portfolio = useSelector((state) => state.modal.portfolio);
   useEffect(() => {
     console.log(portfolio);
@@ -63,7 +72,7 @@ function PortfolioModal() {
       <RowContainer height="400px" width="1020px" justify="start">
         <ColContainer width="400px">
           <img
-            src={Tmp}
+            src={imgUrl[0]}
             alt="img"
             style={{
               width: "400px",
@@ -81,9 +90,9 @@ function PortfolioModal() {
               <BoldSmall color="#616161">색깔</BoldSmall>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
-              <Small color="#616161">원형</Small>
-              <Small color="#616161">바닐라</Small>
-              <Small color="#616161">파스텔</Small>
+              <Small color="#616161">{shape}</Small>
+              <Small color="#616161">{sheetTaste}</Small>
+              <Small color="#616161">{color}</Small>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
               <BoldSmall color="#616161">크림맛</BoldSmall>
@@ -91,9 +100,9 @@ function PortfolioModal() {
               <BoldSmall color="#616161">금액</BoldSmall>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
-              <Small color="#616161">생크림</Small>
-              <Small color="#616161">1호</Small>
-              <Small color="#616161">56,000원</Small>
+              <Small color="#616161">{creamTaste}</Small>
+              <Small color="#616161">{size}</Small>
+              <Small color="#616161">{title}</Small>
             </ColContainer>
           </RowContainer>
           <GapH height="30px" />
@@ -102,18 +111,13 @@ function PortfolioModal() {
               <BoldSmall color="#616161">Detail</BoldSmall>
             </ColContainer>
             <ColContainer width="375px" align="start">
-              <Small color="#616161">
-                내 입맛에 맞게, 내가 원하는 컬러로 나만의 스토리를 담은
-                커스텀케이크! 모든 케이크는 컬러변경, 디자인 변경 가능하며,
-                레터링 가능하고, 손그림 그려주시거나,주케이크 인스타그램 사진
-                캡쳐하여보내주시면 예쁘게 제작해 드려요! :&#41;
-              </Small>
+              <Small color="#616161">{detail}</Small>
             </ColContainer>
           </RowContainer>
           <div style={{ flexGrow: 1 }} />
           <RowContainer gap="34px">
             <img
-              src={Tmp}
+              src={imgUrl[1] ? imgUrl[1] : Logo2}
               alt="img"
               style={{
                 width: "165px",
@@ -122,7 +126,7 @@ function PortfolioModal() {
               }}
             />
             <img
-              src={Tmp}
+              src={imgUrl[2] ? imgUrl[2] : Logo2}
               alt="img"
               style={{
                 width: "165px",
@@ -131,7 +135,7 @@ function PortfolioModal() {
               }}
             />
             <img
-              src={Tmp}
+              src={imgUrl[3] ? imgUrl[3] : Logo2}
               alt="img"
               style={{
                 width: "165px",

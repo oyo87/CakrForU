@@ -58,7 +58,6 @@ function Login() {
       })
       .then((res) => {
         localStorage.setItem("access-token", res.data);
-        localStorage.setItem("access-token");
         navigate("/");
       });
   };

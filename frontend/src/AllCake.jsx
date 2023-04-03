@@ -16,10 +16,9 @@ import axios from "./util/axiosInstance";
 function AllCake() {
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [pageNum, setPageNum] = useState(10);
+  const user = useSelector((state) => state.login.user);
   const modal = useSelector((state) => state.modal);
   const [popularCake, setPopularCake] = useState([]);
-  // const [popularSeller, setPopularSeller] = useState([]);
-  // const [orderOptions, setOrderOptions] = useState([]);
   const dispatch = useDispatch();
   const handleClickOutModal = () => {
     if (modal.portfolioOpen) {
@@ -27,15 +26,43 @@ function AllCake() {
     }
   };
 
+  const fetchWishList = async (buyerId) => {
+    try {
+      const response = await axios.get(`/wish/b/${buyerId}`);
+      console.log(response.data);
+      if (response.data.result) {
+        return response.data.wishlist;
+      }
+      console.error("Failed to fetch wishlist:", response.data.msg);
+      return [];
+    } catch (error) {
+      console.error("Failed to fetch wishlist:", error);
+      return [];
+    }
+  };
+
   const fetchMoreData = async () => {
     try {
+      const wishlistItemIds = user
+        ? await fetchWishList(user.id).then((wishlist) =>
+            wishlist.map((item) => item.itemId)
+          )
+        : [];
+
       const response = await axios.get(`/portfolio/list?page=${pageNum}`);
       const newData = response.data;
+
+      const updatedData = newData.map((item) => {
+        return {
+          ...item,
+          filled: wishlistItemIds.includes(item.id),
+        };
+      });
 
       if (newData.length === 0) {
         setHasMoreItems(false);
       } else {
-        setPopularCake((prevData) => [...prevData, ...newData]);
+        setPopularCake((prevData) => [...prevData, ...updatedData]);
         setPageNum((prevPageNum) => prevPageNum + 1);
       }
     } catch (error) {
@@ -46,7 +73,18 @@ function AllCake() {
   return (
     <div>
       <Header handleClickOutModal={handleClickOutModal} />
-      {modal.portfolioOpen ? <PortfolioModal /> : null}
+      {modal.portfolioOpen ? (
+        <PortfolioModal
+          shape={modal.portfolio.shape}
+          sheetTaste={modal.portfolio.sheetTaste}
+          color={modal.portfolio.color}
+          creamTaste={modal.portfolio.creamTaste}
+          size={modal.portfolio.size}
+          title={modal.portfolio.title}
+          detail={modal.portfolio.detail}
+          imgUrl={modal.portfolio.imgUrl}
+        />
+      ) : null}
       <UpDownContainer align="center" onClick={handleClickOutModal}>
         <GapH height="34px" />
         <RowContainer
@@ -103,7 +141,8 @@ function AllCake() {
                   sellerId={item.businessName}
                   size={item.size}
                   detail={item.detail}
-                  imgUrl={item.imageUrl[0]}
+                  imgUrl={item.imageUrl}
+                  color={item.color}
                 />
               );
             })}

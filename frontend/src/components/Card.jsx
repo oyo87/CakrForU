@@ -5,7 +5,10 @@ import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMediumSmall from "./text/BoldMediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
+import FilledHeart from "../assets/img/filled_heart.png";
 import { setPortfolio, openPortfolio } from "../store/modalSlice";
+import Logo2 from "../assets/img/logo2.png";
+import axios from "../util/axiosInstance";
 
 function Card({
   title,
@@ -18,14 +21,33 @@ function Card({
   sheetTaste,
   creamTaste,
   detail,
+  filled,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
 
+  const addWishList = () => {
+    axios.post("/wish", {
+      buyer_id,
+      portpolio_id,
+    });
+  };
+
   const handleClick = () => {
     dispatch(openPortfolio());
     dispatch(
-      setPortfolio({ size, shape, color, sheetTaste, creamTaste, detail })
+      setPortfolio({
+        title,
+        imgUrl,
+        sellerId,
+        situation,
+        size,
+        shape,
+        color,
+        sheetTaste,
+        creamTaste,
+        detail,
+      })
     );
   };
 
@@ -45,7 +67,7 @@ function Card({
         }}
       >
         <img
-          src={imgUrl}
+          src={imgUrl[0] ? imgUrl[0] : Logo2}
           alt="img"
           style={{
             width: "222px",
@@ -53,17 +75,33 @@ function Card({
             objectFit: "cover",
           }}
         />
-        <img
-          src={EmptyHeart}
-          alt="img"
-          style={{
-            position: "absolute",
-            width: "20px",
-            top: "10px",
-            right: "10px",
-            zIndex: "1",
-          }}
-        />
+        {filled && (
+          <img
+            src={FilledHeart}
+            alt="img"
+            style={{
+              position: "absolute",
+              width: "20px",
+              top: "10px",
+              right: "10px",
+              zIndex: "1",
+            }}
+          />
+        )}
+        {!filled && (
+          <img
+            src={EmptyHeart}
+            alt="img"
+            style={{
+              position: "absolute",
+              width: "20px",
+              top: "10px",
+              right: "10px",
+              zIndex: "1",
+            }}
+            onClick={addWishlist}
+          />
+        )}
       </div>
       <ColContainer
         height="110px"
