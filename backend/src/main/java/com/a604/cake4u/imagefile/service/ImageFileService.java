@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.a604.cake4u.exception.ErrorMessage.ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR;
@@ -22,7 +23,6 @@ public class ImageFileService {
     private final S3ImageFileHandler s3ImageFileHandler;
 
     /**
-     *
      * @param imageFileId : 삭제할 파일 PK
      * @return : 삭제된 파일의 PK
      */
@@ -33,7 +33,6 @@ public class ImageFileService {
     }
 
     /**
-     *
      * @param orderSheetId : 삭제할 주문서의 PK
      * @return : 삭제될 주문서에 저장된 이미지 개수
      */
@@ -48,7 +47,7 @@ public class ImageFileService {
             log.info("imageFileList = " + imageFileList);
             ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
             log.info("imageFileService ret = " + ret);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return ret;
@@ -56,7 +55,6 @@ public class ImageFileService {
     }
 
     /**
-     *
      * @param portfolioId : 삭제할 포트폴리오의 PK
      * @return : 삭제될 포트폴리오에 저장된 이미지 개수
      */
@@ -69,7 +67,7 @@ public class ImageFileService {
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
 //            ret = fileHandler.deleteImageFiles(imageFileList);
             ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return ret;
@@ -77,7 +75,6 @@ public class ImageFileService {
     }
 
     /**
-     * 
      * @param sellerId : 탈퇴할 판매자의 PK
      * @return : 탈퇴한 판매자에 등록된 이미지 개수
      */
@@ -90,10 +87,25 @@ public class ImageFileService {
                     .orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
 //            ret = fileHandler.deleteImageFiles(imageFileList);
             ret = s3ImageFileHandler.deleteImageFiles(imageFileList);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return ret;
         }
+    }
+
+    public List<String> getSellerImageFileUrls(Long sellerId) {
+        List<String> ret = imageFileRepository.findURLsBySellerId(sellerId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
+        return ret;
+    }
+
+    public List<String> getPortfolioImageFileUrls(Long portfolioId) {
+        List<String> ret = imageFileRepository.findURLsByPortfolioId(portfolioId).orElseThrow(() -> new BaseException());
+        return ret;
+    }
+
+    public List<String> getOrderSheetImageFileUrls(Long orderSheetId) {
+        List<String> ret = imageFileRepository.findURLsByOrderSheetId(orderSheetId).orElseThrow(() -> new BaseException());
+        return ret;
     }
 }
