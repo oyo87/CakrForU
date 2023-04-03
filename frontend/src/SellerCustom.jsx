@@ -35,10 +35,14 @@ function SellerCustom() {
         setSheetSize(res.data.sheetSize);
         setCreamTaste(res.data.creamTaste);
       });
+
+    console.log("sheetShape = ", sheetShape);
   }, []);
 
   const handleSubmit = () => {
     const data = { sheetShape, sheetSize, sheetTaste, creamTaste };
+    console.log();
+
     axios.put("/seller/custom/update", data).then((res) => {
       console.log(res);
     });

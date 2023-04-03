@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "./util/axiosInstance";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -28,8 +30,10 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
-  const BUYER_ID = 100; //  임시 구매자 id, 구매자 id도 리덕스로 관리할 수 있어야 할터
+  const user = useSelector((state) => state.login.user);
+  const BUYER_ID = user.id;
   const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+  const navigate = useNavigate();
 
   const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들
   const [sellerSheetSize, setSellerSheetSize] = useState([]);
@@ -48,6 +52,7 @@ function MakeOrder() {
   const [dict, setDict] = useState({});
 
   useEffect(() => {
+    console.log("BUYER_ID = ", BUYER_ID);
     setDict({
       CIRCLE: "원형",
       HEART: "하트",
@@ -176,6 +181,7 @@ function MakeOrder() {
       .post(`/order-sheet`, formSendData, config)
       .then((response) => {
         console.log("response : ", response);
+        navigate("/");
       })
       .catch((error) => {
         console.log("error : ", error);
