@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DaumPostcode from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ import SmallMedium from "./components/text/SmallMedium";
 import MediumSmall from "./components/text/MediumSmall";
 import { RadioButton } from "./components/Radio";
 import Plant from "./assets/img/plant.png";
-// import { userType } from "./store/loginSlice";
+import { userType } from "./store/loginSlice";
 
 const HorizonBox = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ const Text = styled.textarea`
 `;
 
 function SignUpSeller() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const [selectedUserGender, setSelectedUserGender] = useState("F");
@@ -147,18 +147,24 @@ function SignUpSeller() {
 
     axios
       // .post("https://j8a604.p.ssafy.io/api/seller/signup", formSendData, config)
-      .post(`/seller/signup`, formSendData, config)
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/seller/signup`,
+        formSendData,
+        config
+      )
       .then((response) => {
-        // axios
-        //   .post("https://j8a604.p.ssafy.io/api/seller/login", {
-        //     email: formData.email,
-        //     password: formData.password,
-        //   })
-        //   .then((res) => {
-        //     localStorage.setItem("access-token", res.data);
-        //     dispatch(userType("seller"));
-        //     navigate("/");
-        //   });
+        axios
+          .post("/seller/login", {
+            email: formData.email,
+            password: formData.password,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              localStorage.setItem("access-token", res.data);
+              dispatch(userType("seller"));
+              navigate("/");
+            }
+          });
         console.log("response = ", response);
       })
       .catch((error) => {
@@ -406,7 +412,7 @@ function SignUpSeller() {
             height="55px"
             borderRadius="10px"
             placeholder="상세주소 입력(동/호)"
-            name="DetailedAddress"
+            name="detailedAddress"
             onChange={handleChange}
           />
           <GapH height="25px" />
