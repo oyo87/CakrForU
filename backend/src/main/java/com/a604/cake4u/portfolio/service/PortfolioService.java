@@ -102,7 +102,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
                 .sheetTaste(portfolioSaveDto.getSheetTaste())
                 .creamTaste(portfolioSaveDto.getCreamTaste())
                 .detail(portfolioSaveDto.getDetail())
-                .createdAt(portfolioSaveDto.getCreatedAt())
+                .createdAt(LocalDate.now())
                 .hit(0)
                 .build();
 

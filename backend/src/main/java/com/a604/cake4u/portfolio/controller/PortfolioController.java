@@ -84,6 +84,7 @@ public class PortfolioController {
 
             return new ResponseEntity<>("포트폴리오 등록 성공\n포트폴리오 번호 : " + portfolioId, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("Error creating portfolio: " + e.getMessage());
             return new ResponseEntity<>("Error creating portfolio: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -215,7 +216,7 @@ public class PortfolioController {
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
                 .creamTaste(ECreamTaste.valueOf(String.valueOf(map.get("creamTaste"))))
                 .detail(String.valueOf(map.get("detail")))
-                .createdAt(LocalDate.parse(String.valueOf(map.get("createdAt")), DateTimeFormatter.ISO_DATE))
+//                .createdAt(LocalDate.parse(String.valueOf(map.get("createdAt")), DateTimeFormatter.ISO_DATE))
                 .build();
     }
 }
