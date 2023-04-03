@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { gsap } from "gsap";
 import Header from "./components/Header";
 import WelcomeImg from "./assets/img/welcome.png";
 import BoldMedium from "./components/text/BoldMedium";
@@ -59,11 +60,51 @@ const Button = styled.button`
   font-size: 24px;
   cursor: pointer;
 `;
+function TypingText() {
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
+  const message = "당신의 소중한 하루를 완성해 줄 특별한 케이크";
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => prevIndex + 1);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setText(message.substring(0, index));
+  }, [index]);
+
+  return (
+    <RowContainer height="22%" align="end" id="my-element">
+      <BoldMedium>{text}</BoldMedium>
+    </RowContainer>
+  );
+}
 function Welcome() {
   const navigate = useNavigate();
   const [activeCard, setActiveCard] = useState(0);
   const cards = [
+    {
+      title: "3D 모델링",
+      content: `더 실감나게, 더 완성도 있게`,
+      url: Welcome3d,
+      width: "197px",
+      background: "#25231F",
+      titleTop: "17.21%",
+      contentTop: "30.84%",
+      imgTop: "39.55%",
+      color: "white",
+      rightContent: `어떤 케이크를 만들어야 할 지 고민되는
+당신을 위한 3D 모델링 케이크가 준비되어 있어요
+
+인기 디자인의 3D 모델을 참고해 케이크 디자인의
+영감을 떠올리고 설정한대로 원하는 맛의 케이크를 주문까지
+
+새로운 커스텀 케이크의 세계로 당신을 초대합니다`,
+    },
     {
       title: "메인페이지",
       content: `기념일을 위한 케이크를
@@ -84,59 +125,6 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
       link: "/main",
     },
     {
-      title: "3D 모델링",
-      content: `더 실감나게, 더 완성도 있게`,
-      url: Welcome3d,
-      width: "197px",
-      background: "#25231F",
-      titleTop: "17.21%",
-      contentTop: "30.84%",
-      imgTop: "39.55%",
-      color: "white",
-      rightContent: `3D 모델링으로 자신만의 케이크를 만들어보세요
-
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
-
-3D 모델링 페이지로 이동합니다.`,
-    },
-    {
-      title: "메인페이지",
-      content: `기념일을 위한 케이크를
-추천해드려요`,
-      url: WelcomMain,
-      width: "152px",
-      background: "#F6F1EE",
-      titleTop: "17.21%",
-      contentTop: "34.74%",
-      imgTop: "46.02%",
-      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
-추천 서비스를 이용할 수 있어요
-
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
-
-CAKE FOR U의 메인페이지로 이동합니다.`,
-    },
-    {
-      title: "메인페이지",
-      content: `기념일을 위한 케이크를
-추천해드려요`,
-      url: WelcomMain,
-      width: "152px",
-      background: "#F6F1EE",
-      titleTop: "17.21%",
-      contentTop: "34.74%",
-      imgTop: "46.02%",
-      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
-추천 서비스를 이용할 수 있어요
-
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
-
-CAKE FOR U의 메인페이지로 이동합니다.`,
-    },
-    {
       title: "케이크 DIY",
       content: `케이크 디자인을 해볼까요?`,
       url: Welcome2d,
@@ -145,10 +133,11 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
       titleTop: "15.58%",
       contentTop: "79.22%",
       imgTop: "27.36%",
-      rightContent: `원하는 케이크를 직접 꾸며보세요
+      rightContent: `
+남다른 디자인으로 소중한 하루를 만들고 싶은 당신을 위해
 
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
+간편한 스티커 게임으로 케이크를 만들고
+설정 그대로 주문까지 할 수 있어요
 
 2D 모델링 페이지로 이동합니다.`,
       link: "/dragSize",
@@ -189,7 +178,10 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
     }
     return "0";
   };
-
+  const cardRef = useRef(null);
+  useEffect(() => {
+    gsap.fromTo(cardRef.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+  }, [cards]);
   return (
     <UpDownContainer>
       <Header />
@@ -198,11 +190,7 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
           <StyledImage src={WelcomeImg} alt="welcome" />
         </ImageContainer>
         <MainContainer>
-          <RowContainer height="22%" align="end">
-            <BoldMedium>
-              당신의 소중한 하루를 완성해 줄 특별한 케이크
-            </BoldMedium>
-          </RowContainer>
+          <TypingText />
           <GapH height="50px" />
           <RowContainer height="39%">
             <ColContainer width="50%" justify="end" direction="auto">
@@ -249,7 +237,7 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
               <GapH height="35px" />
               <BoldLarge>{cards[activeCard].title}</BoldLarge>
               <GapH height="20px" />
-              <TextContainer>
+              <TextContainer ref={cardRef}>
                 <SmallMedium>{cards[activeCard].rightContent}</SmallMedium>
               </TextContainer>
             </ColContainer>

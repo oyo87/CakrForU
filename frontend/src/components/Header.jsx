@@ -188,10 +188,10 @@ function Header({ handleClickOutModal }) {
       return (
         <LoginSection>
           <Link
-            to="/mylist"
+            to="/mypage"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Small cursor="pointer">마이리스트</Small>
+            <Small cursor="pointer">마이페이지</Small>
           </Link>
           <Small onClick={handleLogout} cursor="pointer">
             로그아웃

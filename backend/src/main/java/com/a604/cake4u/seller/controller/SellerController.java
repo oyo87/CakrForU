@@ -15,6 +15,7 @@ import com.a604.cake4u.creamtaste.dto.CreamTasteUpdateRequestDto;
 import com.a604.cake4u.creamtaste.service.CreamTasteService;
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.exception.BaseException;
+import com.a604.cake4u.imagefile.repository.ImageFileRepository;
 import com.a604.cake4u.seller.dto.CustomDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
@@ -74,6 +75,7 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 public class SellerController {
 
     private final SellerRepository sellerRepository;
+    private final ImageFileRepository imageFileRepository;
     private final SellerService sellerService;
     private final SheetShapeService sheetShapeService;
     private final SheetSizeService sheetSizeService;
@@ -144,7 +146,11 @@ public class SellerController {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Seller seller = sellerRepository.findByEmail(principal.getUsername()).get();
-        SellerResponseDto dto = new SellerResponseDto(seller.getId(), seller.getEmail(), seller.getRoadAddress(), seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(), seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(), seller.getAccount(), seller.getBusinessDescription());
+        SellerResponseDto dto = new SellerResponseDto(seller.getId(), seller.getEmail(), seller.getRoadAddress(),
+                seller.getDetailedAddress(), seller.getBuildingName(), seller.getPhoneNumber(), seller.getName(),
+                seller.getBusinessNumber(), seller.getBusinessLocation(), seller.getBusinessName(), seller.getContact(),
+                seller.getAccount(), seller.getBusinessDescription(), imageFileRepository.findURLsBySellerId(seller.getId()).get());
+
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 

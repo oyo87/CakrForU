@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,7 @@ public class SellerService {
 
     public SellerResponseDto showSellerInfo(Long sellerId) {
         SellerResponseDto seller = sellerRepository.findSellerInfo(sellerId);
+        seller.setImageUrls(imageFileRepository.findURLsBySellerId(sellerId).get());
         if (seller == null)
             throw new BaseException(ErrorMessage.NOT_USER_INFO);
         return seller;
@@ -76,7 +78,11 @@ public class SellerService {
     }
 
     public List<SellerResponseDto> allSeller() {
-        return sellerRepository.AllSeller();
+        List<SellerResponseDto> ls = sellerRepository.AllSeller();
+        for(SellerResponseDto srd : ls){
+            srd.setImageUrls(imageFileRepository.findURLsBySellerId(srd.getId()).get());
+        }
+        return ls;
     }
     public List<SellerResponseDto> searchSeller(String dongCode) {
         return sellerRepository.searchSeller(dongCode);

@@ -42,7 +42,7 @@ public class RecommendationController {
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<?> recommendByWishlist(@RequestParam(value="user-id") long userId, @RequestParam(value="page") int page){
+    public ResponseEntity<?> recommendByWishlist(@RequestParam(value="user-id") long userId){
         List<PortfolioResponseDto> portfolios = recommendationService.getPortfolioRecommendationByWishlist(userId);
         return ResponseEntity.status(HttpStatus.OK).body(portfolios);
     }

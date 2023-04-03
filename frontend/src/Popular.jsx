@@ -29,7 +29,6 @@ function Popular() {
       setPopularCake(res.data);
     });
     axios.get("/seller/search/all").then(async (res) => {
-      console.log(res.data);
       const topSellers = res.data.slice(0, 5);
       setPopularSeller(topSellers);
 
@@ -41,7 +40,6 @@ function Popular() {
         const orderOptionResponses = await Promise.all(orderOptionPromises);
         const orderOptions2 = orderOptionResponses.map((res2) => res2.data);
         setOrderOptions(orderOptions2);
-        console.log("a", orderOptions2);
       } catch (error) {
         console.error("Failed to fetch order options:", error);
       }
@@ -49,10 +47,6 @@ function Popular() {
     });
     console.log(popularSeller);
   }, []);
-
-  // useEffect(() => {
-  //   console.log("c", orderOptions[0].sheetTaste);
-  // }, [orderOptions]);
 
   return (
     <div>
@@ -96,7 +90,7 @@ function Popular() {
                 sellerId={item.businessName}
                 size={item.size}
                 detail={item.detail}
-                imgUrl="https://cake-for-you.s3.ap-northeast-2.amazonaws.com/a670a1739003417795486d38be1dbddb.jpg"
+                imgUrl={item.imageUrl}
               />
             );
           })}
@@ -122,6 +116,7 @@ function Popular() {
                 }
                 situation={item.situation}
                 sellerId={item.businessName}
+                imgUrl={item.imageUrls[0]}
               />
             );
           })}

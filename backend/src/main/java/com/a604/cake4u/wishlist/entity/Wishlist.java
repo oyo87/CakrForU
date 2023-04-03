@@ -3,6 +3,7 @@ package com.a604.cake4u.wishlist.entity;
 import com.a604.cake4u.buyer.entity.Buyer;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -24,9 +25,11 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "WISHLIST_SEQ_GEN")
     @Column(nullable = false)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "buyer_id", referencedColumnName = "id", nullable = false)
     private Buyer buyer;
+
     @ManyToOne
     @JoinColumn(name = "portfolio_id", referencedColumnName = "id", nullable = false)
     private Portfolio portfolio;
