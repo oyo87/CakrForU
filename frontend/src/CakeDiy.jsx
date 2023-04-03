@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import html2canvas from "html2canvas";
 import { Stage, Layer, Rect, Text } from "react-konva";
 import CustomImage from "./CustomImage";
 import SidebarDiy from "./components/SidebarDiy";
@@ -22,35 +23,129 @@ const BtnContainer = styled.div`
   z-index: 1;
 `;
 
-function CakeDiy() {
-  const [images, setImages] = useState([]);
-  const [selectedId, selectShape] = useState(null);
-
-  const removeExistingCakes = () => {
-    setImages((prevImages) => prevImages.filter((img) => img.lockMovement));
+const captureScreenArea = async () => {
+  // Define the area to capture (x, y, width, height)
+  const captureArea = {
+    x: (window.innerWidth - 300) / 2 - 350, // Example values, adjust to your desired area
+    y: window.innerHeight / 2 - 300,
+    width: 700,
+    height: 600,
   };
 
-  const addItem = (src, x, y, width, height, lockMovement, lockResize) => {
-    if (lockMovement) {
-      removeExistingCakes();
-    }
+  // Capture the entire document body
+  const canvas = await html2canvas(document.body);
 
+  // Create a new canvas element to hold the cropped area
+  const croppedCanvas = document.createElement("canvas");
+  croppedCanvas.width = captureArea.width;
+  croppedCanvas.height = captureArea.height;
+  const ctx = croppedCanvas.getContext("2d");
+
+  // Draw the captured area on the new canvas
+  ctx.drawImage(
+    canvas,
+    captureArea.x,
+    captureArea.y,
+    captureArea.width,
+    captureArea.height,
+    0,
+    0,
+    captureArea.width,
+    captureArea.height
+  );
+
+  // Convert the cropped canvas to a base64 image URL
+  const dataURL = croppedCanvas.toDataURL("image/png");
+
+  // Create an anchor element with the download attribute
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = `aaa.png`; // Set the desired file name
+
+  // Append the link to the DOM and trigger a click event to download the image
+  document.body.appendChild(link);
+  link.click();
+
+  // Remove the link from the DOM after the download is initiated
+  document.body.removeChild(link);
+};
+
+function CakeDiy() {
+  const [images, setImages] = useState([
+    {
+      RoundCake,
+      x: (window.innerWidth - 300) / 2 - 300,
+      y: window.innerHeight / 2 - 250,
+      width: 600,
+      height: 500,
+      lockMovement: true,
+      lockResize: true,
+    },
+  ]);
+  const [selectedId, selectShape] = useState(null);
+
+  const removeExistingCakes = (callback) => {
+    setImages((prevImages) => {
+      const filteredImages = prevImages.filter((img) => !img.lockMovement);
+      callback(filteredImages);
+      return filteredImages;
+    });
+  };
+
+  useEffect(() => {
+    const image = new window.Image();
+    image.src = RoundCake;
+    image.onload = () => {
+      setImages([
+        {
+          id: `d${Date.now()}`,
+          x: (window.innerWidth - 300) / 2 - 300,
+          y: window.innerHeight / 2 - 250,
+          image,
+          width: 600,
+          height: 500,
+          lockMovement: true,
+          lockResize: true,
+        },
+      ]);
+    };
+  }, []);
+
+  const addItem = (src, x, y, width, height, lockMovement, lockResize) => {
     const image = new window.Image();
     image.src = src;
     image.onload = () => {
-      setImages([
-        ...images,
-        {
-          id: `d${Date.now()}`,
-          x: x || 100,
-          y: y || 100,
-          image,
-          width: width || 100,
-          height: height || 100,
-          lockMovement: lockMovement || false,
-          lockResize: lockResize || false,
-        },
-      ]);
+      if (lockMovement) {
+        removeExistingCakes((filteredImages) => {
+          setImages([
+            {
+              id: `d${Date.now()}`,
+              x: x || 100,
+              y: y || 100,
+              image,
+              width: width || 100,
+              height: height || 100,
+              lockMovement: lockMovement || false,
+              lockResize: lockResize || false,
+            },
+            ...filteredImages,
+          ]);
+        });
+      } else {
+        setImages([
+          ...images,
+          {
+            id: `d${Date.now()}`,
+            x: x || 100,
+            y: y || 100,
+            image,
+            width: width || 100,
+            height: height || 100,
+            lockMovement: lockMovement || false,
+            lockResize: lockResize || false,
+          },
+        ]);
+      }
     };
   };
 
@@ -143,6 +238,10 @@ function CakeDiy() {
         <GapW width="1%" />
         <Button1 type="button" onClick={sendToBack}>
           Send to Back
+        </Button1>
+        <GapW width="1%" />
+        <Button1 type="button" onClick={captureScreenArea}>
+          export
         </Button1>
         <GapW width="1%" />
       </BtnContainer>
