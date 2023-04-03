@@ -129,8 +129,11 @@ function Login() {
           )}
           {selectedUserType === "buyer" && (
             <Link
-              // to="http://j8a604.p.ssafy.io:8080/oauth2/authorization/naver?redirect_uri=http://j8a604.p.ssafy.io/oauth/redirect"
-              to="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect"
+              to={process.env.REACT_APP_BACKEND_URL.concat(
+                "/oauth2/authorization/naver?redirect_uri="
+              )
+                .concat(process.env.REACT_APP_FRONTEND_URL)
+                .concat("/oauth/redirect")}
               style={{
                 textDecoration: "none",
                 color: "inherit",

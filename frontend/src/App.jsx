@@ -44,16 +44,16 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
-        <Route path="/myPage" element={<MyPage />} />
         <Route path="/diff" element={<Diff />} />
         <Route path="/makeOrder" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
-        <Route path="/recommend/personal" element={<RecommendPersonal />} />
-        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/infodetail" element={<InfoDetail />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
+        <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
         <Route path="/recommend/wishlist" element={<RecommendWishList />} />
         <Route path="/seller/info" element={<SellerInfo />} />
