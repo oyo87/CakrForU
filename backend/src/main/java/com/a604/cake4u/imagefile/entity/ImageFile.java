@@ -5,6 +5,7 @@ import com.a604.cake4u.orders.entity.OrderSheet;
 import com.a604.cake4u.portfolio.entity.Portfolio;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 

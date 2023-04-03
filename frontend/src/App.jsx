@@ -18,6 +18,7 @@ import PortfolioModal from "./components/PortfolioModal";
 import Diff from "./Diff";
 import MakeOrder from "./MakeOrder";
 import RecommendWishList from "./RecommendWishlist";
+import MyWishList from "./MyWishList";
 import MyPageOrderList from "./MyPageOrderList";
 import SellerInfo from "./SellerInfo";
 import SellerCustom from "./SellerCustom";
@@ -63,6 +64,7 @@ function App() {
           element={<SellerPortfolioRegist />}
         />
         <Route path="/orderModal" element={<OrderModal />} />
+        <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>
     </AppContainer>
   );
