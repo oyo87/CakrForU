@@ -279,7 +279,7 @@ public class OrderSheetService {
                 .businessName(orderSheet.getSeller().getBusinessName())
                 .imageFileDtoList(getImageFileDtoListByOrderSheetId(orderSheet.getId()))
                 .status(orderSheet.getStatus())
-                .createdAt(orderSheet.getCreatedAt().toLocalDateTime().toLocalDate())
+                .createdAt(orderSheet.getCreatedAt())
                 .price(orderSheet.getPrice())
                 .dueDate(orderSheet.getDueDate())
                 .pickUpDate(orderSheet.getPickUpDate())
@@ -289,7 +289,7 @@ public class OrderSheetService {
                 .creamTaste(orderSheet.getCreamTaste())
                 .buyerMessage(orderSheet.getBuyerMessage())
                 .reviewContent(orderSheet.getReviewContent())
-                .reviewCreatedAt(orderSheet.getReviewCreatedAt().toLocalDateTime())
+                .reviewCreatedAt(orderSheet.getReviewCreatedAt())
                 .reviewRating(orderSheet.getReviewRating())
                 .build();
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ColContainer from "./components/layout/ColContainer";
 import GapH from "./components/layout/GapH";
 import Header from "./components/Header";
@@ -12,6 +12,18 @@ import SellerSide from "./components/SellerSide";
 import Select from "./components/Select";
 
 function SellerPortfolioRegist() {
+  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+
+  const [gender, setGender] = useState("");
+  const [situation, setSituation] = useState("");
+  const [ageGroup, setAgeGroup] = useState(20);
+  const [size, setSize] = useState("");
+  const [shape, setShape] = useState("");
+  const [color, setColor] = useState("");
+  const [sheetTaste, setSheetTaste] = useState("");
+  const [creamTaste, setCreamTaste] = useState("");
+  const [detail, setDetail] = useState("");
+
   return (
     <div>
       <Header />
