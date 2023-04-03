@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d543efba-bb20-4512-b94d-f3eba21b2cf0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/imagefile/repository/ImageFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/imagefile/repository/ImageFileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/controller/OrderSheetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/orders/controller/OrderSheetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/controller/SellerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/controller/SellerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/dto/SellerResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/dto/SellerResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/service/SellerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/a604/cake4u/seller/service/SellerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/import.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/import.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/MyPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Popular.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Popular.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/MyPageCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/MyPageCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/recommendation/Recommendation.py" beforeDir="false" afterPath="$PROJECT_DIR$/recommendation/Recommendation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

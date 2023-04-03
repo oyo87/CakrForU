@@ -1,5 +1,7 @@
+import os
 from flask import Flask, jsonify
 from scipy.sparse.linalg import svds
+from dotenv import load_dotenv
 
 # ORM
 from sqlalchemy import create_engine
@@ -10,10 +12,15 @@ from sqlalchemy import Column, Integer, String
 import pandas as pd
 import numpy as np
 
+load_dotenv()
+
+mysql_username = os.getenv("mysql_username")
+mysql_password = os.getenv("mysql_password")
+mysql_dbname = os.getenv("mysql_dbname")
 
 app = Flask(__name__)
 
-mysql_url = "mysql+pymysql://root:root@localhost:3306/C4U?charset=utf8"
+mysql_url = "mysql+pymysql://"+mysql_username+":"+mysql_password+"@localhost:3306/"+mysql_dbname+"?charset=utf8"
 engine = create_engine(mysql_url, echo=True)
 
 # Declare & create Session
