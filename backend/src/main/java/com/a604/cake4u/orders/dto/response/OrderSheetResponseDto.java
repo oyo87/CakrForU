@@ -23,7 +23,7 @@ public class OrderSheetResponseDto {
     private String businessName;
     private List<ImageFileDto> imageFileDtoList;
     private EStatus status;
-    private LocalDate createdAt;
+    private Timestamp createdAt;
     private int price = 0;
     private LocalDate dueDate;
     private LocalDate pickUpDate;
@@ -33,6 +33,6 @@ public class OrderSheetResponseDto {
     private ECreamTaste creamTaste;
     private String buyerMessage;
     private String reviewContent;
-    private LocalDateTime reviewCreatedAt;
+    private Timestamp reviewCreatedAt;
     private int reviewRating;
 }
