@@ -30,7 +30,6 @@ public class WishListController {
     @PostMapping("/")
     public ResponseEntity<?> addWish(@RequestBody  WishListRequestDto wishListRequestDto){
         wishListService.saveWish(wishListRequestDto);
-
         return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
             put("result", true);
             put("msg", "찜등록 성공");

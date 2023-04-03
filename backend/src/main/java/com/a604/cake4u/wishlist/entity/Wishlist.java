@@ -18,7 +18,7 @@ public class Wishlist {
     @SequenceGenerator(
             name="WISHLIST_SEQ_GEN",
             sequenceName = "WISHLIST_SEQ",
-            initialValue = 100,
+            initialValue = 10000,
             allocationSize = 1
     )
     @Id

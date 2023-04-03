@@ -1,10 +1,12 @@
 import React from "react";
 import moment from "moment";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import 임시케이크사진 from "../assets/img/login_image.png";
 import BoldSmall from "./text/BoldSmall";
 import MediumSmall from "./text/MediumSmall";
 import BoldMedium from "./text/BoldMedium";
+import { openBuyerOrder, setBuyerOrder } from "../store/modalSlice";
 
 const Box = styled.div`
   width: 100%;
@@ -29,6 +31,7 @@ const CardDetail = styled.div`
 
 const CardDate = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 3rem;
 `;
 
@@ -57,10 +60,12 @@ const Button = styled.button`
   width: 11.875rem;
   min-width: 10rem;
   height: 2.8rem;
+  cursor: pointer;
 `;
 
 const CreatedAt = styled.div``;
 const PickUpDate = styled.div``;
+const OrderStatus = styled.div``;
 
 function OrderListCard({
   createdAt,
@@ -70,7 +75,24 @@ function OrderListCard({
   sheetShape,
   creamTaste,
   businessName,
+  status,
 }) {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(openBuyerOrder());
+    // 금액, 픽업일,계좌번호, 시트모양,호수,시트맛, 크림맛,추가전달사항,모든사진
+    dispatch(
+      setBuyerOrder({
+        pickUpDate,
+        sheetShape,
+        sheetSize,
+        sheetTaste,
+        creamTaste,
+      })
+    );
+  };
+
   // createdAt, pickUpDate format 변경
   const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD HH:mm");
   const formattedPickUpDate = moment(pickUpDate).format("YYYY-MM-DD HH:mm");
@@ -109,6 +131,11 @@ function OrderListCard({
   else if (creamTaste === "EARL_GRAY_CREAM") creamTaste = "얼그레이크림";
   else if (creamTaste === "STRAWBERRY_CREAM") creamTaste = "딸기크림";
 
+  if (status === "REGISTRATION") status = "판매자 확인중";
+  else if (status === "SEND") status = "입금 대기중";
+  else if (status === "DEPOSIT_COMPLETE") status = "픽업 대기중";
+  else if (status === "FINISH_PICK_UP") status = "픽업 완료";
+
   return (
     <div>
       <Box>
@@ -118,7 +145,7 @@ function OrderListCard({
             {businessName}
           </BoldMedium>
           <CardDate>
-            <CreatedAt style={{ marginRight: "9.688rem" }}>
+            <CreatedAt>
               <BoldSmall style={{ display: "inline", marginRight: "0.5rem" }}>
                 주문일자
               </BoldSmall>
@@ -134,6 +161,12 @@ function OrderListCard({
                 {formattedPickUpDate}
               </MediumSmall>
             </PickUpDate>
+            <OrderStatus style={{ marginRight: "10rem" }}>
+              <BoldSmall style={{ display: "inline", marginRight: "0.5rem" }}>
+                주문 상태
+              </BoldSmall>
+              {status}
+            </OrderStatus>
           </CardDate>
           <CakeInfo>
             <div style={{ display: "flex", width: "60%" }}>
@@ -151,13 +184,19 @@ function OrderListCard({
               </CakeInfoCircle>
               <div style={{ marginRight: "2.375rem" }} />
               {/* 클릭시 모달띄우고 주문상세 보여주기 or 주문 상세 페이지 이동 */}
-              <Button type="button">
+              {/* <Button onClick={모달띄우기 해야함}> */}
+              <Button onClick={handleClick}>
                 <MediumSmall color="white">주문 상세</MediumSmall>
               </Button>
               {/* 픽업 완료되었을때만 보여주기 */}
-              <Button type="button">
-                <MediumSmall color="white">리뷰 작성</MediumSmall>
-              </Button>
+              {status === "픽업 완료" ? (
+                // <Button onClick={해당하는것 리뷰 작성으로 이동하기 해야함}>
+                <Button>
+                  <MediumSmall color="white">리뷰 작성</MediumSmall>
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           </CakeInfo>
         </CardDetail>

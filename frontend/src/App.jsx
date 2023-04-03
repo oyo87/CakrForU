@@ -27,6 +27,7 @@ import SellerOrder from "./SellerOrder";
 import OrderModal from "./components/OrderModal";
 import SellerPortfolioRegist from "./SellerPortfolioRegist";
 import AllCake from "./AllCake";
+import StoreDetail from "./StoreDetail";
 
 const AppContainer = styled.div`
   &,
@@ -69,6 +70,7 @@ function App() {
           path="/seller/portfolio/regist"
           element={<SellerPortfolioRegist />}
         />
+        <Route path="/store/:storeId" element={<StoreDetail />} />
         <Route path="/orderModal" element={<OrderModal />} />
         <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>
