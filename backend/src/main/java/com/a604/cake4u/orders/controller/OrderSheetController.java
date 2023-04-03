@@ -179,7 +179,6 @@ public class OrderSheetController {
 
     @GetMapping("/buyer/{buyerId}")
     public ResponseEntity<?> getBuyerOrderSheet(@PathVariable(name = "buyerId") Long buyerId) {
-        System.out.println("ordersheet get buyerId test");
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsByBuyerId(buyerId);
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
