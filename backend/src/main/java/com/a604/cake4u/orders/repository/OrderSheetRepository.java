@@ -2,6 +2,7 @@ package com.a604.cake4u.orders.repository;
 
 import com.a604.cake4u.enums.EStatus;
 import com.a604.cake4u.orders.entity.OrderSheet;
+import com.a604.cake4u.seller.entity.Seller;
 import com.querydsl.core.types.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,6 @@ public interface OrderSheetRepository extends JpaRepository<OrderSheet, Long> {
     //  판매자의 주문 상태에 따른 검색
     @Query(value = "select o from OrderSheet o where o.seller.id = :sellerId and o.status = :status order by o.id desc")
     Optional<List<OrderSheet>> findOrderSheetsBySeller_IdAndStatusOrderById_IdDesc(Long sellerId, EStatus status);
+
+    List<OrderSheet> findBySellerAndReviewRatingGreaterThan(Seller seller, int score);
 }

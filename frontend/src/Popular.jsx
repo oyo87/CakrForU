@@ -11,6 +11,7 @@ import PinkSearch from "./assets/img/pink_search.png";
 import { closePortfolio } from "./store/modalSlice";
 import PortfolioModal from "./components/PortfolioModal";
 import axios from "./util/axiosInstance";
+import StoreCard from "./components/StoreCard";
 
 function Popular() {
   const modal = useSelector((state) => state.modal);
@@ -103,7 +104,7 @@ function Popular() {
         <RowContainer width="1194px" gap="21px">
           {popularSeller.map((item, index) => {
             return (
-              <Card
+              <StoreCard
                 title={item.businessDescription}
                 shape={
                   orderOptions[index] ? orderOptions[index].sheetShape : null
@@ -116,7 +117,8 @@ function Popular() {
                 }
                 situation={item.situation}
                 sellerId={item.businessName}
-                imgUrl={item.imageUrls[0]}
+                imgUrl={item.imageUrls}
+                businessLocation={item.businessLocation}
               />
             );
           })}
