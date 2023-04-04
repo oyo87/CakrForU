@@ -140,6 +140,9 @@ function Login() {
                 color: "inherit",
                 width: "100%",
               }}
+              onClick={() => {
+                localStorage.setItem("userType", "buyer");
+              }}
             >
               <Button4 width="100%" background="#06BE34">
                 <FlexBox>
