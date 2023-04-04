@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
@@ -18,6 +19,7 @@ import BoldSmall from "./text/BoldSmall";
 import SmallMedium from "./text/SmallMedium";
 
 function BuyerOrderModal() {
+  const navigate = useNavigate();
   const orderSheet = useSelector((state) => state.modal.buyerOrder);
 
   const Button = styled.button`
@@ -31,6 +33,11 @@ function BuyerOrderModal() {
     height: 2.8rem;
     cursor: pointer;
   `;
+
+  const DateOrderName = styled.div``;
+  const LeftSide = styled.div``;
+  const RightSide = styled.div``;
+  const MainContainer = styled.div``;
 
   useEffect(() => {
     console.log(`BuyerOrderModal's orderSheet :`);
@@ -51,7 +58,7 @@ function BuyerOrderModal() {
       transform="translate(-50%, -50%)"
       boxShadow="0px 0px 100px 20px rgba(0, 0, 0, 0.15)"
     >
-      <dateordername
+      <DateOrderName
         style={{
           width: "100%",
           display: "flex",
@@ -62,32 +69,52 @@ function BuyerOrderModal() {
       >
         <div style={{ marginRight: "4rem" }}>
           <BoldSmall color="#616161">주문 일자</BoldSmall>
-          <SmallMedium color="#616161">2023/04/04</SmallMedium>
+          <SmallMedium color="#616161">
+            {new Date(orderSheet.createdAt).toISOString().split("T")[0]}
+          </SmallMedium>
         </div>
         <div>
           <BoldSmall color="#616161">주문 번호</BoldSmall>
-          <SmallMedium color="#616161">AP27849478</SmallMedium>
+          <SmallMedium color="#616161">
+            AP{orderSheet.id.toString().padStart(8, "0")}
+          </SmallMedium>
         </div>
-      </dateordername>
+      </DateOrderName>
       <GapH height="48px" />
       <RowContainer
         height="49px"
         width="1020px"
         style={{ justifyContent: "start" }}
       >
-        <RowContainer width="37.4rem">
+        <RowContainer
+          width="100%"
+          style={{ justifyContent: "left", marginLeft: "1.5rem" }}
+        >
           <BoldLarge color="#616161">{orderSheet.businessName}</BoldLarge>
           <GapW width="30px" />
-          <Button type="button">
-            <MediumSmall color="white">리뷰 작성</MediumSmall>
-          </Button>
+          {orderSheet.status === "픽업 완료" ? (
+            <Button
+              onClick={() => {
+                navigate(`/review/regist/${orderSheet.id}`);
+              }}
+            >
+              <MediumSmall color="white">리뷰 작성</MediumSmall>
+            </Button>
+          ) : (
+            ""
+          )}
         </RowContainer>
       </RowContainer>
       <GapH height="3.5rem" />
-      <maincontainer
-        style={{ display: "flex", marginLeft: "7.5rem", marginRight: "7.5rem" }}
+      <MainContainer
+        style={{
+          display: "flex",
+          marginLeft: "7.5rem",
+          marginRight: "7.5rem",
+          width: "80%",
+        }}
       >
-        <leftside style={{ width: "50%", lineHeight: "2.5rem" }}>
+        <LeftSide style={{ width: "50%", lineHeight: "2.5rem" }}>
           <hr
             style={{
               width: "100%",
@@ -99,43 +126,43 @@ function BuyerOrderModal() {
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               금액
             </BoldMediumSmall>
-            <MediumSmall color="#616161">56000원</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.price}원</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               픽업일
             </BoldMediumSmall>
-            <MediumSmall color="#616161">2023/05/27</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.pickUpDate}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               계좌번호
             </BoldMediumSmall>
-            <MediumSmall color="#616161">신한 110-434-264356</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.account}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               시트모양
             </BoldMediumSmall>
-            <MediumSmall color="#616161">원형</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.sheetShape}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               호수
             </BoldMediumSmall>
-            <MediumSmall color="#616161">1호</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.sheetSize}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               시트맛
             </BoldMediumSmall>
-            <MediumSmall color="#616161">생크림</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.sheetTaste}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
               크림맛
             </BoldMediumSmall>
-            <MediumSmall color="#616161">바닐라</MediumSmall>
+            <MediumSmall color="#616161">{orderSheet.creamTaste}</MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "left" }}>
             <BoldMediumSmall color="#616161" style={{ width: "40%" }}>
@@ -149,12 +176,12 @@ function BuyerOrderModal() {
                 whiteSpace: "pre-wrap",
               }}
             >
-              레터링 문구 : 싸피 6반 여러분 모두 취뽀하세요!
+              {orderSheet.buyerMessage}
             </MediumSmall>
           </RowContainer>
-        </leftside>
+        </LeftSide>
 
-        <rightside style={{ width: "50%" }}>
+        <RightSide style={{ width: "50%" }}>
           <div style={{ display: "flex", marginTop: "1.313rem" }}>
             <button
               type="button"
@@ -182,8 +209,8 @@ function BuyerOrderModal() {
               <img src={RightButton} alt="rightButton" />
             </button>
           </div>
-        </rightside>
-      </maincontainer>
+        </RightSide>
+      </MainContainer>
       <RowContainer height="400px" width="1020px" justify="start">
         <GapW width="57px" />
       </RowContainer>

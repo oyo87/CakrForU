@@ -1,8 +1,9 @@
 import React from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import 임시케이크사진 from "../assets/img/login_image.png";
+import tempCake from "../assets/img/login_image.png";
 import BoldSmall from "./text/BoldSmall";
 import MediumSmall from "./text/MediumSmall";
 import BoldMedium from "./text/BoldMedium";
@@ -81,11 +82,13 @@ function OrderListCard({
   id,
   sellerId,
   imageFileDtoList,
+  account,
 }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(price);
 
   const handleClick = () => {
+    window.scrollTo(0, 0);
     dispatch(openBuyerOrder());
     // 금액, 픽업일,계좌번호, 시트모양,호수,시트맛, 크림맛,추가전달사항,모든사진
     dispatch(
@@ -97,11 +100,13 @@ function OrderListCard({
         sheetTaste,
         creamTaste,
         businessName,
+        price,
         buyerMessage,
         id,
         sellerId,
         status,
         imageFileDtoList,
+        account,
       })
     );
   };
@@ -152,7 +157,7 @@ function OrderListCard({
   return (
     <div>
       <Box>
-        <CardImage src={임시케이크사진} alt="orderThumbnail" />
+        <CardImage src={tempCake} alt="orderThumbnail" />
         <CardDetail>
           <BoldMedium style={{ marginTop: "1.7rem", marginBottom: "0.5rem" }}>
             {businessName}
@@ -204,7 +209,11 @@ function OrderListCard({
               {/* 픽업 완료되었을때만 보여주기 */}
               {status === "픽업 완료" ? (
                 // <Button onClick={해당하는것 리뷰 작성으로 이동하기 해야함}>
-                <Button>
+                <Button
+                  onClick={() => {
+                    navigate(`/review/regist/${id}`);
+                  }}
+                >
                   <MediumSmall color="white">리뷰 작성</MediumSmall>
                 </Button>
               ) : (
