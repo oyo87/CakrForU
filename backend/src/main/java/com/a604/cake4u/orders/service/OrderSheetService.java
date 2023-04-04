@@ -20,6 +20,7 @@ import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -271,6 +272,16 @@ public class OrderSheetService {
         }
 
         return imageFileDtoList;
+    }
+
+    public List<OrderSheetResponseDto> getReviewsBySeller(Long sellerId){
+        List<OrderSheet> orders = orderSheetRepository.findBySellerAndReviewRatingGreaterThan(sellerRepository.findById(sellerId).get(), 0);
+        List<OrderSheetResponseDto> orderSheetResponseDtos = new ArrayList<>();
+
+        for(OrderSheet order : orders){
+            orderSheetResponseDtos.add(entityToResponse(order));
+        }
+        return orderSheetResponseDtos;
     }
     private OrderSheetResponseDto entityToResponse(OrderSheet orderSheet) {
         Buyer buyer = orderSheet.getBuyer();

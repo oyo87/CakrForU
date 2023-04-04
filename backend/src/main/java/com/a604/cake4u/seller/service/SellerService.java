@@ -94,7 +94,6 @@ public class SellerService {
         return sellerRepository.searchSeller(dongCode);
     }
 
-
     public List<SellerResponseDto> getAllSellersPaging(int page) {
 
         Page<Seller> sellerList = sellerRepository.findAll(PageRequest.of(page, 5, Sort.by("id").descending()));
@@ -106,5 +105,4 @@ public class SellerService {
         }
         return sellerDtos;
     }
-
 }
