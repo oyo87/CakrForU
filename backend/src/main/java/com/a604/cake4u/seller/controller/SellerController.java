@@ -16,6 +16,8 @@ import com.a604.cake4u.creamtaste.service.CreamTasteService;
 import com.a604.cake4u.enums.EGender;
 import com.a604.cake4u.exception.BaseException;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.service.PortfolioService;
 import com.a604.cake4u.seller.dto.CustomDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
@@ -77,6 +79,7 @@ public class SellerController {
     private final SellerRepository sellerRepository;
     private final ImageFileRepository imageFileRepository;
     private final SellerService sellerService;
+    private final PortfolioService portfolioService;
     private final SheetShapeService sheetShapeService;
     private final SheetSizeService sheetSizeService;
     private final SheetTasteService sheetTasteService;
@@ -282,6 +285,13 @@ public class SellerController {
         CustomDto custom = new CustomDto(shape, size, taste, cream);
 
         return new ResponseEntity<>(custom, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "인기 케이크")
+    @GetMapping("/popular/{sellerId}")
+    public ResponseEntity<?> getPopularPortfolio(@PathVariable Long sellerId) {
+        List<PortfolioResponseDto> res = portfolioService.findPopularBySeller(sellerId);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     private SellerSaveRequestDto createSaveRequestDto(Map<String, Object> map) {

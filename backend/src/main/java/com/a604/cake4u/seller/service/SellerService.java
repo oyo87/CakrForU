@@ -6,6 +6,9 @@ import com.a604.cake4u.exception.ErrorMessage;
 import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.imagefile.handler.S3ImageFileHandler;
 import com.a604.cake4u.imagefile.repository.ImageFileRepository;
+import com.a604.cake4u.portfolio.dto.PortfolioResponseDto;
+import com.a604.cake4u.portfolio.entity.Portfolio;
+import com.a604.cake4u.portfolio.repository.PortfolioRepository;
 import com.a604.cake4u.seller.dto.SellerLoginDto;
 import com.a604.cake4u.seller.dto.SellerResponseDto;
 import com.a604.cake4u.seller.dto.SellerSaveRequestDto;
@@ -87,4 +90,6 @@ public class SellerService {
     public List<SellerResponseDto> searchSeller(String dongCode) {
         return sellerRepository.searchSeller(dongCode);
     }
+
+
 }
