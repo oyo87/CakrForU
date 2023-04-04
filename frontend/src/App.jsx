@@ -37,6 +37,7 @@ const AppContainer = styled.div`
   }
 `;
 const AuthRecommendPersonal = Auth(RecommendPersonal);
+const AuthMyPageOrderList = Auth(MyPageOrderList);
 
 function App() {
   return (
@@ -57,7 +58,7 @@ function App() {
         <Route path="/recommend/personal" element={<AuthRecommendPersonal />} />
         <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
+        <Route path="/mypage/orderlist" element={<AuthMyPageOrderList />} />
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
