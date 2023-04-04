@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,6 @@ import BoldLarge from "./text/BoldLarge";
 import Button1 from "./button/Button1";
 import { closeBuyerOrder } from "../store/modalSlice";
 import Barcode from "../assets/img/barcode.png";
-import Tmp from "../assets/img/login_image.png";
 import BoldMediumSmall from "./text/BoldMediumSmall";
 import MediumSmall from "./text/MediumSmall";
 import LeftButton from "../assets/img/left_button.png";
@@ -21,6 +20,24 @@ import SmallMedium from "./text/SmallMedium";
 function BuyerOrderModal() {
   const navigate = useNavigate();
   const orderSheet = useSelector((state) => state.modal.buyerOrder);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const filteredImages = orderSheet.imageFileDtoList.filter(
+    (image) =>
+      image.imageFileType === "ORDERS_PICTURE" ||
+      image.imageFileType === "SELLER_THUMBNAIL"
+  );
+
+  const handleNext = () => {
+    if (currentImageIndex < filteredImages.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
 
   const Button = styled.button`
     display: inline;
@@ -190,11 +207,12 @@ function BuyerOrderModal() {
                 border: "none",
                 cursor: "pointer",
               }}
+              onClick={handlePrev}
             >
               <img src={LeftButton} alt="leftButton" />
             </button>
             <img
-              src={Tmp}
+              src={filteredImages[currentImageIndex].imageFileUri}
               alt="cakeimage"
               style={{ width: "23.75rem", height: "18.75rem" }}
             />
@@ -205,6 +223,7 @@ function BuyerOrderModal() {
                 border: "none",
                 cursor: "pointer",
               }}
+              onClick={handleNext}
             >
               <img src={RightButton} alt="rightButton" />
             </button>

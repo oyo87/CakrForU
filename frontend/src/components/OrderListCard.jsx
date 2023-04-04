@@ -3,7 +3,6 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import tempCake from "../assets/img/login_image.png";
 import BoldSmall from "./text/BoldSmall";
 import MediumSmall from "./text/MediumSmall";
 import BoldMedium from "./text/BoldMedium";
@@ -83,6 +82,7 @@ function OrderListCard({
   sellerId,
   imageFileDtoList,
   account,
+  sellerThumbnail,
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -157,7 +157,7 @@ function OrderListCard({
   return (
     <div>
       <Box>
-        <CardImage src={tempCake} alt="orderThumbnail" />
+        <CardImage src={sellerThumbnail} alt="orderThumbnail" />
         <CardDetail>
           <BoldMedium style={{ marginTop: "1.7rem", marginBottom: "0.5rem" }}>
             {businessName}
