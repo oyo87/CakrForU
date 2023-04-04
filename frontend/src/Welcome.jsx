@@ -169,14 +169,10 @@ CAKE FOR U의 메인페이지로 이동합니다.`,
   };
 
   const getOpacityStyle = (index, activeCardIndex) => {
-    if (
-      index === activeCardIndex ||
-      index === (activeCardIndex + 1) % cards.length ||
-      index === (activeCardIndex - 1 + cards.length) % cards.length
-    ) {
+    if (index === activeCardIndex) {
       return "1";
     }
-    return "0";
+    return "0.4";
   };
   const cardRef = useRef(null);
   useEffect(() => {
