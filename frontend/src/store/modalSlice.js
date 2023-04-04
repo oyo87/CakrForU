@@ -7,6 +7,7 @@ const modalSlice = createSlice({
     portfolioOpen: false,
     addressOpen: false,
     orderOpen: false,
+    buyerOrderOpen: false,
   },
   reducers: {
     setPortfolio: (state, action) => {
@@ -30,6 +31,15 @@ const modalSlice = createSlice({
     closeOrder: (state) => {
       state.orderOpen = false;
     },
+    setBuyerOrder: (state, action) => {
+      state.buyerOrder = action.payload;
+    },
+    openBuyerOrder: (state) => {
+      state.buyerOrderOpen = true;
+    },
+    closeBuyerOrder: (state) => {
+      state.buyerOrderOpen = false;
+    },
   },
 });
 
@@ -41,6 +51,9 @@ export const {
   closeAddress,
   openOrder,
   closeOrder,
+  setBuyerOrder,
+  openBuyerOrder,
+  closeBuyerOrder,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

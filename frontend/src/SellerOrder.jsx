@@ -142,7 +142,7 @@ function SellerOrder() {
                   {order.pickUpDate ? (
                     <Medium>{order.pickUpDate} 픽업예정</Medium>
                   ) : null}
-                  <BoldMedium color="#F081A4">주문상세 ></BoldMedium>
+                  <BoldMedium color="#F081A4">주문상세 </BoldMedium>
                 </ColContainer>
                 <div
                   style={{

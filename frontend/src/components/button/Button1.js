@@ -30,7 +30,12 @@ const Button1 = styled.button`
     }
     return "none";
   }};
-  border-radius: 5px;
+  border-radius: ${(props) => {
+    if (props.borderRadius) {
+      return props.borderRadius;
+    }
+    return "5px";
+  }};
   cursor: pointer;
 `;
 
