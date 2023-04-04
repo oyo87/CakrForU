@@ -87,7 +87,7 @@ function Card({
         }}
       >
         <img
-          src={imgUrl[0] ? imgUrl[0] : Logo2}
+          src={imgUrl ? imgUrl[0] : Logo2}
           alt="img"
           style={{
             width: "222px",

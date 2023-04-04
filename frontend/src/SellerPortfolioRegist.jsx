@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "./util/axiosInstance";
 import ColContainer from "./components/layout/ColContainer";
@@ -23,7 +25,7 @@ const Text = styled.textarea`
 `;
 
 function SellerPortfolioRegist() {
-  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+  const seller = useSelector((state) => state.login.user);
   const [dict, setDict] = useState({});
   const [gender, setGender] = useState("");
   const [situation, setSituation] = useState("");
@@ -35,8 +37,21 @@ function SellerPortfolioRegist() {
   const [creamTaste, setCreamTaste] = useState("");
   const [detail, setDetail] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
+  const navigate = useNavigate();
+  const navigateToRegist = () => {
+    navigate("/seller/portfolio");
+  };
+
+  function fetchSellerInfo() {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/seller/info/${seller.id}`)
+      .then((res) => {
+        console.log(res.data);
+      });
+  }
 
   useEffect(() => {
+    fetchSellerInfo();
     setDict({
       여성: "F",
       남성: "M",
@@ -131,7 +146,7 @@ function SellerPortfolioRegist() {
 
   const handleSubmit = async () => {
     const VO = {
-      sellerId: SELLER_ID,
+      sellerId: seller.id,
       gender,
       situation,
       ageGroup,
@@ -178,7 +193,7 @@ function SellerPortfolioRegist() {
           <ColContainer gap="34px">
             <GapH height="35px" />
             <RowContainer justify="start" height="121px">
-              <BoldLarge>라니케이크</BoldLarge>
+              <BoldLarge>{seller.businessName}</BoldLarge>
             </RowContainer>
             <RowContainer justify="start">
               <BoldSmallMedium>포트폴리오 등록</BoldSmallMedium>
@@ -367,6 +382,7 @@ function SellerPortfolioRegist() {
               height="115px"
               onClick={() => {
                 handleSubmit();
+                navigateToRegist();
               }}
             >
               <BoldLarge fontsize="40px" color="white">

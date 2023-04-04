@@ -1,5 +1,4 @@
 import React from "react";
-// import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
 import RowContainer from "./layout/RowContainer";
@@ -14,20 +13,7 @@ import { closePortfolio } from "../store/modalSlice";
 import Logo2 from "../assets/img/logo2.png";
 
 function PortfolioModal() {
-  // {
-  // shape,
-  // sheetTaste,
-  // color,
-  // creamTaste,
-  // size,
-  // title,
-  // detail,
-  // imgUrl,
-  // }
   const portfolio = useSelector((state) => state.modal.portfolio);
-  // useEffect(() => {
-  //   console.log("hi", portfolio);
-  // }, [portfolio]);
   const dispatch = useDispatch();
   return (
     <UpDownContainer
