@@ -19,6 +19,9 @@ function SellerSide() {
   const navigateToCustom = () => {
     navigate("/seller/custom");
   };
+  const navigateToPortfolio = () => {
+    navigate("/seller/portfolio");
+  };
 
   const handleHover = (buttonId) => {
     setIsHovered(buttonId);
@@ -74,6 +77,7 @@ function SellerSide() {
         style={{ border: "none", backgroundColor: "white" }}
         onMouseEnter={() => handleHover(3)}
         onMouseLeave={handleLeave}
+        onClick={navigateToPortfolio}
       >
         <SmallMedium
           style={{
