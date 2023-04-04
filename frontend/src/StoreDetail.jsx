@@ -28,12 +28,19 @@ import Card from "./components/Card";
 function StoreDetail() {
   const { storeId } = useParams();
   const [sellerPortfolios, setSellerPortfolios] = useState([]);
+  const [sellerPopularPortfolios, setSellerPopularPortfolios] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/portfolio/seller/${storeId}`)
       .then((res) => {
         setSellerPortfolios(res.data.slice(0, 5));
+      });
+
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/portfolio/seller/${storeId}`)
+      .then((res) => {
+        setSellerPopularPortfolios(res.data.slice(0, 5));
       });
   }, []);
 
@@ -48,7 +55,22 @@ function StoreDetail() {
           <ColContainer justify="start" width="1200px" align="start">
             <BoldLarge>많이 찜한 케이크</BoldLarge>
             <hr />
+            <RowContainer justify="space-between">
+              {sellerPopularPortfolios.map((portfolio) => (
+                <Card
+                  key={portfolio.imageUrl}
+                  imgUrl={portfolio.imageUrl[0]}
+                  title={portfolio.detail}
+                  shape={portfolio.shape}
+                  sheetTaste={portfolio.sheetTaste}
+                  creamTaste={portfolio.creamTaste}
+                  situation={portfolio.situation}
+                  sellerId={portfolio.businessName}
+                />
+              ))}
+            </RowContainer>
             <BoldLarge>포트폴리오</BoldLarge>
+            <hr />
             <RowContainer justify="space-between">
               {sellerPortfolios.map((portfolio) => (
                 <Card

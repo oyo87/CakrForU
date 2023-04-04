@@ -19,5 +19,5 @@ public interface PortfolioRepository extends PagingAndSortingRepository<Portfoli
     Page<Portfolio> findPortfolioByAgeGroupAndGenderOrderByHitDesc(Pageable pageable, int age, EGender gender);
     Page<Portfolio> findPortfolioBySituationOrderByHitDesc(Pageable pageable, ESituation situation);
     Page<Portfolio> findAll(Pageable pageable);
-    List<Portfolio> findTop5PortfolioBySellerOrderByHit(Seller seller);
+    List<Portfolio> findTop5PortfolioBySellerOrderByHitDesc(Seller seller);
 }
