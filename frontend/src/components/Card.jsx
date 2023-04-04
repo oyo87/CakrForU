@@ -26,6 +26,9 @@ function Card({
   creamTaste,
   detail,
   filled,
+  businessName,
+  hit,
+  createdAt,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
@@ -61,6 +64,9 @@ function Card({
         sheetTaste,
         creamTaste,
         detail,
+        businessName,
+        hit,
+        createdAt,
       })
     );
   };
