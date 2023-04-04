@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
 import GapW from "./components/layout/GapW";
@@ -11,11 +10,15 @@ import RowContainer from "./components/layout/RowContainer";
 import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
+import axios from "./util/axiosInstance";
+import Loading from "./components/Loading";
 
 function RecommendWishlist() {
   const loginUser = useSelector((state) => state.login.user);
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const cardPerRow = 5;
   function fetchPortfolios() {
     axios
@@ -33,6 +36,7 @@ function RecommendWishlist() {
           answer.push(res.data.slice(row * cardPerRow, row * cardPerRow + r));
         }
         setRecommendMatrix(answer);
+        setLoading(false);
       });
   }
 
@@ -63,6 +67,7 @@ function RecommendWishlist() {
   return (
     <div>
       <Header />
+
       <RecommendHeader />
       <RowContainer justify="start" align="start">
         <RecommendSidebar />
@@ -73,6 +78,7 @@ function RecommendWishlist() {
             <GapW />
           </RowContainer>
           <GapH height="58px" />
+          {loading ? <Loading /> : null}
           <ColContainer gap="50px">
             {recommendMatrix
               .slice(page * 2, page * 2 + 2)
@@ -83,7 +89,7 @@ function RecommendWishlist() {
                       <Card
                         title={recommend.detail}
                         shape={recommend.shape}
-                        imgUrl={recommend.imageUrl[0]}
+                        imgUrl={recommend.imageUrl}
                         sheetTaste={recommend.sheetTaste}
                         creamTaste={recommend.creamTaste}
                         situation={recommend.situation}

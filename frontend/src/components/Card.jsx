@@ -26,6 +26,9 @@ function Card({
   creamTaste,
   detail,
   filled,
+  businessName,
+  hit,
+  createdAt,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
@@ -61,6 +64,9 @@ function Card({
         sheetTaste,
         creamTaste,
         detail,
+        businessName,
+        hit,
+        createdAt,
       })
     );
   };
@@ -81,7 +87,7 @@ function Card({
         }}
       >
         <img
-          src={imgUrl[0] ? imgUrl[0] : Logo2}
+          src={imgUrl ? imgUrl[0] : Logo2}
           alt="img"
           style={{
             width: "222px",
