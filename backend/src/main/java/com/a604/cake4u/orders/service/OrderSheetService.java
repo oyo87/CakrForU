@@ -276,6 +276,7 @@ public class OrderSheetService {
                 .buyerId(orderSheet.getBuyer().getId())
                 .buyerNickName(orderSheet.getBuyer().getNickname())
                 .sellerId(orderSheet.getSeller().getId())
+                .account(orderSheet.getSeller().getAccount())
                 .businessName(orderSheet.getSeller().getBusinessName())
                 .imageFileDtoList(getImageFileDtoListByOrderSheetId(orderSheet.getId()))
                 .status(orderSheet.getStatus())
