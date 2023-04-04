@@ -286,7 +286,7 @@ public class OrderSheetService {
     private OrderSheetResponseDto entityToResponse(OrderSheet orderSheet) {
         Buyer buyer = orderSheet.getBuyer();
         Seller seller = orderSheet.getSeller();
-        List<ImageFile> imageFileList = orderSheet.getImageFileList();
+        List<ImageFile> imageFileList = seller.getImageFileList();
 
         return OrderSheetResponseDto.builder()
                 .id(orderSheet.getId())
@@ -317,6 +317,7 @@ public class OrderSheetService {
         return ImageFileDto.builder()
                 .origImageFileName(imageFile.getOrigImageFileName())
                 .imageFileUri(imageFile.getImageFileUri())
+                .imageFileType(imageFile.getImageFileType())
                 .build();
     }
 }
