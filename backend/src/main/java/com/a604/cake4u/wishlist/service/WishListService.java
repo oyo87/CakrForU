@@ -89,7 +89,6 @@ public class WishListService {
         List<PortfolioResponseDto> res = new ArrayList<>();
         for(Portfolio portfolio : portfolios){
             res.add(portfolioService.portfolioEntityToPortfolioResponseDTO(portfolio));
-
         }
         return res;
     }

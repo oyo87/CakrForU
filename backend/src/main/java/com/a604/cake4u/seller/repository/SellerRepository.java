@@ -29,4 +29,5 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
             "where s.dongCode =:dongCode " +
             "order by s.averageScore desc")
     List<SellerResponseDto> searchSeller(@Param("dongCode") String dongCode);
+
 }

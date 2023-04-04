@@ -234,7 +234,11 @@ public class PortfolioService implements PortfolioRepositoryCustom{
         } else {
             throw new NoSuchElementException("Seller not found with id: " + portfolioSaveDto.getSellerId());
         }
+    }
 
+    public List<PortfolioResponseDto> findPopularBySeller(Long sellerId){
+        List<Portfolio> portfolios = portfolioRepository.findTop5PortfolioBySellerOrderByHit(sellerRepository.findById(sellerId).get());
+        List<PortfolioResponseDto> res = 
     }
 
     public PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {

@@ -284,6 +284,15 @@ public class SellerController {
         return new ResponseEntity<>(custom, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "인기 케이크")
+    @GetMapping("/popular/{sellerId}")
+    public ResponseEntity<?> getPopularPortfolio(@PathVariable Long sellerId) {
+
+        CustomDto custom = new CustomDto(shape, size, taste, cream);
+
+        return new ResponseEntity<>(custom, HttpStatus.OK);
+    }
+
     private SellerSaveRequestDto createSaveRequestDto(Map<String, Object> map) {
         return SellerSaveRequestDto.builder()
                 .email(String.valueOf(map.get("email")))

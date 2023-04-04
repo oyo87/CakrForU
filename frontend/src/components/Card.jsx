@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
@@ -5,9 +7,14 @@ import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMediumSmall from "./text/BoldMediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
+import FilledHeart from "../assets/img/filled_heart.png";
 import { setPortfolio, openPortfolio } from "../store/modalSlice";
+import Logo2 from "../assets/img/logo2.png";
+import axios from "../util/axiosInstance";
 
 function Card({
+  buyerId,
+  portfolioId,
   title,
   imgUrl,
   sellerId,
@@ -18,14 +25,43 @@ function Card({
   sheetTaste,
   creamTaste,
   detail,
+  filled,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
 
+  const addWishlist = (e) => {
+    e.stopPropagation();
+    console.log("start");
+    console.log("buyerId: ", buyerId);
+    console.log("portpolioId: ", portfolioId);
+    if (!buyerId) return;
+    axios
+      .post("/wish", {
+        buyer_id: buyerId,
+        portfolio_id: portfolioId,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+    console.log("end");
+  };
+
   const handleClick = () => {
     dispatch(openPortfolio());
     dispatch(
-      setPortfolio({ size, shape, color, sheetTaste, creamTaste, detail })
+      setPortfolio({
+        title,
+        imgUrl,
+        sellerId,
+        situation,
+        size,
+        shape,
+        color,
+        sheetTaste,
+        creamTaste,
+        detail,
+      })
     );
   };
 
@@ -45,7 +81,7 @@ function Card({
         }}
       >
         <img
-          src={imgUrl}
+          src={imgUrl[0] ? imgUrl[0] : Logo2}
           alt="img"
           style={{
             width: "222px",
@@ -53,17 +89,33 @@ function Card({
             objectFit: "cover",
           }}
         />
-        <img
-          src={EmptyHeart}
-          alt="img"
-          style={{
-            position: "absolute",
-            width: "20px",
-            top: "10px",
-            right: "10px",
-            zIndex: "1",
-          }}
-        />
+        {filled && (
+          <img
+            src={FilledHeart}
+            alt="img"
+            style={{
+              position: "absolute",
+              width: "20px",
+              top: "10px",
+              right: "10px",
+              zIndex: "1",
+            }}
+          />
+        )}
+        {!filled && (
+          <img
+            src={EmptyHeart}
+            onClick={addWishlist}
+            alt="img"
+            style={{
+              position: "absolute",
+              width: "20px",
+              top: "10px",
+              right: "10px",
+              zIndex: "1",
+            }}
+          />
+        )}
       </div>
       <ColContainer
         height="110px"

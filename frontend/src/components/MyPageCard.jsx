@@ -7,6 +7,7 @@ import BoldMedium from "./text/BoldMedium";
 import EmptyHeart from "../assets/img/empty_heart.png";
 import { openPortfolio } from "../store/modalSlice";
 import Button1 from "./button/Button1";
+import Logo2 from "../assets/img/logo2.png";
 
 function MyPageCard({
   sellerId,
@@ -46,7 +47,7 @@ function MyPageCard({
       >
         <GapH height="20px" />
         <img
-          src={imageUrl}
+          src={imageUrl || Logo2}
           alt={imageAlt}
           style={{
             width: "400px",
