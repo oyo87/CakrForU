@@ -27,6 +27,7 @@ import SellerOrder from "./SellerOrder";
 import OrderModal from "./components/OrderModal";
 import SellerPortfolioRegist from "./SellerPortfolioRegist";
 import AllCake from "./AllCake";
+import AllSeller from "./AllSeller";
 import StoreDetail from "./StoreDetail";
 import CakeDiy from "./CakeDiy";
 import SellerPortfolio from "./SellerPortfolio";
@@ -69,6 +70,7 @@ function App() {
         <Route path="/seller/order" element={<SellerOrder />} />
         <Route path="/seller/portfolio" element={<SellerPortfolio />} />
         <Route path="/allcake" element={<AllCake />} />
+        <Route path="/allseller" element={<AllSeller />} />
         <Route path="/cakeDiy" element={<CakeDiy />} />
         <Route path="/store/:storeId" element={<StoreDetail />} />
         <Route
