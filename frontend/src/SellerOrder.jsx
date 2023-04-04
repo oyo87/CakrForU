@@ -32,6 +32,7 @@ const ModalContainer = styled.div`
 function SellerOrder() {
   const seller = useSelector((state) => state.login.user);
   const modal = useSelector((state) => state.modal);
+  const [orderSheetId, setOrderSheetId] = useState("");
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const dict = {
@@ -116,7 +117,8 @@ function SellerOrder() {
     fetchSellerOrder();
   }, []);
 
-  const handleModal = () => {
+  const handleModal = (orderSheetId) => {
+    setOrderSheetId(orderSheetId);
     dispatch(openOrder());
   };
 
@@ -125,7 +127,7 @@ function SellerOrder() {
       <Header />
       {modal.orderOpen ? (
         <ModalContainer>
-          <OrderModal />
+          <OrderModal orderSheetId={orderSheetId} />
         </ModalContainer>
       ) : null}
       <LeftRightContainer>
@@ -171,7 +173,7 @@ function SellerOrder() {
                   ) : null}
                   <BoldMedium
                     color="#F081A4"
-                    onClick={handleModal}
+                    onClick={() => handleModal(order.id)}
                     style={{
                       cursor: "pointer",
                     }}
