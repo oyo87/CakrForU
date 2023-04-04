@@ -39,10 +39,6 @@ const AppContainer = styled.div`
 `;
 const AuthRecommendPersonal = Auth(RecommendPersonal);
 
-function SellerPortfolio() {
-  return null;
-}
-
 function App() {
   return (
     <AppContainer>
