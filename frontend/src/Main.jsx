@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import gsap from "gsap";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
 import Header from "./components/Header";
@@ -42,6 +43,32 @@ const StyledImage = styled.img`
 `;
 
 function Main() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    // Set initial position of images
+    gsap.set(container, { perspective: 800 });
+    gsap.set(container.children, {
+      transformOrigin: "50% 50%",
+      transformStyle: "preserve-3d",
+    });
+    gsap.set(container.children, { rotationY: -180, autoAlpha: 0 });
+
+    // Animate images to final position
+    gsap.fromTo(
+      container.children,
+      { rotationY: -180, autoAlpha: 0 },
+      {
+        duration: 2,
+        rotationY: 0,
+        autoAlpha: 1,
+        ease: "back.out(1.7)",
+        stagger: 0.2,
+      }
+    );
+  }, []);
   return (
     <div>
       <Header />
@@ -85,32 +112,34 @@ function Main() {
             </Button1>
           </ColContainer>
           <ColContainer align="start" width="68%">
-            <ImageContainer
-              width="238px"
-              height="317px"
-              transform="rotate(-16deg)"
-              top="380px"
-              left="750px"
-            >
-              <StyledImage src={Pick1} alt="pick1" width="97%" height="98%" />
-            </ImageContainer>
-            <ImageContainer
-              width="240px"
-              height="315px"
-              top="290px"
-              left="970px"
-            >
-              <StyledImage src={Pick2} alt="pick2" width="97%" height="98%" />
-            </ImageContainer>
-            <ImageContainer
-              width="310px"
-              height="408px"
-              transform="matrix(0.94, 0.33, -0.38, 0.93, 0, 0)"
-              top="350px"
-              left="1170px"
-            >
-              <StyledImage src={Pick3} alt="pick3" width="97%" height="98%" />
-            </ImageContainer>
+            <div ref={containerRef}>
+              <ImageContainer
+                width="238px"
+                height="317px"
+                transform="rotate(-16deg)"
+                top="-200px"
+                left="200px"
+              >
+                <StyledImage src={Pick1} alt="pick1" width="97%" height="98%" />
+              </ImageContainer>
+              <ImageContainer
+                width="240px"
+                height="315px"
+                top="-290px"
+                left="400px"
+              >
+                <StyledImage src={Pick2} alt="pick2" width="97%" height="98%" />
+              </ImageContainer>
+              <ImageContainer
+                width="310px"
+                height="408px"
+                transform="matrix(0.94, 0.33, -0.38, 0.93, 0, 0)"
+                top="-200px"
+                left="600px"
+              >
+                <StyledImage src={Pick3} alt="pick3" width="97%" height="98%" />
+              </ImageContainer>
+            </div>
           </ColContainer>
         </RowContainer>
       </UpDownContainer>
