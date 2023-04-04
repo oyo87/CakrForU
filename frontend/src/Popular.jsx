@@ -88,10 +88,13 @@ function Popular() {
                 sheetTaste={item.sheetTaste}
                 creamTaste={item.creamTaste}
                 situation={item.situation}
-                sellerId={item.businessName}
+                businessName={item.businessName}
                 size={item.size}
                 detail={item.detail}
                 imgUrl={item.imageUrl}
+                color={item.color}
+                createdAt={item.createdAt}
+                hit={item.hit}
               />
             );
           })}

@@ -228,22 +228,24 @@ public class OrderSheetService {
      * @param dueDate : 입금 기한
      * @return
      */
-    public Long sendOrderSheetEstimate(Long orderSheetId, int price, LocalDate dueDate) {
+    public Long sendOrderSheetEstimate(Long orderSheetId, int price, LocalDate dueDate, LocalDate pickUpDate) {
         OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId).orElseThrow(() -> new BaseException(ORDER_SHEET_GET_BY_ORDER_SHEET_ID_ERROR));
         String buyerEmail = orderSheet.getBuyer().getEmail();
         
         //  주문서에 가격이랑 입금 날짜 업그레이드
         orderSheet.setPrice(price);
         orderSheet.setDueDate(dueDate);
+        orderSheet.setPickUpDate(pickUpDate);
         updateStatus(orderSheetId, "SEND");
         
         //  메일 전송 form 생성
-        OrderSheetMailVO orderSheetMailVO = OrderSheetMailVO.builder()
-                .price(price)
-                .dueDate(dueDate)
-                .build();
-        
-        return mailService.sendMail(orderSheetMailVO, buyerEmail);
+//        OrderSheetMailVO orderSheetMailVO = OrderSheetMailVO.builder()
+//                .price(price)
+//                .dueDate(dueDate)
+//                .build();
+//
+//        return mailService.sendMail(orderSheetMailVO, buyerEmail);
+        return orderSheetId;
     }
 
     /**
@@ -282,13 +284,17 @@ public class OrderSheetService {
         return orderSheetResponseDtos;
     }
     private OrderSheetResponseDto entityToResponse(OrderSheet orderSheet) {
+        Buyer buyer = orderSheet.getBuyer();
+        Seller seller = orderSheet.getSeller();
+        List<ImageFile> imageFileList = seller.getImageFileList();
+
         return OrderSheetResponseDto.builder()
                 .id(orderSheet.getId())
-                .buyerId(orderSheet.getBuyer().getId())
-                .buyerNickName(orderSheet.getBuyer().getNickname())
-                .sellerId(orderSheet.getSeller().getId())
-                .account(orderSheet.getSeller().getAccount())
-                .businessName(orderSheet.getSeller().getBusinessName())
+                .buyerId(buyer.getId())
+                .buyerNickName(buyer.getNickname())
+                .sellerId(seller.getId())
+                .account(seller.getAccount())
+                .businessName(seller.getBusinessName())
                 .imageFileDtoList(getImageFileDtoListByOrderSheetId(orderSheet.getId()))
                 .status(orderSheet.getStatus())
                 .createdAt(orderSheet.getCreatedAt())
@@ -303,6 +309,7 @@ public class OrderSheetService {
                 .reviewContent(orderSheet.getReviewContent())
                 .reviewCreatedAt(orderSheet.getReviewCreatedAt())
                 .reviewRating(orderSheet.getReviewRating())
+                .sellerThumbnail(imageFileList.get(0).getImageFileUri())
                 .build();
     }
 
@@ -310,6 +317,7 @@ public class OrderSheetService {
         return ImageFileDto.builder()
                 .origImageFileName(imageFile.getOrigImageFileName())
                 .imageFileUri(imageFile.getImageFileUri())
+                .imageFileType(imageFile.getImageFileType())
                 .build();
     }
 }

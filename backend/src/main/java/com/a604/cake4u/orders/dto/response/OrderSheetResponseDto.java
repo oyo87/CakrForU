@@ -36,4 +36,5 @@ public class OrderSheetResponseDto {
     private String reviewContent;
     private Timestamp reviewCreatedAt;
     private int reviewRating;
+    private String sellerThumbnail;
 }
