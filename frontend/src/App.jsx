@@ -27,7 +27,6 @@ import SellerOrder from "./SellerOrder";
 import OrderModal from "./components/OrderModal";
 import SellerPortfolioRegist from "./SellerPortfolioRegist";
 import AllCake from "./AllCake";
-import SellerPortfolio from "./SellerPortfolio";
 
 const AppContainer = styled.div`
   &,
@@ -36,6 +35,10 @@ const AppContainer = styled.div`
   }
 `;
 const AuthRecommendPersonal = Auth(RecommendPersonal);
+
+function SellerPortfolio() {
+  return null;
+}
 
 function App() {
   return (
