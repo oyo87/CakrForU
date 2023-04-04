@@ -140,15 +140,19 @@ public class OrderSheetController {
             @RequestBody Map<String, Object> estimate) {
         log.info("sendEstimation!!!");
 
-        int price = Integer.parseInt(String.valueOf(estimate.get("price")));
+        int price = Integer.parseInt(String.valueOf(estimate.get("price")));    //  가격
         log.info("price = " + price);
 
-        LocalDate dueDate = LocalDate.parse(String.valueOf(estimate.get("dueDate")), DateTimeFormatter.ISO_DATE);
+        LocalDate dueDate = LocalDate.parse(String.valueOf(estimate.get("dueDate")), DateTimeFormatter.ISO_DATE);   //  입금 날짜
         log.info("dueDate = " + dueDate);
 
-        Long send = orderSheetService.sendOrderSheetEstimate(orderSheetId, price, dueDate);
+        LocalDate pickUpDate = LocalDate.parse(String.valueOf(estimate.get("pickUpDate")), DateTimeFormatter.ISO_DATE); //  픽업 날짜
+        log.info("pickUpDate = " + pickUpDate);
 
-        return send == 1L ? new ResponseEntity<>("견적서 전송 성공", HttpStatus.OK) : new ResponseEntity<>("견적서 전송 실패", HttpStatus.BAD_REQUEST);
+        Long send = orderSheetService.sendOrderSheetEstimate(orderSheetId, price, dueDate,  pickUpDate);
+
+//        return send == 1L ? new ResponseEntity<>("견적서 전송 성공", HttpStatus.OK) : new ResponseEntity<>("견적서 전송 실패", HttpStatus.BAD_REQUEST);
+        return new  ResponseEntity<>(send + "번째 주문 견적 완료", HttpStatus.OK);
     }
 
     /**
