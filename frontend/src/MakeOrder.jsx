@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import originalAxios from "axios";
 import axios from "./util/axiosInstance";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
 import Header from "./components/Header";
@@ -31,7 +32,7 @@ const FileButton = styled.img`
 
 function MakeOrder() {
   const user = useSelector((state) => state.login.user);
-  const BUYER_ID = user.id;
+  const BUYER_ID = user && user.id;
   const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
   const navigate = useNavigate();
 
@@ -142,8 +143,8 @@ function MakeOrder() {
     const finalPrompt = promptParts.join(", ");
 
     // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
-    axios
-      .post("/sdapi/v1/txt2img", {
+    originalAxios
+      .post("http://211.192.210.201/sdapi/v1/txt2img", {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
