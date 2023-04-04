@@ -244,7 +244,7 @@ function Header({ handleClickOutModal }) {
             <Small cursor="pointer">케이크</Small>
           </Link>
           <Link
-            to="/popular"
+            to="/allseller"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Small cursor="pointer">가게</Small>

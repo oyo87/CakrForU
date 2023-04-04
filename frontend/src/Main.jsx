@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import gsap from "gsap";
 import UpDownContainer from "./components/layout/UpDownContainer";
@@ -44,6 +45,7 @@ const StyledImage = styled.img`
 
 function Main() {
   const containerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -107,8 +109,15 @@ function Main() {
             <GapH height="2px" />
             <Small color="white">인기 케이크를 선택하세요</Small>
             <GapH height="30px" />
-            <Button1 background="#7DA763">
-              <Small color="white">모든 케이크 보기</Small>
+            <Button1
+              background="#7DA763"
+              onClick={() => {
+                navigate("/allcake");
+              }}
+            >
+              <Small color="white" cursor="pointer">
+                모든 케이크 보기
+              </Small>
             </Button1>
           </ColContainer>
           <ColContainer align="start" width="68%">
