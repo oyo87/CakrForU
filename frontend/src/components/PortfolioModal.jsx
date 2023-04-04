@@ -46,7 +46,7 @@ function PortfolioModal() {
       <GapH height="48px" />
       <RowContainer height="49px" width="1020px">
         <RowContainer width="384px" height="100%" justify="start">
-          <BoldLarge>Fleuve cake</BoldLarge>
+          <BoldLarge>{portfolio.businessName}</BoldLarge>
         </RowContainer>
         <div
           style={{
@@ -56,9 +56,9 @@ function PortfolioModal() {
         <RowContainer width="384px" height="100%" align="end" justify="end">
           <Small>조회수</Small>
           <GapW width="5px" />
-          <Small>32</Small>
+          <Small>{portfolio.hit}</Small>
           <GapW width="22px" />
-          <Small>2323/05/27</Small>
+          <Small>{portfolio.createdAt}</Small>
           <GapW width="5px" />
         </RowContainer>
       </RowContainer>
@@ -98,18 +98,16 @@ function PortfolioModal() {
             <ColContainer width="135px" height="94px" align="start" gap="23px">
               <BoldSmall color="#616161">크림맛</BoldSmall>
               <BoldSmall color="#616161">호수</BoldSmall>
-              <BoldSmall color="#616161">금액</BoldSmall>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
               <Small color="#616161">{portfolio.creamTaste}</Small>
               <Small color="#616161">{portfolio.size}</Small>
-              <Small color="#616161">{portfolio.title}</Small>
             </ColContainer>
           </RowContainer>
           <GapH height="30px" />
           <RowContainer width="541px" justify="start">
             <ColContainer width="135px" align="start" justify="start">
-              <BoldSmall color="#616161">Detail</BoldSmall>
+              <BoldSmall color="#616161">상세 설명</BoldSmall>
             </ColContainer>
             <ColContainer width="375px" align="start">
               <Small color="#616161">{portfolio.detail}</Small>

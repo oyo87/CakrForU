@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ColContainer from "./components/layout/ColContainer";
 import GapW from "./components/layout/GapW";
@@ -14,11 +14,21 @@ import BoldMedium from "./components/text/BoldMedium";
 import Card from "./components/Card";
 import Button1 from "./components/button/Button1";
 import Small from "./components/text/Small";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function SellerPortfolio() {
   const seller = useSelector((state) => state.login.user);
+  const modal = useSelector((state) => state.modal);
   const [portfolio, setPortfolio] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
 
   const navigateToRegist = () => {
     navigate("/seller/portfolio/regist");
@@ -33,8 +43,9 @@ function SellerPortfolio() {
 
   return (
     <div>
-      <Header />
-      <LeftRightContainer>
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
+      <LeftRightContainer onClick={handleClickOutModal}>
         <ColContainer width="276px">
           <SellerSide />
           <GapH height="89px" />
@@ -84,10 +95,13 @@ function SellerPortfolio() {
                   sheetTaste={item.sheetTaste}
                   creamTaste={item.creamTaste}
                   situation={item.situation}
-                  sellerId={item.businessName}
+                  businessName={item.businessName}
                   size={item.size}
                   detail={item.detail}
                   imgUrl={item.imageUrl}
+                  color={item.color}
+                  createdAt={item.createdAt}
+                  hit={item.hit}
                 />
               );
             })}
