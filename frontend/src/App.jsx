@@ -55,7 +55,6 @@ function App() {
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<AuthRecommendPersonal />} />
-        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/mypage/orderlist" element={<MyPageOrderList />} />

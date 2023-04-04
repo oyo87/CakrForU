@@ -40,7 +40,12 @@ function StoreDetailSidebar() {
         <ColContainer justify="start" align="center">
           <GapH height="150px" />
           {seller.imageUrls ? (
-            <img src={seller.imageUrls[0]} alt={seller.businessName} />
+            <img
+              src={seller.imageUrls[0]}
+              alt={seller.businessName}
+              width="300px"
+              height="250px"
+            />
           ) : null}
           <GapH height="37px" />
           <BoldLarge>{seller.businessName}</BoldLarge>
