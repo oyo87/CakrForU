@@ -16,29 +16,44 @@ import BoldMediumSmall from "./text/BoldMediumSmall";
 const SideBar = styled.div`
   width: 440px;
   height: 100vh;
-  top: 100;
-  left: 0;
-  z-index: 1;
 `;
 
 function StoreDetailSidebar() {
   const { storeId } = useParams();
   const [seller, setSeller] = useState([]);
+  const [sellerDesc, setSellerDesc] = useState([]);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/seller/info/${storeId}`)
       .then((res) => {
-        console.log(res);
         setSeller(res.data);
       });
+
+    axios.get(`/seller/form/${storeId}`).then((response) => {
+      const tmp1 = Object.entries(response.data.sheetShape);
+      const filtered1 = tmp1.filter(([, ok]) => ok === true);
+      const tmp2 = Object.entries(response.data.sheetSize);
+      const filtered2 = tmp2.filter(([, ok]) => ok === true);
+      const tmp3 = Object.entries(response.data.sheetTaste);
+      const filtered3 = tmp3.filter(([, ok]) => ok === true);
+      const tmp4 = Object.entries(response.data.creamTaste);
+      const filtered4 = tmp4.filter(([, ok]) => ok === true);
+
+      setSellerDesc(
+        `#${String(Object.values(filtered1)[0]).split(",true")[0]} #${
+          String(Object.values(filtered4)[0]).split(",true")[0]
+        } #${String(Object.values(filtered3)[0]).split(",true")[0]} #${
+          String(Object.values(filtered2)[0]).split(",true")[0]
+        } `
+      );
+    });
   }, []);
 
   return (
     <div>
       <SideBar>
-        <ColContainer justify="start" align="center">
-          <GapH height="150px" />
+        <ColContainer justify="start" align="center" gap="30px">
           {seller.imageUrls ? (
             <img
               src={seller.imageUrls[0]}
@@ -58,18 +73,24 @@ function StoreDetailSidebar() {
           </RowContainer>
           <GapH height="39px" />
           <MediumSmall>{seller.businessDescription}</MediumSmall>
-          <MediumSmall>#test #test</MediumSmall>
+          <MediumSmall color="#716F6F">{sellerDesc}</MediumSmall>
           <hr style={{ color: "black", width: "100%" }} />
           <RowContainer style={{ justifyContent: "space-evenly" }}>
             <BoldMediumSmall>주소</BoldMediumSmall>
             <MediumSmall>
-              {seller.businessLocation} {seller.buildingName}{" "}
-              {seller.detailedAddress}
+              <ColContainer>
+                <div style={{ color: "#716F6F" }}>
+                  {seller.businessLocation}
+                </div>
+                <div style={{ color: "#716F6F" }}>
+                  {seller.buildingName} {seller.detailedAddress}
+                </div>
+              </ColContainer>
             </MediumSmall>
           </RowContainer>
           <RowContainer style={{ justifyContent: "space-evenly" }}>
             <BoldMediumSmall>전화번호</BoldMediumSmall>
-            <MediumSmall>
+            <MediumSmall color="#716F6F">
               {seller.phoneNumber
                 ? seller.phoneNumber
                     .slice(0, 3)
@@ -82,11 +103,15 @@ function StoreDetailSidebar() {
           </RowContainer>
           <RowContainer style={{ justifyContent: "space-evenly" }}>
             <BoldMediumSmall>문의계정</BoldMediumSmall>
-            <MediumSmall>{seller.contact}</MediumSmall>
+            <MediumSmall style={{ color: "#716F6F" }}>
+              {seller.contact}
+            </MediumSmall>
           </RowContainer>
+          <GapH height="50px" />
           <Button1>
             <BoldMedium>주문하기</BoldMedium>
           </Button1>
+          <GapH />
           <Medium>포트폴리오</Medium>
           <Medium>리뷰</Medium>
         </ColContainer>

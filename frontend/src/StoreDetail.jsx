@@ -1,34 +1,23 @@
 import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
-// import gsap from "gsap";
 import { useParams } from "react-router-dom";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
-// import ColContainer from "./components/layout/ColContainer";
-// import MyPageCard from "./components/MyPageCard";
-// import MyPageTitle from "./components/MyPageTitle";
 import GapW from "./components/layout/GapW";
-// import GapH from "./components/layout/GapH";
-// import MediumSmall from "./components/text/MediumSmall";
-// import Small from "./components/text/Small";
-// import BoldLarge from "./components/text/BoldLarge";
-// import Button2 from "./components/button/Button2";
-// import Review from "./components/Review";
-// import Card from "./components/Card";
-// import NextPageImg from "./assets/img/Nextpage.png";
+import GapH from "./components/layout/GapH";
 import StoreDetailSidebar from "./components/StoreDetailSidebar";
-// import Large from "./components/text/Large";
 import BoldLarge from "./components/text/BoldLarge";
 import ColContainer from "./components/layout/ColContainer";
 import Card from "./components/Card";
+import Review from "./components/Review";
+import SampleImg from "./assets/img/logo2.png";
 
 function StoreDetail() {
   const { storeId } = useParams();
   const [sellerPortfolios, setSellerPortfolios] = useState([]);
   const [sellerPopularPortfolios, setSellerPopularPortfolios] = useState([]);
+  const [sellerReviewList, setSellerReviewList] = useState([]);
 
   useEffect(() => {
     axios
@@ -38,9 +27,17 @@ function StoreDetail() {
       });
 
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/portfolio/seller/${storeId}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/seller/popular/${storeId}`)
       .then((res) => {
         setSellerPopularPortfolios(res.data.slice(0, 5));
+      });
+
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/seller/review/${storeId}`
+      )
+      .then((res) => {
+        setSellerReviewList(res.data.slice(0, 2));
       });
   }, []);
 
@@ -48,45 +45,79 @@ function StoreDetail() {
     <div>
       <Header />
       <UpDownContainer>
-        <RowContainer justify="start">
-          <GapW width="131px" />
+        <GapH height="150px" />
+        <RowContainer justify="start" align="start">
+          <GapW width="80px" />
           <StoreDetailSidebar />
-          <GapW width="66px" />
-          <ColContainer justify="start" width="1200px" align="start">
-            <BoldLarge>많이 찜한 케이크</BoldLarge>
-            <hr />
-            <RowContainer justify="space-between">
-              {sellerPopularPortfolios.map((portfolio) => (
-                <Card
-                  key={portfolio.imageUrl}
-                  imgUrl={portfolio.imageUrl[0]}
-                  title={portfolio.detail}
-                  shape={portfolio.shape}
-                  sheetTaste={portfolio.sheetTaste}
-                  creamTaste={portfolio.creamTaste}
-                  situation={portfolio.situation}
-                  sellerId={portfolio.businessName}
-                />
-              ))}
-            </RowContainer>
-            <BoldLarge>포트폴리오</BoldLarge>
-            <hr />
-            <RowContainer justify="space-between">
-              {sellerPortfolios.map((portfolio) => (
-                <Card
-                  key={portfolio.imageUrl}
-                  imgUrl={portfolio.imageUrl[0]}
-                  title={portfolio.detail}
-                  shape={portfolio.shape}
-                  sheetTaste={portfolio.sheetTaste}
-                  creamTaste={portfolio.creamTaste}
-                  situation={portfolio.situation}
-                  sellerId={portfolio.businessName}
-                />
-              ))}
-            </RowContainer>
+          <GapW width="80px" />
+          <ColContainer justify="start" width="1200px" align="start" gap="60px">
+            <ColContainer gap="30px" align="start">
+              <BoldLarge>많이 찜한 케이크</BoldLarge>
+              <hr style={{ color: "black", width: "100%" }} />
+              <RowContainer justify="space-between" gap="10px">
+                {sellerPopularPortfolios.map((portfolio) => (
+                  <Card
+                    key={portfolio.imageUrl}
+                    imgUrl={portfolio.imageUrl}
+                    title={portfolio.detail}
+                    shape={portfolio.shape}
+                    sheetTaste={portfolio.sheetTaste}
+                    creamTaste={portfolio.creamTaste}
+                    situation={portfolio.situation}
+                    sellerId={portfolio.businessName}
+                  />
+                ))}
+              </RowContainer>
+            </ColContainer>
+            <ColContainer align="start" gap="30px">
+              <BoldLarge>포트폴리오</BoldLarge>
+              <hr style={{ color: "black", width: "100%" }} />
+              <RowContainer justify="space-between" gap="10px">
+                {sellerPortfolios.map((portfolio) => (
+                  <Card
+                    key={portfolio.imageUrl}
+                    imgUrl={portfolio.imageUrl}
+                    title={portfolio.detail}
+                    shape={portfolio.shape}
+                    sheetTaste={portfolio.sheetTaste}
+                    creamTaste={portfolio.creamTaste}
+                    situation={portfolio.situation}
+                    sellerId={portfolio.businessName}
+                  />
+                ))}
+              </RowContainer>
+            </ColContainer>
+            <ColContainer align="start" gap="30px">
+              <BoldLarge>리뷰</BoldLarge>
+              <hr style={{ color: "black", width: "100%" }} />
+              <ColContainer justify="space-between">
+                {sellerReviewList.map((review) => (
+                  <Review
+                    businessName={review.businessName}
+                    reviewContent={review.reviewContent}
+                    reviewCreatedAt={review.reviewCreatedAt}
+                    reviewRating={review.reviewRating}
+                    sheetSize={review.sheetSize}
+                    sheetShape={review.sheetShape}
+                    sheetTaste={review.sheetTaste}
+                    creamTaste={review.creamTaste}
+                    imageUrl={
+                      review.imageFileDtoList[0]
+                        ? review.imageFileDtoList[0].imageFileUri
+                        : SampleImg
+                    }
+                    imageAlt={
+                      review.imageFileDtoList[0]
+                        ? review.imageFileDtoList[0].origImageFileName
+                        : "sample"
+                    }
+                  />
+                ))}
+              </ColContainer>
+            </ColContainer>
           </ColContainer>
         </RowContainer>
+        <GapH height="100px" />
       </UpDownContainer>
     </div>
   );

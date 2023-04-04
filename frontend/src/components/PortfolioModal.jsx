@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 // import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
@@ -13,20 +13,21 @@ import Button1 from "./button/Button1";
 import { closePortfolio } from "../store/modalSlice";
 import Logo2 from "../assets/img/logo2.png";
 
-function PortfolioModal({
-  shape,
-  sheetTaste,
-  color,
-  creamTaste,
-  size,
-  title,
-  detail,
-  imgUrl,
-}) {
+function PortfolioModal() {
+  // {
+  // shape,
+  // sheetTaste,
+  // color,
+  // creamTaste,
+  // size,
+  // title,
+  // detail,
+  // imgUrl,
+  // }
   const portfolio = useSelector((state) => state.modal.portfolio);
-  useEffect(() => {
-    console.log(portfolio);
-  }, [portfolio]);
+  // useEffect(() => {
+  //   console.log("hi", portfolio);
+  // }, [portfolio]);
   const dispatch = useDispatch();
   return (
     <UpDownContainer
@@ -72,7 +73,7 @@ function PortfolioModal({
       <RowContainer height="400px" width="1020px" justify="start">
         <ColContainer width="400px">
           <img
-            src={imgUrl[0]}
+            src={portfolio.imgUrl ? portfolio.imgUrl[0] : Logo2}
             alt="img"
             style={{
               width: "400px",
@@ -90,9 +91,9 @@ function PortfolioModal({
               <BoldSmall color="#616161">색깔</BoldSmall>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
-              <Small color="#616161">{shape}</Small>
-              <Small color="#616161">{sheetTaste}</Small>
-              <Small color="#616161">{color}</Small>
+              <Small color="#616161">{portfolio.shape}</Small>
+              <Small color="#616161">{portfolio.sheetTaste}</Small>
+              <Small color="#616161">{portfolio.color}</Small>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
               <BoldSmall color="#616161">크림맛</BoldSmall>
@@ -100,9 +101,9 @@ function PortfolioModal({
               <BoldSmall color="#616161">금액</BoldSmall>
             </ColContainer>
             <ColContainer width="135px" height="94px" align="start" gap="23px">
-              <Small color="#616161">{creamTaste}</Small>
-              <Small color="#616161">{size}</Small>
-              <Small color="#616161">{title}</Small>
+              <Small color="#616161">{portfolio.creamTaste}</Small>
+              <Small color="#616161">{portfolio.size}</Small>
+              <Small color="#616161">{portfolio.title}</Small>
             </ColContainer>
           </RowContainer>
           <GapH height="30px" />
@@ -111,13 +112,13 @@ function PortfolioModal({
               <BoldSmall color="#616161">Detail</BoldSmall>
             </ColContainer>
             <ColContainer width="375px" align="start">
-              <Small color="#616161">{detail}</Small>
+              <Small color="#616161">{portfolio.detail}</Small>
             </ColContainer>
           </RowContainer>
           <div style={{ flexGrow: 1 }} />
           <RowContainer gap="34px">
             <img
-              src={imgUrl[1] ? imgUrl[1] : Logo2}
+              src={portfolio.imgUrl[1] ? portfolio.imgUrl[1] : Logo2}
               alt="img"
               style={{
                 width: "165px",
@@ -126,7 +127,7 @@ function PortfolioModal({
               }}
             />
             <img
-              src={imgUrl[2] ? imgUrl[2] : Logo2}
+              src={portfolio.imgUrl[2] ? portfolio.imgUrl[2] : Logo2}
               alt="img"
               style={{
                 width: "165px",
@@ -135,7 +136,7 @@ function PortfolioModal({
               }}
             />
             <img
-              src={imgUrl[3] ? imgUrl[3] : Logo2}
+              src={portfolio.imgUrl[3] ? portfolio.imgUrl[3] : Logo2}
               alt="img"
               style={{
                 width: "165px",

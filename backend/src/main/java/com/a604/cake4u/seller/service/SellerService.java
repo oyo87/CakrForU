@@ -91,5 +91,4 @@ public class SellerService {
         return sellerRepository.searchSeller(dongCode);
     }
 
-
 }
