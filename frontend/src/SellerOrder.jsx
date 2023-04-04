@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import ColContainer from "./components/layout/ColContainer";
 import GapW from "./components/layout/GapW";
 import GapH from "./components/layout/GapH";
@@ -12,9 +13,27 @@ import SellerSide from "./components/SellerSide";
 import axios from "./util/axiosInstance";
 import BoldMedium from "./components/text/BoldMedium";
 import Medium from "./components/text/Medium";
+import OrderModal from "./components/OrderModal";
+import { openOrder } from "./store/modalSlice";
+
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+`;
 
 function SellerOrder() {
   const seller = useSelector((state) => state.login.user);
+  const modal = useSelector((state) => state.modal);
+  const [orderSheetId, setOrderSheetId] = useState("");
+  const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const dict = {
     REGISTRATION: "주문서 등록",
@@ -98,9 +117,19 @@ function SellerOrder() {
     fetchSellerOrder();
   }, []);
 
+  const handleModal = (orderSheetId) => {
+    setOrderSheetId(orderSheetId);
+    dispatch(openOrder());
+  };
+
   return (
     <div>
       <Header />
+      {modal.orderOpen ? (
+        <ModalContainer>
+          <OrderModal orderSheetId={orderSheetId} />
+        </ModalContainer>
+      ) : null}
       <LeftRightContainer>
         <ColContainer width="276px">
           <SellerSide />
@@ -142,7 +171,15 @@ function SellerOrder() {
                   {order.pickUpDate ? (
                     <Medium>{order.pickUpDate} 픽업예정</Medium>
                   ) : null}
-                  <BoldMedium color="#F081A4">주문상세 {">"}</BoldMedium>
+                  <BoldMedium
+                    color="#F081A4"
+                    onClick={() => handleModal(order.id)}
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    주문상세 {">"}
+                  </BoldMedium>
                 </ColContainer>
                 <div
                   style={{
