@@ -96,7 +96,7 @@ public class SellerService {
 
     public List<SellerResponseDto> getAllSellersPaging(int page) {
 
-        Page<Seller> sellerList = sellerRepository.findAll(PageRequest.of(page, 5, Sort.by("id").descending()));
+        Page<Seller> sellerList = sellerRepository.findAll(PageRequest.of(page, 20, Sort.by("id").descending()));
         List<Seller> sellers = sellerList.getContent();
         List<SellerResponseDto> sellerDtos = new ArrayList<>();
 
