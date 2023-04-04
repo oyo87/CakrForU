@@ -237,8 +237,12 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     }
 
     public List<PortfolioResponseDto> findPopularBySeller(Long sellerId){
-        List<Portfolio> portfolios = portfolioRepository.findTop5PortfolioBySellerOrderByHit(sellerRepository.findById(sellerId).get());
-        List<PortfolioResponseDto> res = 
+        List<Portfolio> portfolios = portfolioRepository.findTop5PortfolioBySellerOrderByHitDesc(sellerRepository.findById(sellerId).get());
+        List<PortfolioResponseDto> res = new ArrayList<>();
+        for(Portfolio p : portfolios){
+            res.add(portfolioEntityToPortfolioResponseDTO(p));
+        }
+        return res;
     }
 
     public PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {
