@@ -39,6 +39,10 @@ const AppContainer = styled.div`
 `;
 const AuthRecommendPersonal = Auth(RecommendPersonal);
 
+function SellerPortfolio() {
+  return null;
+}
+
 function App() {
   return (
     <AppContainer>
@@ -70,11 +74,11 @@ function App() {
         <Route path="/seller/portfolio" element={<SellerPortfolio />} />
         <Route path="/allcake" element={<AllCake />} />
         <Route path="/cakeDiy" element={<CakeDiy />} />
+        <Route path="/store/:storeId" element={<StoreDetail />} />
         <Route
           path="/seller/portfolio/regist"
           element={<SellerPortfolioRegist />}
         />
-        <Route path="/store/:storeId" element={<StoreDetail />} />
         <Route path="/orderModal" element={<OrderModal />} />
         <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>
