@@ -1,4 +1,7 @@
-import React from "react";
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import GapW from "./layout/GapW";
 import BoldMedium from "./text/BoldMedium";
 import Medium from "./text/Medium";
@@ -9,25 +12,51 @@ import Select from "./Select";
 import RowContainer from "./layout/RowContainer";
 import Button2 from "./button/Button2";
 import MediumSmall from "./text/MediumSmall";
+import { closeOrder } from "../store/modalSlice";
 
 function OrderModal() {
+  const modalContainerRef = useRef();
+  const dispatch = useDispatch();
+
+  const handleClickOutside = (event) => {
+    if (
+      modalContainerRef.current &&
+      !modalContainerRef.current.contains(event.target)
+    ) {
+      dispatch(closeOrder());
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       style={{
         position: "relative",
         border: "2px solid #cccccc",
         width: "1282px",
-        height: "744px",
+        height: "844px",
+        backgroundColor: "white",
       }}
+      ref={modalContainerRef}
     >
       <img
         style={{
           position: "absolute",
           top: "33px",
           right: "37px",
+          cursor: "pointer",
         }}
         src={Close}
         alt="close"
+        onClick={() => {
+          dispatch(closeOrder());
+        }}
       />
       <img
         style={{
@@ -98,7 +127,7 @@ function OrderModal() {
       <div
         style={{
           position: "absolute",
-          top: "551px",
+          top: "550px",
           left: "80px",
         }}
       >
@@ -143,7 +172,25 @@ function OrderModal() {
       <div
         style={{
           position: "absolute",
-          top: "660px",
+          top: "750px",
+          left: "80px",
+        }}
+      >
+        <Medium>픽업일</Medium>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: "743px",
+          left: "352px",
+        }}
+      >
+        <Input />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: "760px",
           left: "1058px",
         }}
       >

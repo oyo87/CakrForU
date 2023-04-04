@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/loginSlice";
 import axios from "../util/axiosInstance";
-import BoldMedium from "./text/BoldMedium";
+// import BoldMedium from "./text/BoldMedium";
 import Small from "./text/Small";
 import Button1 from "./button/Button1";
 import Button3 from "./button/Button3";
-import LogoDog from "../assets/img/logo_dog.png";
+// import LogoDog from "../assets/img/logo_dog.png";
+import NewLogo from "../assets/img/new_logo.png";
 import GapW from "./layout/GapW";
 
 const HeaderContainer = styled.header`
@@ -212,13 +213,13 @@ function Header({ handleClickOutModal }) {
       <HeaderContainer onClick={handleClickOutModal}>
         <LogoSection>
           <ClickSection onClick={handleLogoClick}>
-            <BoldMedium>CakeForU</BoldMedium>
+            {/* <BoldMedium>CakeForU</BoldMedium> */}
             <GapW width="10px" />
             <img
-              src={LogoDog}
+              src={NewLogo}
               alt="logo"
               style={{
-                height: "30px",
+                height: "100px",
               }}
             />
           </ClickSection>
