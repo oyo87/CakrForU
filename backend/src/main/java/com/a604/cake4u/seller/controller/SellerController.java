@@ -294,6 +294,23 @@ public class SellerController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    // 모든 가게 얻기
+    @GetMapping("/search/all/paging")
+    @ApiOperation(value = "페이징 가게 조회")
+    public ResponseEntity<?> searchAllSellersPaging(@RequestParam(value="page") int page) {
+        try {
+            log.info("In searchAllBySellersPaging");
+
+            List<SellerResponseDto> sellers = sellerService.getAllSellersPaging(page);
+            log.info("sellers = " + sellers);
+
+            return new ResponseEntity<>(sellers, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting all sellers: " + e.getMessage());
+            return new ResponseEntity<>("Error getting all sellers: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private SellerSaveRequestDto createSaveRequestDto(Map<String, Object> map) {
         return SellerSaveRequestDto.builder()
                 .email(String.valueOf(map.get("email")))

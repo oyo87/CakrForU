@@ -59,6 +59,8 @@ function AllCake() {
         };
       });
 
+      console.log("updatedData = ", updatedData);
+
       if (newData.length === 0) {
         setHasMoreItems(false);
       } else {
