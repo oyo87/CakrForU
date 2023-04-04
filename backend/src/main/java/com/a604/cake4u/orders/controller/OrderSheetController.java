@@ -85,34 +85,18 @@ public class OrderSheetController {
             @PathVariable(name = "orderSheetId") Long orderSheetId,
             @RequestPart(value = "files", required = false) List<MultipartFile> files,
             @RequestParam(value = "orderSheetReviewVOString")String orderSheetReviewVOString) {
-        log.info("registReview!!!!!!!!");
         log.info("orderSheetId = " + orderSheetId);
 
         ResponseEntity<?> ret = null;
-        log.info("ret = " + ret);
 
         try {
             log.info("orderSheetReviewVOString = " + orderSheetReviewVOString);
             JSONParser jsonParser = new JSONParser(orderSheetReviewVOString);
-            log.info("1!!!!!");
             Object obj = jsonParser.parse();
-            log.info("obj = " + obj);
-            log.info("2!!!!!");
             ObjectMapper mapper = new ObjectMapper();
-            log.info("3!!!!!");
             Map<String, Object> map = mapper.convertValue(obj, Map.class);
-            log.info("4!!!!!");
-
-            log.info("map : " + map);
-            
             OrderSheetReviewVO orderSheetReviewVO = createReviewVO(map);
-
-            log.info("OrderSheetReviewVO = " + orderSheetReviewVO);
-
             Long retId = orderSheetService.registReview(orderSheetId, files, orderSheetReviewVO);
-
-            log.info("retId = " + retId);
-
             ret = new ResponseEntity<>("리뷰 등록 성공", HttpStatus.OK);
         } catch(ParseException e) {
             e.printStackTrace();
@@ -123,7 +107,6 @@ public class OrderSheetController {
             ret = new ResponseEntity<>("리뷰 등록 실패, 서버 에러", HttpStatus.INTERNAL_SERVER_ERROR);
             throw new BaseException(ORDER_REVIEW_SERVER_ERROR);
         } finally {
-            log.info("종국엔 여기로 옴");
             return ret;
         }
     }
@@ -140,15 +123,19 @@ public class OrderSheetController {
             @RequestBody Map<String, Object> estimate) {
         log.info("sendEstimation!!!");
 
-        int price = Integer.parseInt(String.valueOf(estimate.get("price")));
+        int price = Integer.parseInt(String.valueOf(estimate.get("price")));    //  가격
         log.info("price = " + price);
 
-        LocalDate dueDate = LocalDate.parse(String.valueOf(estimate.get("dueDate")), DateTimeFormatter.ISO_DATE);
+        LocalDate dueDate = LocalDate.parse(String.valueOf(estimate.get("dueDate")), DateTimeFormatter.ISO_DATE);   //  입금 날짜
         log.info("dueDate = " + dueDate);
 
-        Long send = orderSheetService.sendOrderSheetEstimate(orderSheetId, price, dueDate);
+        LocalDate pickUpDate = LocalDate.parse(String.valueOf(estimate.get("pickUpDate")), DateTimeFormatter.ISO_DATE); //  픽업 날짜
+        log.info("pickUpDate = " + pickUpDate);
 
-        return send == 1L ? new ResponseEntity<>("견적서 전송 성공", HttpStatus.OK) : new ResponseEntity<>("견적서 전송 실패", HttpStatus.BAD_REQUEST);
+        Long send = orderSheetService.sendOrderSheetEstimate(orderSheetId, price, dueDate,  pickUpDate);
+
+//        return send == 1L ? new ResponseEntity<>("견적서 전송 성공", HttpStatus.OK) : new ResponseEntity<>("견적서 전송 실패", HttpStatus.BAD_REQUEST);
+        return new  ResponseEntity<>(send + "번째 주문 견적 완료", HttpStatus.OK);
     }
 
     /**
@@ -189,6 +176,12 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
+    @GetMapping("/seller/review/{sellerId}")
+    public ResponseEntity<?> getSellerReview(@PathVariable(name = "sellerId") Long sellerId) {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getReviewsBySeller(sellerId);
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
     @GetMapping("/seller/{sellerId}")
     public ResponseEntity<?> getSellerOrderSheet(@PathVariable(name = "sellerId") Long sellerId) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderSheetsBySellerId(sellerId);
@@ -211,6 +204,7 @@ public class OrderSheetController {
     public ResponseEntity<?> updateStatus(@PathVariable(name = "orderSheetId") Long orderSheetId, @PathVariable(name = "status") String status) {
         return new ResponseEntity<>("상태 업데이트 된 주문서 번호 : " + orderSheetService.updateStatus(orderSheetId, status) + "\n업데이트 상태 : " + status, HttpStatus.OK);
     }
+
 
     private OrderSheetRegistVO createRegistVO(Map<String, Object> map) {
         return OrderSheetRegistVO.builder()

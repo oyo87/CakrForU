@@ -88,8 +88,8 @@ function Welcome() {
   const [activeCard, setActiveCard] = useState(0);
   const cards = [
     {
-      title: "3D 모델링",
-      content: `더 실감나게, 더 완성도 있게`,
+      title: "추천 케이크",
+      content: `더 완벽하게, 더 특별하게`,
       url: Welcome3d,
       width: "197px",
       background: "#25231F",
@@ -97,13 +97,15 @@ function Welcome() {
       contentTop: "30.84%",
       imgTop: "39.55%",
       color: "white",
-      rightContent: `어떤 케이크를 만들어야 할 지 고민되는
-당신을 위한 3D 모델링 케이크가 준비되어 있어요
+      rightContent: `어떤 케이크를 사야할 지 고민되는
+당신을 위한 케이크 추천 시스템이 준비되어 있어요
 
-인기 디자인의 3D 모델을 참고해 케이크 디자인의
-영감을 떠올리고 설정한대로 원하는 맛의 케이크를 주문까지
+선택 몇 번으로 고를 수 있는,
+파티에 어울리는 완벽한 케이크
 
-새로운 커스텀 케이크의 세계로 당신을 초대합니다`,
+지금 당신의 눈앞에 펼쳐집니다
+`,
+      link: "/recommend/personal",
     },
     {
       title: "메인페이지",

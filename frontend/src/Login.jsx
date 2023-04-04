@@ -36,6 +36,7 @@ const FlexBox = styled.div`
 
 function Login() {
   const dispatch = useDispatch();
+  dispatch(userType("buyer"));
   const [selectedUserType, setSelectedUserType] = useState("buyer");
   const [formData, setFormData] = useState({
     email: "",
@@ -58,6 +59,7 @@ function Login() {
       })
       .then((res) => {
         localStorage.setItem("access-token", res.data);
+        localStorage.setItem("userType", selectedUserType);
         navigate("/");
       });
   };
@@ -91,8 +93,8 @@ function Login() {
             <RadioButton
               name="userType"
               onChange={() => {
-                setSelectedUserType("seller");
                 dispatch(userType("seller"));
+                setSelectedUserType("seller");
               }}
               checked={selectedUserType === "seller"}
             />

@@ -1,9 +1,11 @@
 package com.a604.cake4u.seller.dto;
 
+import com.a604.cake4u.imagefile.entity.ImageFile;
 import com.a604.cake4u.seller.entity.Seller;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -55,6 +57,10 @@ public class SellerResponseDto {
         this.contact = seller.getContact();
         this.account = seller.getAccount();
         this.businessDescription = seller.getBusinessDescription();
+        this.imageUrls =   new ArrayList<>();
+        for(ImageFile imageFile : seller.getImageFileList())
+            this.imageUrls.add(imageFile.getImageFileUri());
+
     }
 
 }

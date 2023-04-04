@@ -17,6 +17,9 @@ import com.a604.cake4u.seller.entity.Seller;
 import com.a604.cake4u.seller.repository.SellerRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,5 +94,15 @@ public class SellerService {
         return sellerRepository.searchSeller(dongCode);
     }
 
+    public List<SellerResponseDto> getAllSellersPaging(int page) {
 
+        Page<Seller> sellerList = sellerRepository.findAll(PageRequest.of(page, 20, Sort.by("id").descending()));
+        List<Seller> sellers = sellerList.getContent();
+        List<SellerResponseDto> sellerDtos = new ArrayList<>();
+
+        for (Seller seller : sellers) {
+            sellerDtos.add(new SellerResponseDto(seller));
+        }
+        return sellerDtos;
+    }
 }

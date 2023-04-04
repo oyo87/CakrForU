@@ -131,7 +131,7 @@ function RecommendPersonal() {
                   <RowContainer>
                     <Card
                       title={recommend.detail}
-                      imgUrl={recommend.imageUrl[0]}
+                      imgUrl={recommend.imageUrl}
                       shape={recommend.shape}
                       sheetTaste={recommend.sheetTaste}
                       creamTaste={recommend.creamTaste}

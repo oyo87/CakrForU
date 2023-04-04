@@ -20,6 +20,7 @@ public class OrderSheetResponseDto {
     private Long buyerId;
     private String buyerNickName;
     private Long sellerId;
+    private String account;
     private String businessName;
     private List<ImageFileDto> imageFileDtoList;
     private EStatus status;
@@ -35,4 +36,5 @@ public class OrderSheetResponseDto {
     private String reviewContent;
     private Timestamp reviewCreatedAt;
     private int reviewRating;
+    private String sellerThumbnail;
 }

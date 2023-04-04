@@ -69,7 +69,7 @@ const Menu = styled.div`
 function Header({ handleClickOutModal }) {
   const dispatch = useDispatch();
   const loginUser = useSelector((state) => state.login.user);
-  const uType = useSelector((state) => state.login.userType);
+  // const uType = useSelector((state) => state.login.userType);
 
   const headerRef = useRef();
   const buttonRef = useRef();
@@ -100,6 +100,7 @@ function Header({ handleClickOutModal }) {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
+    const uType = localStorage.getItem("userType");
     if (!user) {
       const token = localStorage.getItem("access-token");
       if (token) {
@@ -185,7 +186,9 @@ function Header({ handleClickOutModal }) {
   }
 
   function loginTrue() {
-    if (uType === "buyer") {
+    const rawuser = localStorage.getItem("user");
+    const user = JSON.parse(rawuser);
+    if (user.userType === "buyer") {
       return (
         <LoginSection>
           <Link
@@ -202,6 +205,12 @@ function Header({ handleClickOutModal }) {
     }
     return (
       <LoginSection>
+        <Link
+          to="/seller/info"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Small cursor="pointer">스토어페이지</Small>
+        </Link>
         <Small onClick={handleLogout} cursor="pointer">
           로그아웃
         </Small>

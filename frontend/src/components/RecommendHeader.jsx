@@ -1,10 +1,10 @@
 import React from "react";
 import ColContainer from "./layout/ColContainer";
 import RowContainer from "./layout/RowContainer";
-import Small from "./text/Small";
 import Large from "./text/Large";
 import GapH from "./layout/GapH";
 import GapW from "./layout/GapW";
+import SmallMedium from "./text/SmallMedium";
 
 function RecommendHeader() {
   return (
@@ -17,7 +17,7 @@ function RecommendHeader() {
         </ColContainer>
         <ColContainer align="start" height="100%">
           <GapH height="57px" />
-          <Small>Cake For U</Small>
+          <SmallMedium>Cake For U</SmallMedium>
           <Large>케이크 추천</Large>
           <GapH height="66px" />
         </ColContainer>
