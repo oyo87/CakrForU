@@ -248,7 +248,7 @@ public class PortfolioService implements PortfolioRepositoryCustom{
     public PortfolioResponseDto portfolioEntityToPortfolioResponseDTO(Portfolio portfolio) {
         return PortfolioResponseDto.builder().
                 id(portfolio.getId()).
-                sellerId(portfolio.getId()).
+                sellerId(portfolio.getSeller().getId()).
                 businessName(portfolio.getSeller().getBusinessName()).
                 hit(portfolio.getHit()).
                 createdAt(portfolio.getCreatedAt()).
