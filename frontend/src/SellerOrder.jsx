@@ -138,11 +138,11 @@ function SellerOrder() {
                 <GapW width="50px" />
                 <ColContainer gap="28px" align="start">
                   <Medium>{order.createdAt} 주문</Medium>
-                  <Medium>{order.buyerNickName}</Medium>
+                  <BoldMedium>{order.buyerNickName}</BoldMedium>
                   {order.pickUpDate ? (
                     <Medium>{order.pickUpDate} 픽업예정</Medium>
                   ) : null}
-                  <BoldMedium color="#F081A4">주문상세 </BoldMedium>
+                  <BoldMedium color="#F081A4">주문상세 ></BoldMedium>
                 </ColContainer>
                 <div
                   style={{
