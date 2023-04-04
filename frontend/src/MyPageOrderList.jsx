@@ -39,11 +39,9 @@ function MyPageOrderList() {
   };
 
   function getOrderList() {
-    // .get(`${URL}/order-sheet/buyer/${loginUser.id}`)
-    console.log(`${URL}/order-sheet/buyer/0`);
     const todayDate = new Date();
     axios
-      .get(`${URL}/order-sheet/buyer/0`)
+      .get(`${URL}/order-sheet/buyer/${loginUser.id}`)
       .then((response) => {
         setOrderList(response.data);
 

@@ -18,7 +18,7 @@ import BoldSmall from "./text/BoldSmall";
 import SmallMedium from "./text/SmallMedium";
 
 function BuyerOrderModal() {
-  const orderSheet = useSelector((state) => state.modal.buyerOrderSheet);
+  const orderSheet = useSelector((state) => state.modal.buyerOrder);
 
   const Button = styled.button`
     display: inline;
@@ -33,7 +33,8 @@ function BuyerOrderModal() {
   `;
 
   useEffect(() => {
-    console.log(`BuyerOrderModal's orderSheet : ${orderSheet}`);
+    console.log(`BuyerOrderModal's orderSheet :`);
+    console.log(orderSheet);
   }, [orderSheet]);
   const dispatch = useDispatch();
   return (
@@ -74,8 +75,8 @@ function BuyerOrderModal() {
         width="1020px"
         style={{ justifyContent: "start" }}
       >
-        <RowContainer width="34rem">
-          <BoldLarge color="#616161">Fleuve cake</BoldLarge>
+        <RowContainer width="37.4rem">
+          <BoldLarge color="#616161">{orderSheet.businessName}</BoldLarge>
           <GapW width="30px" />
           <Button type="button">
             <MediumSmall color="white">리뷰 작성</MediumSmall>

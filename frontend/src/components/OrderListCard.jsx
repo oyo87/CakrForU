@@ -76,19 +76,32 @@ function OrderListCard({
   creamTaste,
   businessName,
   status,
+  price,
+  buyerMessage,
+  id,
+  sellerId,
+  imageFileDtoList,
 }) {
   const dispatch = useDispatch();
+  console.log(price);
 
   const handleClick = () => {
     dispatch(openBuyerOrder());
     // 금액, 픽업일,계좌번호, 시트모양,호수,시트맛, 크림맛,추가전달사항,모든사진
     dispatch(
       setBuyerOrder({
+        createdAt,
         pickUpDate,
         sheetShape,
         sheetSize,
         sheetTaste,
         creamTaste,
+        businessName,
+        buyerMessage,
+        id,
+        sellerId,
+        status,
+        imageFileDtoList,
       })
     );
   };
