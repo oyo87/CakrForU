@@ -8,7 +8,6 @@ import GapH from "./components/layout/GapH";
 import Header from "./components/Header";
 import RowContainer from "./components/layout/RowContainer";
 import BoldLarge from "./components/text/BoldLarge";
-import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import BoldMediumSmall from "./components/text/BoldMediumSmall";
 import Small from "./components/text/Small";
 import UpDownContainer from "./components/layout/UpDownContainer";
@@ -85,14 +84,13 @@ function SellerCustom() {
           <ColContainer>
             <GapH height="89px" />
             <RowContainer justify="start" height="121px">
-              <BoldLarge>라니케이크</BoldLarge>
+              <GapW width="10px" />
+              <BoldLarge>주문서 커스텀</BoldLarge>
             </RowContainer>
-            <GapH height="50px" />
             <ColContainer>
               <GapW width="69px" />
               <UpDownContainer>
                 <ColContainer align="start">
-                  <BoldSmallMedium>주문서 커스텀</BoldSmallMedium>
                   <GapH height="50px" />
                 </ColContainer>
                 <ColContainer height="119px" width="581px">

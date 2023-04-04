@@ -27,6 +27,7 @@ import SellerOrder from "./SellerOrder";
 import OrderModal from "./components/OrderModal";
 import SellerPortfolioRegist from "./SellerPortfolioRegist";
 import AllCake from "./AllCake";
+import SellerPortfolio from "./SellerPortfolio";
 
 const AppContainer = styled.div`
   &,
@@ -64,6 +65,7 @@ function App() {
         <Route path="/seller/info" element={<SellerInfo />} />
         <Route path="/seller/custom" element={<SellerCustom />} />
         <Route path="/seller/order" element={<SellerOrder />} />
+        <Route path="/seller/portfolio" element={<SellerPortfolio />} />
         <Route path="/allcake" element={<AllCake />} />
         <Route
           path="/seller/portfolio/regist"
