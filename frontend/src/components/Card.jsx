@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
@@ -30,21 +30,25 @@ function Card({
   hit,
   createdAt,
 }) {
-  const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
+  const desc = "#".concat(
+    [color, shape, sheetTaste, creamTaste, situation].join(" #")
+  );
   const dispatch = useDispatch();
+  const [isFilled, setIsFilled] = useState(filled);
 
   const addWishlist = (e) => {
     e.stopPropagation();
-    if (!buyerId) return;
+    setIsFilled(true);
+    // if (!buyerId) return;
     axios
-      .post("/wish", {
+      .post("/wish/", {
         buyer_id: buyerId,
         portfolio_id: portfolioId,
       })
       .then((res) => {
         console.log(res);
+        console.log("end");
       });
-    console.log("end");
   };
 
   const handleClick = () => {
@@ -92,7 +96,7 @@ function Card({
             objectFit: "cover",
           }}
         />
-        {filled && (
+        {isFilled && (
           <img
             src={FilledHeart}
             alt="img"
@@ -105,7 +109,7 @@ function Card({
             }}
           />
         )}
-        {!filled && (
+        {!isFilled && (
           <img
             src={EmptyHeart}
             onClick={addWishlist}
@@ -129,7 +133,7 @@ function Card({
       >
         <GapH height="10px" />
         <Small color="#A5A6A6" cursor="pointer">
-          {sellerId}
+          {businessName}
         </Small>
         <GapH height="5px" />
         <BoldMediumSmall cursor="pointer">{title}</BoldMediumSmall>

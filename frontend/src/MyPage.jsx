@@ -165,6 +165,7 @@ function MyPage() {
           <GapH height="80px" />
           {myReviewList.map((review) => (
             <Review
+              reviewId={review.id}
               businessName={review.businessName}
               reviewContent={review.reviewContent}
               reviewCreatedAt={review.reviewCreatedAt}

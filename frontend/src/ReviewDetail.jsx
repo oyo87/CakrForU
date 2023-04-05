@@ -17,7 +17,6 @@ import SmallMedium from "./components/text/SmallMedium";
 
 function ReviewDetail() {
   const { orderId } = useParams();
-  //   const navigate = useNavigate();
   const [review, setReview] = useState([]);
   const [userNickname, setUserNickname] = useState([]);
   const [rating, setRating] = useState(5);
@@ -63,7 +62,9 @@ function ReviewDetail() {
         <GapW width="360px" />
         <ColContainer align="start">
           <BoldMedium>{userNickname}</BoldMedium>
-          <Small>{review.createdAt.split("T")[0]}</Small>
+          <Small>
+            {review.createdAt ? review.createdAt.split("T")[0] : null}
+          </Small>
           <GapH />
           {review.imageFileDtoList ? (
             <img

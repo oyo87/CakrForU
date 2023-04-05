@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import gsap from "gsap";
 import UpDownContainer from "./components/layout/UpDownContainer";
@@ -179,9 +179,14 @@ function Main() {
               당신에게 맞는 케이크를 추천해드립니다.
             </MediumSmall>
             <GapH height="38px" />
-            <Button1 background="#615143">
-              <Small color="white">자세히 보기</Small>
-            </Button1>
+            <Link
+              to="/recommend/wishlist"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button1 background="#615143">
+                <Small color="white">자세히 보기</Small>
+              </Button1>
+            </Link>
           </ColContainer>
         </RowContainer>
         <RowContainer
@@ -197,9 +202,14 @@ function Main() {
             <MediumSmall>비슷한 그룹의 사용자들이</MediumSmall>
             <MediumSmall>좋아할만한 케이크를 추천해드립니다.</MediumSmall>
             <GapH height="38px" />
-            <Button1 background="#B5B59E">
-              <Small color="white">자세히 보기</Small>
-            </Button1>
+            <Link
+              to="/recommend/personal"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button1 background="#B5B59E">
+                <Small color="white">자세히 보기</Small>
+              </Button1>
+            </Link>
           </ColContainer>
           <GapW width="350px" />
           <img
@@ -231,9 +241,14 @@ function Main() {
             <GapH height="23px" />
             <MediumSmall>인기있는 케이크를 추천해드립니다.</MediumSmall>
             <GapH height="38px" />
-            <Button1 background="#CED7FF">
-              <Small color="white">자세히 보기</Small>
-            </Button1>
+            <Link
+              to="/popular"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button1 background="#CED7FF">
+                <Small color="white">자세히 보기</Small>
+              </Button1>
+            </Link>
           </ColContainer>
         </RowContainer>
         <RowContainer
@@ -250,9 +265,14 @@ function Main() {
             <MediumSmall>다가오는 생일이나 연인과의 기념일</MediumSmall>
             <MediumSmall>그 날에 어울리는 케이크를 추천해드립니다.</MediumSmall>
             <GapH height="38px" />
-            <Button1 background="#FFACAC">
-              <Small color="white">자세히 보기</Small>
-            </Button1>
+            <Link
+              to="/recommend/theme"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button1 background="#FFACAC">
+                <Small color="white">자세히 보기</Small>
+              </Button1>
+            </Link>
           </ColContainer>
           <GapW width="350px" />
           <img
