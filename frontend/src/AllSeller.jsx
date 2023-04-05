@@ -7,6 +7,7 @@ import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import PinkSearch from "./assets/img/pink_search.png";
 import axios from "./util/axiosInstance";
 import StoreCard from "./components/StoreCard";
+import Header from "./components/Header";
 
 function AllSeller() {
   const [sellers, setSellers] = useState([]);
@@ -24,6 +25,7 @@ function AllSeller() {
 
   return (
     <div>
+      <Header />
       <UpDownContainer align="center">
         <GapH height="34px" />
         <RowContainer
