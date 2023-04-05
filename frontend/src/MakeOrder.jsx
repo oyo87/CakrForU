@@ -281,20 +281,29 @@ function MakeOrder() {
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              {sellerSheetShape.map((element) => (
-                <Button1
-                  background={
-                    sheetShape === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleShape(element[1][0].toUpperCase());
-                  }}
-                >
-                  {dict[element[1][0].toUpperCase()]}
-                </Button1>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 124px)",
+                  gridGap: "18px 19px",
+                }}
+              >
+                {sellerSheetShape.map((element) => (
+                  <Button1
+                    key={element[1][0]}
+                    background={
+                      sheetShape === element[1][0].toUpperCase()
+                        ? "#FFACAC"
+                        : "grey"
+                    }
+                    onClick={() => {
+                      handleShape(element[1][0].toUpperCase());
+                    }}
+                  >
+                    {dict[element[1][0].toUpperCase()]}
+                  </Button1>
+                ))}
+              </div>
             </RowContainer>
           </ColContainer>
           <GapH height="18px" />
