@@ -35,9 +35,6 @@ function Card({
 
   const addWishlist = (e) => {
     e.stopPropagation();
-    console.log("start");
-    console.log("buyerId: ", buyerId);
-    console.log("portpolioId: ", portfolioId);
     if (!buyerId) return;
     axios
       .post("/wish", {

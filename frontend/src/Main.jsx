@@ -226,10 +226,9 @@ function Main() {
           />
           <GapW width="180px" />
           <ColContainer align="start">
-            <BoldMedium>재료/조합별 추천</BoldMedium>
-            <BoldSmallMedium>지금 가장 인기있는 조합은?</BoldSmallMedium>
+            <BoldMedium>인기 케이크 추천</BoldMedium>
+            <BoldSmallMedium>지금 가장 인기있는 케익은?</BoldSmallMedium>
             <GapH height="23px" />
-            <MediumSmall>당신이 선택한 조합에 맞게</MediumSmall>
             <MediumSmall>인기있는 케이크를 추천해드립니다.</MediumSmall>
             <GapH height="38px" />
             <Button1 background="#CED7FF">

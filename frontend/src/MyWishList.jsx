@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import gsap from "gsap";
+import { RemoveCircleOutline } from "@mui/icons-material";
 import Header from "./components/Header";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
 import GapW from "./components/layout/GapW";
@@ -60,6 +61,7 @@ const Picture = styled.div`
   height: 50%;
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 10px;
 `;
 const Text1 = styled.div`
   background-color: white;
@@ -86,8 +88,8 @@ function InformationBox() {
     </InfoBox>
   );
 }
-
 function MyWishListCards({
+  portfolioId,
   businessName,
   detail,
   color,
@@ -96,11 +98,31 @@ function MyWishListCards({
   creamTaste,
   situation,
   imageUrl,
+  loginUser,
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(", ");
+  const deleteWish = () => {
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/wish/`, {
+        data: {
+          buyer_id: loginUser.id,
+          portfolio_id: portfolioId,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      });
+  };
   return (
     <Card>
-      <Picture imageUrl={imageUrl} />
+      <Picture imageUrl={imageUrl}>
+        <RemoveCircleOutline
+          style={{ cursor: "pointer" }}
+          onClick={deleteWish}
+        />
+      </Picture>
       <Text1>
         <Small color="#9e9e9e">{businessName}</Small>
         <BoldSmall>{detail}</BoldSmall>
@@ -162,6 +184,8 @@ function MyWishList() {
           <ThreeCardBox>
             {wishlistMatrix.map((wish) => (
               <MyWishListCards
+                loginUser={loginUser}
+                portfolioId={wish.id}
                 businessName={wish.businessName}
                 detail={wish.detail}
                 color={wish.color}

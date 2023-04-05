@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button1 from "./button/Button1";
 import RowContainer from "./layout/RowContainer";
-// import ColContainer from "./layout/ColContainer";
-// import GapH from "./layout/GapH";
 import Cream1 from "../assets/img/cream1.png";
 import Cream2 from "../assets/img/cream2.png";
 import Cream3 from "../assets/img/cream3.png";

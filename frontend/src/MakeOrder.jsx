@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import originalAxios from "axios";
 import axios from "./util/axiosInstance";
@@ -31,9 +31,9 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
+  const { storeId } = useParams();
   const user = useSelector((state) => state.login.user);
   const BUYER_ID = user && user.id;
-  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
   const navigate = useNavigate();
 
   const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들
@@ -53,7 +53,6 @@ function MakeOrder() {
   const [dict, setDict] = useState({});
 
   useEffect(() => {
-    console.log("BUYER_ID = ", BUYER_ID);
     setDict({
       CIRCLE: "원형",
       HEART: "하트",
@@ -84,10 +83,8 @@ function MakeOrder() {
     });
 
     axios
-      .get(`/seller/form/${SELLER_ID}`)
+      .get(`/seller/form/${storeId}`)
       .then((response) => {
-        console.log("ok!!!!");
-        console.log("response.data = ", response.data);
         const tmp1 = Object.entries(response.data.sheetShape);
         const filtered1 = tmp1.filter(([, ok]) => ok === true);
         const tmp2 = Object.entries(response.data.sheetSize);
@@ -144,7 +141,7 @@ function MakeOrder() {
 
     // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
     originalAxios
-      .post("https://30f32c387f9c0c80a6.gradio.live/sdapi/v1/txt2img", {
+      .post("https://3f348cb23c81dc9ba3.gradio.live/sdapi/v1/txt2img", {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
@@ -162,7 +159,7 @@ function MakeOrder() {
   const handleSubmit = async () => {
     const VO = {
       buyerId: BUYER_ID,
-      sellerId: SELLER_ID,
+      sellerId: storeId,
       sheetShape,
       sheetSize,
       sheetTaste,
@@ -185,6 +182,7 @@ function MakeOrder() {
       .post(`/order-sheet`, formSendData, config)
       .then((response) => {
         console.log("response : ", response);
+        window.alert("주문이 완료되었습니다.");
         navigate("/");
       })
       .catch((error) => {

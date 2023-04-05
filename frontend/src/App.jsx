@@ -32,6 +32,7 @@ import StoreDetail from "./StoreDetail";
 import CakeDiy from "./CakeDiy";
 import SellerPortfolio from "./SellerPortfolio";
 import ReviewRegist from "./ReviewRegist";
+import ReviewDetail from "./ReviewDetail";
 
 const AppContainer = styled.div`
   &,
@@ -40,6 +41,7 @@ const AppContainer = styled.div`
   }
 `;
 const AuthRecommendPersonal = Auth(RecommendPersonal);
+const AuthMyPageOrderList = Auth(MyPageOrderList);
 
 function App() {
   return (
@@ -53,15 +55,14 @@ function App() {
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
         <Route path="/diff" element={<Diff />} />
-        <Route path="/makeOrder" element={<MakeOrder />} />
+        <Route path="/makeOrder/:storeId" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
         <Route path="/recommend/personal" element={<AuthRecommendPersonal />} />
-        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
         <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/mypage/orderlist" element={<MyPageOrderList />} />
+        <Route path="/mypage/orderlist" element={<AuthMyPageOrderList />} />
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
@@ -79,6 +80,7 @@ function App() {
           element={<SellerPortfolioRegist />}
         />
         <Route path="/review/regist/:orderId" element={<ReviewRegist />} />
+        <Route path="/review/detail/:orderId" element={<ReviewDetail />} />
         <Route path="/orderModal" element={<OrderModal />} />
         <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>
