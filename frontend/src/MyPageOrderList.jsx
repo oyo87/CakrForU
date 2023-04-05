@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import OrderListCard from "./components/OrderListCard";
 import BoldMedium from "./components/text/BoldMedium";
@@ -19,6 +20,11 @@ function MyPageOrderList() {
   // const URL = ${process.env.REACT_APP_BACKEND_URL};
   const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
   const loginUser = useSelector((state) => state.login.user);
+  const navigate = useNavigate();
+
+  if (loginUser.userType !== "buyer") {
+    navigate("/");
+  }
   const handleClickOutModal = () => {
     if (modal.buyerOrderOpen) {
       dispatch(closeBuyerOrder());

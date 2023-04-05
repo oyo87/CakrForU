@@ -16,6 +16,7 @@ import LeftButton from "../assets/img/left_button.png";
 import RightButton from "../assets/img/right_button.png";
 import BoldSmall from "./text/BoldSmall";
 import SmallMedium from "./text/SmallMedium";
+import Temp from "../assets/img/logo2.png";
 
 function BuyerOrderModal() {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ function BuyerOrderModal() {
       width="75.063rem"
       height="43.688rem"
       align="center"
-      position="absolute"
+      position="fixed"
       zIndex="2"
       background="white"
       minHeight="auto"
@@ -211,8 +212,14 @@ function BuyerOrderModal() {
             >
               <img src={LeftButton} alt="leftButton" />
             </button>
+            {console.log(124)}
+            {console.log(filteredImages)}
             <img
-              src={filteredImages[currentImageIndex].imageFileUri}
+              src={
+                filteredImages.length > 0
+                  ? filteredImages[currentImageIndex].imageFileUri
+                  : Temp
+              }
               alt="cakeimage"
               style={{ width: "23.75rem", height: "18.75rem" }}
             />
