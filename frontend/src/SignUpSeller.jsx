@@ -131,10 +131,6 @@ function SignUpSeller() {
     const strDto = JSON.stringify(sellerSaveRequestDto);
     const formSendData = new FormData();
 
-    console.log("imageFiles = ", imageFiles);
-
-    console.log("strDto : ", strDto);
-
     for (let i = 0; i < imageFiles.length; i += 1)
       formSendData.append("files", imageFiles[i]);
     formSendData.append("sellerSaveRequestDtoString", strDto);
