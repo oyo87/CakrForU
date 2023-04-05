@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
 import GapW from "./components/layout/GapW";
@@ -12,14 +12,25 @@ import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
 import axios from "./util/axiosInstance";
 import Loading from "./components/Loading";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function RecommendWishlist() {
+  const modal = useSelector((state) => state.modal);
   const loginUser = useSelector((state) => state.login.user);
+  const dispatch = useDispatch();
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
+
   const cardPerRow = 5;
+
   function fetchPortfolios() {
     axios
       .get(
@@ -66,10 +77,10 @@ function RecommendWishlist() {
 
   return (
     <div>
-      <Header />
-
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
       <RecommendHeader />
-      <RowContainer justify="start" align="start">
+      <RowContainer justify="start" align="start" onClick={handleClickOutModal}>
         <RecommendSidebar />
         <ColContainer>
           <GapH height="57px" />
