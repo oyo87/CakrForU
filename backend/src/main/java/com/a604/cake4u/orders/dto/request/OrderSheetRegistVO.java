@@ -20,7 +20,7 @@ public class OrderSheetRegistVO {
 //    private Timestamp createdAt;    //  주문 생성 시각
 //    private int price = 0;  //  케이크 가격(주문 생성시에는 0으로 설정)
 //    private LocalDate dueDate;  //  입금 마감 기한
-//    private LocalDate pickUpDate;   //  픽업 기한
+    private LocalDate pickUpDate;   //  픽업 기한
     private ESheetSize sheetSize;   //  케이크 시트 크기
     private ESheetShape sheetShape; //  케이크 시트 모양
     private ESheetTaste sheetTaste; //  케이크 시트 맛
