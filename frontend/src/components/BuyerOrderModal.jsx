@@ -249,9 +249,11 @@ function BuyerOrderModal() {
       />
       <GapH height="32px" />
       <img src={Barcode} alt="barcode" style={{ width: "63.75rem" }} />
-      <GapH height="30px" />
+      <GapH height="3rem" />
       <RowContainer width="1020px" justify="end">
+        <GapH height="4rem" />
         <Button1
+          width="8rem"
           onClick={() => {
             dispatch(closeBuyerOrder());
           }}

@@ -195,7 +195,7 @@ function OrderListCard({
               <CakeInfoCircle>
                 <MediumSmall>{sheetShape}</MediumSmall>
               </CakeInfoCircle>
-              <CakeInfoCircle>
+              <CakeInfoCircle style={{ minWidth: "120px" }}>
                 <MediumSmall>{creamTaste}</MediumSmall>
               </CakeInfoCircle>
               <div style={{ marginRight: "2.375rem" }} />
