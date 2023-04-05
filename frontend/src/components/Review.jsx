@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ColContainer from "./layout/ColContainer";
 import RowContainer from "./layout/RowContainer";
 import StarOn from "../assets/img/StarOn.png";
@@ -11,6 +12,7 @@ import GapH from "./layout/GapH";
 import GapW from "./layout/GapW";
 
 function Review({
+  reviewId,
   businessName,
   reviewContent,
   reviewCreatedAt,
@@ -22,12 +24,17 @@ function Review({
   imageUrl,
   imageAlt,
 }) {
+  const navigate = useNavigate();
   const loginUser = useSelector((state) => state.login.user);
   const onArr = [...Array(reviewRating).keys()];
   const offArr = [...Array(5 - reviewRating).keys()];
   const desc = [sheetSize, sheetShape, sheetTaste, creamTaste].join(", ");
+
+  const handleClick = () => {
+    navigate("/review/detail/".concat(reviewId));
+  };
   return (
-    <ColContainer width="1194px" align="start">
+    <ColContainer width="1194px" align="start" onClick={handleClick}>
       <RowContainer>
         <ColContainer width="400px" align="start">
           <BoldSmallMedium>{loginUser.nickname}</BoldSmallMedium>

@@ -15,7 +15,7 @@ const Box = styled.div`
   border: 1px solid lightgray;
   display: flex;
   margin-bottom: 0.688rem;
-  overflow: overlay; //범위초과시 스크롤
+  overflow: overlay;
 `;
 
 const CardImage = styled.img`

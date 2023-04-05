@@ -72,7 +72,7 @@ function MyPageCard({
         <Small>주문일자 {createdAt}</Small>
         <GapH height="20px" />
         <Small>픽업일자 {pickUpDate}</Small>
-        <GapH height="30px" />
+        <GapH height="0px" />
       </ColContainer>
       <ColContainer
         borderTop="1px solid"

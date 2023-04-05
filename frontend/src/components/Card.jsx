@@ -30,7 +30,9 @@ function Card({
   hit,
   createdAt,
 }) {
-  const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
+  const desc = "#".concat(
+    [color, shape, sheetTaste, creamTaste, situation].join(" #")
+  );
   const dispatch = useDispatch();
 
   const addWishlist = (e) => {
@@ -44,7 +46,6 @@ function Card({
       .then((res) => {
         console.log(res);
       });
-    console.log("end");
   };
 
   const handleClick = () => {
@@ -129,7 +130,7 @@ function Card({
       >
         <GapH height="10px" />
         <Small color="#A5A6A6" cursor="pointer">
-          {sellerId}
+          {businessName}
         </Small>
         <GapH height="5px" />
         <BoldMediumSmall cursor="pointer">{title}</BoldMediumSmall>

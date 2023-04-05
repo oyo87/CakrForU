@@ -17,7 +17,6 @@ function MyPageOrderList() {
   const [isPickUpReady, setIsPickUpReady] = useState(false);
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-  // const URL = ${process.env.REACT_APP_BACKEND_URL};
   const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
   const loginUser = useSelector((state) => state.login.user);
   const navigate = useNavigate();

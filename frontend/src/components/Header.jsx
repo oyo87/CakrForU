@@ -4,11 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/loginSlice";
 import axios from "../util/axiosInstance";
-// import BoldMedium from "./text/BoldMedium";
 import Small from "./text/Small";
 import Button1 from "./button/Button1";
 import Button3 from "./button/Button3";
-// import LogoDog from "../assets/img/logo_dog.png";
 import NewLogo from "../assets/img/new_logo.png";
 import GapW from "./layout/GapW";
 
@@ -69,7 +67,6 @@ const Menu = styled.div`
 function Header({ handleClickOutModal }) {
   const dispatch = useDispatch();
   const loginUser = useSelector((state) => state.login.user);
-  // const uType = useSelector((state) => state.login.userType);
 
   const headerRef = useRef();
   const buttonRef = useRef();
