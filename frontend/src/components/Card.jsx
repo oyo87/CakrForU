@@ -40,8 +40,8 @@ function Card({
     e.stopPropagation();
     setIsFilled(true);
     // if (!buyerId) return;
-    console.log(buyerId)
-    console.log(portfolioId)
+    console.log(buyerId);
+    console.log(portfolioId);
     axios
       .post("/wish/", {
         buyer_id: buyerId,
