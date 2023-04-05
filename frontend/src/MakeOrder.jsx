@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import originalAxios from "axios";
 import axios from "./util/axiosInstance";
@@ -31,9 +31,14 @@ const FileButton = styled.img`
 `;
 
 function MakeOrder() {
+  const { id } = useParams();
   const user = useSelector((state) => state.login.user);
   const BUYER_ID = user && user.id;
-  const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
+  const SELLER_ID = id;
+  useEffect(() => {
+    console.log(SELLER_ID);
+  }, []);
+  // const SELLER_ID = 100; //  임시 가게 id ,가게 id를 리덕스로 관리할 수 있어야 할터
   const navigate = useNavigate();
 
   const [sellerSheetShape, setSellerSheetShape] = useState([]); //  가게에서 다루는 케이크 재료 정보들

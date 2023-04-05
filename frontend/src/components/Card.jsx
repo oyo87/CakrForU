@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
@@ -32,20 +32,23 @@ function Card({
 }) {
   const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
   const dispatch = useDispatch();
+  const [isFilled, setIsFilled] = useState(filled);
 
   const addWishlist = (e) => {
     e.stopPropagation();
+    setIsFilled(true);
     console.log("start");
     console.log("buyerId: ", buyerId);
     console.log("portpolioId: ", portfolioId);
-    if (!buyerId) return;
+    // if (!buyerId) return;
     axios
-      .post("/wish", {
+      .post("/wish/", {
         buyer_id: buyerId,
         portfolio_id: portfolioId,
       })
       .then((res) => {
         console.log(res);
+        console.log("end");
       });
     console.log("end");
   };
@@ -95,7 +98,7 @@ function Card({
             objectFit: "cover",
           }}
         />
-        {filled && (
+        {isFilled && (
           <img
             src={FilledHeart}
             alt="img"
@@ -108,7 +111,7 @@ function Card({
             }}
           />
         )}
-        {!filled && (
+        {!isFilled && (
           <img
             src={EmptyHeart}
             onClick={addWishlist}

@@ -54,7 +54,7 @@ function App() {
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
         <Route path="/diff" element={<Diff />} />
-        <Route path="/makeOrder" element={<MakeOrder />} />
+        <Route path="/makeOrder/:id" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />

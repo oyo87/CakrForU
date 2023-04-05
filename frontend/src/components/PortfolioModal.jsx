@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import UpDownContainer from "./layout/UpDownContainer";
 import RowContainer from "./layout/RowContainer";
@@ -13,8 +14,21 @@ import { closePortfolio } from "../store/modalSlice";
 import Logo2 from "../assets/img/logo2.png";
 
 function PortfolioModal() {
+  const navigate = useNavigate();
+  const [sellerId, setSellerId] = useState(1);
   const portfolio = useSelector((state) => state.modal.portfolio);
   const dispatch = useDispatch();
+  useEffect(() => {
+    setSellerId(portfolio.sellerId);
+  }, [portfolio]);
+  const handleOrder = () => {
+    dispatch(closePortfolio());
+    navigate(`/makeOrder/${sellerId}`);
+  };
+  const handleStore = () => {
+    dispatch(closePortfolio());
+    navigate(`/store/${sellerId}`);
+  };
   return (
     <UpDownContainer
       width="1201px"
@@ -140,6 +154,10 @@ function PortfolioModal() {
       />
       <GapH height="30px" />
       <RowContainer width="1020px" justify="end">
+        <Button1 onClick={handleOrder}>주문하기</Button1>
+        <GapW width="10px" />
+        <Button1 onClick={handleStore}>가게페이지</Button1>
+        <GapW width="10px" />
         <Button1
           onClick={() => {
             dispatch(closePortfolio());
