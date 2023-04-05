@@ -135,6 +135,7 @@ public class OrderSheetService {
                 .sheetTaste(orderSheetRegistVO.getSheetTaste())
                 .creamTaste(orderSheetRegistVO.getCreamTaste())
                 .buyerMessage(orderSheetRegistVO.getBuyerMessage())
+                .pickUpDate(orderSheetRegistVO.getPickUpDate())
                 .build();
 
         try {
