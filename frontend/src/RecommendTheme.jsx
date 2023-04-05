@@ -112,16 +112,21 @@ function RecommendSituation() {
           <ColContainer gap="50px">
             {recommendMatrix.map((recommendRow) => (
               <RowContainer>
-                {recommendRow.map((recommend) => (
+                {recommendRow.map((item) => (
                   <RowContainer>
                     <Card
-                      title={recommend.detail}
-                      imgUrl={recommend.imageUrl}
-                      shape={recommend.shape}
-                      sheetTaste={recommend.sheetTaste}
-                      creamTaste={recommend.creamTaste}
-                      situation={recommend.situation}
-                      sellerId={recommend.businessName}
+                      title={item.detail}
+                      shape={item.shape}
+                      sheetTaste={item.sheetTaste}
+                      creamTaste={item.creamTaste}
+                      situation={item.situation}
+                      businessName={item.businessName}
+                      size={item.size}
+                      detail={item.detail}
+                      imgUrl={item.imageUrl}
+                      color={item.color}
+                      createdAt={item.createdAt}
+                      hit={item.hit}
                     />
                     <GapW width="20px" />
                   </RowContainer>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
@@ -12,9 +12,19 @@ import RowContainer from "./components/layout/RowContainer";
 import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function RecommendPersonal() {
+  const modal = useSelector((state) => state.modal);
   const loginUser = useSelector((state) => state.login.user);
+  const dispatch = useDispatch();
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
+
   const genderDict = {
     남성: "M",
     여성: "F",
@@ -39,6 +49,7 @@ function RecommendPersonal() {
         }&gender=${genderDict[option.gender]}&page=${page}`
       )
       .then((res) => {
+        console.log(res);
         const answer = [];
         const row = Math.floor(res.data.length / cardPerRow);
         const r = res.data.length % cardPerRow;
@@ -54,7 +65,7 @@ function RecommendPersonal() {
 
   useEffect(() => {
     fetchPortfolios();
-  }, [option]);
+  }, [option, page]);
 
   const load = () => {
     fetchPortfolios();
@@ -94,9 +105,10 @@ function RecommendPersonal() {
 
   return (
     <div>
-      <Header />
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
       <RecommendHeader />
-      <RowContainer justify="start" align="start">
+      <RowContainer justify="start" align="start" onClick={handleClickOutModal}>
         <RecommendSidebar />
         <ColContainer>
           <RowContainer justify="start">
@@ -127,16 +139,21 @@ function RecommendPersonal() {
           <ColContainer gap="50px">
             {recommendMatrix.map((recommendRow) => (
               <RowContainer>
-                {recommendRow.map((recommend) => (
+                {recommendRow.map((item) => (
                   <RowContainer>
                     <Card
-                      title={recommend.detail}
-                      imgUrl={recommend.imageUrl}
-                      shape={recommend.shape}
-                      sheetTaste={recommend.sheetTaste}
-                      creamTaste={recommend.creamTaste}
-                      situation={recommend.situation}
-                      sellerId={recommend.businessName}
+                      title={item.detail}
+                      shape={item.shape}
+                      sheetTaste={item.sheetTaste}
+                      creamTaste={item.creamTaste}
+                      situation={item.situation}
+                      businessName={item.businessName}
+                      size={item.size}
+                      detail={item.detail}
+                      imgUrl={item.imageUrl}
+                      color={item.color}
+                      createdAt={item.createdAt}
+                      hit={item.hit}
                     />
                     <GapW width="20px" />
                   </RowContainer>
