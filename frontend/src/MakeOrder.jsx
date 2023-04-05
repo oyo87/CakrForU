@@ -33,6 +33,7 @@ const FileButton = styled.img`
 function MakeOrder() {
   const { storeId } = useParams();
   const user = useSelector((state) => state.login.user);
+  const diyImage = useSelector((state) => state.image.diyImage);
   const BUYER_ID = user && user.id;
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ function MakeOrder() {
   const [sellerSheetTaste, setSellerSheetTaste] = useState([]);
   const [sellerCreamTaste, setSellerCreamTaste] = useState([]);
 
-  const [imageSrcs, setImageSrcs] = useState([]);
+  const [imageSrcs, setImageSrcs] = useState([diyImage]);
   const [sheetShape, setSheetShape] = useState(null); //  선택된 것들 저장
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
@@ -85,6 +86,8 @@ function MakeOrder() {
       STRAWBERRY_CREAM: "딸기크림",
     });
 
+    console.log("diyImage", diyImage);
+
     axios
       .get(`/seller/form/${storeId}`)
       .then((response) => {
@@ -126,8 +129,36 @@ function MakeOrder() {
     setDetails(event.target.value);
   };
 
-  const handleImageFiles = (event) => {
+  const readUploadedFileAsDataURL = (inputFile) => {
+    const temporaryFileReader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+      temporaryFileReader.onerror = () => {
+        temporaryFileReader.abort();
+        reject(new DOMException("Problem parsing input file."));
+      };
+
+      temporaryFileReader.onload = () => {
+        resolve(temporaryFileReader.result);
+      };
+      temporaryFileReader.readAsDataURL(inputFile);
+    });
+  };
+
+  const handleImageFiles = async (event) => {
     setImageFiles(event.target.files);
+
+    // Read the uploaded files and update the imageSrcs state
+    for (let i = 0; i < event.target.files.length; i += 1) {
+      const file = event.target.files[i];
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const dataUrl = await readUploadedFileAsDataURL(file);
+        setImageSrcs((prevImageSrcs) => [...prevImageSrcs, dataUrl]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
 
   const handleDiffusion = () => {
@@ -235,7 +266,7 @@ function MakeOrder() {
             <GapW width="41px" />
           </RowContainer>
         </ColContainer>
-        <ColContainer width="581px" align="start">
+        <ColContainer width="631px" align="start">
           <GapH height="137px" />
           <BoldLarge>주문서 작성</BoldLarge>
           <GapH height="37px" />
@@ -275,10 +306,10 @@ function MakeOrder() {
             </select>
           </RowContainer>
           <GapH height="33px" />
-          <ColContainer width="581px" background="white" justify="start">
+          <ColContainer width="631px" background="white" justify="start">
             <GapH height="20px" />
             <RowContainer justify="start">
-              <GapW width="16px" />
+              <GapW width="40px" />
               <BoldMediumSmall>시트 모양 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
@@ -310,10 +341,10 @@ function MakeOrder() {
             <GapH height="20px" />
           </ColContainer>
           <GapH height="18px" />
-          <ColContainer width="581px" background="white" justify="start">
+          <ColContainer width="631px" background="white" justify="start">
             <GapH height="18px" />
             <RowContainer justify="start">
-              <GapW width="16px" />
+              <GapW width="40px" />
               <BoldMediumSmall>호수 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
@@ -347,13 +378,13 @@ function MakeOrder() {
           <GapH height="18px" />
           <ColContainer
             // height="246px"
-            width="581px"
+            width="631px"
             background="white"
             justify="start"
           >
             <GapH height="20px" />
             <RowContainer justify="start">
-              <GapW width="16px" />
+              <GapW width="40px" />
               <BoldMediumSmall>시트 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
@@ -386,10 +417,10 @@ function MakeOrder() {
           </ColContainer>
 
           <GapH height="18px" />
-          <ColContainer width="581px" background="white" justify="start">
+          <ColContainer width="631px" background="white" justify="start">
             <GapH height="20px" />
             <RowContainer justify="start">
-              <GapW width="16px" />
+              <GapW width="40px" />
               <BoldMediumSmall>크림 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
