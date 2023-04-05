@@ -144,7 +144,7 @@ function MakeOrder() {
 
     // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
     originalAxios
-      .post("https://30f32c387f9c0c80a6.gradio.live/sdapi/v1/txt2img", {
+      .post("https://3f348cb23c81dc9ba3.gradio.live/sdapi/v1/txt2img", {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
