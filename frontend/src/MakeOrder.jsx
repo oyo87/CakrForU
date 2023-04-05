@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +16,6 @@ import BoldLarge from "./components/text/BoldLarge";
 import BoldMediumSmall from "./components/text/BoldMediumSmall";
 import Button1 from "./components/button/Button1";
 import Button4 from "./components/button/Button4";
-import Small from "./components/text/Small";
 import Large from "./components/text/Large";
 import AddFile from "./assets/img/add_file.png";
 
@@ -49,6 +49,9 @@ function MakeOrder() {
   const [details, setDetails] = useState(null);
 
   const [imageFiles, setImageFiles] = useState([]);
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
 
   const [dict, setDict] = useState({});
 
@@ -157,6 +160,9 @@ function MakeOrder() {
   };
 
   const handleSubmit = async () => {
+    // eslint-disable-next-line prefer-template
+    const pickUpDate = year + "-" + month + "-" + day;
+
     const VO = {
       buyerId: BUYER_ID,
       sellerId: storeId,
@@ -165,6 +171,7 @@ function MakeOrder() {
       sheetTaste,
       creamTaste,
       buyerMessage: details,
+      pickUpDate,
     };
 
     const formSendData = new FormData();
@@ -183,12 +190,32 @@ function MakeOrder() {
       .then((response) => {
         console.log("response : ", response);
         window.alert("주문이 완료되었습니다.");
-        navigate("/");
+        navigate(-1);
       })
       .catch((error) => {
         console.log("error : ", error);
       });
   };
+
+  const getDaysInMonth = (yearParam, monthParam) => {
+    if (monthParam === 2) {
+      if (
+        yearParam % 4 === 0 &&
+        (yearParam % 100 !== 0 || yearParam % 400 === 0)
+      ) {
+        return 29;
+      } else {
+        return 28;
+      }
+    } else if ([4, 6, 9, 11].includes(monthParam)) {
+      return 30;
+    } else {
+      return 31;
+    }
+  };
+
+  const daysInSelectedMonth =
+    month && year ? getDaysInMonth(year, Number(month)) : null;
 
   return (
     <div>
@@ -212,11 +239,39 @@ function MakeOrder() {
           <BoldLarge>주문서 작성</BoldLarge>
           <GapH height="37px" />
           <RowContainer justify="start">
-            <Button1 width="226px">
+            {/* <Button1 width="226px">
               <Small color="white">픽업일 선택</Small>
-            </Button1>
-            <GapW width="38px" />
-            <Small>2023.04.01</Small>
+            </Button1> */}
+            <select value={year} onChange={(e) => setYear(e.target.value)}>
+              <option value="">--년도--</option>
+              {Array.from(
+                { length: 50 },
+                (_, i) => new Date().getFullYear() - i
+              ).map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+            <select value={month} onChange={(e) => setMonth(e.target.value)}>
+              <option value="">--월--</option>
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                <option key={m} value={m.toString().padStart(2, "0")}>
+                  {m.toString().padStart(2, "0")}
+                </option>
+              ))}
+            </select>
+
+            <select value={day} onChange={(e) => setDay(e.target.value)}>
+              <option value="">--일--</option>
+              {Array.from({ length: daysInSelectedMonth }, (_, i) => i + 1).map(
+                (d) => (
+                  <option key={d} value={d.toString().padStart(2, "0")}>
+                    {d.toString().padStart(2, "0")}
+                  </option>
+                )
+              )}
+            </select>
           </RowContainer>
           <GapH height="33px" />
           <ColContainer height="119px" width="581px" background="white">

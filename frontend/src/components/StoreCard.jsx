@@ -4,7 +4,6 @@ import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMediumSmall from "./text/BoldMediumSmall";
-import EmptyHeart from "../assets/img/empty_heart.png";
 import Logo2 from "../assets/img/logo2.png";
 
 function StoreCard({ title, imgUrl, sellerId, businessLocation }) {
@@ -37,17 +36,6 @@ function StoreCard({ title, imgUrl, sellerId, businessLocation }) {
             width: "222px",
             height: "217px",
             objectFit: "cover",
-          }}
-        />
-        <img
-          src={EmptyHeart}
-          alt="img"
-          style={{
-            position: "absolute",
-            width: "20px",
-            top: "10px",
-            right: "10px",
-            zIndex: "1",
           }}
         />
       </div>

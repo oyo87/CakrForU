@@ -152,9 +152,11 @@ function SellerOrder() {
 
             <BoldMedium>주문내역</BoldMedium>
           </RowContainer>
-          <GapH height="58px" />
+          <GapH height="30px" />
           {orders.map((order) => (
             <div>
+              <hr />
+              <br />
               <RowContainer justify="start">
                 <GapW width="30px" />
                 <Medium>{order.id}</Medium>

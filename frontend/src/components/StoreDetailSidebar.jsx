@@ -65,13 +65,7 @@ function StoreDetailSidebar() {
           <GapH height="37px" />
           <BoldLarge>{seller.businessName}</BoldLarge>
           <GapH height="46px" />
-          <RowContainer gap="20px">
-            <BoldMediumSmall>리뷰수</BoldMediumSmall>
-            <MediumSmall>test</MediumSmall>
-            <BoldMediumSmall>별점수</BoldMediumSmall>
-            <MediumSmall>test</MediumSmall>
-          </RowContainer>
-          <GapH height="39px" />
+
           <MediumSmall>{seller.businessDescription}</MediumSmall>
           <MediumSmall color="#716F6F">{sellerDesc}</MediumSmall>
           <hr style={{ color: "black", width: "100%" }} />

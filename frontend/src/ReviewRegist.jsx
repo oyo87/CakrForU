@@ -18,15 +18,15 @@ import Button1 from "./components/button/Button1";
 function ReviewRegist() {
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const [cakeStore, setCakeStore] = useState([]);
   const [imageSrc, setImageSrc] = useState([null, null, null, null]);
+  const [orderSheet, setOrderSheet] = useState([]);
   const [rating, setRating] = useState(5);
   const [imageFiles, setImageFiles] = useState([SampleImage]);
   const onArr = [...Array(rating).keys()];
   const offArr = [...Array(5 - rating).keys()];
 
   const encodeFileToBase64 = (fileBlob) => {
-    setImageFiles(fileBlob.files);
+    setImageFiles(fileBlob);
     const uploadFile = Array.from(fileBlob);
     const answer = [];
     uploadFile.map((file) => {
@@ -41,6 +41,12 @@ function ReviewRegist() {
     });
     setImageSrc(answer);
   };
+
+  axios
+    .get(`${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`)
+    .then((res) => {
+      setOrderSheet(res.data);
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,31 +67,19 @@ function ReviewRegist() {
         "content-type": "multipart/form-data",
       },
     };
-
-    axios
-      .put(
-        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`,
-        formSendData,
-        config
-      )
-      .then((res) => {
-        setCakeStore(res.data);
-      });
-
-    navigate("/store/".concat(String(cakeStore.id)));
+    axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderSheet.sellerId}`,
+      formSendData,
+      config
+    );
+    navigate("/store/".concat(String(orderSheet.sellerId)));
   };
 
   const handleReviewRate = (e) => {
     setRating(e.value);
   };
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/seller/info/${orderId}`)
-      .then((res) => {
-        setCakeStore(res.data);
-      });
-  }, [imageSrc]);
+  useEffect(() => {}, [imageSrc]);
 
   return (
     <div>
@@ -100,7 +94,7 @@ function ReviewRegist() {
           <ColContainer align="start" height="100%">
             <GapH height="57px" />
             <MediumSmall>리뷰작성</MediumSmall>
-            <BoldLarge color="#9E9E9E">{cakeStore.businessName}</BoldLarge>
+            <BoldLarge color="#9E9E9E">{orderSheet.businessName}</BoldLarge>
             <GapH height="66px" />
           </ColContainer>
         </RowContainer>
