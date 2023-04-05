@@ -128,6 +128,9 @@ function Popular() {
           {popularCake.map((item) => {
             return (
               <Card
+                key={item.id}
+                buyerId={user ? user.id : null}
+                portfolioId={item.id}
                 title={item.detail}
                 shape={item.shape}
                 sheetTaste={item.sheetTaste}
