@@ -88,7 +88,6 @@ function OrderListCard({
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    window.scrollTo(0, 0);
     dispatch(openBuyerOrder());
     // 금액, 픽업일,계좌번호, 시트모양,호수,시트맛, 크림맛,추가전달사항,모든사진
     dispatch(
