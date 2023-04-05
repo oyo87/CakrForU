@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -215,6 +216,7 @@ public class OrderSheetController {
                 .sheetTaste(ESheetTaste.valueOf(String.valueOf(map.get("sheetTaste"))))
                 .creamTaste(ECreamTaste.valueOf(String.valueOf(map.get("creamTaste"))))
                 .buyerMessage(String.valueOf(map.get("buyerMessage")))
+                .pickUpDate(LocalDate.parse(String.valueOf(map.get("pickUpDate")), DateTimeFormatter.ISO_DATE))
                 .build();
     }
 

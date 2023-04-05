@@ -19,6 +19,7 @@ function RecommendPersonal() {
   const modal = useSelector((state) => state.modal);
   const loginUser = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
+
   const handleClickOutModal = () => {
     if (modal.portfolioOpen) {
       dispatch(closePortfolio());

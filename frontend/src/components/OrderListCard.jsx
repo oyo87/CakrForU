@@ -82,6 +82,7 @@ function OrderListCard({
   sellerId,
   imageFileDtoList,
   account,
+  sellerThumbnail,
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -154,10 +155,7 @@ function OrderListCard({
   return (
     <div>
       <Box>
-        <CardImage
-          src={imageFileDtoList[0].imageFileUri}
-          alt="orderThumbnail"
-        />
+        <CardImage src={sellerThumbnail} alt="orderThumbnail" />
         <CardDetail>
           <BoldMedium style={{ marginTop: "1.7rem", marginBottom: "0.5rem" }}>
             {businessName}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
@@ -12,12 +13,22 @@ import ColContainer from "./components/layout/ColContainer";
 import Card from "./components/Card";
 import Review from "./components/Review";
 import SampleImg from "./assets/img/logo2.png";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function StoreDetail() {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
   const { storeId } = useParams();
   const [sellerPortfolios, setSellerPortfolios] = useState([]);
   const [sellerPopularPortfolios, setSellerPopularPortfolios] = useState([]);
   const [sellerReviewList, setSellerReviewList] = useState([]);
+
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
 
   useEffect(() => {
     axios
@@ -43,8 +54,9 @@ function StoreDetail() {
 
   return (
     <div>
-      <Header />
-      <UpDownContainer>
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
+      <UpDownContainer onClick={handleClickOutModal}>
         <GapH height="150px" />
         <RowContainer justify="start" align="start">
           <GapW width="80px" />
@@ -55,16 +67,20 @@ function StoreDetail() {
               <BoldLarge>많이 찜한 케이크</BoldLarge>
               <hr style={{ color: "black", width: "100%" }} />
               <RowContainer justify="space-between" gap="10px">
-                {sellerPopularPortfolios.map((portfolio) => (
+                {sellerPopularPortfolios.map((item) => (
                   <Card
-                    key={portfolio.imageUrl}
-                    imgUrl={portfolio.imageUrl}
-                    title={portfolio.detail}
-                    shape={portfolio.shape}
-                    sheetTaste={portfolio.sheetTaste}
-                    creamTaste={portfolio.creamTaste}
-                    situation={portfolio.situation}
-                    sellerId={portfolio.businessName}
+                    title={item.detail}
+                    shape={item.shape}
+                    sheetTaste={item.sheetTaste}
+                    creamTaste={item.creamTaste}
+                    situation={item.situation}
+                    businessName={item.businessName}
+                    size={item.size}
+                    detail={item.detail}
+                    imgUrl={item.imageUrl}
+                    color={item.color}
+                    createdAt={item.createdAt}
+                    hit={item.hit}
                   />
                 ))}
               </RowContainer>
@@ -73,16 +89,20 @@ function StoreDetail() {
               <BoldLarge>포트폴리오</BoldLarge>
               <hr style={{ color: "black", width: "100%" }} />
               <RowContainer justify="space-between" gap="10px">
-                {sellerPortfolios.map((portfolio) => (
+                {sellerPortfolios.map((item) => (
                   <Card
-                    key={portfolio.imageUrl}
-                    imgUrl={portfolio.imageUrl}
-                    title={portfolio.detail}
-                    shape={portfolio.shape}
-                    sheetTaste={portfolio.sheetTaste}
-                    creamTaste={portfolio.creamTaste}
-                    situation={portfolio.situation}
-                    sellerId={portfolio.businessName}
+                    title={item.detail}
+                    shape={item.shape}
+                    sheetTaste={item.sheetTaste}
+                    creamTaste={item.creamTaste}
+                    situation={item.situation}
+                    businessName={item.businessName}
+                    size={item.size}
+                    detail={item.detail}
+                    imgUrl={item.imageUrl}
+                    color={item.color}
+                    createdAt={item.createdAt}
+                    hit={item.hit}
                   />
                 ))}
               </RowContainer>
@@ -91,28 +111,32 @@ function StoreDetail() {
               <BoldLarge>리뷰</BoldLarge>
               <hr style={{ color: "black", width: "100%" }} />
               <ColContainer justify="space-between">
-                {sellerReviewList.map((review) => (
-                  <Review
-                    businessName={review.businessName}
-                    reviewContent={review.reviewContent}
-                    reviewCreatedAt={review.reviewCreatedAt}
-                    reviewRating={review.reviewRating}
-                    sheetSize={review.sheetSize}
-                    sheetShape={review.sheetShape}
-                    sheetTaste={review.sheetTaste}
-                    creamTaste={review.creamTaste}
-                    imageUrl={
-                      review.imageFileDtoList[0]
-                        ? review.imageFileDtoList[0].imageFileUri
-                        : SampleImg
-                    }
-                    imageAlt={
-                      review.imageFileDtoList[0]
-                        ? review.imageFileDtoList[0].origImageFileName
-                        : "sample"
-                    }
-                  />
-                ))}
+                {sellerReviewList[0] ? (
+                  sellerReviewList.map((review) => (
+                    <Review
+                      businessName={review.businessName}
+                      reviewContent={review.reviewContent}
+                      reviewCreatedAt={review.reviewCreatedAt}
+                      reviewRating={review.reviewRating}
+                      sheetSize={review.sheetSize}
+                      sheetShape={review.sheetShape}
+                      sheetTaste={review.sheetTaste}
+                      creamTaste={review.creamTaste}
+                      imageUrl={
+                        review.imageFileDtoList[0]
+                          ? review.imageFileDtoList[0].imageFileUri
+                          : SampleImg
+                      }
+                      imageAlt={
+                        review.imageFileDtoList[0]
+                          ? review.imageFileDtoList[0].origImageFileName
+                          : "sample"
+                      }
+                    />
+                  ))
+                ) : (
+                  <p>등록된 리뷰가 없습니다.</p>
+                )}
               </ColContainer>
             </ColContainer>
           </ColContainer>
