@@ -29,7 +29,7 @@ function AllCake() {
   const fetchWishList = async (buyerId) => {
     try {
       const response = await axios.get(`/wish/b/${buyerId}`);
-      console.log(response.data);
+      console.log("user wishlist", response.data);
       if (response.data.result) {
         return response.data.wishlist;
       }
@@ -45,12 +45,14 @@ function AllCake() {
     try {
       const wishlistItemIds = user
         ? await fetchWishList(user.id).then((wishlist) =>
-            wishlist.map((item) => item.itemId)
+            wishlist.map((item) => item.id)
           )
         : [];
 
       const response = await axios.get(`/portfolio/list?page=${pageNum}`);
       const newData = response.data;
+
+      console.log("ids: ", wishlistItemIds);
 
       const updatedData = newData.map((item) => {
         return {
@@ -148,6 +150,7 @@ function AllCake() {
                   detail={item.detail}
                   imgUrl={item.imageUrl}
                   color={item.color}
+                  filled={item.filled}
                 />
               );
             })}
