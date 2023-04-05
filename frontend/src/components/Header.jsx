@@ -20,7 +20,7 @@ const HeaderContainer = styled.header`
   background-color: white;
 `;
 const LogoSection = styled.div`
-  width: 20%;
+  width: 15%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -223,7 +223,6 @@ function Header({ handleClickOutModal }) {
         <LogoSection>
           <ClickSection onClick={handleLogoClick}>
             {/* <BoldMedium>CakeForU</BoldMedium> */}
-            <GapW width="10px" />
             <img
               src={NewLogo}
               alt="logo"
@@ -233,6 +232,7 @@ function Header({ handleClickOutModal }) {
             />
           </ClickSection>
         </LogoSection>
+        <GapW width="5%" />
         <MenuSection>
           <Link
             to="/main"
@@ -244,7 +244,7 @@ function Header({ handleClickOutModal }) {
             <Small cursor="pointer">케이크</Small>
           </Link>
           <Link
-            to="/popular"
+            to="/allseller"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Small cursor="pointer">가게</Small>
