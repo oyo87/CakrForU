@@ -15,7 +15,7 @@ const Box = styled.div`
   border: 1px solid lightgray;
   display: flex;
   margin-bottom: 0.688rem;
-  overflow: overlay; //범위초과시 스크롤
+  overflow: overlay;
 `;
 
 const CardImage = styled.img`
@@ -82,13 +82,10 @@ function OrderListCard({
   sellerId,
   imageFileDtoList,
   account,
-  sellerThumbnail,
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleClick = () => {
-    window.scrollTo(0, 0);
     dispatch(openBuyerOrder());
     // 금액, 픽업일,계좌번호, 시트모양,호수,시트맛, 크림맛,추가전달사항,모든사진
     dispatch(
@@ -157,7 +154,10 @@ function OrderListCard({
   return (
     <div>
       <Box>
-        <CardImage src={sellerThumbnail} alt="orderThumbnail" />
+        <CardImage
+          src={imageFileDtoList[0].imageFileUri}
+          alt="orderThumbnail"
+        />
         <CardDetail>
           <BoldMedium style={{ marginTop: "1.7rem", marginBottom: "0.5rem" }}>
             {businessName}

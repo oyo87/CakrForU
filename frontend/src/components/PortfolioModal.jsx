@@ -34,7 +34,7 @@ function PortfolioModal() {
       width="1201px"
       height="699px"
       align="center"
-      position="absolute"
+      position="fixed"
       zIndex="2"
       background="white"
       minHeight="auto"

@@ -30,16 +30,15 @@ function Card({
   hit,
   createdAt,
 }) {
-  const desc = [color, shape, sheetTaste, creamTaste, situation].join(" #");
+  const desc = "#".concat(
+    [color, shape, sheetTaste, creamTaste, situation].join(" #")
+  );
   const dispatch = useDispatch();
   const [isFilled, setIsFilled] = useState(filled);
 
   const addWishlist = (e) => {
     e.stopPropagation();
     setIsFilled(true);
-    console.log("start");
-    console.log("buyerId: ", buyerId);
-    console.log("portpolioId: ", portfolioId);
     // if (!buyerId) return;
     axios
       .post("/wish/", {
@@ -50,7 +49,6 @@ function Card({
         console.log(res);
         console.log("end");
       });
-    console.log("end");
   };
 
   const handleClick = () => {
@@ -135,7 +133,7 @@ function Card({
       >
         <GapH height="10px" />
         <Small color="#A5A6A6" cursor="pointer">
-          {sellerId}
+          {businessName}
         </Small>
         <GapH height="5px" />
         <BoldMediumSmall cursor="pointer">{title}</BoldMediumSmall>

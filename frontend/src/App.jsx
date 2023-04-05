@@ -32,6 +32,7 @@ import StoreDetail from "./StoreDetail";
 import CakeDiy from "./CakeDiy";
 import SellerPortfolio from "./SellerPortfolio";
 import ReviewRegist from "./ReviewRegist";
+import ReviewDetail from "./ReviewDetail";
 
 const AppContainer = styled.div`
   &,
@@ -54,7 +55,7 @@ function App() {
         <Route path="/popular" element={<Popular />} />
         <Route path="/modal" element={<PortfolioModal />} />
         <Route path="/diff" element={<Diff />} />
-        <Route path="/makeOrder/:id" element={<MakeOrder />} />
+        <Route path="/makeOrder/:storeId" element={<MakeOrder />} />
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
@@ -79,6 +80,7 @@ function App() {
           element={<SellerPortfolioRegist />}
         />
         <Route path="/review/regist/:orderId" element={<ReviewRegist />} />
+        <Route path="/review/detail/:orderId" element={<ReviewDetail />} />
         <Route path="/orderModal" element={<OrderModal />} />
         <Route path="/mypage/wishlist" element={<MyWishList />} />
       </Routes>

@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "./util/axiosInstance";
+import Header from "./components/Header";
+import ColContainer from "./components/layout/ColContainer";
+import RowContainer from "./components/layout/RowContainer";
+import MediumSmall from "./components/text/MediumSmall";
+import Small from "./components/text/Small";
+import GapH from "./components/layout/GapH";
+import GapW from "./components/layout/GapW";
+import BoldLarge from "./components/text/BoldLarge";
+import SampleImage from "./assets/img/logo2.png";
+import StarOn from "./assets/img/StarOn.png";
+import StarOff from "./assets/img/StarOff.png";
+import BoldMedium from "./components/text/BoldMedium";
+import SmallMedium from "./components/text/SmallMedium";
 
 function ReviewDetail() {
   const { orderId } = useParams();
-  const navigate = useNavigate();
   const [review, setReview] = useState([]);
+  const [userNickname, setUserNickname] = useState([]);
   const [rating, setRating] = useState(5);
   const onArr = [...Array(rating).keys()];
   const offArr = [...Array(5 - rating).keys()];
@@ -15,7 +28,13 @@ function ReviewDetail() {
       .get(`${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`)
       .then((res) => {
         setReview(res.data);
-        setRating(resdata.reviewRating);
+        setRating(res.data.reviewRating);
+
+        axios
+          .get(`${process.env.REACT_APP_BACKEND_URL}/buyer/${res.data.buyerId}`)
+          .then((res2) => {
+            setUserNickname(res2.data.buyerInfo.nickname);
+          });
       });
   }, []);
 
@@ -31,58 +50,63 @@ function ReviewDetail() {
           </ColContainer>
           <ColContainer align="start" height="100%">
             <GapH height="57px" />
-            <MediumSmall>리뷰작성</MediumSmall>
-            <BoldLarge color="#9E9E9E">{cakeStore.businessName}</BoldLarge>
+            <MediumSmall>리뷰보기</MediumSmall>
+            <BoldLarge color="#9E9E9E">{review.businessName}</BoldLarge>
             <GapH height="66px" />
           </ColContainer>
         </RowContainer>
         <hr />
         <GapH height="40px" />
       </span>
-      <RowContainer>
-        <ColContainer>
-          {review.imageFileDtoList[0] ? (
+      <RowContainer justify="start" align="start">
+        <GapW width="360px" />
+        <ColContainer align="start">
+          <BoldMedium>{userNickname}</BoldMedium>
+          <Small>
+            {review.createdAt ? review.createdAt.split("T")[0] : null}
+          </Small>
+          <GapH />
+          {review.imageFileDtoList ? (
             <img
-              width="160px"
-              height="110px"
-              src={imageFileDtoList[0]}
+              width="500px"
+              height="400px"
+              src={review.imageFileDtoList[0].imageFileUri}
               alt="preview-img"
             />
           ) : (
             <img
-              width="160px"
-              height="110px"
+              width="500px"
+              height="400px"
               src={SampleImage}
               alt="preview-img"
             />
           )}
           <GapH />
           <RowContainer justify="start">
-            {review.imageFileDtoList
-              .slice(1, imageSrc.length)
-              .map((image) =>
-                image ? (
+            {review.imageFileDtoList ? (
+              review.imageFileDtoList
+                .slice(1, review.imageFileDtoList.length)
+                .map((image) => (
                   <img
                     width="160px"
                     height="110px"
-                    src={image}
+                    src={image.imageFileUri}
                     alt="preview-img"
                   />
-                ) : (
-                  <img
-                    width="160px"
-                    height="110px"
-                    src={SampleImage}
-                    alt="preview-img"
-                  />
-                )
-              )}
+                ))
+            ) : (
+              <img
+                width="160px"
+                height="110px"
+                src={SampleImage}
+                alt="preview-img"
+              />
+            )}
           </RowContainer>
         </ColContainer>
-        <GapW width="30px" />
-        <RowContainer justify="space-between">
-          <RowContainer justify="start">
-            <GapW width="30px" />
+        <GapW width="50px" />
+        <ColContainer align="start" justify="start">
+          <RowContainer justify="start" align="start">
             {onArr.map(() => (
               <img src={StarOn} alt="starOn" style={{ marginRight: "5px" }} />
             ))}
@@ -90,15 +114,11 @@ function ReviewDetail() {
               <img src={StarOff} alt="starOff" style={{ marginRight: "5px" }} />
             ))}
           </RowContainer>
-        </RowContainer>
-        <GapH height="10px" />
-        <ColContainer gap="30px">
-          <Small>{review.content}</Small>
-          <RowContainer justify="end" gap="30px">
-            <Button1 width="150px" background="#E0E0E0">
-              취소
-            </Button1>
-          </RowContainer>
+          <GapH height="10px" />
+          <ColContainer>
+            <GapH height="30px" />
+            <SmallMedium>{review.reviewContent}</SmallMedium>
+          </ColContainer>
         </ColContainer>
       </RowContainer>
       <GapH height="50px" />

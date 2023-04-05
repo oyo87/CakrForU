@@ -1,16 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMedium from "./text/BoldMedium";
 import EmptyHeart from "../assets/img/empty_heart.png";
-import { openPortfolio } from "../store/modalSlice";
-import Button1 from "./button/Button1";
 import Logo2 from "../assets/img/logo2.png";
 
 function MyPageCard({
-  sellerId,
+  businessName,
   createdAt,
   pickUpDate,
   sheetShape,
@@ -21,11 +18,6 @@ function MyPageCard({
   imageAlt,
 }) {
   const desc = [" ", sheetShape, sheetTaste, creamTaste, sheetSize].join(" #");
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    dispatch(openPortfolio());
-  };
 
   return (
     <ColContainer
@@ -35,7 +27,6 @@ function MyPageCard({
       borderColor="#D9D9D9"
       borderTop="1px solid"
       borderTopColor="#D9D9D9"
-      onClick={handleClick}
       cursor="pointer"
       align="center"
       justify="space-evenly"
@@ -75,13 +66,13 @@ function MyPageCard({
       >
         <GapH height="20px" />
         <BoldMedium color="black" cursor="pointer">
-          {sellerId}
+          {businessName}
         </BoldMedium>
         <GapH height="20px" />
         <Small>주문일자 {createdAt}</Small>
         <GapH height="20px" />
-        <Small>수정일자 {pickUpDate}</Small>
-        <GapH height="20px" />
+        <Small>픽업일자 {pickUpDate}</Small>
+        <GapH height="0px" />
       </ColContainer>
       <ColContainer
         borderTop="1px solid"
@@ -94,8 +85,6 @@ function MyPageCard({
         <Small color="#A5A6A6" cursor="pointer">
           {desc}
         </Small>
-        <GapH height="30px" />
-        <Button1>상세보기</Button1>
       </ColContainer>
     </ColContainer>
   );

@@ -19,9 +19,9 @@ function ReviewRegist() {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [cakeStore, setCakeStore] = useState([]);
-  const [imageSrc, setImageSrc] = useState([]);
+  const [imageSrc, setImageSrc] = useState([null, null, null, null]);
   const [rating, setRating] = useState(5);
-  const [imageFiles, setImageFiles] = useState([]);
+  const [imageFiles, setImageFiles] = useState([SampleImage]);
   const onArr = [...Array(rating).keys()];
   const offArr = [...Array(5 - rating).keys()];
 
@@ -117,7 +117,12 @@ function ReviewRegist() {
               alt="preview-img"
             />
           ) : (
-            SampleImage
+            <img
+              width="500px"
+              height="400px"
+              src={SampleImage}
+              alt="preview-img"
+            />
           )}
           <GapH />
           <RowContainer justify="start">
@@ -132,7 +137,12 @@ function ReviewRegist() {
                     alt="preview-img"
                   />
                 ) : (
-                  SampleImage
+                  <img
+                    width="160px"
+                    height="110px"
+                    src={SampleImage}
+                    alt="preview-img"
+                  />
                 )
               )}
           </RowContainer>
