@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "./util/axiosInstance";
 import Header from "./components/Header";
 import ColContainer from "./components/layout/ColContainer";
@@ -12,8 +12,12 @@ import RowContainer from "./components/layout/RowContainer";
 import Card from "./components/Card";
 import Medium from "./components/text/Medium";
 import Button1 from "./components/button/Button1";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function RecommendSituation() {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
   const [option, setOption] = useState("생일");
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [page, setPage] = useState(0);
@@ -28,6 +32,11 @@ function RecommendSituation() {
     전역: "DISCHARGE",
     크리스마스: "CHRISTMAS",
     기타: "ETC",
+  };
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
   };
 
   function fetchPortfolios(situation) {
@@ -79,9 +88,10 @@ function RecommendSituation() {
 
   return (
     <div>
-      <Header />
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
       <RecommendHeader />
-      <RowContainer justify="start" align="start">
+      <RowContainer justify="start" align="start" onClick={handleClickOutModal}>
         <RecommendSidebar />
         <ColContainer>
           <RowContainer justify="start">
