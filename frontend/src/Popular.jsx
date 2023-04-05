@@ -15,6 +15,7 @@ import StoreCard from "./components/StoreCard";
 
 function Popular() {
   const modal = useSelector((state) => state.modal);
+  const user = useSelector((state) => state.login.user);
   const [popularCake, setPopularCake] = useState([]);
   const [popularSeller, setPopularSeller] = useState([]);
   const [orderOptions, setOrderOptions] = useState([]);
@@ -25,10 +26,54 @@ function Popular() {
     }
   };
 
+  const fetchWishList = async (buyerId) => {
+    try {
+      const response = await axios.get(`/wish/b/${buyerId}`);
+      console.log("user wishlist", response.data);
+      if (response.data.result) {
+        return response.data.wishlist;
+      }
+      console.error("Failed to fetch wishlist:", response.data.msg);
+      return [];
+    } catch (error) {
+      console.error("Failed to fetch wishlist:", error);
+      return [];
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const wishlistItemIds = user
+        ? await fetchWishList(user.id).then((wishlist) =>
+            wishlist.map((item) => item.id)
+          )
+        : [];
+
+      const response = await axios.get(`/portfolio/popular`);
+      const newData = response.data;
+
+      const updatedData = newData.map((item) => {
+        return {
+          ...item,
+          filled: wishlistItemIds.includes(item.id),
+        };
+      });
+
+      setPopularCake(updatedData);
+    } catch (error) {
+      console.error("Failed to fetch popular cake:", error);
+    }
+  };
+
   useEffect(() => {
-    axios.get("/portfolio/popular").then((res) => {
-      setPopularCake(res.data);
-    });
+    fetchData();
+    // axios.get("/portfolio/popular").then((res) => {
+    //   const updatedData = res.data.map((item) => {
+    //     return {
+    //       ...item,
+    //       filled: false,
+    //   setPopularCake(res.data);
+    // });
     axios.get("/seller/search/all").then(async (res) => {
       const topSellers = res.data.slice(0, 5);
       setPopularSeller(topSellers);
@@ -95,6 +140,7 @@ function Popular() {
                 color={item.color}
                 createdAt={item.createdAt}
                 hit={item.hit}
+                filled={item.filled}
               />
             );
           })}
