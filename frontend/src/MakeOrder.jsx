@@ -88,6 +88,7 @@ function MakeOrder() {
     axios
       .get(`/seller/form/${storeId}`)
       .then((response) => {
+        console.log(response.data);
         const tmp1 = Object.entries(response.data.sheetShape);
         const filtered1 = tmp1.filter(([, ok]) => ok === true);
         const tmp2 = Object.entries(response.data.sheetSize);
@@ -144,7 +145,7 @@ function MakeOrder() {
 
     // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
     originalAxios
-      .post("https://007caa2d9632abf2d7.gradio.live/sdapi/v1/txt2img", {
+      .post("https://6ee367948a09.ngrok.app/sdapi/v1/txt2img", {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
@@ -274,105 +275,150 @@ function MakeOrder() {
             </select>
           </RowContainer>
           <GapH height="33px" />
-          <ColContainer height="119px" width="581px" background="white">
+          <ColContainer width="581px" background="white" justify="start">
+            <GapH height="20px" />
             <RowContainer justify="start">
               <GapW width="16px" />
               <BoldMediumSmall>시트 모양 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              {sellerSheetShape.map((element) => (
-                <Button1
-                  background={
-                    sheetShape === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleShape(element[1][0].toUpperCase());
-                  }}
-                >
-                  {dict[element[1][0].toUpperCase()]}
-                </Button1>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 124px)",
+                  gridGap: "18px 19px",
+                }}
+              >
+                {sellerSheetShape.map((element) => (
+                  <Button1
+                    key={element[1][0]}
+                    background={
+                      sheetShape === element[1][0].toUpperCase()
+                        ? "#FFACAC"
+                        : "grey"
+                    }
+                    onClick={() => {
+                      handleShape(element[1][0].toUpperCase());
+                    }}
+                  >
+                    {dict[element[1][0].toUpperCase()]}
+                  </Button1>
+                ))}
+              </div>
             </RowContainer>
+            <GapH height="20px" />
           </ColContainer>
           <GapH height="18px" />
-          <ColContainer height="119px" width="581px" background="white">
+          <ColContainer width="581px" background="white" justify="start">
+            <GapH height="18px" />
             <RowContainer justify="start">
               <GapW width="16px" />
               <BoldMediumSmall>호수 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              {sellerSheetSize.map((element) => (
-                <Button1
-                  background={
-                    sheetSize === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleSize(element[1][0].toUpperCase());
-                  }}
-                >
-                  {dict[element[1][0].toUpperCase()]}
-                </Button1>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 124px)",
+                  gridGap: "18px 19px",
+                }}
+              >
+                {sellerSheetSize.map((element) => (
+                  <Button1
+                    key={element[1][0]}
+                    background={
+                      sheetSize === element[1][0].toUpperCase()
+                        ? "#FFACAC"
+                        : "grey"
+                    }
+                    onClick={() => {
+                      handleSize(element[1][0].toUpperCase());
+                    }}
+                  >
+                    {dict[element[1][0].toUpperCase()]}
+                  </Button1>
+                ))}
+              </div>
             </RowContainer>
+            <GapH height="18px" />
           </ColContainer>
           <GapH height="18px" />
-          <ColContainer height="246px" width="581px" background="white">
+          <ColContainer
+            // height="246px"
+            width="581px"
+            background="white"
+            justify="start"
+          >
+            <GapH height="20px" />
             <RowContainer justify="start">
               <GapW width="16px" />
               <BoldMediumSmall>시트 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              {sellerSheetTaste.map((element) => (
-                <Button1
-                  background={
-                    sheetTaste === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleTaste(element[1][0].toUpperCase());
-                    console.log(element[1][0].toUpperCase());
-                  }}
-                >
-                  {dict[element[1][0].toUpperCase()]}
-                </Button1>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 124px)",
+                  gridGap: "18px 19px",
+                }}
+              >
+                {sellerSheetTaste.map((element) => (
+                  <Button1
+                    key={element[1][0]}
+                    background={
+                      sheetTaste === element[1][0].toUpperCase()
+                        ? "#FFACAC"
+                        : "grey"
+                    }
+                    onClick={() => {
+                      handleTaste(element[1][0].toUpperCase());
+                    }}
+                  >
+                    {dict[element[1][0].toUpperCase()]}
+                  </Button1>
+                ))}
+              </div>
             </RowContainer>
-            <GapH height="18px" />
+            <GapH height="20px" />
           </ColContainer>
 
           <GapH height="18px" />
-          <ColContainer height="246px" width="581px" background="white">
+          <ColContainer width="581px" background="white" justify="start">
+            <GapH height="20px" />
             <RowContainer justify="start">
               <GapW width="16px" />
               <BoldMediumSmall>크림 선택</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
             <RowContainer gap="19px">
-              {sellerCreamTaste.map((element) => (
-                <Button1
-                  background={
-                    creamTaste === element[1][0].toUpperCase()
-                      ? "#FFACAC"
-                      : "grey"
-                  }
-                  onClick={() => {
-                    handleCream(element[1][0].toUpperCase());
-                    console.log("클릭 ", element[1][0].toUpperCase());
-                  }}
-                >
-                  {dict[element[1][0].toUpperCase()]}
-                </Button1>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 124px)",
+                  gridGap: "18px 19px",
+                }}
+              >
+                {sellerCreamTaste.map((element) => (
+                  <Button1
+                    key={element[1][0]}
+                    background={
+                      creamTaste === element[1][0].toUpperCase()
+                        ? "#FFACAC"
+                        : "grey"
+                    }
+                    onClick={() => {
+                      handleCream(element[1][0].toUpperCase());
+                    }}
+                  >
+                    {dict[element[1][0].toUpperCase()]}
+                  </Button1>
+                ))}
+              </div>
             </RowContainer>
-            <GapH height="18px" />
+            <GapH height="20px" />
           </ColContainer>
 
           <GapH height="18px" />
