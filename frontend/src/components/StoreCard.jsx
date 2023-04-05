@@ -1,35 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ColContainer from "./layout/ColContainer";
 import GapH from "./layout/GapH";
 import Small from "./text/Small";
 import BoldMediumSmall from "./text/BoldMediumSmall";
 import EmptyHeart from "../assets/img/empty_heart.png";
-import { setPortfolio, openPortfolio } from "../store/modalSlice";
 import Logo2 from "../assets/img/logo2.png";
 
-function StoreCard({
-  title,
-  imgUrl,
-  sellerId,
-  situation,
-  businessLocation,
-  detail,
-}) {
+function StoreCard({ title, imgUrl, sellerId, businessLocation }) {
+  const navigate = useNavigate();
   const desc = "#".concat(businessLocation);
-  const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(openPortfolio());
-    dispatch(
-      setPortfolio({
-        title,
-        imgUrl,
-        sellerId,
-        situation,
-        detail,
-      })
-    );
+    navigate(`/store/${sellerId}`);
   };
 
   return (
@@ -76,10 +59,7 @@ function StoreCard({
         justify="start"
       >
         <GapH height="10px" />
-        <Small color="#A5A6A6" cursor="pointer">
-          {sellerId}
-        </Small>
-        <GapH height="5px" />
+
         <BoldMediumSmall cursor="pointer">{title}</BoldMediumSmall>
       </ColContainer>
       <ColContainer

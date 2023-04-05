@@ -88,18 +88,29 @@ function MyPage() {
           >
             {myOrderList.map((myOrder) => (
               <MyPageCard
-                sellerId={myOrder.businessName}
+                id={myOrder.id}
+                sellerId={myOrder.sellerId}
+                businessName={myOrder.businessName}
+                status={myOrder.status}
                 createdAt={myOrder.createdAt.split("T")[0]}
+                price={myOrder.price}
                 pickUpDate={myOrder.pickUpDate}
                 sheetShape={myOrder.sheetShape}
                 creamTaste={myOrder.creamTaste}
                 sheetTaste={myOrder.sheetTaste}
                 sheetSize={myOrder.sheetSize}
+                buyerMessage={myOrder.buyerMessage}
+                imageFileDtoList={myOrder.imageFileDtoList}
                 imageUrl={myOrder.imageFileDtoList[0].imageFileUri}
                 imageAlt={myOrder.imageFileDtoList[0].origImageFileName}
               />
             ))}
-            <img src={NextPageImg} alt="nextbtn" />
+            <Link
+              to="/mypage/orderlist"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <img src={NextPageImg} alt="nextbtn" />
+            </Link>
           </RowContainer>
         </ColContainer>
         <ColContainer background="#F0F0E8" height="400px">

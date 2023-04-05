@@ -86,7 +86,6 @@ function OrderListCard({
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleClick = () => {
     window.scrollTo(0, 0);
     dispatch(openBuyerOrder());

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "../util/axiosInstance";
 import GapH from "./layout/GapH";
@@ -108,9 +108,14 @@ function StoreDetailSidebar() {
             </MediumSmall>
           </RowContainer>
           <GapH height="50px" />
-          <Button1>
-            <BoldMedium>주문하기</BoldMedium>
-          </Button1>
+          <Link
+            to={"/makeOrder/".concat(storeId)}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Button1 width="200px">
+              <BoldMedium>주문하기</BoldMedium>
+            </Button1>
+          </Link>
           <GapH />
           <Medium>포트폴리오</Medium>
           <Medium>리뷰</Medium>
