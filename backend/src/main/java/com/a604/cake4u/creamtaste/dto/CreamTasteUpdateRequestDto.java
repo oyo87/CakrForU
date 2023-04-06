@@ -49,6 +49,7 @@ public class CreamTasteUpdateRequestDto {
                 .blackSesameCream(black_sesame_cream)
                 .sweetPotatoCream(sweet_potato_cream)
                 .earlGrayCream(earl_gray_cream)
+                .strawberryCream(strawberry_cream)
                 .build();
     }
 }
