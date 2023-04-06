@@ -112,7 +112,9 @@ function BuyerOrderModal() {
                 navigate(`/review/regist/${orderSheet.id}`);
               }}
             >
-              <MediumSmall color="white">리뷰 작성</MediumSmall>
+              <MediumSmall color="white" cursor="pointer">
+                리뷰 작성
+              </MediumSmall>
             </Button>
           ) : (
             ""
