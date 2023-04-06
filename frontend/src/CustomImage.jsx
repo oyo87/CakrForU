@@ -32,10 +32,9 @@ function CustomImage({ shapeProps, isSelected, onSelect, onChange, onDelete }) {
           const newY = e.target.y() + shapeProps.height; // Add the object's height to the y coordinate
 
           if (
-            newX >= trashZone.x &&
             newX <= trashZone.x + trashZone.width &&
-            newY >= trashZone.y &&
-            newY <= trashZone.y + trashZone.height
+            newY >= trashZone.y
+            // newY <= trashZone.y + trashZone.height
           ) {
             onDelete();
           } else {

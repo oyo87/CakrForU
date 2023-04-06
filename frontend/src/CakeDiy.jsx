@@ -78,12 +78,16 @@ function CakeDiy() {
   };
 
   const captureScreenArea = async () => {
-    // Define the area to capture (x, y, width, height)
+    // Find the RoundCake object in the images state
+    const roundCake = images.find((img) => img.lockMovement);
+
+    // Define the area to capture based on the RoundCake's position and dimensions
+    const padding = 50; // Adjust this value to control the padding around the RoundCake
     const captureArea = {
-      x: (window.innerWidth - 300) / 2 - 350, // Example values, adjust to your desired area
-      y: window.innerHeight / 2 - 370,
-      width: 700,
-      height: 600,
+      x: roundCake.x - padding,
+      y: roundCake.y - 2 * padding,
+      width: roundCake.width + 2 * padding,
+      height: roundCake.height + 2 * padding,
     };
 
     // Capture the entire document body
@@ -110,26 +114,64 @@ function CakeDiy() {
 
     // Convert the cropped canvas to a base64 image URL
     const dataURL = croppedCanvas.toDataURL("image/png");
-    console.log("url: ", dataURL);
-    // localStorage.setItem("diyImage", dataURL);
+
     dispatch(setDiyImage(dataURL));
     dispatch(openDiy());
-    console.log("openDiy");
-    console.log(modal.diyOpen);
-    // navigate("/makeOrder/3");
-
-    // // Create an anchor element with the download attribute
-    // const link = document.createElement("a");
-    // link.href = dataURL;
-    // link.download = `aaa.png`; // Set the desired file name
-
-    // // Append the link to the DOM and trigger a click event to download the image
-    // document.body.appendChild(link);
-    // link.click();
-
-    // // Remove the link from the DOM after the download is initiated
-    // document.body.removeChild(link);
   };
+
+  // const captureScreenArea = async () => {
+  //   // Define the area to capture (x, y, width, height)
+  //   const captureArea = {
+  //     x: (window.innerWidth - 300) / 2 - 350, // Example values, adjust to your desired area
+  //     y: window.innerHeight / 2 - 370,
+  //     width: 700,
+  //     height: 600,
+  //   };
+
+  //   // Capture the entire document body
+  //   const canvas = await html2canvas(document.body);
+
+  //   // Create a new canvas element to hold the cropped area
+  //   const croppedCanvas = document.createElement("canvas");
+  //   croppedCanvas.width = captureArea.width;
+  //   croppedCanvas.height = captureArea.height;
+  //   const ctx = croppedCanvas.getContext("2d");
+
+  //   // Draw the captured area on the new canvas
+  //   ctx.drawImage(
+  //     canvas,
+  //     captureArea.x,
+  //     captureArea.y,
+  //     captureArea.width,
+  //     captureArea.height,
+  //     0,
+  //     0,
+  //     captureArea.width,
+  //     captureArea.height
+  //   );
+
+  //   // Convert the cropped canvas to a base64 image URL
+  //   const dataURL = croppedCanvas.toDataURL("image/png");
+  //   console.log("url: ", dataURL);
+  //   // localStorage.setItem("diyImage", dataURL);
+  //   dispatch(setDiyImage(dataURL));
+  //   dispatch(openDiy());
+  //   console.log("openDiy");
+  //   console.log(modal.diyOpen);
+  //   // navigate("/makeOrder/3");
+
+  //   // // Create an anchor element with the download attribute
+  //   // const link = document.createElement("a");
+  //   // link.href = dataURL;
+  //   // link.download = `aaa.png`; // Set the desired file name
+
+  //   // // Append the link to the DOM and trigger a click event to download the image
+  //   // document.body.appendChild(link);
+  //   // link.click();
+
+  //   // // Remove the link from the DOM after the download is initiated
+  //   // document.body.removeChild(link);
+  // };
 
   const removeExistingCakes = (callback) => {
     setImages((prevImages) => {
