@@ -29,6 +29,6 @@ public class CreamTasteResponseDto {
         this.black_sesame_cream = entity.isBlackSesameCream();
         this.sweet_potato_cream = entity.isSweetPotatoCream();
         this.earl_gray_cream = entity.isEarlGrayCream();
-
+        this.strawberry_cream = entity.isStrawberryCream();
     }
 }
