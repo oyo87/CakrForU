@@ -239,7 +239,7 @@ function MakeOrder() {
     await axios
       .post(`/order-sheet`, formSendData, config)
       .then((response) => {
-        console.log("response : ", response);
+        console.log("order response : ", response);
         window.alert("주문이 완료되었습니다.");
         navigate(-1);
       })
