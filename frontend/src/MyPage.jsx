@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -101,8 +102,8 @@ function MyPage() {
                 sheetSize={myOrder.sheetSize}
                 buyerMessage={myOrder.buyerMessage}
                 imageFileDtoList={myOrder.imageFileDtoList}
-                imageUrl={myOrder.imageFileDtoList[0].imageFileUri}
-                imageAlt={myOrder.imageFileDtoList[0].origImageFileName}
+                imageUrl={myOrder?.imageFileDtoList[0]?.imageFileUri}
+                imageAlt={myOrder?.imageFileDtoList[0]?.origImageFileName}
               />
             ))}
             <Link
@@ -132,7 +133,7 @@ function MyPage() {
                 creamTaste={myWish.creamTaste}
                 situation={myWish.situation}
                 sellerId={myWish.businessName}
-                imgUrl={myWish.imageUrl}
+                imgUrl={myWish?.imageUrl}
               />
             ))}
           </RowContainer>
@@ -174,8 +175,8 @@ function MyPage() {
               sheetShape={review.sheetShape}
               sheetTaste={review.sheetTaste}
               creamTaste={review.creamTaste}
-              imageUrl={review.imageFileDtoList[0].imageFileUri}
-              imageAlt={review.imageFileDtoList[0].origImageFileName}
+              imageUrl={review?.imageFileDtoList[0]?.imageFileUri}
+              imageAlt={review?.imageFileDtoList[0]?.origImageFileName}
             />
           ))}
           <GapH height="80px" />
