@@ -8,8 +8,8 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum RoleType {
-    BUYER("ROLE_BUYER", "구매자 권한"),
-    SELLER("ROLE_SELLER", "판매자 권한"),
+    BUYER("BUYER", "구매자 권한"),
+    SELLER("SELLER", "판매자 권한"),
     ADMIN("ROLE_ADMIN", "관리자 권한"),
     GUEST("GUEST", "게스트 권한");
 
@@ -21,5 +21,8 @@ public enum RoleType {
                 .filter(r -> r.getCode().equals(code))
                 .findAny()
                 .orElse(GUEST);
+    }
+    public String getRole(){
+        return "ROLE_" + getCode();
     }
 }

@@ -6,9 +6,7 @@ import GapH from "./layout/GapH";
 import Button1 from "./button/Button1";
 import ColContainer from "./layout/ColContainer";
 import BoldLarge from "./text/BoldLarge";
-import Medium from "./text/Medium";
 import RowContainer from "./layout/RowContainer";
-// import BoldMedium from "./text/BoldMedium";
 import MediumSmall from "./text/MediumSmall";
 import BoldMedium from "./text/BoldMedium";
 import BoldMediumSmall from "./text/BoldMediumSmall";
@@ -111,8 +109,6 @@ function StoreDetailSidebar() {
             </Button1>
           </Link>
           <GapH />
-          <Medium>포트폴리오</Medium>
-          <Medium>리뷰</Medium>
         </ColContainer>
       </SideBar>
     </div>
