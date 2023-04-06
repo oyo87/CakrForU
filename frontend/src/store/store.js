@@ -15,9 +15,11 @@ const initialState = {
     buyerOrderSheet: null,
     orderOpen: false,
     buyerOrderOpen: false,
+    diyOpen: false,
   },
   image: {
-    diyImage: null,
+    diyImage: localStorage.getItem("diyImage") || null,
+    sellerId: null,
   },
 };
 

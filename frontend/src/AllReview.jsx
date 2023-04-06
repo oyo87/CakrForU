@@ -22,7 +22,7 @@ function AllReview() {
     <div>
       <Header />
       <UpDownContainer>
-        <GapH height="40px" />
+        <GapH height="48px" />
         <div
           style={{
             height: "1px",
@@ -50,7 +50,7 @@ function AllReview() {
             width: "100%",
           }}
         />
-        <GapH height="40px" />
+        <GapH height="48px" />
         <ColContainer background="#F0F0E8">
           <GapH height="80px" />
           {reviewList.map((review) => (

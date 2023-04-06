@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable no-else-return */
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import originalAxios from "axios";
@@ -21,6 +21,7 @@ import Large from "./components/text/Large";
 import AddFile from "./assets/img/add_file.png";
 import Select from "./components/Select";
 import Small from "./components/text/Small";
+import { setSellerId } from "./store/imageSlice";
 
 const Text = styled.textarea`
   width: 542px;
@@ -35,6 +36,7 @@ const FileButton = styled.img`
 
 function MakeOrder() {
   const { storeId } = useParams();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.login.user);
   const diyImage = useSelector((state) => state.image.diyImage);
   const BUYER_ID = user && user.id;
@@ -194,6 +196,11 @@ function MakeOrder() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleDiy = () => {
+    dispatch(setSellerId(storeId));
+    navigate("/cakeDiy");
   };
 
   const handleSubmit = async () => {
@@ -550,6 +557,10 @@ function MakeOrder() {
               <FileButton src={AddFile} alt="img" onClick={handleDiffusion} />
               <GapH height="5px" />
               <Small color="#aaaaaa">견본 이미지 AI 생성</Small>
+              <GapH height="30px" />
+              <FileButton src={AddFile} alt="img" onClick={handleDiy} />
+              <GapH height="5px" />
+              <Small color="#aaaaaa">케이크 DIY</Small>
               <GapH height="63px" />
             </ColContainer>
             <GapH height="57px" />
