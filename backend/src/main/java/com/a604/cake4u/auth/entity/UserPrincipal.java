@@ -108,8 +108,8 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
                 seller.getEmail(),
                 seller.getPassword(),
                 null,
-                RoleType.BUYER,
-                Collections.singletonList(new SimpleGrantedAuthority(RoleType.BUYER.getCode()))
+                RoleType.SELLER,
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.SELLER.getCode()))
         );
     }
 

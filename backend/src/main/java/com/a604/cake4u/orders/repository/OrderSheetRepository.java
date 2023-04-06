@@ -31,5 +31,5 @@ public interface OrderSheetRepository extends JpaRepository<OrderSheet, Long> {
     @Query(value = "select o from OrderSheet o where o.seller.id = :sellerId and o.status = :status order by o.id desc")
     Optional<List<OrderSheet>> findOrderSheetsBySeller_IdAndStatusOrderById_IdDesc(Long sellerId, EStatus status);
 
-    List<OrderSheet> findBySellerAndReviewRatingGreaterThan(Seller seller, int score);
+    List<OrderSheet> findBySellerAndReviewRatingGreaterThanOrderByIdDesc(Seller seller, int score);
 }

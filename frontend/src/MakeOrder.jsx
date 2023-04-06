@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-else-return */
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -18,6 +19,7 @@ import Button1 from "./components/button/Button1";
 import Button4 from "./components/button/Button4";
 import Large from "./components/text/Large";
 import AddFile from "./assets/img/add_file.png";
+import Select from "./components/Select";
 import Small from "./components/text/Small";
 
 const Text = styled.textarea`
@@ -274,12 +276,8 @@ function MakeOrder() {
           <BoldLarge>주문서 작성</BoldLarge>
           <GapH height="37px" />
           <RowContainer justify="start">
-            {/* <Button1 width="226px">
-              <Small color="white">픽업일 선택</Small>
-            </Button1> */}
-            <select value={year} onChange={(e) => setYear(e.target.value)}>
-              <option value="">--년도--</option>
-              {Array.from(
+            <Select
+              options={Array.from(
                 { length: 50 },
                 (_, i) => new Date().getFullYear() - i
               ).map((y) => (
@@ -287,26 +285,54 @@ function MakeOrder() {
                   {y}
                 </option>
               ))}
-            </select>
-            <select value={month} onChange={(e) => setMonth(e.target.value)}>
-              <option value="">--월--</option>
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+              placeholder="--년도--"
+              width="200px"
+              onChange={(e) => {
+                console.log(e.value.key);
+                setYear(e.value.key);
+              }}
+            />
+            <Select
+              options={Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
                 <option key={m} value={m.toString().padStart(2, "0")}>
                   {m.toString().padStart(2, "0")}
                 </option>
               ))}
-            </select>
-
-            <select value={day} onChange={(e) => setDay(e.target.value)}>
-              <option value="">--일--</option>
-              {Array.from({ length: daysInSelectedMonth }, (_, i) => i + 1).map(
-                (d) => (
-                  <option key={d} value={d.toString().padStart(2, "0")}>
-                    {d.toString().padStart(2, "0")}
-                  </option>
-                )
-              )}
-            </select>
+              placeholder="--월--"
+              width="200px"
+              onChange={(e) => {
+                if (e.value.key.length === 1) {
+                  const m = "0".concat(e.value.key);
+                  setMonth(m);
+                } else {
+                  setMonth(e.value.key);
+                }
+                // setMonth(e.value);
+                // setDay(e.value);
+                // console.log(daysInSelectedMonth);
+              }}
+            />
+            <Select
+              options={Array.from(
+                { length: daysInSelectedMonth },
+                (_, i) => i + 1
+              ).map((d) => (
+                <option key={d} value={d.toString().padStart(2, "0")}>
+                  {d.toString().padStart(2, "0")}
+                </option>
+              ))}
+              placeholder="--일--"
+              width="200px"
+              onChange={(e) => {
+                console.log(e.value.key);
+                if (e.value.key.length === 1) {
+                  const d = "0".concat(e.value.key);
+                  setDay(d);
+                } else {
+                  setDay(e.value.key);
+                }
+              }}
+            />
           </RowContainer>
           <GapH height="33px" />
           <ColContainer width="631px" background="white" justify="start">

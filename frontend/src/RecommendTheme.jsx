@@ -17,6 +17,7 @@ import PortfolioModal from "./components/PortfolioModal";
 
 function RecommendSituation() {
   const modal = useSelector((state) => state.modal);
+  const loginUser = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const [option, setOption] = useState("생일");
   const [recommendMatrix, setRecommendMatrix] = useState([]);
@@ -125,6 +126,8 @@ function RecommendSituation() {
                 {recommendRow.map((item) => (
                   <RowContainer>
                     <Card
+                      buyerId={loginUser ? loginUser.id : null}
+                      portfolioId={item.id}
                       title={item.detail}
                       shape={item.shape}
                       sheetTaste={item.sheetTaste}

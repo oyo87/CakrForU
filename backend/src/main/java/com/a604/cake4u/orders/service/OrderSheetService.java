@@ -276,7 +276,7 @@ public class OrderSheetService {
     }
 
     public List<OrderSheetResponseDto> getReviewsBySeller(Long sellerId){
-        List<OrderSheet> orders = orderSheetRepository.findBySellerAndReviewRatingGreaterThan(sellerRepository.findById(sellerId).get(), 0);
+        List<OrderSheet> orders = orderSheetRepository.findBySellerAndReviewRatingGreaterThanOrderByIdDesc(sellerRepository.findById(sellerId).get(), 0);
         List<OrderSheetResponseDto> orderSheetResponseDtos = new ArrayList<>();
 
         for(OrderSheet order : orders){
