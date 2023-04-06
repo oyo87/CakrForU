@@ -45,7 +45,7 @@ function MyPageOrderList() {
           (order) => order.pickUpDate === todayDate
         );
         setIsPickUpReady(hasPickUpReady); // 오늘 픽업예정인 케이크가 있으면 위에 픽업하라고 창 표시
-        console.log("getOrderList : ", response.data);
+        // console.log("getOrderList : ", response.data);
       })
       .catch((error) => {
         console.error(`MyPageOrderList's getOrderList + ${error}`);

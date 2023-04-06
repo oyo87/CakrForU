@@ -120,8 +120,8 @@ function OrderModal(id) {
       .then((res) => {
         const formattedData = formatDate(res.data);
         setOrder(formattedData);
-        console.log("ds", order);
-        console.log("qq", order.status);
+        // console.log("ds", order);
+        // console.log("qq", order.status);
       });
   }
 
@@ -171,8 +171,8 @@ function OrderModal(id) {
 
   useEffect(() => {
     fetchOrderSheet();
-    console.log(order);
-    console.log("dsadas", order.status);
+    // console.log(order);
+    // console.log("dsadas", order.status);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

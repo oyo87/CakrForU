@@ -50,7 +50,7 @@ function RecommendPersonal() {
         }&gender=${genderDict[option.gender]}&page=${page}`
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const answer = [];
         const row = Math.floor(res.data.length / cardPerRow);
         const r = res.data.length % cardPerRow;

@@ -100,7 +100,7 @@ function MakeOrder() {
     axios
       .get(`/seller/form/${storeId}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         const tmp1 = Object.entries(response.data.sheetShape);
         const filtered1 = tmp1.filter(([, ok]) => ok === true);
         const tmp2 = Object.entries(response.data.sheetSize);
@@ -314,7 +314,7 @@ function MakeOrder() {
               placeholder="--년도--"
               width="210px"
               onChange={(e) => {
-                console.log(e.value.key);
+                // console.log(e.value.key);
                 setYear(e.value.key);
               }}
             />
@@ -350,7 +350,7 @@ function MakeOrder() {
               placeholder="--일--"
               width="210px"
               onChange={(e) => {
-                console.log(e.value.key);
+                // console.log(e.value.key);
                 if (e.value.key.length === 1) {
                   const d = "0".concat(e.value.key);
                   setDay(d);

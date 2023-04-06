@@ -28,19 +28,19 @@ function SellerCustom() {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/seller/form/${seller.id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setSheetShape(res.data.sheetShape);
         setSheetTaste(res.data.sheetTaste);
         setSheetSize(res.data.sheetSize);
         setCreamTaste(res.data.creamTaste);
       });
 
-    console.log("sheetShape = ", sheetShape);
+    // console.log("sheetShape = ", sheetShape);
   }, []);
 
   const handleSubmit = () => {
     const data = { sheetShape, sheetSize, sheetTaste, creamTaste };
-    console.log();
+    // console.log();
 
     axios.put("/seller/custom/update", data).then((res) => {
       console.log(res);
