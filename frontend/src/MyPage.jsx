@@ -209,22 +209,25 @@ function MyPage() {
           </ColContainer>
           <GapW width="360px" />
         </RowContainer>
-        <ColContainer background="#F0F0E8" height="600px">
+        <ColContainer background="#F0F0E8">
           <GapH height="80px" />
           {myReviewList.map((review) => (
-            <Review
-              reviewId={review.id}
-              businessName={review.businessName}
-              reviewContent={review.reviewContent}
-              reviewCreatedAt={review.reviewCreatedAt}
-              reviewRating={review.reviewRating}
-              sheetSize={review.sheetSize}
-              sheetShape={review.sheetShape}
-              sheetTaste={review.sheetTaste}
-              creamTaste={review.creamTaste}
-              imageUrl={review?.imageFileDtoList[0]?.imageFileUri}
-              imageAlt={review?.imageFileDtoList[0]?.origImageFileName}
-            />
+            <div>
+              <Review
+                reviewId={review.id}
+                businessName={review.businessName}
+                reviewContent={review.reviewContent}
+                reviewCreatedAt={review.reviewCreatedAt}
+                reviewRating={review.reviewRating}
+                sheetSize={review.sheetSize}
+                sheetShape={review.sheetShape}
+                sheetTaste={review.sheetTaste}
+                creamTaste={review.creamTaste}
+                imageUrl={review?.imageFileDtoList[0]?.imageFileUri}
+                imageAlt={review?.imageFileDtoList[0]?.origImageFileName}
+              />
+              <GapH height="30px" />
+            </div>
           ))}
           <GapH height="100px" />
         </ColContainer>
