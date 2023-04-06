@@ -40,7 +40,8 @@ const AppContainer = styled.div`
     box-sizing: border-box;
   }
 `;
-const AuthRecommendPersonal = Auth(RecommendPersonal);
+// const AuthRecommendPersonal = Auth(RecommendPersonal);
+const AuthRecommendWishList = Auth(RecommendWishList);
 const AuthMyPageOrderList = Auth(MyPageOrderList);
 
 function App() {
@@ -59,14 +60,14 @@ function App() {
         <Route path="/test" element={<Testpage />} />
         <Route path="/dragsize" element={<DragSize />} />
         <Route path="/oauth/redirect" element={<AuthPage />} />
-        <Route path="/recommend/personal" element={<AuthRecommendPersonal />} />
+        <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/infodetail" element={<InfoDetail />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/mypage/orderlist" element={<AuthMyPageOrderList />} />
         <Route path="/mypage/infodetail" element={<InfoDetail />} />
         <Route path="/recommend/personal" element={<RecommendPersonal />} />
         <Route path="/recommend/theme" element={<RecommendTheme />} />
-        <Route path="/recommend/wishlist" element={<RecommendWishList />} />
+        <Route path="/recommend/wishlist" element={<AuthRecommendWishList />} />
         <Route path="/seller/info" element={<SellerInfo />} />
         <Route path="/seller/custom" element={<SellerCustom />} />
         <Route path="/seller/order" element={<SellerOrder />} />
