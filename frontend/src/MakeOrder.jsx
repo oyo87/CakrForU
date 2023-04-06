@@ -18,6 +18,7 @@ import Button1 from "./components/button/Button1";
 import Button4 from "./components/button/Button4";
 import Large from "./components/text/Large";
 import AddFile from "./assets/img/add_file.png";
+import Small from "./components/text/Small";
 
 const Text = styled.textarea`
   width: 542px;
@@ -42,7 +43,7 @@ function MakeOrder() {
   const [sellerSheetTaste, setSellerSheetTaste] = useState([]);
   const [sellerCreamTaste, setSellerCreamTaste] = useState([]);
 
-  const [imageSrcs, setImageSrcs] = useState([diyImage]);
+  const [imageSrcs, setImageSrcs] = useState([]);
   const [sheetShape, setSheetShape] = useState(null); //  선택된 것들 저장
   const [sheetSize, setSheetSize] = useState(null);
   const [sheetTaste, setSheetTaste] = useState(null);
@@ -86,7 +87,9 @@ function MakeOrder() {
       STRAWBERRY_CREAM: "딸기크림",
     });
 
-    console.log("diyImage", diyImage);
+    if (diyImage !== null) {
+      setImageSrcs([diyImage]);
+    }
 
     axios
       .get(`/seller/form/${storeId}`)
@@ -466,10 +469,10 @@ function MakeOrder() {
           </RowContainer>
 
           <GapH height="18px" />
-          <ColContainer height="246px" width="581px" background="white">
+          <ColContainer height="246px" width="631px" background="white">
             <GapH height="38px" />
             <RowContainer justify="start">
-              <GapW width="16px" />
+              <GapW width="40px" />
               <BoldMediumSmall>추가 전달 사항</BoldMediumSmall>
             </RowContainer>
             <GapH height="18px" />
@@ -519,6 +522,8 @@ function MakeOrder() {
                 }}
               />
               <FileButton src={AddFile} alt="img" onClick={handleDiffusion} />
+              <GapH height="5px" />
+              <Small color="#aaaaaa">견본 이미지 AI 생성</Small>
               <GapH height="63px" />
             </ColContainer>
             <GapH height="57px" />
