@@ -190,6 +190,10 @@ function CakeDiy() {
     }
   };
 
+  const goToMain = () => {
+    navigate("/main");
+  };
+
   return (
     <div
       style={{
@@ -249,9 +253,12 @@ function CakeDiy() {
         </Button1>
         <GapW width="1%" />
         <Button1 type="button" onClick={captureScreenArea}>
-          export
+          Export
         </Button1>
         <GapW width="1%" />
+        <Button1 type="button" background="rgb(215 210 203)" onClick={goToMain}>
+          Go to Main
+        </Button1>
       </BtnContainer>
       <Stage
         width={window.innerWidth}

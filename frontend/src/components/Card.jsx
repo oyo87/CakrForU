@@ -127,7 +127,7 @@ function Card({
       })
     );
   };
-
+  const loginUser = localStorage.getItem("user");
   return (
     <ColContainer
       width="222px"
@@ -152,7 +152,7 @@ function Card({
             objectFit: "cover",
           }}
         />
-        {isFilled && (
+        {isFilled && loginUser && (
           <img
             src={FilledHeart}
             alt="img"
@@ -165,7 +165,7 @@ function Card({
             }}
           />
         )}
-        {!isFilled && (
+        {!isFilled && loginUser && (
           <img
             src={EmptyHeart}
             onClick={addWishlist}
