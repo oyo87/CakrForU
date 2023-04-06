@@ -77,7 +77,7 @@ function ReviewRegist() {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setOrderSheet(res.data);
       });
   }, [imageSrc]);

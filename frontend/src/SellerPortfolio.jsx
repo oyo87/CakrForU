@@ -37,7 +37,7 @@ function SellerPortfolio() {
   useEffect(() => {
     axios.get(`/portfolio/seller/${seller.id}`).then((res) => {
       setPortfolio(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 

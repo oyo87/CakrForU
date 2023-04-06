@@ -29,8 +29,8 @@ function PortfolioModal() {
   const handleStore = () => {
     dispatch(closePortfolio());
     navigate(`/store/${sellerId}`);
-    console.log(`store Id: ${sellerId}`);
-    console.log(portfolio);
+    // console.log(`store Id: ${sellerId}`);
+    // console.log(portfolio);
   };
   return (
     <UpDownContainer
