@@ -18,6 +18,7 @@ import PortfolioModal from "./components/PortfolioModal";
 
 function StoreDetail() {
   const modal = useSelector((state) => state.modal);
+  const loginUser = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const [sellerPortfolios, setSellerPortfolios] = useState([]);
@@ -69,6 +70,8 @@ function StoreDetail() {
               <RowContainer justify="space-between" gap="10px">
                 {sellerPopularPortfolios.map((item) => (
                   <Card
+                    buyerId={loginUser ? loginUser.id : null}
+                    portfolioId={item.id}
                     title={item.detail}
                     shape={item.shape}
                     sheetTaste={item.sheetTaste}
@@ -91,6 +94,8 @@ function StoreDetail() {
               <RowContainer justify="space-between" gap="10px">
                 {sellerPortfolios.map((item) => (
                   <Card
+                    buyerId={loginUser ? loginUser.id : null}
+                    portfolioId={item.id}
                     title={item.detail}
                     shape={item.shape}
                     sheetTaste={item.sheetTaste}
@@ -113,26 +118,29 @@ function StoreDetail() {
               <ColContainer justify="space-between">
                 {sellerReviewList[0] ? (
                   sellerReviewList.map((review) => (
-                    <Review
-                      businessName={review.businessName}
-                      reviewContent={review.reviewContent}
-                      reviewCreatedAt={review.reviewCreatedAt}
-                      reviewRating={review.reviewRating}
-                      sheetSize={review.sheetSize}
-                      sheetShape={review.sheetShape}
-                      sheetTaste={review.sheetTaste}
-                      creamTaste={review.creamTaste}
-                      imageUrl={
-                        review.imageFileDtoList[0]
-                          ? review.imageFileDtoList[0].imageFileUri
-                          : SampleImg
-                      }
-                      imageAlt={
-                        review.imageFileDtoList[0]
-                          ? review.imageFileDtoList[0].origImageFileName
-                          : "sample"
-                      }
-                    />
+                    <>
+                      <Review
+                        businessName={review.businessName}
+                        reviewContent={review.reviewContent}
+                        reviewCreatedAt={review.reviewCreatedAt}
+                        reviewRating={review.reviewRating}
+                        sheetSize={review.sheetSize}
+                        sheetShape={review.sheetShape}
+                        sheetTaste={review.sheetTaste}
+                        creamTaste={review.creamTaste}
+                        imageUrl={
+                          review.imageFileDtoList[0]
+                            ? review.imageFileDtoList[0].imageFileUri
+                            : SampleImg
+                        }
+                        imageAlt={
+                          review.imageFileDtoList[0]
+                            ? review.imageFileDtoList[0].origImageFileName
+                            : "sample"
+                        }
+                      />
+                      <GapH height="20px" />
+                    </>
                   ))
                 ) : (
                   <p>등록된 리뷰가 없습니다.</p>

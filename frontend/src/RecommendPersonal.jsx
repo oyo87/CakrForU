@@ -143,6 +143,8 @@ function RecommendPersonal() {
                 {recommendRow.map((item) => (
                   <RowContainer>
                     <Card
+                      buyerId={loginUser ? loginUser.id : null}
+                      portfolioId={item.id}
                       title={item.detail}
                       shape={item.shape}
                       sheetTaste={item.sheetTaste}

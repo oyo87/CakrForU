@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import axios from "./util/axiosInstance";
@@ -18,8 +18,12 @@ import Button2 from "./components/button/Button2";
 import Review from "./components/Review";
 import Card from "./components/Card";
 import NextPageImg from "./assets/img/Nextpage.png";
+import { closePortfolio } from "./store/modalSlice";
+import PortfolioModal from "./components/PortfolioModal";
 
 function MyPage() {
+  const dispatch = useDispatch();
+  const modal = useSelector((state) => state.modal);
   const loginUser = useSelector((state) => state.login.user);
   const [myOrderList, setMyOrderList] = useState([]);
   const [myWishList, setMyWishList] = useState([]);
@@ -57,6 +61,12 @@ function MyPage() {
     );
   }, []);
 
+  const handleClickOutModal = () => {
+    if (modal.portfolioOpen) {
+      dispatch(closePortfolio());
+    }
+  };
+
   const hoverOnColor = () => {
     setWishlistButtonColor("#FF9494");
     setWishlistTextColor("white");
@@ -69,8 +79,9 @@ function MyPage() {
 
   return (
     <div>
-      <Header />
-      <UpDownContainer>
+      <Header handleClickOutModal={handleClickOutModal} />
+      {modal.portfolioOpen ? <PortfolioModal /> : null}
+      <UpDownContainer onClick={handleClickOutModal}>
         <MyPageTitle />
         <ColContainer
           height="1000px"
@@ -125,14 +136,20 @@ function MyPage() {
           >
             {myWishList.map((myWish) => (
               <Card
-                ClassName="Card"
+                buyerId={loginUser ? loginUser.id : null}
+                portfolioId={myWish.id}
                 title={myWish.detail}
                 shape={myWish.shape}
                 sheetTaste={myWish.sheetTaste}
                 creamTaste={myWish.creamTaste}
                 situation={myWish.situation}
-                sellerId={myWish.businessName}
+                businessName={myWish.businessName}
+                size={myWish.size}
+                detail={myWish.detail}
                 imgUrl={myWish.imageUrl}
+                color={myWish.color}
+                createdAt={myWish.createdAt}
+                hit={myWish.hit}
               />
             ))}
           </RowContainer>
@@ -178,7 +195,7 @@ function MyPage() {
               imageAlt={review.imageFileDtoList[0].origImageFileName}
             />
           ))}
-          <GapH height="80px" />
+          <GapH height="100px" />
         </ColContainer>
       </UpDownContainer>
     </div>

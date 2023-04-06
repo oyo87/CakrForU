@@ -34,7 +34,6 @@ public class WishListService {
     private final PortfolioService portfolioService;
 
     public void saveWish(WishListRequestDto wishListRequestDto){
-
         Optional<Buyer> buyer = buyerRepository.findById(wishListRequestDto.getBuyer_id());
         Optional<Portfolio> portfolio = portfolioRepository.findById(wishListRequestDto.getPortfolio_id());
 
