@@ -127,6 +127,7 @@ function RecommendSituation() {
                   <RowContainer>
                     <Card
                       buyerId={loginUser ? loginUser.id : null}
+                      sellerId={item.sellerId}
                       portfolioId={item.id}
                       title={item.detail}
                       shape={item.shape}
