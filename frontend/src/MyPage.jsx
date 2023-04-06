@@ -22,6 +22,35 @@ import NextPageImg from "./assets/img/Nextpage.png";
 import { closePortfolio } from "./store/modalSlice";
 import PortfolioModal from "./components/PortfolioModal";
 
+const dict = {
+  CIRCLE: "원형",
+  HEART: "하트",
+  RECTANGLE: "사각",
+  OTHERS: "입체",
+  MINI: "미니",
+  NO1: "1호",
+  NO2: "2호",
+  NO3: "3호",
+  VANILLA: "바닐라",
+  CHOCOLATE: "초코",
+  EARL_GRAY: "얼그레이",
+  RED_VELVET: "레드벨벳",
+  MATCHA: "말차",
+  MOCHA: "모카",
+  CHEESE: "치즈",
+  CARROT: "당근",
+  SWEET_POTATO: "고구마",
+  CREAM_CHEESE: "크림치즈",
+  WHIPPING_CREAM: "휘핑크림",
+  CHOCOLATE_CREAM: "초코크림",
+  OREO_CREAM: "오레오크림",
+  MATCHA_CREAM: "말차크림",
+  BLACK_SESAME_CREAM: "흑임자크림",
+  SWEET_POTATO_CREAM: "고구마무스",
+  EARL_GRAY_CREAM: "얼그레이크림",
+  STRAWBERRY_CREAM: "딸기크림",
+};
+
 function MyPage() {
   const dispatch = useDispatch();
   const modal = useSelector((state) => state.modal);
@@ -107,10 +136,10 @@ function MyPage() {
                 createdAt={myOrder.createdAt.split("T")[0]}
                 price={myOrder.price}
                 pickUpDate={myOrder.pickUpDate}
-                sheetShape={myOrder.sheetShape}
-                creamTaste={myOrder.creamTaste}
-                sheetTaste={myOrder.sheetTaste}
-                sheetSize={myOrder.sheetSize}
+                sheetShape={dict[myOrder.sheetShape]}
+                creamTaste={dict[myOrder.creamTaste]}
+                sheetTaste={dict[myOrder.sheetTaste]}
+                sheetSize={dict[myOrder.sheetSize]}
                 buyerMessage={myOrder.buyerMessage}
                 imageFileDtoList={myOrder.imageFileDtoList}
                 imageUrl={myOrder?.imageFileDtoList[0]?.imageFileUri}
@@ -140,13 +169,13 @@ function MyPage() {
                 buyerId={loginUser ? loginUser.id : null}
                 portfolioId={myWish.id}
                 title={myWish.detail}
-                shape={myWish.shape}
-                sheetTaste={myWish.sheetTaste}
-                creamTaste={myWish.creamTaste}
+                shape={dict[myWish.shape]}
+                sheetTaste={dict[myWish.sheetTaste]}
+                creamTaste={dict[myWish.creamTaste]}
                 situation={myWish.situation}
                 sellerId={myWish.businessName}
                 businessName={myWish.businessName}
-                size={myWish.size}
+                size={dict[myWish.size]}
                 detail={myWish.detail}
                 imgUrl={myWish.imageUrl}
                 color={myWish.color}

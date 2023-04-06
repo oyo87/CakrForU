@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ColorRing } from "react-loader-spinner";
 import originalAxios from "axios";
 import axios from "./util/axiosInstance";
 import LeftRightContainer from "./components/layout/LeftRightContainer";
@@ -176,6 +177,8 @@ function MakeOrder() {
   };
 
   const handleDiffusion = () => {
+    setImageSrcs((prevImageSrcs) => [...prevImageSrcs, "loading"]);
+
     const promptParts = ["LETTERING CAKE"];
     if (sheetShape) {
       promptParts.push(sheetShape.toUpperCase());
@@ -198,10 +201,17 @@ function MakeOrder() {
       .then((res) => {
         const imageData = res.data.images[0];
         const imageUrl = `data:image/png;base64,${imageData}`;
-        setImageSrcs((prevImageSrcs) => [...prevImageSrcs, imageUrl]);
+        setImageSrcs((prevImageSrcs) =>
+          prevImageSrcs.map((src, index) =>
+            index === prevImageSrcs.length - 1 ? imageUrl : src
+          )
+        );
       })
       .catch((err) => {
         console.log(err);
+        setImageSrcs((prevImageSrcs) =>
+          prevImageSrcs.filter((_, index) => index !== prevImageSrcs.length - 1)
+        );
       });
   };
 
@@ -553,15 +563,19 @@ function MakeOrder() {
                     onMouseEnter={() => setShowDeleteButtonIndex(index)}
                     onMouseLeave={() => setShowDeleteButtonIndex(null)}
                   >
-                    <img
-                      src={src}
-                      alt={`Generated ${index + 1}`}
-                      style={{
-                        width: "242px",
-                        height: "242px",
-                        objectFit: "cover",
-                      }}
-                    />
+                    {src === "loading" ? (
+                      <ColorRing />
+                    ) : (
+                      <img
+                        src={src}
+                        alt={`Generated ${index + 1}`}
+                        style={{
+                          width: "242px",
+                          height: "242px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
                     {showDeleteButtonIndex === index && (
                       <button
                         type="button"

@@ -105,7 +105,7 @@ function StoreDetailSidebar() {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Button1 width="200px">
-              <BoldMedium>주문하기</BoldMedium>
+              <BoldMedium color="white">주문하기</BoldMedium>
             </Button1>
           </Link>
           <GapH />
