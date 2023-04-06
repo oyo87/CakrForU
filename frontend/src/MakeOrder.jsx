@@ -298,7 +298,9 @@ function MakeOrder() {
         <ColContainer width="631px" align="start">
           <GapH height="137px" />
           <BoldLarge>주문서 작성</BoldLarge>
-          <GapH height="37px" />
+          <GapH height="40px" />
+          <BoldMediumSmall>픽업 일자</BoldMediumSmall>
+          <GapH height="10px" />
           <RowContainer justify="start">
             <Select
               options={Array.from(
@@ -310,7 +312,7 @@ function MakeOrder() {
                 </option>
               ))}
               placeholder="--년도--"
-              width="200px"
+              width="210px"
               onChange={(e) => {
                 console.log(e.value.key);
                 setYear(e.value.key);
@@ -323,7 +325,7 @@ function MakeOrder() {
                 </option>
               ))}
               placeholder="--월--"
-              width="200px"
+              width="210px"
               onChange={(e) => {
                 if (e.value.key.length === 1) {
                   const m = "0".concat(e.value.key);
@@ -346,7 +348,7 @@ function MakeOrder() {
                 </option>
               ))}
               placeholder="--일--"
-              width="200px"
+              width="210px"
               onChange={(e) => {
                 console.log(e.value.key);
                 if (e.value.key.length === 1) {
