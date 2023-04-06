@@ -190,6 +190,10 @@ function CakeDiy() {
     }
   };
 
+  const goHome = () => {
+    navigate("/main");
+  };
+
   return (
     <div
       style={{
@@ -252,6 +256,9 @@ function CakeDiy() {
           export
         </Button1>
         <GapW width="1%" />
+        <Button1 type="button" onClick={goHome}>
+          Home
+        </Button1>
       </BtnContainer>
       <Stage
         width={window.innerWidth}
