@@ -12,8 +12,6 @@ import { closeBuyerOrder } from "../store/modalSlice";
 import Barcode from "../assets/img/barcode.png";
 import BoldMediumSmall from "./text/BoldMediumSmall";
 import MediumSmall from "./text/MediumSmall";
-import LeftButton from "../assets/img/left_button.png";
-import RightButton from "../assets/img/right_button.png";
 import BoldSmall from "./text/BoldSmall";
 import SmallMedium from "./text/SmallMedium";
 import Temp from "../assets/img/logo2.png";
@@ -56,11 +54,9 @@ function BuyerOrderModal() {
   const LeftSide = styled.div``;
   const RightSide = styled.div``;
   const MainContainer = styled.div``;
+  const Div = styled.div``;
 
-  useEffect(() => {
-    console.log(`BuyerOrderModal's orderSheet :`);
-    console.log(orderSheet);
-  }, [orderSheet]);
+  useEffect(() => {}, [orderSheet]);
   const dispatch = useDispatch();
   return (
     <UpDownContainer
@@ -85,18 +81,18 @@ function BuyerOrderModal() {
           marginRight: "5.5rem",
         }}
       >
-        <div style={{ marginRight: "4rem" }}>
+        <Div style={{ marginRight: "4rem" }}>
           <BoldSmall color="#616161">주문 일자</BoldSmall>
           <SmallMedium color="#616161">
             {new Date(orderSheet.createdAt).toISOString().split("T")[0]}
           </SmallMedium>
-        </div>
-        <div>
+        </Div>
+        <Div>
           <BoldSmall color="#616161">주문 번호</BoldSmall>
           <SmallMedium color="#616161">
             AP{orderSheet.id.toString().padStart(8, "0")}
           </SmallMedium>
-        </div>
+        </Div>
       </DateOrderName>
       <GapH height="48px" />
       <RowContainer
@@ -116,7 +112,9 @@ function BuyerOrderModal() {
                 navigate(`/review/regist/${orderSheet.id}`);
               }}
             >
-              <MediumSmall color="white">리뷰 작성</MediumSmall>
+              <MediumSmall color="white" cursor="pointer">
+                리뷰 작성
+              </MediumSmall>
             </Button>
           ) : (
             ""
@@ -200,7 +198,7 @@ function BuyerOrderModal() {
         </LeftSide>
 
         <RightSide style={{ width: "50%" }}>
-          <div style={{ display: "flex", marginTop: "1.313rem" }}>
+          <Div style={{ display: "flex", marginTop: "1.313rem" }}>
             <button
               type="button"
               style={{
@@ -210,10 +208,8 @@ function BuyerOrderModal() {
               }}
               onClick={handlePrev}
             >
-              <img src={LeftButton} alt="leftButton" />
+              {/* <img src={LeftButton} alt="leftButton" /> */}
             </button>
-            {console.log(124)}
-            {console.log(filteredImages)}
             <img
               src={
                 filteredImages.length > 0
@@ -221,7 +217,7 @@ function BuyerOrderModal() {
                   : Temp
               }
               alt="cakeimage"
-              style={{ width: "23.75rem", height: "18.75rem" }}
+              style={{ width: "100%", height: "19.75rem" }}
             />
             <button
               type="button"
@@ -232,9 +228,9 @@ function BuyerOrderModal() {
               }}
               onClick={handleNext}
             >
-              <img src={RightButton} alt="rightButton" />
+              {/* <img src={RightButton} alt="rightButton" /> */}
             </button>
-          </div>
+          </Div>
         </RightSide>
       </MainContainer>
       <RowContainer height="400px" width="1020px" justify="start">
@@ -249,9 +245,11 @@ function BuyerOrderModal() {
       />
       <GapH height="32px" />
       <img src={Barcode} alt="barcode" style={{ width: "63.75rem" }} />
-      <GapH height="30px" />
+      <GapH height="3rem" />
       <RowContainer width="1020px" justify="end">
+        <GapH height="4rem" />
         <Button1
+          width="8rem"
           onClick={() => {
             dispatch(closeBuyerOrder());
           }}

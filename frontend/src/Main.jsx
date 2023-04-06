@@ -42,7 +42,28 @@ const StyledImage = styled.img`
   height: ${(props) => props.height || "100%"};
   transform: ${(props) => props.transform || "none"};
 `;
-
+function WishBtn() {
+  const loginUser = localStorage.getItem("user");
+  if (loginUser) {
+    return (
+      <Link
+        to="/recommend/wishlist"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <Button1 background="#615143">
+          <Small color="white">자세히 보기</Small>
+        </Button1>
+      </Link>
+    );
+  }
+  return (
+    <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+      <Button1 background="#615143">
+        <Small color="white">자세히 보기</Small>
+      </Button1>
+    </Link>
+  );
+}
 function Main() {
   const containerRef = useRef(null);
   const navigate = useNavigate();
@@ -179,14 +200,7 @@ function Main() {
               당신에게 맞는 케이크를 추천해드립니다.
             </MediumSmall>
             <GapH height="38px" />
-            <Link
-              to="/recommend/wishlist"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Button1 background="#615143">
-                <Small color="white">자세히 보기</Small>
-              </Button1>
-            </Link>
+            <WishBtn />
           </ColContainer>
         </RowContainer>
         <RowContainer

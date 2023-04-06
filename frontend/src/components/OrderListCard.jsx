@@ -195,14 +195,16 @@ function OrderListCard({
               <CakeInfoCircle>
                 <MediumSmall>{sheetShape}</MediumSmall>
               </CakeInfoCircle>
-              <CakeInfoCircle>
+              <CakeInfoCircle style={{ minWidth: "120px" }}>
                 <MediumSmall>{creamTaste}</MediumSmall>
               </CakeInfoCircle>
               <div style={{ marginRight: "2.375rem" }} />
               {/* 클릭시 모달띄우고 주문상세 보여주기 or 주문 상세 페이지 이동 */}
               {/* <Button onClick={모달띄우기 해야함}> */}
               <Button onClick={handleClick}>
-                <MediumSmall color="white">주문 상세</MediumSmall>
+                <MediumSmall color="white" cursor="pointer">
+                  주문 상세
+                </MediumSmall>
               </Button>
               {/* 픽업 완료되었을때만 보여주기 */}
               {status === "픽업 완료" ? (
@@ -212,7 +214,9 @@ function OrderListCard({
                     navigate(`/review/regist/${id}`);
                   }}
                 >
-                  <MediumSmall color="white">리뷰 작성</MediumSmall>
+                  <MediumSmall color="white" cursor="pointer">
+                    리뷰 작성
+                  </MediumSmall>
                 </Button>
               ) : (
                 ""

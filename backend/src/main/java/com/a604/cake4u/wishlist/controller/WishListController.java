@@ -29,6 +29,8 @@ public class WishListController {
     @ApiOperation(value = "찜목록 추가", notes = "req_data=[Long Buyer_id, Long Portfolio_id]")
     @PostMapping("/")
     public ResponseEntity<?> addWish(@RequestBody  WishListRequestDto wishListRequestDto){
+        System.out.println(wishListRequestDto.getBuyer_id());
+        System.out.println(wishListRequestDto.getPortfolio_id());
         wishListService.saveWish(wishListRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(new HashMap<>(){{
             put("result", true);

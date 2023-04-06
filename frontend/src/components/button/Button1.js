@@ -30,6 +30,18 @@ const Button1 = styled.button`
     }
     return "none";
   }};
+  border-right: ${(props) => {
+    if (props.borderRight) {
+      return props.borderRight;
+    }
+    return "none";
+  }};
+  border-bottom: ${(props) => {
+    if (props.borderBottom) {
+      return props.borderBottom;
+    }
+    return "none";
+  }};
   border-radius: ${(props) => {
     if (props.borderRadius) {
       return props.borderRadius;

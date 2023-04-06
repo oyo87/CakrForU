@@ -36,8 +36,8 @@ function RecommendPersonal() {
   };
   const [recommendMatrix, setRecommendMatrix] = useState([]);
   const [option, setOption] = useState({
-    gender: genderDictRev[loginUser.gender],
-    age: loginUser.age,
+    gender: genderDictRev[loginUser ? loginUser.gender : "M"],
+    age: loginUser ? loginUser.age : 20,
   });
   const [page, setPage] = useState(0);
   const cardPerRow = 5;
@@ -143,6 +143,8 @@ function RecommendPersonal() {
                 {recommendRow.map((item) => (
                   <RowContainer>
                     <Card
+                      buyerId={loginUser ? loginUser.id : null}
+                      portfolioId={item.id}
                       title={item.detail}
                       shape={item.shape}
                       sheetTaste={item.sheetTaste}

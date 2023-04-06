@@ -42,12 +42,6 @@ function ReviewRegist() {
     setImageSrc(answer);
   };
 
-  axios
-    .get(`${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`)
-    .then((res) => {
-      setOrderSheet(res.data);
-    });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const reviewVO = {
@@ -79,7 +73,14 @@ function ReviewRegist() {
     setRating(e.value);
   };
 
-  useEffect(() => {}, [imageSrc]);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/order-sheet/${orderId}`)
+      .then((res) => {
+        console.log(res);
+        setOrderSheet(res.data);
+      });
+  }, [imageSrc]);
 
   return (
     <div>
