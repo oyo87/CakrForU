@@ -343,7 +343,7 @@ function SellerCustom() {
                         creamTaste.black_sesame_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("blackSesame_cream");
+                        handleCream("black_sesame_cream");
                       }}
                     >
                       <Small color="white">흑임자크림</Small>
