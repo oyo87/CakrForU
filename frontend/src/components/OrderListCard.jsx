@@ -110,8 +110,8 @@ function OrderListCard({
   };
 
   // createdAt, pickUpDate format 변경
-  const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD HH:mm");
-  const formattedPickUpDate = moment(pickUpDate).format("YYYY-MM-DD HH:mm");
+  const formattedCreatedAt = moment(createdAt).format("YYYY-MM-DD");
+  const formattedPickUpDate = moment(pickUpDate).format("YYYY-MM-DD");
 
   // NO1, NO2, NO3, MINI;
   if (sheetSize === "MINI") sheetSize = "미니";

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
 import GapH from "./components/layout/GapH";
-import SmallMedium from "./components/text/SmallMedium";
+// import SmallMedium from "./components/text/SmallMedium";
 import BoldSmallMedium from "./components/text/BoldSmallMedium";
-import PinkSearch from "./assets/img/pink_search.png";
+// import PinkSearch from "./assets/img/pink_search.png";
 import axios from "./util/axiosInstance";
 import StoreCard from "./components/StoreCard";
 import Header from "./components/Header";
@@ -28,7 +28,7 @@ function AllSeller() {
       <Header />
       <UpDownContainer align="center">
         <GapH height="34px" />
-        <RowContainer
+        {/* <RowContainer
           height="61px"
           width="451px"
           border="1px solid"
@@ -46,7 +46,7 @@ function AllSeller() {
               right: "26px",
             }}
           />
-        </RowContainer>
+        </RowContainer> */}
         <GapH height="24px" />
         <RowContainer width="1194px" justify="start">
           <BoldSmallMedium>모든 가게</BoldSmallMedium>
