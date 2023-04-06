@@ -88,6 +88,25 @@ function Welcome() {
   const [activeCard, setActiveCard] = useState(0);
   const cards = [
     {
+      title: "메인페이지",
+      content: `기념일을 위한 케이크를
+      추천해드려요`,
+      url: WelcomMain,
+      width: "152px",
+      background: "#F6F1EE",
+      titleTop: "17.21%",
+      contentTop: "34.74%",
+      imgTop: "46.02%",
+      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
+추천 서비스를 이용할 수 있어요
+
+인기 케이크, 인기 가게를 확인하고 케이크를
+간편하게 주문할 수 있어요
+
+CAKE FOR U의 메인페이지로 이동합니다.`,
+      link: "/main",
+    },
+    {
       title: "추천 케이크",
       content: `더 완벽하게, 더 특별하게`,
       url: Welcome3d,
@@ -106,25 +125,6 @@ function Welcome() {
 지금 당신의 눈앞에 펼쳐집니다
 `,
       link: "/recommend/personal",
-    },
-    {
-      title: "메인페이지",
-      content: `기념일을 위한 케이크를
-추천해드려요`,
-      url: WelcomMain,
-      width: "152px",
-      background: "#F6F1EE",
-      titleTop: "17.21%",
-      contentTop: "34.74%",
-      imgTop: "46.02%",
-      rightContent: `기념일을 위해 어떤 케이크를 해야 할지 고민될 때
-추천 서비스를 이용할 수 있어요
-
-인기 케이크, 인기 가게를 확인하고 케이크를
-간편하게 주문할 수 있어요
-
-CAKE FOR U의 메인페이지로 이동합니다.`,
-      link: "/main",
     },
     {
       title: "케이크 DIY",
