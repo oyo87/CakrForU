@@ -18,6 +18,7 @@ function PortfolioModal() {
   const [sellerId, setSellerId] = useState(1);
   const portfolio = useSelector((state) => state.modal.portfolio);
   const dispatch = useDispatch();
+  const loginuser = localStorage.getItem("user");
   useEffect(() => {
     setSellerId(portfolio.sellerId);
   }, [portfolio]);
@@ -154,7 +155,7 @@ function PortfolioModal() {
       />
       <GapH height="30px" />
       <RowContainer width="1020px" justify="end">
-        <Button1 onClick={handleOrder}>주문하기</Button1>
+        {loginuser ? <Button1 onClick={handleOrder}>주문하기</Button1> : null}
         <GapW width="10px" />
         <Button1 onClick={handleStore}>가게페이지</Button1>
         <GapW width="10px" />
