@@ -39,7 +39,9 @@ function Review({
         <ColContainer width="400px" align="start">
           <BoldSmallMedium>{loginUser.nickname}</BoldSmallMedium>
           <GapH />
-          <Small color="#999999">{reviewCreatedAt.split("T")[0]}</Small>
+          <Small color="#999999">
+            {reviewCreatedAt ? reviewCreatedAt.split("T")[0] : null}
+          </Small>
         </ColContainer>
         <RowContainer justify="end">
           {onArr.map(() => (
