@@ -8,8 +8,8 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum RoleType {
-    BUYER("BUYER", "구매자 권한"),
-    SELLER("SELLER", "판매자 권한"),
+    BUYER("ROLE_BUYER", "구매자 권한"),
+    SELLER("ROLE_SELLER", "판매자 권한"),
     ADMIN("ROLE_ADMIN", "관리자 권한"),
     GUEST("GUEST", "게스트 권한");
 
