@@ -20,6 +20,34 @@ const dict = {
   "입금 완료": "DEPOSIT_COMPLETE",
   "픽업 완료": "FINISH_PICK_UP",
 };
+const dict2 = {
+  CIRCLE: "원형",
+  HEART: "하트",
+  RECTANGLE: "사각",
+  OTHERS: "입체",
+  MINI: "미니",
+  NO1: "1호",
+  NO2: "2호",
+  NO3: "3호",
+  VANILLA: "바닐라",
+  CHOCOLATE: "초코",
+  EARL_GRAY: "얼그레이",
+  RED_VELVET: "레드벨벳",
+  MATCHA: "말차",
+  MOCHA: "모카",
+  CHEESE: "치즈",
+  CARROT: "당근",
+  SWEET_POTATO: "고구마",
+  CREAM_CHEESE: "크림치즈",
+  WHIPPING_CREAM: "휘핑크림",
+  CHOCOLATE_CREAM: "초코크림",
+  OREO_CREAM: "오레오크림",
+  MATCHA_CREAM: "말차크림",
+  BLACK_SESAME_CREAM: "흑임자크림",
+  SWEET_POTATO_CREAM: "고구마무스",
+  EARL_GRAY_CREAM: "얼그레이크림",
+  STRAWBERRY_CREAM: "딸기크림",
+};
 
 function OrderImage({ orderId }) {
   const [imageURL, setImageURL] = useState("");
@@ -222,16 +250,16 @@ function OrderModal(id) {
         >
           <RowContainer justify="start">
             <Medium>호수:&nbsp;</Medium>
-            <Medium>{order.sheetSize}&nbsp;</Medium>
+            <Medium>{dict2[order.sheetSize]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>시트 모양:&nbsp;</Medium>
-            <Medium>{order.sheetShape}&nbsp;</Medium>
+            <Medium>{dict2[order.sheetShape]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>크림:&nbsp;</Medium>
-            <Medium>{order.creamTaste}&nbsp;</Medium>
+            <Medium>{dict2[order.creamTaste]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>전달사항:&nbsp;</Medium>
-            <Medium>{order.buyerMessage}</Medium>
+            <Medium>{dict2[order.buyerMessage]}</Medium>
           </RowContainer>
         </div>
         <div
@@ -381,16 +409,16 @@ function OrderModal(id) {
         >
           <RowContainer justify="start">
             <Medium>호수:&nbsp;</Medium>
-            <Medium>{order.sheetSize}&nbsp;</Medium>
+            <Medium>{dict2[order.sheetSize]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>시트 모양:&nbsp;</Medium>
-            <Medium>{order.sheetShape}&nbsp;</Medium>
+            <Medium>{dict2[order.sheetShape]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>크림:&nbsp;</Medium>
-            <Medium>{order.creamTaste}&nbsp;</Medium>
+            <Medium>{dict2[order.creamTaste]}&nbsp;</Medium>
             <Medium>|&nbsp;</Medium>
             <Medium>전달사항:&nbsp;</Medium>
-            <Medium>{order.buyerMessage}</Medium>
+            <Medium>{dict2[order.buyerMessage]}</Medium>
           </RowContainer>
         </div>
         <div
