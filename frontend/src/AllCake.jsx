@@ -5,10 +5,10 @@ import Header from "./components/Header";
 import UpDownContainer from "./components/layout/UpDownContainer";
 import RowContainer from "./components/layout/RowContainer";
 import GapH from "./components/layout/GapH";
-import SmallMedium from "./components/text/SmallMedium";
+// import SmallMedium from "./components/text/SmallMedium";
 import BoldSmallMedium from "./components/text/BoldSmallMedium";
 import Card from "./components/Card";
-import PinkSearch from "./assets/img/pink_search.png";
+// import PinkSearch from "./assets/img/pink_search.png";
 import { closePortfolio } from "./store/modalSlice";
 import PortfolioModal from "./components/PortfolioModal";
 import axios from "./util/axiosInstance";
@@ -95,7 +95,7 @@ function AllCake() {
       ) : null}
       <UpDownContainer align="center" onClick={handleClickOutModal}>
         <GapH height="34px" />
-        <RowContainer
+        {/* <RowContainer
           height="61px"
           width="451px"
           border="1px solid"
@@ -113,7 +113,7 @@ function AllCake() {
               right: "26px",
             }}
           />
-        </RowContainer>
+        </RowContainer> */}
         <GapH height="24px" />
         <RowContainer width="1194px" justify="start">
           <BoldSmallMedium>모든 케이크</BoldSmallMedium>
