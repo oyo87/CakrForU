@@ -171,6 +171,12 @@ public class OrderSheetController {
         return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
     }
 
+    @GetMapping("/buyer/review")
+    public ResponseEntity<?> getAllReviews() {
+        List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getAllReviews();
+        return new ResponseEntity<>(orderSheetResponseDtoList, HttpStatus.OK);
+    }
+
     @GetMapping("/buyer/review/{buyerId}")
     public ResponseEntity<?> getBuyerReview(@PathVariable(name = "buyerId") Long buyerId) {
         List<OrderSheetResponseDto> orderSheetResponseDtoList = orderSheetService.getOrderReviewByBuyerId(buyerId);
