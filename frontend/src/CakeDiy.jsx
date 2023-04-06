@@ -191,7 +191,7 @@ function CakeDiy() {
   };
 
   const goToMain = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   return (

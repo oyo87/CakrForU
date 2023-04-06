@@ -340,10 +340,10 @@ function SellerCustom() {
                     <Button1
                       width="124px"
                       background={
-                        creamTaste.blackSesame_cream ? "#FFACAC" : "grey"
+                        creamTaste.black_sesame_cream ? "#FFACAC" : "grey"
                       }
                       onClick={() => {
-                        handleCream("blackSesame_cream");
+                        handleCream("black_sesame_cream");
                       }}
                     >
                       <Small color="white">흑임자크림</Small>
