@@ -190,7 +190,7 @@ function CakeDiy() {
     }
   };
 
-  const goHome = () => {
+  const goToMain = () => {
     navigate("/main");
   };
 
@@ -256,8 +256,8 @@ function CakeDiy() {
           export
         </Button1>
         <GapW width="1%" />
-        <Button1 type="button" onClick={goHome}>
-          Home
+        <Button1 type="button" background="rgb(215 210 203)" onClick={goToMain}>
+          Go to Main
         </Button1>
       </BtnContainer>
       <Stage

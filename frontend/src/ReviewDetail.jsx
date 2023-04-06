@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "./util/axiosInstance";
@@ -66,7 +67,7 @@ function ReviewDetail() {
             {review.createdAt ? review.createdAt.split("T")[0] : null}
           </Small>
           <GapH />
-          {review.imageFileDtoList ? (
+          {review?.imageFileDtoList?.length > 0 ? (
             <img
               width="500px"
               height="400px"
@@ -90,7 +91,7 @@ function ReviewDetail() {
                   <img
                     width="160px"
                     height="110px"
-                    src={image.imageFileUri}
+                    src={image ? image.imageFileUri : null}
                     alt="preview-img"
                   />
                 ))

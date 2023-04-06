@@ -33,6 +33,7 @@ import CakeDiy from "./CakeDiy";
 import SellerPortfolio from "./SellerPortfolio";
 import ReviewRegist from "./ReviewRegist";
 import ReviewDetail from "./ReviewDetail";
+import AllReview from "./AllReview";
 
 const AppContainer = styled.div`
   &,
@@ -74,6 +75,7 @@ function App() {
         <Route path="/seller/portfolio" element={<SellerPortfolio />} />
         <Route path="/allcake" element={<AllCake />} />
         <Route path="/allseller" element={<AllSeller />} />
+        <Route path="/review/list" element={<AllReview />} />
         <Route path="/cakeDiy" element={<CakeDiy />} />
         <Route path="/store/:storeId" element={<StoreDetail />} />
         <Route
