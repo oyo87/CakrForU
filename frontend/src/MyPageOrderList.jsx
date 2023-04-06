@@ -17,7 +17,6 @@ function MyPageOrderList() {
   const [isPickUpReady, setIsPickUpReady] = useState(false);
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
-  const URL = "http://localhost:8080"; // 로컬작업끝나면 위의것으로 변경
   const loginUser = useSelector((state) => state.login.user);
   const navigate = useNavigate();
 
@@ -36,7 +35,9 @@ function MyPageOrderList() {
   function getOrderList() {
     const todayDate = new Date();
     axios
-      .get(`${URL}/order-sheet/buyer/${loginUser.id}`)
+      .get(
+        `${process.env.REACT_APP_BACKEND_URL}/order-sheet/buyer/${loginUser.id}`
+      )
       .then((response) => {
         setOrderList(response.data);
 
@@ -107,8 +108,6 @@ function MyPageOrderList() {
           ) : (
             <BoldMedium>주문 내역이 존재하지 않습니다.</BoldMedium>
           )}
-          {/* axios가져온다음에 5개정도씩만 보여줌. 더보기 하면 5개씩 추가 */}
-          {/* 만약 데이터를 모두 보여줬으면 더보기 제거 데이터가 남아있으면 더보기 남겨두기 */}
           {visibleOrders < orderList.length ? (
             <MoreButton onClick={loadMoreOrders}>
               <MoreInfo />
