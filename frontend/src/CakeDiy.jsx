@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import { Stage, Layer, Rect, Text } from "react-konva";
+// import DiyModal from "./components/DiyModal";
 import CustomImage from "./CustomImage";
 import SidebarDiy from "./components/SidebarDiy";
 import Button1 from "./components/button/Button1";
@@ -11,6 +12,10 @@ import GapW from "./components/layout/GapW";
 import RoundCake from "./assets/img/round_cake.png";
 import HeartCake from "./assets/img/heart_cake.png";
 import { setDiyImage } from "./store/imageSlice";
+import { openDiy, closeDiy } from "./store/modalSlice";
+import BoldMedium from "./components/text/BoldMedium";
+import ColContainer from "./components/layout/ColContainer";
+import RowContainer from "./components/layout/RowContainer";
 
 const trashZone = {
   x: 10,
@@ -27,6 +32,10 @@ const BtnContainer = styled.div`
 `;
 
 function CakeDiy() {
+  const modal = useSelector((state) => state.modal);
+  const diyImage = useSelector((state) => state.image.diyImage);
+  const sellerId = useSelector((state) => state.image.sellerId);
+  const modalContainerRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [images, setImages] = useState([
@@ -41,6 +50,32 @@ function CakeDiy() {
     },
   ]);
   const [selectedId, selectShape] = useState(null);
+
+  const handleClickOutside = (e) => {
+    if (
+      modalContainerRef.current &&
+      !modalContainerRef.current.contains(e.target)
+    ) {
+      dispatch(closeDiy());
+    }
+  };
+
+  const storeImage = () => {
+    localStorage.setItem("diyImage", diyImage);
+    dispatch(closeDiy());
+    navigate("/main");
+  };
+
+  const toStore = () => {
+    localStorage.setItem("diyImage", diyImage);
+    if (sellerId) {
+      dispatch(closeDiy());
+      navigate(`/makeOrder/${sellerId}`);
+    } else {
+      alert("가게 정보가 없습니다.");
+    }
+    // navigate(`/makeOrder/${sellerId}`);
+  };
 
   const captureScreenArea = async () => {
     // Define the area to capture (x, y, width, height)
@@ -76,8 +111,12 @@ function CakeDiy() {
     // Convert the cropped canvas to a base64 image URL
     const dataURL = croppedCanvas.toDataURL("image/png");
     console.log("url: ", dataURL);
+    // localStorage.setItem("diyImage", dataURL);
     dispatch(setDiyImage(dataURL));
-    navigate("/makeOrder/3");
+    dispatch(openDiy());
+    console.log("openDiy");
+    console.log(modal.diyOpen);
+    // navigate("/makeOrder/3");
 
     // // Create an anchor element with the download attribute
     // const link = document.createElement("a");
@@ -116,6 +155,10 @@ function CakeDiy() {
           lockResize: true,
         },
       ]);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -202,6 +245,42 @@ function CakeDiy() {
         position: "relative",
       }}
     >
+      {modal.diyOpen ? (
+        <div
+          style={{
+            position: "fixed",
+            width: "500px",
+            height: "500px",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+            backgroundColor: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          ref={modalContainerRef}
+        >
+          <ColContainer>
+            <BoldMedium>완성!</BoldMedium>
+            <img
+              src={diyImage}
+              alt="diy"
+              style={{
+                width: "80%",
+                height: "80%",
+                objectFit: "contain",
+              }}
+            />
+            <RowContainer>
+              <Button1 onClick={storeImage}>저장 후 메인으로</Button1>
+              <GapW width="20px" />
+              <Button1 onClick={toStore}>주문서로</Button1>
+            </RowContainer>
+          </ColContainer>
+        </div>
+      ) : null}
       <SidebarDiy
         onImageClick={(src) => {
           addItem(src);
@@ -252,7 +331,7 @@ function CakeDiy() {
           Send to Back
         </Button1>
         <GapW width="1%" />
-        <Button1 type="button" onClick={captureScreenArea}>
+        <Button1 type="button" onClick={captureScreenArea} background="#332E33">
           Export
         </Button1>
         <GapW width="1%" />
