@@ -275,6 +275,19 @@ public class OrderSheetService {
         return imageFileDtoList;
     }
 
+    public List<OrderSheetResponseDto> getAllReviews() {
+        List<OrderSheet> orders = orderSheetRepository.findAll();
+        List<OrderSheetResponseDto> ret = new ArrayList<>();
+
+        for(OrderSheet order : orders) {
+            if(order.getReviewContent() != null) {
+                ret.add(entityToResponse(order));
+            }
+        }
+
+        return ret;
+    }
+
     public List<OrderSheetResponseDto> getReviewsBySeller(Long sellerId){
         List<OrderSheet> orders = orderSheetRepository.findBySellerAndReviewRatingGreaterThanOrderByIdDesc(sellerRepository.findById(sellerId).get(), 0);
         List<OrderSheetResponseDto> orderSheetResponseDtos = new ArrayList<>();
