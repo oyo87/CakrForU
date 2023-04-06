@@ -60,6 +60,7 @@ function MakeOrder() {
   const [day, setDay] = useState("");
 
   const [dict, setDict] = useState({});
+  const [showDeleteButtonIndex, setShowDeleteButtonIndex] = useState(null);
 
   useEffect(() => {
     setDict({
@@ -134,6 +135,12 @@ function MakeOrder() {
 
   const handleDetails = (event) => {
     setDetails(event.target.value);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImageSrcs((prevImageSrcs) =>
+      prevImageSrcs.filter((_, i) => i !== index)
+    );
   };
 
   const readUploadedFileAsDataURL = (inputFile) => {
@@ -536,16 +543,46 @@ function MakeOrder() {
               <GapH height="47px" />
               <ColContainer height="700px" overflowY="auto" justify="start">
                 {imageSrcs.map((src, index) => (
-                  <img
+                  <div
                     key={src}
-                    src={src}
-                    alt={`Generated ${index + 1}`}
                     style={{
-                      width: "242px",
-                      height: "242px",
-                      objectFit: "cover",
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
-                  />
+                    onMouseEnter={() => setShowDeleteButtonIndex(index)}
+                    onMouseLeave={() => setShowDeleteButtonIndex(null)}
+                  >
+                    <img
+                      src={src}
+                      alt={`Generated ${index + 1}`}
+                      style={{
+                        width: "242px",
+                        height: "242px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    {showDeleteButtonIndex === index && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          backgroundColor: "rgba(0, 0, 0, 0.7)",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "4px",
+                          padding: "8px 12px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        삭제하기
+                      </button>
+                    )}
+                  </div>
                 ))}
               </ColContainer>
 
