@@ -69,7 +69,24 @@ function SignUpBuyer() {
     ) {
       age -= 1;
     }
-    return age;
+
+    let formattedAge;
+
+    if (age < 20) {
+      formattedAge = 10;
+    } else if (age < 30) {
+      formattedAge = 20;
+    } else if (age < 40) {
+      formattedAge = 30;
+    } else if (age < 50) {
+      formattedAge = 40;
+    } else if (age < 60) {
+      formattedAge = 50;
+    } else {
+      formattedAge = 60;
+    }
+
+    return formattedAge;
   };
 
   const handleSubmit = (e) => {
