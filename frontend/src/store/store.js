@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "./loginSlice";
 import modalReducer from "./modalSlice";
+import imageReducer from "./imageSlice";
 
 const initialState = {
   login: {
@@ -15,12 +16,16 @@ const initialState = {
     orderOpen: false,
     buyerOrderOpen: false,
   },
+  image: {
+    diyImage: null,
+  },
 };
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
     modal: modalReducer,
+    image: imageReducer,
   },
   preloadedState: initialState,
 });

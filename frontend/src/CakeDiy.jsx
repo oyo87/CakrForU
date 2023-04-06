@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import { Stage, Layer, Rect, Text } from "react-konva";
@@ -8,6 +10,7 @@ import Button1 from "./components/button/Button1";
 import GapW from "./components/layout/GapW";
 import RoundCake from "./assets/img/round_cake.png";
 import HeartCake from "./assets/img/heart_cake.png";
+import { setDiyImage } from "./store/imageSlice";
 
 const trashZone = {
   x: 10,
@@ -23,54 +26,9 @@ const BtnContainer = styled.div`
   z-index: 1;
 `;
 
-const captureScreenArea = async () => {
-  // Define the area to capture (x, y, width, height)
-  const captureArea = {
-    x: (window.innerWidth - 300) / 2 - 350, // Example values, adjust to your desired area
-    y: window.innerHeight / 2 - 300,
-    width: 700,
-    height: 600,
-  };
-
-  // Capture the entire document body
-  const canvas = await html2canvas(document.body);
-
-  // Create a new canvas element to hold the cropped area
-  const croppedCanvas = document.createElement("canvas");
-  croppedCanvas.width = captureArea.width;
-  croppedCanvas.height = captureArea.height;
-  const ctx = croppedCanvas.getContext("2d");
-
-  // Draw the captured area on the new canvas
-  ctx.drawImage(
-    canvas,
-    captureArea.x,
-    captureArea.y,
-    captureArea.width,
-    captureArea.height,
-    0,
-    0,
-    captureArea.width,
-    captureArea.height
-  );
-
-  // Convert the cropped canvas to a base64 image URL
-  const dataURL = croppedCanvas.toDataURL("image/png");
-
-  // Create an anchor element with the download attribute
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = `aaa.png`; // Set the desired file name
-
-  // Append the link to the DOM and trigger a click event to download the image
-  document.body.appendChild(link);
-  link.click();
-
-  // Remove the link from the DOM after the download is initiated
-  document.body.removeChild(link);
-};
-
 function CakeDiy() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [images, setImages] = useState([
     {
       RoundCake,
@@ -83,6 +41,56 @@ function CakeDiy() {
     },
   ]);
   const [selectedId, selectShape] = useState(null);
+
+  const captureScreenArea = async () => {
+    // Define the area to capture (x, y, width, height)
+    const captureArea = {
+      x: (window.innerWidth - 300) / 2 - 350, // Example values, adjust to your desired area
+      y: window.innerHeight / 2 - 370,
+      width: 700,
+      height: 600,
+    };
+
+    // Capture the entire document body
+    const canvas = await html2canvas(document.body);
+
+    // Create a new canvas element to hold the cropped area
+    const croppedCanvas = document.createElement("canvas");
+    croppedCanvas.width = captureArea.width;
+    croppedCanvas.height = captureArea.height;
+    const ctx = croppedCanvas.getContext("2d");
+
+    // Draw the captured area on the new canvas
+    ctx.drawImage(
+      canvas,
+      captureArea.x,
+      captureArea.y,
+      captureArea.width,
+      captureArea.height,
+      0,
+      0,
+      captureArea.width,
+      captureArea.height
+    );
+
+    // Convert the cropped canvas to a base64 image URL
+    const dataURL = croppedCanvas.toDataURL("image/png");
+    console.log("url: ", dataURL);
+    dispatch(setDiyImage(dataURL));
+    navigate("/makeOrder/3");
+
+    // // Create an anchor element with the download attribute
+    // const link = document.createElement("a");
+    // link.href = dataURL;
+    // link.download = `aaa.png`; // Set the desired file name
+
+    // // Append the link to the DOM and trigger a click event to download the image
+    // document.body.appendChild(link);
+    // link.click();
+
+    // // Remove the link from the DOM after the download is initiated
+    // document.body.removeChild(link);
+  };
 
   const removeExistingCakes = (callback) => {
     setImages((prevImages) => {
