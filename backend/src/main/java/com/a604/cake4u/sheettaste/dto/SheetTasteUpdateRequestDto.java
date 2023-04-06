@@ -46,6 +46,7 @@ public class SheetTasteUpdateRequestDto {
                 .cheese(cheese)
                 .carrot(carrot)
                 .sweetPotato(sweet_potato)
+                .mocha(mocha)
                 .build();
     }
 }
