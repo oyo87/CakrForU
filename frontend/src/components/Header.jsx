@@ -258,7 +258,12 @@ function Header({ handleClickOutModal }) {
           >
             <Small cursor="pointer">추천</Small>
           </Link>
-          <Small cursor="pointer">리뷰</Small>
+          <Link
+            to="/review/list"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Small cursor="pointer">리뷰</Small>
+          </Link>
         </MenuSection>
         {loginUser ? loginTrue() : loginFalse()}
       </HeaderContainer>
