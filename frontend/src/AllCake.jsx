@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "./components/Header";
@@ -74,6 +74,10 @@ function AllCake() {
     }
   };
 
+  useEffect(() => {
+    fetchMoreData();
+  }, []);
+
   return (
     <div>
       <Header handleClickOutModal={handleClickOutModal} />
@@ -137,7 +141,7 @@ function AllCake() {
               return (
                 <Card
                   key={item.imageUrl[0]}
-                  buyerId={user.id}
+                  buyerId={user ? user.id : null}
                   portfolioId={item.id}
                   sellerId={item.sellerId}
                   title={item.detail}

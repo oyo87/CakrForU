@@ -66,32 +66,27 @@ function Popular() {
   };
 
   useEffect(() => {
-    fetchData();
-    // axios.get("/portfolio/popular").then((res) => {
-    //   const updatedData = res.data.map((item) => {
-    //     return {
-    //       ...item,
-    //       filled: false,
-    //   setPopularCake(res.data);
-    // });
-    axios.get("/seller/search/all").then(async (res) => {
-      const topSellers = res.data.slice(0, 5);
-      setPopularSeller(topSellers);
-
-      const orderOptionPromises = topSellers.map((seller) => {
-        return axios.get(`/seller/form/${seller.id}`);
-      });
+    const fetchDataAndSellers = async () => {
+      await fetchData();
 
       try {
+        const res = await axios.get("/seller/search/all");
+        const topSellers = res.data.slice(0, 5);
+        setPopularSeller(topSellers);
+
+        const orderOptionPromises = topSellers.map((seller) => {
+          return axios.get(`/seller/form/${seller.id}`);
+        });
+
         const orderOptionResponses = await Promise.all(orderOptionPromises);
         const orderOptions2 = orderOptionResponses.map((res2) => res2.data);
         setOrderOptions(orderOptions2);
       } catch (error) {
         console.error("Failed to fetch order options:", error);
       }
-      console.log("b", orderOptions);
-    });
-    console.log(popularSeller);
+    };
+
+    fetchDataAndSellers();
   }, []);
 
   return (
