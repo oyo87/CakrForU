@@ -139,6 +139,7 @@ function Popular() {
                 createdAt={item.createdAt}
                 hit={item.hit}
                 filled={item.filled}
+                sellerId={item.sellerId}
               />
             );
           })}
