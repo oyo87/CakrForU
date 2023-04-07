@@ -190,4 +190,4 @@ server {
 ### DB
 
 mysql version 8.0.32
-[Dump Files]()
+[Dump Files](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22A604/-/blob/main/exec/Dump/import.sql)
