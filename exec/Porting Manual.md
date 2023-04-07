@@ -57,7 +57,7 @@
 
 ### 환경변수
 
-.env :
+.env :  
 REACT_APP_BACKEND_URL="https://j8a604.p.ssafy.io/api"  
 REACT_APP_FRONTEND_URL="http://j8a604.p.ssafy.io"
 
