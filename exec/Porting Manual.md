@@ -1,4 +1,5 @@
 # CakeForU Porting Manual
+
 - [Web FrontEnd](#web-frontend)
 - [Web BackEnd](#web-backend)
 - [Signaling Server](#signal-server)
@@ -7,13 +8,17 @@
 - [Scenario](#scenario)
 
 ## Web FrontEnd
+
 ---
+
 ### What you need
+
 - Visual Studio Code 1.75.1
 - npm 8.19.3
 - Node 16.19.1
 
 ### Dependencies
+
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
@@ -54,15 +59,19 @@
     "web-vitals": "^2.1.4"
 
 ### 환경변수
+
 .env :
 REACT_APP_BACKEND_URL="https://j8a604.p.ssafy.io/api"
 REACT_APP_FRONTEND_URL="http://j8a604.p.ssafy.io"
 
 ## NGINX configuration
+
 ---
 
 ### root
+
 ---
+
 ```
 upstream lb {
     least_conn ;
@@ -93,7 +102,7 @@ server {
 server {
     listen 443 ssl;
     server_name j8a604.p.ssafy.io;
-    
+
     # Proxy requests to frontend service
     location / {
         proxy_pass http://frontend:80;
@@ -111,13 +120,15 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/j8a604.p.ssafy.io/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
- 
+
    client_max_body_size 0;
 }
 ```
 
 ### frontend
+
 ---
+
 ```
 server {
   listen 80;
@@ -131,24 +142,52 @@ server {
 ```
 
 ## Web BackEnd
+
 ---
+
 ### What you need
+
 - IntelliJ IDEA 2022.3
 - Java 11
 - Gradle 7.6.1
 
 ### Dependencies
+
 ```
 
 ```
+
 ### Application.yml
+
 ---
+
 ### JPA (Case Sensitivity)
+
 - jpa.hibernate.namig.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 ### Spring Security (OAUTH2)
+
 - security.oauth2.client.registration.google.clientId: {YOUR_ID}
 - security.oauth2.client.registration.google.clientSecret: {YOUR_PASSWORD}
 - security.oauth2.client.registration.google.scope: email, profile
 - security.oauth2.client.registration.google.redirect-uri: {YOUR_REDIRECT_ADDRESS}
 
+### JWT
+
+- app.auth.tokenSecret: {YOUR_TOKEN_SECRET}
+- app.auth.tokenExpiry: {ACCESS_TOKEN_EXPIRY}
+- app.auth.tokenSecret: {REFRESH_TOKEN_EXPIRY}
+- app.oauth2.authorizedRedirectUris: {YOUR_AUTHORIZED_URIS}
+- jwt.secret: {YOUR_JWT_SECRET}
+
+### CORS
+
+- cors.allowed-origins: {YOUR_ALLOWED_ORIGINS}
+- cors.allowed-methods: {YOUR_ALLOWED_METHODS}
+- cors.allowed-headers: {Your_ALLOWED_HEADERS}
+- cors.max-age {MAX_AGE}
+
+### DB
+
+mysql version 8.0.32
+[Dump Files]()
