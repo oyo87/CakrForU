@@ -1,17 +1,20 @@
 package com.a604.cake4u.creamtaste.entity;
 
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Entity
-//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CreamTaste {
+
+    //@NoArgsConstructor 사용X
+    public CreamTaste() {
+    }
     @SequenceGenerator(
             name="CREAM_TASTE_SEQ_GEN",
             sequenceName = "CREAM_TASTE_SEQ",
@@ -57,7 +60,7 @@ public class CreamTaste {
     @Builder.Default
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
-    private boolean blackSeasameCream = false;
+    private boolean blackSesameCream = false;
 
     @Builder.Default
     @ColumnDefault("0")
@@ -68,4 +71,9 @@ public class CreamTaste {
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
     private boolean earlGrayCream = false;
+
+    @Builder.Default
+    @ColumnDefault("0")
+//    @Enumerated(EnumType.STRING)
+    private boolean strawberryCream = false;
 }

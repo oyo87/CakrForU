@@ -1,5 +1,6 @@
 package com.a604.cake4u.buyer.entity;
 
+import com.a604.cake4u.auth.entity.ProviderType;
 import com.a604.cake4u.enums.EGender;
 import lombok.*;
 
@@ -12,7 +13,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
+<<<<<<< HEAD
 public class Buyer { //Todo; Security 적용 후 수정
+=======
+public class Buyer {
+>>>>>>> cc874fc69885f103e362668430f73ae0503f9e8d
     @SequenceGenerator(
             name="BUYER_SEQ_GEN",
             sequenceName = "BUYER_SEQ",
@@ -27,7 +32,7 @@ public class Buyer { //Todo; Security 적용 후 수정
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true, nullable = false, length = 20)
@@ -37,10 +42,20 @@ public class Buyer { //Todo; Security 적용 후 수정
     @Column(nullable = false)
     private EGender gender;
 
-    @Column(nullable = false)
-    private LocalDate birthDate;
+    @Column
+    private int age;
 
-    @Column(nullable = false, length = 12)
+    @Column(length = 12)
     private String phoneNumber;
 
+<<<<<<< HEAD
+=======
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
+
+    //  최초 가입 시에는 RefreshToken 없는 상태
+    @Column(nullable = true, length = 300)
+    private String refreshToken;
+>>>>>>> cc874fc69885f103e362668430f73ae0503f9e8d
 }

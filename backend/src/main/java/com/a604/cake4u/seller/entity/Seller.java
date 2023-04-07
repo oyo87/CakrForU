@@ -1,19 +1,65 @@
 package com.a604.cake4u.seller.entity;
 
 import com.a604.cake4u.enums.EGender;
+import com.a604.cake4u.imagefile.entity.ImageFile;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import com.a604.cake4u.seller.dto.SellerResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
+
+@Getter
+@Setter
 @Entity
+@Table(name = "seller")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
+@SqlResultSetMapping(
+        name="SellerMapping",
+        classes = @ConstructorResult(
+                targetClass = SellerResponseDto.class,
+                columns = {
+                 @ColumnResult(name = "email", type = String.class),
+                 @ColumnResult(name = "road_address", type = String.class),
+                 @ColumnResult(name = "detailed_address", type = String.class),
+                 @ColumnResult(name= " building_name", type = String.class),
+                        @ColumnResult(name = "phone_number", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "business_number", type = String.class),
+                        @ColumnResult(name = "business_location", type= String.class),
+                        @ColumnResult(name = "business_name", type = String.class),
+                        @ColumnResult(name = "contact", type = String.class),
+                        @ColumnResult(name = "account", type = String.class),
+                        @ColumnResult(name = "business_description", type = String.class)
+                })
+)
+
 public class Seller {
+    @SequenceGenerator(
+            name="SELLER_SEQ_GEN",
+            sequenceName = "SELLER_SEQ",
+            initialValue = 100,
+            allocationSize = 1
+    )
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SELLER_SEQ_GEN")
     private Long id;
     //  기본이 최대 255자
     @Column(unique = false, nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -50,16 +96,36 @@ public class Seller {
     @Column(nullable = false, length = 60)
     private String businessName;
 
-    @Column(nullable = false, length = 1000)
-    private String businessDescription;
-
-    //  문의 계정
     @Column(nullable = false, length = 1024)
-    private String contact;
+    private String contact; //  문의 계정
+
+    @ColumnDefault("0")
+    @Column(nullable = true)
+    private int totalScore = 0 ;
+
+    @ColumnDefault("0")
+    @Column(nullable = true)
+    private int reviewCnt = 0;
+
+    @ColumnDefault("0.0")
+    @Column(nullable = true)
+    private double averageScore;
 
     @Column(nullable = false, length = 100)
     private String account;
 
     @Column(nullable = true, length = 300)
     private String refreshToken;
+
+    @Column(nullable = false, length = 1000)
+    private String businessDescription;
+
+    //  판매자에서 파일로 접근 가능하도록 참조자
+    @OneToMany(mappedBy = "seller", fetch = EAGER)
+    @Builder.Default
+    private List<ImageFile> imageFileList = new ArrayList<>();
+
+    public void addSellerImageFile(ImageFile imageFile) {
+        this.imageFileList.add(imageFile);
+    }
 }

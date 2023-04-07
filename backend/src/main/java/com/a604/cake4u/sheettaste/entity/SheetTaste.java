@@ -1,16 +1,19 @@
 package com.a604.cake4u.sheettaste.entity;
 
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-//@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class SheetTaste {
+
+    //@NoArgsConstructor 사용X
+    public SheetTaste() {
+    }
 
     @SequenceGenerator(
             name="SHEET_TASTE_SEQ_GEN",
@@ -31,7 +34,7 @@ public class SheetTaste {
     @Builder.Default
     @ColumnDefault("0")
 //    @Enumerated(EnumType.STRING)
-    private boolean vanila = false;
+    private boolean vanilla = false;
 
     @Builder.Default
     @ColumnDefault("0")

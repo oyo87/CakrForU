@@ -1,11 +1,9 @@
 package com.a604.cake4u.portfolio.dto;
 
 import com.a604.cake4u.enums.*;
-import com.a604.cake4u.portfolio.entity.Portfolio;
-import com.a604.cake4u.seller.entity.Seller;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,9 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class PortfolioSaveDto {
-
-    //sellerId
-    private long seller;
+    private long sellerId;
 
     private EGender gender;
 
@@ -43,6 +39,6 @@ public class PortfolioSaveDto {
 
     private String detail;
 
-    private LocalDateTime createdAt;
+//    private LocalDate createdAt;
 
 }

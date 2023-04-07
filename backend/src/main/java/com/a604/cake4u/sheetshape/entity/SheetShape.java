@@ -6,11 +6,16 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 @Entity
-//@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class SheetShape {
+
+    //@NoArgsConstructor 사용X
+    public SheetShape() {
+    }
+
     @SequenceGenerator(
             name="SHEET_SHAPE_SEQ_GEN",
             sequenceName = "SHEET_SHAPE_SEQ",

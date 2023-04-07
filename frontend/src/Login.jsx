@@ -1,144 +1,187 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import image from "./assets/img/login_image.png";
-import googleLogo from "./assets/img/google_logo.png";
-import Button from "./components/Button";
-import H6 from "./components/H6";
-import H7 from "./components/H7";
-import B4 from "./components/B4";
-import B5 from "./components/B5";
-import B7 from "./components/B7";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "./util/axiosInstance";
+import BoldLarge from "./components/text/BoldLarge";
+import Button4 from "./components/button/Button4";
 import Input from "./components/Input";
+import NaverIcon from "./assets/img/naver_icon.png";
+import GapW from "./components/layout/GapW";
+import GapH from "./components/layout/GapH";
+import { RadioButton } from "./components/Radio";
+import SmallMedium from "./components/text/SmallMedium";
+import MediumSmall from "./components/text/MediumSmall";
+import Small from "./components/text/Small";
+import UpDownContainer from "./components/layout/UpDownContainer";
+import Header from "./components/Header";
+import ColContainer from "./components/layout/ColContainer";
+import { userType } from "./store/loginSlice";
+
+const HorizonBox = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+  gap: ${(props) => props.gap || "0px"};
+`;
+const FlexBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 function Login() {
-  const LoginContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-  `;
-  const LeftSide = styled.div`
-    width: 890px;
-    height: 857px;
-  `;
-  const LoginContents = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin-top: 100px;
-  `;
-  const RightSide = styled.div`
-    position: relative;
-  `;
-  const RightField = styled.div`
-    position: absolute;
-    width: 1030px;
-    height: 957px;
-    z-index: 1;
-  `;
-  const LoginImage = styled.div`
-    position: absolute;
-    width: 1030px;
-    height: 957px;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  `;
-  const FlexBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  `;
+  const dispatch = useDispatch();
+  dispatch(userType("buyer"));
+  const [selectedUserType, setSelectedUserType] = useState("buyer");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`/${selectedUserType}/login`, {
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((res) => {
+        localStorage.setItem("access-token", res.data);
+        localStorage.setItem("userType", selectedUserType);
+        navigate("/");
+      });
+  };
+
+  useEffect(() => {}, [selectedUserType]);
 
   return (
-    <LoginContainer>
-      <LeftSide>
-        <LoginContents>
-          <H6 style={{ marginBottom: 23 }}>환영합니다</H6>
-          <H7 style={{ marginBottom: 35 }}>
-            커스텀 케이크를 주문하는 가장 빠른 방법
-          </H7>
-          <form>
-            <H7 style={{ marginBottom: 18 }}>이메일</H7>
-            <Input
-              placeholder="이메일을 입력하세요"
-              style={{ marginBottom: 30 }}
+    <div>
+      <Header />
+      <UpDownContainer
+        align="center"
+        justify="center"
+        minHeight="calc(100vh - 60px)"
+      >
+        <ColContainer width="23.9%">
+          <BoldLarge>LOGIN</BoldLarge>
+          <GapH height="40px" />
+          <HorizonBox gap="10px">
+            <SmallMedium fontsize="30px">Email</SmallMedium>
+            <div style={{ flexGrow: 1 }} />
+            <RadioButton
+              name="userType"
+              onChange={() => {
+                dispatch(userType("buyer"));
+                setSelectedUserType("buyer");
+              }}
+              checked={selectedUserType === "buyer"}
             />
-            <H7 style={{ marginBottom: 18 }}>패스워드</H7>
-            <Input placeholder="**********" style={{ marginBottom: 26 }} />
-            <FlexBox style={{ marginBottom: 31 }}>
-              <input type="checkbox" style={{ marginRight: 10 }} />
-              <H7 style={{ flexGrow: 1 }}>아이디 저장</H7>
-              <H7>비밀번호 찾기</H7>
-            </FlexBox>
-            <Button
-              background="black"
-              color="white"
-              style={{ marginBottom: 29 }}
+            <Small>구매자</Small>
+            <GapW width="5px" />
+            <RadioButton
+              name="userType"
+              onChange={() => {
+                dispatch(userType("seller"));
+                setSelectedUserType("seller");
+              }}
+              checked={selectedUserType === "seller"}
+            />
+            <Small>판매자</Small>
+          </HorizonBox>
+          <Input
+            width="100%"
+            height="64px"
+            placeholder="이메일"
+            onChange={handleChange}
+            name="email"
+          />
+          <GapH height="15px" />
+          <HorizonBox>
+            <SmallMedium fontsize="30px">Password</SmallMedium>
+          </HorizonBox>
+          <Input
+            width="100%"
+            height="64px"
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleChange}
+            name="password"
+          />
+          <GapH height="40px" />
+          <Button4 width="100%" background="#FF9494" onClick={handleSubmit}>
+            <SmallMedium color="white">로그인</SmallMedium>
+          </Button4>
+          {selectedUserType === "buyer" && (
+            <div>
+              <GapH height="21px" />
+            </div>
+          )}
+          {selectedUserType === "buyer" && (
+            <Link
+              to={process.env.REACT_APP_BACKEND_URL.concat(
+                "/oauth2/authorization/naver?redirect_uri="
+              )
+                .concat(process.env.REACT_APP_FRONTEND_URL)
+                .concat("/oauth/redirect")}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                width: "100%",
+              }}
+              onClick={() => {
+                localStorage.setItem("userType", "buyer");
+              }}
             >
-              <H7 color="white">로그인</H7>
-            </Button>
-          </form>
-          <Button style={{ marginBottom: 100 }}>
-            <H7>
-              <FlexBox style={{ justifyContent: "center" }}>
-                <img
-                  src={googleLogo}
-                  alt="google_logo"
-                  style={{ marginRight: 5 }}
-                />
-                Google로 시작하기
-              </FlexBox>
-            </H7>
-          </Button>
-          <FlexBox style={{ justifyContent: "center" }}>
-            <H7 style={{ marginRight: 30 }} color="#CCCCCC">
+              <Button4 width="100%" background="#06BE34">
+                <FlexBox>
+                  <img src={NaverIcon} alt="naver" />
+                  <SmallMedium color="white">네이버로 로그인하기</SmallMedium>
+                </FlexBox>
+              </Button4>
+            </Link>
+          )}
+          <GapH height="20px" />
+          <HorizonBox
+            style={{
+              justifyContent: "center",
+              gap: "13px",
+            }}
+          >
+            <MediumSmall fontsize="18px" color="#9e9e9e">
               계정이 없으신가요?
-            </H7>
-            <H7>회원가입</H7>
-          </FlexBox>
-        </LoginContents>
-      </LeftSide>
-      <RightSide>
-        <RightField>
-          <B4
-            color="#E79CB3"
-            style={{ position: "absolute", right: 44, top: 48 }}
-          >
-            CakeForU
-          </B4>
-          <B5
-            color="#FFE3E1"
-            style={{ position: "absolute", left: 44, bottom: 129 }}
-          >
-            Strawberry
-          </B5>
-          <B5
-            color="#E79CB3"
-            style={{ position: "absolute", left: 314, bottom: 129 }}
-          >
-            2단 케이크
-          </B5>
-          <B7
-            color="white"
-            style={{ position: "absolute", left: 109, bottom: 80 }}
-          >
-            사랑하는 사람을 위한 세상 단 하나뿐인 케이크
-          </B7>
-          <B7
-            color="white"
-            style={{ position: "absolute", left: 155, bottom: 55 }}
-          >
-            CakeForU에서 지금 주문하세요!
-          </B7>
-        </RightField>
-        <LoginImage>
-          <img src={image} alt="login" />
-        </LoginImage>
-      </RightSide>
-    </LoginContainer>
+            </MediumSmall>
+            {selectedUserType === "buyer" && (
+              <Link
+                to="/signup/buyer"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <MediumSmall fontsize="18px">구매자 회원가입</MediumSmall>
+              </Link>
+            )}
+            {selectedUserType === "seller" && (
+              <Link
+                to="/signup/seller"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <MediumSmall fontsize="18px">판매자 회원가입</MediumSmall>
+              </Link>
+            )}
+          </HorizonBox>
+        </ColContainer>
+      </UpDownContainer>
+    </div>
   );
 }
 
