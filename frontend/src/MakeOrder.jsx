@@ -192,11 +192,13 @@ function MakeOrder() {
     const finalPrompt = promptParts.join(", ");
 
     // prompt: "LETTERING CAKE, RED, CREAM_CHEESE, CIRCLE, VANILLA",
+    console.log(finalPrompt);
     originalAxios
       .post("https://6ee367948a09.ngrok.app/sdapi/v1/txt2img", {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
+        seed: 670910744,
       })
       .then((res) => {
         const imageData = res.data.images[0];
@@ -251,7 +253,7 @@ function MakeOrder() {
       .then((response) => {
         console.log("order response : ", response);
         window.alert("주문이 완료되었습니다.");
-        navigate(-1);
+        navigate("/mypage/orderlist");
       })
       .catch((error) => {
         console.log("error : ", error);
