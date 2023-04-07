@@ -198,7 +198,6 @@ function MakeOrder() {
         prompt: finalPrompt,
         steps: 20,
         sampler_index: "Euler a",
-        seed: 670910744,
       })
       .then((res) => {
         const imageData = res.data.images[0];
