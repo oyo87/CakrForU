@@ -2,9 +2,6 @@
 
 - [Web FrontEnd](#web-frontend)
 - [Web BackEnd](#web-backend)
-- [Signaling Server](#signal-server)
-- [Game Server](#game-server)
-- [IOT](#iot)
 - [Scenario](#scenario)
 
 ## Web FrontEnd
